@@ -4,29 +4,29 @@
 
 | Informasi | Keterangan |
 | --- | --- |
-| **Hari** | *\[Minggu\]* |
-| **Tanggal** | *\[30/09/2026\]* |
-| **Kelas** | *\[K3\]* |
-| **Nomor Kelompok** | *\[10\]*  |
-| **Nama Kelompok** | *\[FAJAR67\]*  |
-| **Nama Perangkat Lunak** | *\[\]*  |
-| **Dokumen** | *\[Draft T1\]*  |
+| **Hari** | *\Minggu\* |
+| **Tanggal** | *\30/09/2026\* |
+| **Kelas** | *\K3\* |
+| **Nomor Kelompok** | *\10\*  |
+| **Nama Kelompok** | *\FAJAR67\*  |
+| **Nama Perangkat Lunak** | *\\*  |
+| **Dokumen** | *\Draft T1\*  |
 
 ### Anggota Kelompok
 
 | NIM | Nama |
 | --- | --- |
-| *\[13525054\]* | *\[Raffi Fauzi Hermawan\]* |
-| *\[13525030\]* | *\[Rionaldo Casey Pandhitha\]* |
-| *\[13525129\]* | *\[Andro Irsa Syafiq\]* |
-| *\[13525078\]* | *\[Muhammad Faiz Ramadhan\]* |
-| *\[13525006\]* | *\[Muhammad Rafiandhi Suryadinata\]* |
+| *\13525054\* | *\Raffi Fauzi Hermawan\* |
+| *\13525030\* | *\Rionaldo Casey Pandhitha\* |
+| *\13525129\* | *\Andro Irsa Syafiq\* |
+| *\13525078\* | *\Muhammad Faiz Ramadhan\* |
+| *\13525006\* | *\Muhammad Rafiandhi Suryadinata\* |
 
 ### Catatan
 
 | Catatan |
 | --- |
-| 1. *\[Tidak perlu semua terisi, tapi sudah ada progress kecil.\]*  |
+| 1. *\Tidak perlu semua terisi, tapi sudah ada progress kecil.\*  |
 | 2. ... |
 | 3. ... |
 | 4. ... |
