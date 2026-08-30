@@ -13,11 +13,11 @@
 
 | NIM | Nama |
 |---|---|
-| *[NIM 1]* | *[Nama Anggota 1]* |
-| *[NIM 2]* | *[Nama Anggota 2]* |
-| *[NIM 3]* | *[Nama Anggota 3]* |
-| *[NIM 4]* | *[Nama Anggota 4]* |
-| *[NIM 5]* | *[Nama Anggota 5]* |
+| 13525006 | Muhammad Rafiandhi Suryadinata |
+| 13525030 | Rionaldo Casey Pandhitha |
+| 14525054 | Raffi Fauzi Hermawan|
+| 13525078 | Muhammad Faiz Ramadhan|
+| 13525129 | Andro Irsa Syafiq|
 
 ---
 
