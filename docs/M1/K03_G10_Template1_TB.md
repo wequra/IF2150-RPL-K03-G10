@@ -9,21 +9,21 @@ TOPIC BRAINSTORMING
 
 ## *Nama Perangkat Lunak*
 
-### Untuk: *[Nama Asisten]*
+### Untuk: *Tigress / Agatha*
 
 Dipersiapkan oleh:
 | Informasi | Keterangan |
 | --- | --- |
-| Kelas | *\[Kelas\]* |
-| Kelompok | *\[Nomor Kelompok\]*  |
+| Kelas | *\[K03\]* |
+| Kelompok | *\[10\]*  |
 
 | NIM | Nama |
 |---|---|
-| *[NIM 1]* | *[Nama Anggota 1]* |
-| *[NIM 2]* | *[Nama Anggota 2]* |
-| *[NIM 3]* | *[Nama Anggota 3]* |
-| *[NIM 4]* | *[Nama Anggota 4]* |
-| *[NIM 5]* | *[Nama Anggota 5]* |
+| *[13525054]* | *[Raffi Fauzi Hermawan]* |
+| *[13525030]* | *[Rionaldo Casey Pandhitha]* |
+| *[13525129]* | *[Andro Irsa Syafiq]* |
+| *[13525078]* | *[Muhammad Faiz Ramadhan]* |
+| *[13525006]* | *[Muhammad Rafiandhi Suryadinata]*
 ---
 
 <br>
