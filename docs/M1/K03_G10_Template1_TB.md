@@ -41,7 +41,22 @@ Ironisnya, keterbatasan energi ini terjadi di tengah potensi energi surya Indone
 Kombinasi antara keterbatasan pasokan listrik yang stabil dan minimnya pemanfaatan energi terbarukan pada infrastruktur air ini berdampak langsung pada keberlanjutan akses air bersih masyarakat. Permasalahan ini secara langsung berkaitan dengan dua tujuan dari *Sustainability Development Goals* (SDGs) yang menjadi fokus kelompok kami yaitu **SDG 6 (Air Bersih dan Sanitasi)**, khususnya target 6.1 mengenai akses universal dan merata terhadap air minum yang aman dan terjangkau, serta **SDG 7 (Energi Bersih dan Terjangkau)**, khususnya target 7.1 (akses energi terjangkau) dan 7.2 (peningkatan energi terbarukan). Urgensi penyelesaian masalah ini terletak pada fakta bahwa gangguan pasokan air akibat ketergantungan pada listrik konvensional berdampak langsung terhadap kesehatan dan kesejahteraan masyarakat, sementara solusi berbasis energi terbarukan yang sebenarnya tersedia secara teknis belum banyak diadopsi di tingkat komunitas kecil karena ketiadaan alat bantu pengelolaan yang sesuai dengan yang mereka mau.
 
 ## 1.2 Analisis Kondisi Saat Ini
-Lakukan analisis terhadap proses yang berjalan saat ini di dunia nyata, baik itu sistem lama ataupun solusi yang sudah ada. Soroti kesenjangan atau celah dari kondisi tersebut yang nantinya akan diselesaikan oleh perangkat lunak kalian.
+Pengelolaan infrastruktur air dan energi di tingkat komunitas skala kecil (RT/RW, desa, atau komunitas swadaya) saat ini umumnya masih dilakukan secara konvensional dan belum terintegrasi:
+
+**Ketergantungan penuh pada jaringan listrik konvensional.** Sebagian besar pompa air komunal masih mengandalkan pasokan listrik dari PLN atau non-PLN tanpa cadangan energi alternatif. Padahal, di wilayah dengan Rasio Desa Berlistrik khusus PLN yang baru mencapai 92,75 persen pada triwulan III 2024, keandalan pasokan listrik masih menjadi persoalan, terutama di wilayah Indonesia Timur yang menyumbang mayoritas desa belum teraliri listrik, dengan rincian 269 desa di Sulawesi, 229 desa di Maluku, 141 desa di Nusa Tenggara, dan 4.398 desa di Papua. Ketika listrik padam, distribusi air ke rumah tangga ikut terhenti tanpa ada mekanisme cadangan.
+
+**Minimnya adopsi energi terbarukan pada infrastruktur komunal**, meski secara teknis dan geografis Indonesia sangat mendukung. Kendala yang teridentifikasi mencakup pemasangan sistem energi surya fotovoltaik di daerah pedesaan yang umumnya tidak memenuhi standar teknis sehingga kinerja sistem tidak optimal dan cepat rusak, serta ketergantungan pada program pemerintah karena daya beli masyarakat pedesaan yang masih rendah. Akibatnya, potensi energi surya sebagai sumber daya cadangan untuk pompa air komunal jarang benar-benar diimplementasikan secara mandiri oleh komunitas.
+
+**Pencatatan dan pelaporan yang masih manual.** Pemakaian air dan listrik pada infrastruktur komunal umumnya dicatat manual oleh pengurus (RT/RW atau petugas yang ditunjuk) menggunakan buku catatan, lalu dikonversi menjadi tagihan iuran warga secara manual pula. Pelaporan gangguan (pompa rusak, aliran air terhenti, listrik padam) umumnya disampaikan lewat komunikasi informal seperti grup pesan instan, tanpa pencatatan terstruktur yang bisa dilacak riwayatnya.
+
+**Solusi yang sudah ada di pasaran** cenderung berupa aplikasi pencatatan meteran individual milik penyedia layanan skala besar (PDAM, PLN), bukan alat yang dirancang untuk konteks pengelolaan sumber daya bersama oleh komunitas kecil yang bersifat swadaya.
+
+Dari kondisi ini, teridentifikasi tiga **kesenjangan utama** yang akan menjadi fokus penyelesaian melalui perangkat lunak yang kami kembangkan:
+
+1. Belum adanya sistem pemantauan pemakaian air dan energi yang terpusat, transparan, dan dapat diakses bersama oleh anggota komunitas.
+2. Belum adanya mekanisme untuk mendorong dan mengelola adopsi sumber energi cadangan terbarukan (seperti tenaga surya) pada infrastruktur air komunal, sehingga distribusi air tidak sepenuhnya bergantung pada listrik konvensional.
+3. Belum adanya sistem pelaporan gangguan yang terdokumentasi dan dapat ditindaklanjuti secara sistematis oleh pengurus komunitas.
+
 
 ---
 
