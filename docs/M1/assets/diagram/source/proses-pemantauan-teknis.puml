@@ -1,22 +1,54 @@
 @startuml
 
+skinparam backgroundColor White
+skinparam shadowing false
+skinparam defaultFontColor Black
+skinparam ArrowColor Black
+
+' Decision tetap diamond, penggabungan cabang menjadi garis horizontal
+skinparam ConditionEndStyle hline
+
+skinparam activity {
+    BackgroundColor White
+    BorderColor Black
+    FontColor Black
+    DiamondBackgroundColor White
+    DiamondBorderColor Black
+    DiamondFontColor Black
+    StartColor Black
+    EndColor Black
+    BarColor Black
+}
+
 title Proses Pemantauan Teknis dan Peringatan Dini
 
-|Sistem|
+|#White|Petugas Operasional|
 start
 
+:Mengakses halaman
+pemantauan teknis;
+
+|#White|Sistem|
 :Menerima data kondisi
 panel surya dan baterai;
 
 :Memperbarui data
 kinerja perangkat;
 
+:Menampilkan grafik
+efisiensi panel surya;
+
+|#White|Petugas Operasional|
+:Memantau perubahan
+efisiensi perangkat;
+
+|#White|Sistem|
 if (Daya baterai di bawah batas aman?) then (Ya)
 
     :Mengirim peringatan
     daya kritis;
 
-    |Petugas Operasional|
+    |#White|Petugas Operasional|
     :Menerima peringatan;
 
     :Memeriksa kondisi
@@ -27,22 +59,12 @@ if (Daya baterai di bawah batas aman?) then (Ya)
 
 else (Tidak)
 
-    :Tidak mengirim
-    peringatan;
+    |#White|Petugas Operasional|
 
 endif
 
-|Petugas Operasional|
-:Mengakses halaman
-pemantauan teknis;
-
-|Sistem|
-:Menampilkan grafik
-efisiensi panel surya;
-
-|Petugas Operasional|
-:Memantau perubahan
-efisiensi perangkat;
+:Melanjutkan pemantauan
+teknis;
 
 stop
 

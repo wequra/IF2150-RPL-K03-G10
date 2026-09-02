@@ -1,14 +1,31 @@
 @startuml
 
+skinparam backgroundColor White
+skinparam shadowing false
+skinparam defaultFontColor Black
+skinparam ArrowColor Black
+
+skinparam activity {
+    BackgroundColor White
+    BorderColor Black
+    FontColor Black
+    DiamondBackgroundColor White
+    DiamondBorderColor Black
+    DiamondFontColor Black
+    StartColor Black
+    EndColor Black
+    BarColor Black
+}
+
 title Proses Analitik Pemakaian dan Pengelolaan Iuran
 
-|Pengurus|
+|#White|Pengurus|
 start
 
 :Mengakses dashboard
 pemakaian komunal;
 
-|Sistem|
+|#White|Sistem|
 :Mengambil data pemakaian
 air dan energi;
 
@@ -18,55 +35,55 @@ pemakaian komunal;
 :Menampilkan dashboard
 analitik;
 
-|Pengurus|
+|#White|Pengurus|
 :Menganalisis data
 pemakaian;
 
 :Mengakses pengelolaan
 iuran warga;
 
-|Sistem|
+|#White|Sistem|
 :Menampilkan data
 pemakaian bulanan;
 
-|Pengurus|
+|#White|Pengurus|
 :Mengkalkulasi
 iuran warga;
 
 :Menetapkan tagihan
 iuran bulanan;
 
-|Sistem|
+|#White|Sistem|
 :Menyimpan hasil
 kalkulasi iuran;
 
 :Membuat rincian tagihan
 masing-masing warga;
 
-|Warga|
+|#White|Warga|
 :Mengakses menu
 tagihan;
 
-|Sistem|
+|#White|Sistem|
 :Menampilkan rincian
 tagihan iuran;
 
-|Warga|
+|#White|Warga|
 :Melihat rincian
 tagihan bulanan;
 
-|Pengurus|
+|#White|Pengurus|
 :Memilih pembuatan
 rekapitulasi;
 
-|Sistem|
+|#White|Sistem|
 :Mengolah data pemakaian
 dan iuran bulanan;
 
 :Mengekspor rekapitulasi
 laporan;
 
-|Pengurus|
+|#White|Pengurus|
 :Mengakses hasil
 rekapitulasi;
 

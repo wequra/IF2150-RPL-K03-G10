@@ -1,13 +1,31 @@
 @startuml
 
+skinparam backgroundColor White
+skinparam shadowing false
+skinparam defaultFontColor Black
+skinparam ArrowColor Black
+
+skinparam activity {
+    BackgroundColor White
+    BorderColor Black
+    FontColor Black
+    DiamondBackgroundColor White
+    DiamondBorderColor Black
+    DiamondFontColor Black
+    StartColor Black
+    EndColor Black
+    BarColor Black
+}
+
 title Proses Pemantauan Air dan Energi oleh Warga
 
-|Warga|
+|#White|Warga|
 start
+
 :Mengakses halaman
 pemantauan;
 
-|Sistem|
+|#White|Sistem|
 :Memuat data kondisi
 infrastruktur;
 
@@ -17,7 +35,7 @@ air tangki;
 :Menampilkan status daya
 panel surya dan baterai;
 
-|Warga|
+|#White|Warga|
 :Melihat ketersediaan air;
 
 :Melihat kondisi
