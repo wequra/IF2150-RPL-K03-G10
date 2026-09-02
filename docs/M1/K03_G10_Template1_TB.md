@@ -41,17 +41,47 @@ Ironisnya, keterbatasan energi ini terjadi di tengah potensi energi surya Indone
 Kombinasi antara keterbatasan pasokan listrik yang stabil dan minimnya pemanfaatan energi terbarukan pada infrastruktur air ini berdampak langsung pada keberlanjutan akses air bersih masyarakat. Permasalahan ini secara langsung berkaitan dengan dua tujuan dari *Sustainability Development Goals* (SDGs) yang menjadi fokus kelompok kami yaitu **SDG 6 (Air Bersih dan Sanitasi)**, khususnya target 6.1 mengenai akses universal dan merata terhadap air minum yang aman dan terjangkau, serta **SDG 7 (Energi Bersih dan Terjangkau)**, khususnya target 7.1 (akses energi terjangkau) dan 7.2 (peningkatan energi terbarukan). Urgensi penyelesaian masalah ini terletak pada fakta bahwa gangguan pasokan air akibat ketergantungan pada listrik konvensional berdampak langsung terhadap kesehatan dan kesejahteraan masyarakat, sementara solusi berbasis energi terbarukan yang sebenarnya tersedia secara teknis belum banyak diadopsi di tingkat komunitas kecil karena ketiadaan alat bantu pengelolaan yang sesuai dengan yang mereka mau.
 
 ## 1.2 Analisis Kondisi Saat Ini
-Lakukan analisis terhadap proses yang berjalan saat ini di dunia nyata, baik itu sistem lama ataupun solusi yang sudah ada. Soroti kesenjangan atau celah dari kondisi tersebut yang nantinya akan diselesaikan oleh perangkat lunak kalian.
+Pengelolaan infrastruktur air dan energi di tingkat komunitas skala kecil (RT/RW, desa, atau komunitas swadaya) saat ini umumnya masih dilakukan secara konvensional dan belum terintegrasi:
+
+**Ketergantungan penuh pada jaringan listrik konvensional.** Sebagian besar pompa air komunal masih mengandalkan pasokan listrik dari PLN atau non-PLN tanpa cadangan energi alternatif. Padahal, di wilayah dengan Rasio Desa Berlistrik khusus PLN yang baru mencapai 92,75 persen pada triwulan III 2024, keandalan pasokan listrik masih menjadi persoalan, terutama di wilayah Indonesia Timur yang menyumbang mayoritas desa belum teraliri listrik, dengan rincian 269 desa di Sulawesi, 229 desa di Maluku, 141 desa di Nusa Tenggara, dan 4.398 desa di Papua. Ketika listrik padam, distribusi air ke rumah tangga ikut terhenti tanpa ada mekanisme cadangan.
+
+**Minimnya adopsi energi terbarukan pada infrastruktur komunal**, meski secara teknis dan geografis Indonesia sangat mendukung. Kendala yang teridentifikasi mencakup pemasangan sistem energi surya fotovoltaik di daerah pedesaan yang umumnya tidak memenuhi standar teknis sehingga kinerja sistem tidak optimal dan cepat rusak, serta ketergantungan pada program pemerintah karena daya beli masyarakat pedesaan yang masih rendah. Akibatnya, potensi energi surya sebagai sumber daya cadangan untuk pompa air komunal jarang benar-benar diimplementasikan secara mandiri oleh komunitas.
+
+**Pencatatan dan pelaporan yang masih manual.** Pemakaian air dan listrik pada infrastruktur komunal umumnya dicatat manual oleh pengurus (RT/RW atau petugas yang ditunjuk) menggunakan buku catatan, lalu dikonversi menjadi tagihan iuran warga secara manual pula. Pelaporan gangguan (pompa rusak, aliran air terhenti, listrik padam) umumnya disampaikan lewat komunikasi informal seperti grup pesan instan, tanpa pencatatan terstruktur yang bisa dilacak riwayatnya.
+
+**Solusi yang sudah ada di pasaran** cenderung berupa aplikasi pencatatan meteran individual milik penyedia layanan skala besar (PDAM, PLN), bukan alat yang dirancang untuk konteks pengelolaan sumber daya bersama oleh komunitas kecil yang bersifat swadaya.
+
+Dari kondisi ini, teridentifikasi tiga **kesenjangan utama** yang akan menjadi fokus penyelesaian melalui perangkat lunak yang kami kembangkan:
+
+1. Belum adanya sistem pemantauan pemakaian air dan energi yang terpusat, transparan, dan dapat diakses bersama oleh anggota komunitas.
+2. Belum adanya mekanisme untuk mendorong dan mengelola adopsi sumber energi cadangan terbarukan (seperti tenaga surya) pada infrastruktur air komunal, sehingga distribusi air tidak sepenuhnya bergantung pada listrik konvensional.
+3. Belum adanya sistem pelaporan gangguan yang terdokumentasi dan dapat ditindaklanjuti secara sistematis oleh pengurus komunitas.
 
 ---
 
 # BAB 2: Analisis Solusi
 
 ## 2.1 Deskripsi Perangkat Lunak
-Abstraksikan solusi perangkat lunak yang diusulkan dari sudut pandang pengguna. Jelaskan target platform yang akan digunakan (misalnya: desktop application) beserta alasan pemilihannya. Deskripsikan juga nilai unik (inovasi inti) dari perangkat lunak kalian dan apa yang membedakannya dari solusi yang sudah ada.
+Dari latar belakang dan juga analisis kondisi saat ini yang sudah dijelaskan, kami mengusulkan perangkat lunak yang dapat memantau dan mengelola air dan juga surya. Dari kacamata pengguna, perangkat layar yang diusulkan ini berfungsi sebagai pusat kendali dan informasi yang memungkinkan operator fasilitas desa dan stakeholder untuk memantau status pompa air, tingkat keterisian tangki, serta juga daya panel surya dan baterai secara real-time.
+
+Sistem ini dirancang dengan memfokuskan pada platform utama dan satu-satunya melalui website. Website dipilih dikarenakan dapat diakses oleh warga melalui device manapun. Beberapa fitur yang terdapat pada website antara lain adalah melihat ketersediaan air, status daya surya, tagihan iuran, analitik penggunaan komunal, pengelolaan iuran warga, dan platform laporan gangguan serta status perbaikan dari laporan yang masuk.
+
+Nilai unik dan Inovasi inti:
+1. Pengawasan terpusan & Transparan : Menggantikan pencatatan yang dilakukan sebelumnya dengan dashboard digital. Seluruh warga dapat melihat data volume air dan juga status daya secara real-time sehingga mengurangi kecurigaan dan meningkatkan transparansi 
+2. Manajemen Pemeliharaan Alat : Sistem dilengkapi fitur peringatan dini seperti daya di bawah batas aman atau efisiensi panel menurun yang membantu petugas melakukan perawatan sebelum terjadi kesalahan fatal
+3. Sistem Pelaporan : Pelapor dapat melihat status laporan yang dikirimkan menjadi menunggu, sedang diperbaiki, dan selesai yang mengurangi ketidakpastian yang dialami oleh pelapor
 
 ## 2.2 Asumsi dan Batasan
-Definisikan secara tegas asumsi (baik teknis maupun dari sisi pengguna) yang menjadi dasar pengembangan. Tuliskan batasan seperti regulasi/hukum, keterbatasan sumber daya, dan ruang lingkup solusi.
+Beberapa hal perlu dilakukan untuk memastikan ruang lingkup pengerjaan spesifik, terarah, dan juga dapat diselesaikan dalam waktu yang tepat. Pengembangan sistem didasari beberapa hal berikut:
+Asumsi:
+1. Infrastruktur fisik dan sensor terpasang : Komunitas diasumsikan punya sumur komunal, poompa air, tangki penampungan, dan instalasi panel surya yang dilengkapi mikrokontroller yang berfungsi dengan baik.
+2. Jaringan komunikasi tersedia secara menyeluruh : Lokasi diasumsikan memiliki sinyal komunikasi yang baik atau akses Wi-fi terpusat
+3. Diterima oleh komunitas setempat : Warga bersedia beralih dari metode pencatatan manual ke digital
+
+Batasan:
+1. Bukan sistem skala besar : Perangkat lunak hanya berfokus pada pemantauan, pelaporan, dan juga manajemen. 
+2. Ruang lingkup pembayaran iuran : Fitur hanya berfokus pada pencatatan dan kalkulasi, tidak dapat melakukan pembayaran digital/transaksi
+3. Skalabilitas konteks pengguna : Sistem dioptimalkan untuk pengelola yang menangani komunitas berskala kecil-menengah
 
 ---
 
