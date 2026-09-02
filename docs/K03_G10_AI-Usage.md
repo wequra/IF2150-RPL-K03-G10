@@ -7,7 +7,7 @@
 | Kelas | **K-3** |
 | Nomor Kelompok | **10** |
 | Nama Kelompok | **FAJAR67** |
-| Nama Perangkat Lunak | *[Nama P/L]* |
+| Nama Perangkat Lunak | Fajar Tech |
 
 **Anggota Kelompok:**
 
@@ -37,7 +37,7 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | :--- | :--- | :--- | :--- |
 | *[Nama AI]* | *[Sertakan Tujuan Penggunaan]* | *[Tuliskan Prompt Utama]* | *[Tuliskan Keputusan Hasil Validasi]* |
 | *Gemini* | *Mengecek relasi antar class* | *"Apakah relasi antara class User dan Order dalam UML ini seharusnya composition atau aggregation?"* | *AI menyarankan composition, tapi setelah dicek kembali ke requirement, kami menggunakan aggregation karena Order masih bisa eksis di history.* |
-| | | | | |
+| Gemini | Brainstorming alternatif solusi | "Adakah beberapa alternatif fitur maupun solusi dari pengembangan website untuk monitoring dan manajemen tangki air dan panel surya" | AI menyarankan beberapa alternatif lain, namun salah satu yang menarik perhatian adalah laporan gangguan pada alat, hal tersebut kami revisi dan kembangkan kembali sesuai dengan kebutuhan website dan juga masalah yang kami selidiki menjadi sebuah fitur tambahan pada website yang akan kami buat | |
 
 ### Milestone 2
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
@@ -52,8 +52,8 @@ Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan A
 
 | Tanda Tangan | Nama Anggota |
 | :---: | :--- |
-| <img src="./assets/ttd-anggota1.png" width="100"> | **[13525006 - Muhammad Rafiandhi Suryadinata]** |
-| <img src="./assets/ttd-anggota2.png" width="100"> | **[13525030 - Rionaldo Casey Pandhitha]** |
+| <img src="./M1/assets/ttd-anggota1.png" width="100"> | **[13525006 - Muhammad Rafiandhi Suryadinata]** |
+| <img src="./M1/assets/ttd-anggota2.png" width="100"> | **[13525030 - Rionaldo Casey Pandhitha]** |
 | <img src="./M1/assets/ttd-anggota3.png" width="100"> | **[13525053 - Raffi Fauzi Hermawan]** |
-| <img src="./assets/ttd-anggota4.png" width="100"> | **[13525078 - Muhammad Faiz Ramadhan]** |
-| <img src="./assets/ttd-anggota5.png" width="100"> | **[13525129 - Andro Irsa Syafiq]** |
+| <img src="./M1/assets/ttd-anggota4.png" width="100"> | **[13525078 - Muhammad Faiz Ramadhan]** |
+| <img src="./M1/assets/ttd-anggota5.png" width="100"> | **[13525129 - Andro Irsa Syafiq]** |

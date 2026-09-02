@@ -9,7 +9,7 @@
 | **Kelas** | K3 |
 | **Nomor Kelompok** | 10 |
 | **Nama Kelompok** | FAJAR67 |
-| **Nama Perangkat Lunak** |  |
+| **Nama Perangkat Lunak** | Fajar Tech |
 | **Dokumen** |  |
 
 ### Anggota Kelompok
@@ -26,10 +26,12 @@
 
 | Catatan |
 | --- |
-| 1. ... |
-| 2. ... |
-| 3. ... |
-| 4. ... |
+| 1. Kebutuhan awal & deskripsi aman |
+| 2. Dari satu user story gak harus mapping ke satu aktivitas, tapi udah oke |
+| 3. Di swimline bisa kasih background putih |
+| 4. Di swimline di bagian diamond kan if else, representasinya tentang apa |
+| 5. Di referensi bisa masukin daftar pustaka & lampiran |
+| 6. Bagian aktor diperlengkap |
 
 **Notes for this section:**  
 *Catatan dapat dituliskan dalam bentuk paragraf atau poin-poin, disesuaikan saja.* 
@@ -38,7 +40,7 @@
 
 <!-- ![](./assets/foto-asistensi.jpg) -->
 <p align="center">
-  <img src="./assets/asistensi1.jpg" width="100%">
+  <img src="./assets/asistensi1.png" width="100%">
 </p>
 
 <p align="center">

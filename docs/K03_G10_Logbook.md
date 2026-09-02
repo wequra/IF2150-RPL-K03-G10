@@ -7,7 +7,7 @@
 | Kelas | **K03** |
 | Nomor Kelompok | **10** |
 | Nama Kelompok | **FAJAR67** |
-| Nama Perangkat Lunak | **[Nama P/L]** |
+| Nama Perangkat Lunak | Fajar Tech |
 
 **Anggota Kelompok:**
 
@@ -29,15 +29,17 @@
 ---
 
 ### Milestone 1
-**Periode:** [Tanggal Mulai] - [Tanggal Selesai]
+**Periode:** 30-08-2026 - 2-9-2026
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *04-05-2026* | *[Nama Mahasiswa]* | *[Jelaskan Pekerjaan secara Singkat]* | *[Durasi Pengerjaan]* | *[On Progress/Done]* | [Kendala yang dialami, jika tidak ada cukup tandai "-"] | 
 | *05-05-2026* | *John Doe* | *Mendesain diagram kelas* | *3* | *Done* | *-* | 
-| | | | | | | |
-| | | | | | | |
-| | | | | | | |
+| 31-08-2026 | Muhammad Rafiandhi Suryadinata | Meriset dan menganalisis kebutuhan masyarakat yang relevan dengan SDG 6 & 7 serta mencari referensi dan sumbernya, Menuliskan Latar Belakang Masalah dan Kondisi Saat ini pada Bab 1 | 8 | Done | - | |
+| 01-09-2026 | Raffi Fauzi Hermawan | Melakukan analisis mengenai perangkat lunak yang akan dibuat serta melakukan riset referensi | 7 | Done |- | |
+| 01-09-2026 | Muhammad Faiz Ramadhan | Menganalisis dan mendeskripsikan aktor serta menyusun kebutuhan pengguna awal yang relevan dengan sistem pemantauan air dan energi surya komunal pada Bab 3 | 5 | Done | - | |
+| 01-09-2026 | Andro Irsya Syafiq | Merancang deskripsi aktivitas sistem (Subbab 3.3) dengan mengidentifikasi dan memetakan 12 aktivitas operasional secara spesifik berdasarkan peran masing-masing subjek/aktor  | 7 | Done | - | |
+| 01-09-2026 | Rionaldo Casey Pandhitha | Merancang Model Proses Bisnis (3.4) dalam bentuk swimlane diagram, meliputi proses pemantauan air dan energi, pemantauan teknis dan peringatan dini, pelaporan dan penanganan gangguan, serta analitik pemakaian dan pengelolaan iuran. Termasuk revisi notasi diagram, perbaikan layout, dan finalisasi diagram dalam format SVG. | 3 | Done | - | |
 
 
 **Catatan/Evaluasi Milestone 1:**
