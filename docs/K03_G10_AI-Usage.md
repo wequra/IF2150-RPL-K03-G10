@@ -4,9 +4,9 @@
 
 | Informasi | Keterangan |
 |---|---|
-| Kelas | *[Kelas]* |
-| Nomor Kelompok | *[Nomor Kelompok]* |
-| Nama Kelompok | *[Nama Kelompok]* |
+| Kelas | **K-3** |
+| Nomor Kelompok | **10** |
+| Nama Kelompok | **FAJAR67** |
 | Nama Perangkat Lunak | *[Nama P/L]* |
 
 **Anggota Kelompok:**
@@ -52,8 +52,8 @@ Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan A
 
 | Tanda Tangan | Nama Anggota |
 | :---: | :--- |
-| <img src="./assets/ttd-anggota1.png" width="100"> | **[NIM - Nama Anggota 1]** |
-| <img src="./assets/ttd-anggota2.png" width="100"> | **[NIM - Nama Anggota 2]** |
-| <img src="./assets/ttd-anggota3.png" width="100"> | **[NIM - Nama Anggota 3]** |
-| <img src="./assets/ttd-anggota4.png" width="100"> | **[NIM - Nama Anggota 4]** |
-| <img src="./assets/ttd-anggota5.png" width="100"> | **[NIM - Nama Anggota 5]** |
+| <img src="./assets/ttd-anggota1.png" width="100"> | **[13525006 - Muhammad Rafiandhi Suryadinata]** |
+| <img src="./assets/ttd-anggota2.png" width="100"> | **[13525030 - Rionaldo Casey Pandhitha]** |
+| <img src="./M1/assets/ttd-anggota3.png" width="100"> | **[13525053 - Raffi Fauzi Hermawan]** |
+| <img src="./assets/ttd-anggota4.png" width="100"> | **[13525078 - Muhammad Faiz Ramadhan]** |
+| <img src="./assets/ttd-anggota5.png" width="100"> | **[13525129 - Andro Irsa Syafiq]** |
