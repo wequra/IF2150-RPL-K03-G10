@@ -110,7 +110,7 @@ Batasan:
 | US-07 | Teknisi | Memantau efisiensi kinerja panel surya dari waktu ke waktu | Dapat mendeteksi penurunan performa sebelum terjadi kerusakan fatal |
 | US-08 | Teknisi | Mengubah status laporan gangguan (menunggu, sedang diperbaiki, selesai) | Warga mendapat informasi progres penanganan secara transparan |
 | US-09 | Teknisi | Mencatat riwayat pemeliharaan/perbaikan alat | Pengelolaan aset lebih terdokumentasi dan mudah dilacak riwayatnya |
-| US-10 | Pengurus | Melihat dashboard analitik pemakaian air dan energi komunal | Dapat mengambil keputusan pengelolaan sumber daya berbasis data |
+| US-10 | Pengurus | Melihat dashboard pemakaian air dan energi komunal | Dapat mengambil keputusan pengelolaan sumber daya berbasis data |
 | US-11 | Pengurus | Mengelola dan mengkalkulasi iuran warga berdasarkan data pemakaian | Mengurangi kesalahan pencatatan yang biasa terjadi pada metode manual |
 | US-12 | Pengurus | Mengekspor atau mencetak rekap laporan iuran dan pemakaian bulanan | Pengelolaan keuangan komunitas lebih transparan dan dapat dipertanggungjawabkan ke warga |
 
