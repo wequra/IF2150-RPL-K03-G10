@@ -63,10 +63,27 @@ Dari kondisi ini, teridentifikasi tiga **kesenjangan utama** yang akan menjadi f
 # BAB 2: Analisis Solusi
 
 ## 2.1 Deskripsi Perangkat Lunak
-Abstraksikan solusi perangkat lunak yang diusulkan dari sudut pandang pengguna. Jelaskan target platform yang akan digunakan (misalnya: desktop application) beserta alasan pemilihannya. Deskripsikan juga nilai unik (inovasi inti) dari perangkat lunak kalian dan apa yang membedakannya dari solusi yang sudah ada.
+Dari latar belakang dan juga analisis kondisi saat ini yang sudah dijelaskan, kami mengusulkan perangkat lunak yang dapat memantau dan mengelola air dan juga surya. Dari kacamata pengguna, perangkat layar yang diusulkan ini berfungsi sebagai pusat kendali dan informasi yang memungkinkan operator fasilitas desa dan stakeholder untuk memantau status pompa air, tingkat keterisian tangki, serta juga daya panel surya dan baterai secara real-time.
+
+Sistem ini dirancang dengan memfokuskan pada platform utama dan satu-satunya melalui website. Website dipilih dikarenakan dapat diakses oleh warga melalui device manapun. Beberapa fitur yang terdapat pada website antara lain adalah melihat ketersediaan air, status daya surya, tagihan iuran, analitik penggunaan komunal, pengelolaan iuran warga, dan platform laporan gangguan serta status perbaikan dari laporan yang masuk.
+
+Nilai unik dan Inovasi inti:
+1. Pengawasan terpusan & Transparan : Menggantikan pencatatan yang dilakukan sebelumnya dengan dashboard digital. Seluruh warga dapat melihat data volume air dan juga status daya secara real-time sehingga mengurangi kecurigaan dan meningkatkan transparansi 
+2. Manajemen Pemeliharaan Alat : Sistem dilengkapi fitur peringatan dini seperti daya di bawah batas aman atau efisiensi panel menurun yang membantu petugas melakukan perawatan sebelum terjadi kesalahan fatal
+3. Sistem Pelaporan : Pelapor dapat melihat status laporan yang dikirimkan menjadi menunggu, sedang diperbaiki, dan selesai yang mengurangi ketidakpastian yang dialami oleh pelapor
+
 
 ## 2.2 Asumsi dan Batasan
-Definisikan secara tegas asumsi (baik teknis maupun dari sisi pengguna) yang menjadi dasar pengembangan. Tuliskan batasan seperti regulasi/hukum, keterbatasan sumber daya, dan ruang lingkup solusi.
+Beberapa hal perlu dilakukan untuk memastikan ruang lingkup pengerjaan spesifik, terarah, dan juga dapat diselesaikan dalam waktu yang tepat. Pengembangan sistem didasari beberapa hal berikut:
+Asumsi:
+1. Infrastruktur fisik dan sensor terpasang : Komunitas diasumsikan punya sumur komunal, poompa air, tangki penampungan, dan instalasi panel surya yang dilengkapi mikrokontroller yang berfungsi dengan baik.
+2. Jaringan komunikasi tersedia secara menyeluruh : Lokasi diasumsikan memiliki sinyal komunikasi yang baik atau akses Wi-fi terpusat
+3. Diterima oleh komunitas setempat : Warga bersedia beralih dari metode pencatatan manual ke digital
+
+Batasan:
+1. Bukan sistem skala besar : Perangkat lunak hanya berfokus pada pemantauan, pelaporan, dan juga manajemen. 
+2. Ruang lingkup pembayaran iuran : Fitur hanya berfokus pada pencatatan dan kalkulasi, tidak dapat melakukan pembayaran digital/transaksi
+3. Skalabilitas konteks pengguna : Sistem dioptimalkan untuk pengelola yang menangani komunitas berskala kecil-menengah
 
 ---
 
