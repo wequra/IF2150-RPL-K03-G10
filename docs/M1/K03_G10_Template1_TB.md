@@ -114,18 +114,79 @@ Batasan:
 | US-11 | Pengurus | Mengelola dan mengkalkulasi iuran warga berdasarkan data pemakaian | Mengurangi kesalahan pencatatan yang biasa terjadi pada metode manual |
 | US-12 | Pengurus | Mengekspor atau mencetak rekap laporan iuran dan pemakaian bulanan | Pengelolaan keuangan komunitas lebih transparan dan dapat dipertanggungjawabkan ke warga |
 
-## 3.3 Model Proses Bisnis
-Buatlah *Activity Diagram* atau *Swimlane Diagram* yang menunjukkan alur kerja proses bisnis dari sistem solusi. Diagram ini harus memvisualisasikan bagaimana alur operasional di dunia nyata berjalan lebih efisien dengan adanya interaksi antara aktor (yang didefinisikan pada poin 3.1) dan sistem perangkat lunak. Perhatikan notasi yang digunakan dalam pembuatannya.
-<br>
+## 3.3 Deskripsi Aktivitas
+
+| ID | Aktivitas | Penjelasan | ID User Story |
+| :--- | :--- | :--- | :--- |
+| A01 | *Memantau ketersediaan air* | *Sistem menampilkan volume air dalam tangki penampungan secara real-time.* | *US-01* |
+| A02 | *Memantau daya kelistrikan* | *Sistem menyajikan data kapasitas baterai dan daya panel surya saat ini.* | *US-02* |
+| A03 | *Melihat tagihan iuran* | *Sistem menampilkan detail tagihan warga berdasarkan hasil kalkulasi pengurus.* | *US-03* |
+| A04 | *Mengirim laporan gangguan* | *Warga mengisi dan mengunggah detail kendala infrastruktur ke dalam sistem.* | *US-04* |
+| A05 | *Melacak status laporan* | *Sistem menampilkan perkembangan penanganan gangguan kepada pihak pelapor.* | *US-05* |
+| A06 | *Menerima peringatan daya kritis* | *Sistem otomatis mengirim notifikasi kepada teknisi saat metrik daya di bawah batas aman.* | *US-06* |
+| A07 | *Memantau efisiensi perangkat* | *Teknisi mengakses grafik kinerja panel surya untuk keperluan deteksi dini kerusakan.* | *US-07* |
+| A08 | *Mengelola progres perbaikan* | *Teknisi memperbarui status tiket laporan (menunggu, sedang diperbaiki, atau selesai).* | *US-08* |
+| A09 | *Mencatat log pemeliharaan* | *Teknisi merekam jejak aktivitas perawatan fisik alat ke dalam basis data sistem.* | *US-09* |
+| A10 | *Menganalisis data komunal* | *Pengurus mengakses dashboard agregasi pemakaian air dan energi untuk pengambilan keputusan.* | *US-10* |
+| A11 | *Mengkalkulasi iuran warga* | *Pengurus memproses data pemakaian bulanan menjadi penetapan tagihan iuran.* | *US-11* |
+| A12 | *Mencetak rekapitulasi laporan* | *Sistem mengekspor data rekap keuangan dan pemakaian ke format dokumen cetak.* | *US-12* |
+
+## 3.4 Model Proses Bisnis
+
+Model proses bisnis sistem dibagi menjadi empat alur utama untuk menggambarkan interaksi antara Warga, Petugas Operasional, Pengurus, dan sistem secara lebih jelas.
+
+### 3.4.1 Pemantauan Air dan Energi oleh Warga
 
 <p align="center">
-<img alt="Contoh Activity Diagram" src="./assets/diagram/diagram-act-1.avif" width="70%">
+<img alt="Swimlane Diagram Pemantauan Air dan Energi oleh Warga" src="./assets/diagram/proses-pemantauan-warga.svg" width="90%">
 </p>
+
 <p align="center">
-<i>Gambar 1. Contoh Activity Diagram</i>
+<i>Gambar 1. Swimlane Diagram Pemantauan Air dan Energi oleh Warga</i>
 </p>
+
+Diagram ini mencakup aktivitas **A01 dan A02** yang berkaitan dengan **US-01 dan US-02**.
+
+### 3.4.2 Pemantauan Teknis dan Peringatan Dini
+
+<p align="center">
+<img alt="Swimlane Diagram Pemantauan Teknis dan Peringatan Dini" src="./assets/diagram/proses-pemantauan-teknis.svg" width="90%">
+</p>
+
+<p align="center">
+<i>Gambar 2. Swimlane Diagram Pemantauan Teknis dan Peringatan Dini</i>
+</p>
+
+Diagram ini mencakup aktivitas **A06 dan A07** yang berkaitan dengan **US-06 dan US-07**.
+
+### 3.4.3 Pelaporan dan Penanganan Gangguan
+
+<p align="center">
+<img alt="Swimlane Diagram Pelaporan dan Penanganan Gangguan" src="./assets/diagram/proses-gangguan.svg" width="90%">
+</p>
+
+<p align="center">
+<i>Gambar 3. Swimlane Diagram Pelaporan dan Penanganan Gangguan</i>
+</p>
+
+Diagram ini mencakup aktivitas **A04, A05, A08, dan A09** yang berkaitan dengan **US-04, US-05, US-08, dan US-09**.
+
+### 3.4.4 Analitik Pemakaian dan Pengelolaan Iuran
+
+<p align="center">
+<img alt="Swimlane Diagram Analitik Pemakaian dan Pengelolaan Iuran" src="./assets/diagram/proses-iuran-analitik.svg" width="90%">
+</p>
+
+<p align="center">
+<i>Gambar 4. Swimlane Diagram Analitik Pemakaian dan Pengelolaan Iuran</i>
+</p>
+
+Diagram ini mencakup aktivitas **A03, A10, A11, dan A12** yang berkaitan dengan **US-03, US-10, US-11, dan US-12**.
 
 <br>
 
 # Referensi
-- Diagram UML: https://www.drawio.com/, https://staruml.io/
+
+- BPS – Indikator Perumahan dan Lingkungan 2024, dikutip via Kompas.com (Januari 2025)
+- Kementerian ESDM – rilis pers rasio elektrifikasi & desa berlistrik (2024–2025), via Tempo.co, Bisnis.com, ESDM.go.id, RuangEnergi.com
+- Kementerian ESDM (Ditjen EBTKE) – potensi dan pemanfaatan energi surya Indonesia

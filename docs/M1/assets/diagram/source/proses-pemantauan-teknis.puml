@@ -1,0 +1,49 @@
+@startuml
+
+title Proses Pemantauan Teknis dan Peringatan Dini
+
+|Sistem|
+start
+
+:Menerima data kondisi
+panel surya dan baterai;
+
+:Memperbarui data
+kinerja perangkat;
+
+if (Daya baterai di bawah batas aman?) then (Ya)
+
+    :Mengirim peringatan
+    daya kritis;
+
+    |Petugas Operasional|
+    :Menerima peringatan;
+
+    :Memeriksa kondisi
+    perangkat;
+
+    :Melakukan tindakan
+    preventif;
+
+else (Tidak)
+
+    :Tidak mengirim
+    peringatan;
+
+endif
+
+|Petugas Operasional|
+:Mengakses halaman
+pemantauan teknis;
+
+|Sistem|
+:Menampilkan grafik
+efisiensi panel surya;
+
+|Petugas Operasional|
+:Memantau perubahan
+efisiensi perangkat;
+
+stop
+
+@enduml

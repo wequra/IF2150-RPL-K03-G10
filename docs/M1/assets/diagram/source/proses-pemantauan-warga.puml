@@ -1,0 +1,28 @@
+@startuml
+
+title Proses Pemantauan Air dan Energi oleh Warga
+
+|Warga|
+start
+:Mengakses halaman
+pemantauan;
+
+|Sistem|
+:Memuat data kondisi
+infrastruktur;
+
+:Menampilkan ketersediaan
+air tangki;
+
+:Menampilkan status daya
+panel surya dan baterai;
+
+|Warga|
+:Melihat ketersediaan air;
+
+:Melihat kondisi
+pasokan daya;
+
+stop
+
+@enduml

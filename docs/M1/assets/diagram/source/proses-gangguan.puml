@@ -1,0 +1,79 @@
+@startuml
+
+title Proses Pelaporan dan Penanganan Gangguan
+
+|Warga|
+start
+
+:Menemukan gangguan
+infrastruktur;
+
+:Mengakses menu
+pelaporan gangguan;
+
+:Mengisi detail
+gangguan;
+
+:Mengirim laporan;
+
+|Sistem|
+:Menyimpan laporan
+gangguan;
+
+:Mencatat status laporan
+sebagai "Menunggu";
+
+:Menyediakan laporan
+kepada petugas operasional;
+
+|Petugas Operasional|
+:Menerima laporan
+gangguan;
+
+:Memeriksa detail
+laporan;
+
+:Memeriksa kondisi
+infrastruktur di lapangan;
+
+:Memperbarui status menjadi
+"Sedang Diperbaiki";
+
+|Sistem|
+:Menyimpan perubahan
+status laporan;
+
+:Menampilkan status terbaru
+kepada warga;
+
+|Warga|
+:Melihat perkembangan
+status laporan;
+
+|Petugas Operasional|
+:Melakukan perbaikan
+infrastruktur;
+
+:Mencatat aktivitas
+pemeliharaan atau perbaikan;
+
+:Memperbarui status menjadi
+"Selesai";
+
+|Sistem|
+:Menyimpan riwayat
+pemeliharaan;
+
+:Menyimpan status akhir
+laporan;
+
+:Menampilkan status
+"Selesai" kepada warga;
+
+|Warga|
+:Melihat laporan
+telah selesai;
+
+stop
+
+@enduml

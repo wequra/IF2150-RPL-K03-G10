@@ -1,0 +1,75 @@
+@startuml
+
+title Proses Analitik Pemakaian dan Pengelolaan Iuran
+
+|Pengurus|
+start
+
+:Mengakses dashboard
+pemakaian komunal;
+
+|Sistem|
+:Mengambil data pemakaian
+air dan energi;
+
+:Mengolah data
+pemakaian komunal;
+
+:Menampilkan dashboard
+analitik;
+
+|Pengurus|
+:Menganalisis data
+pemakaian;
+
+:Mengakses pengelolaan
+iuran warga;
+
+|Sistem|
+:Menampilkan data
+pemakaian bulanan;
+
+|Pengurus|
+:Mengkalkulasi
+iuran warga;
+
+:Menetapkan tagihan
+iuran bulanan;
+
+|Sistem|
+:Menyimpan hasil
+kalkulasi iuran;
+
+:Membuat rincian tagihan
+masing-masing warga;
+
+|Warga|
+:Mengakses menu
+tagihan;
+
+|Sistem|
+:Menampilkan rincian
+tagihan iuran;
+
+|Warga|
+:Melihat rincian
+tagihan bulanan;
+
+|Pengurus|
+:Memilih pembuatan
+rekapitulasi;
+
+|Sistem|
+:Mengolah data pemakaian
+dan iuran bulanan;
+
+:Mengekspor rekapitulasi
+laporan;
+
+|Pengurus|
+:Mengakses hasil
+rekapitulasi;
+
+stop
+
+@enduml
