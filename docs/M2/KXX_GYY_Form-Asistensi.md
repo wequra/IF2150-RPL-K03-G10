@@ -26,10 +26,9 @@
 
 | Catatan |
 | --- |
-| 1. *\[Berikan catatan hasil asistensi\]*  |
-| 2. ... |
-| 3. ... |
-| 4. ... |
+| 1. Kalau bisa bahasnya barengan |
+| 2. Kalau bisa gaada kata kerja berulang (atomik) |
+| 3. Gak perlu munculin fitur yang gak bisa dipake |
 
 **Notes for this section:**  
 *Catatan dapat dituliskan dalam bentuk paragraf atau poin-poin, disesuaikan saja.* 
