@@ -45,6 +45,21 @@
 **Catatan/Evaluasi Milestone 1:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
 
+### Milestone 2
+**Periode:** 3-9-2026 - 9-9-2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| 08-09-2026 | Muhammad Rafiandhi Suryadinata | Mendefinisikan daftar kebutuhan fungsional pada sistem secara rinci dan memetakannya dengan ID kebutuhan yang relevan. | 4 | Done | - | |
+| 08-09-2026 | Raffi Fauzi Hermawan | Merumuskan system requirement dari sisi interaksi perangkat keras/lunak dan menentukan status kelayakan implementasi perangkat lunak. | 6 | Done |- | |
+| 08-09-2026 | Muhammad Faiz Ramadhan | Merumuskan kebutuhan non-fungsional pada aspek teknis (security, reliability, safety, dan availability), menyelaraskan penomoran ID pada dokumen, dan memfinalisasi berkas  tugas.  | 5 | Done | - | |
+| 08-09-2026 | Andro Irsya Syafiq | Menyusun spesifikasi kebutuhan non-fungsional dengan fokus pada parameter umum (ergonomy, portability, response time, dan memory).  | 3 | Done | - | |
+| 08-09-2026 | Rionaldo Casey Pandhitha | Melakukan pemetaan detail terkait user requirement dan business requirement berdasarkan deskripsi aktivitas sistem  komunal. | 4 | Done | - | |
+
+
+**Catatan/Evaluasi Milestone 2:**
+* *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
+
 ---
 
 
