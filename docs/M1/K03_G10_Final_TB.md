@@ -114,6 +114,7 @@ Batasan:
 | US-11 | Pengurus | Mengelola dan mengkalkulasi iuran warga berdasarkan data pemakaian | Mengurangi kesalahan pencatatan yang biasa terjadi pada metode manual |
 | US-12 | Pengurus | Mengekspor atau mencetak rekap laporan iuran dan pemakaian bulanan | Pengelolaan keuangan komunitas lebih transparan dan dapat dipertanggungjawabkan ke warga |
 
+
 ## 3.3 Deskripsi Aktivitas
 
 | ID | Aktivitas | Penjelasan | ID User Story |
@@ -130,6 +131,7 @@ Batasan:
 | A10 | *Menganalisis data komunal* | *Pengurus mengakses dashboard agregasi pemakaian air dan energi untuk pengambilan keputusan.* | *US-10* |
 | A11 | *Mengkalkulasi iuran warga* | *Pengurus memproses data pemakaian bulanan menjadi penetapan tagihan iuran.* | *US-11* |
 | A12 | *Mencetak rekapitulasi laporan* | *Sistem mengekspor data rekap keuangan dan pemakaian ke format dokumen cetak.* | *US-12* |
+
 
 ## 3.4 Model Proses Bisnis
 
