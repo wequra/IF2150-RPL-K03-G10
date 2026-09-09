@@ -10,7 +10,7 @@
 | **Nomor Kelompok** | 10 |
 | **Nama Kelompok** | FAJAR67 |
 | **Nama Perangkat Lunak** | Fajar Tech |
-| **Dokumen** | *\[Nama Dokumen yang diasistensikan\]*  |
+| **Dokumen** | *K03_G10_RG.md*  |
 
 ### Anggota Kelompok
 
@@ -37,7 +37,7 @@
 
 <!-- ![](./assets/foto-asistensi.jpg) -->
 <p align="center">
-  <img src="./assets/foto-asistensi.jpg" width="100%">
+  <img src="./assets/foto-asistensi.png" width="100%">
 </p>
 
 <p align="center">
