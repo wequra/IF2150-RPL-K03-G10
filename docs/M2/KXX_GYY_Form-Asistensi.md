@@ -4,23 +4,23 @@
 
 | Informasi | Keterangan |
 | --- | --- |
-| **Hari** | *\[Hari\]* |
-| **Tanggal** | *\[DD/MM/YYYY\]* |
-| **Kelas** | *\[Kelas\]* |
-| **Nomor Kelompok** | *\[Nomor Kelompok\]*  |
-| **Nama Kelompok** | *\[Nama Kelompok\]*  |
-| **Nama Perangkat Lunak** | *\[Nama P/L\]*  |
+| **Hari** | Rabu |
+| **Tanggal** | 02/09/2026 |
+| **Kelas** | K3 |
+| **Nomor Kelompok** | 10 |
+| **Nama Kelompok** | FAJAR67 |
+| **Nama Perangkat Lunak** | Fajar Tech |
 | **Dokumen** | *\[Nama Dokumen yang diasistensikan\]*  |
 
 ### Anggota Kelompok
 
 | NIM | Nama |
 | --- | --- |
-| *\[NIM 1\]* | *\[Nama Anggota 1\]* |
-| *\[NIM 2\]* | *\[Nama Anggota 2\]* |
-| *\[NIM 3\]* | *\[Nama Anggota 3\]* |
-| *\[NIM 4\]* | *\[Nama Anggota 4\]* |
-| *\[NIM 5\]* | *\[Nama Anggota 5\]* |
+| 13525054 | Raffi Fauzi Hermawan |
+| 13525030 | Rionaldo Casey Pandhitha |
+| 13525129 | Andro Irsa Syafiq |
+| 13525078 | Muhammad Faiz Ramadhan |
+| 13525006 | Muhammad Rafiandhi Suryadinata |
 
 ### Catatan
 
