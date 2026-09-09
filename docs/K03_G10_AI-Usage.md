@@ -42,9 +42,9 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 ### Milestone 2
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
 | :--- | :--- | :--- | :--- |
+| Gemini | Brainstorming parameter kebutuhan non fungsional | "Berikan saran pendefinisian parameter kebutuhan non-fungsional, terutama di ergonomy dan response time" | AI memberikan beberapa usulan, namun setelah kami validasi, kami modifikasi batasan response time jadi 2 detik untuk data sensor dan 5 detik untuk kalkulasi beban tinggi  | |
 | | | | | |
-| | | | | |
-
+| | | | | | 
 ---
 ### Pernyataan Integritas dan Persetujuan
 
