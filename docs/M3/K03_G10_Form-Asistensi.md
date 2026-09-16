@@ -26,10 +26,11 @@
 
 | Catatan |
 | --- |
-| 1. *[Berikan catatan hasil asistensi]* |
-| 2. ... |
-| 3. ... |
-| 4. ... |
+| 1. *Tambah UC login dan register* |
+| 2. *Beri extend/include di diagram, terutama pada UC2-UC10 dan UC3-UC7* |
+| 3. Kasih link workspace diagram di lampiran |
+| 4. Gambar diagram blurry, jangan di ss, download gambarnya |
+| 5. Taruh informasi perubahan di bagian atas docs |
 
 **Notes for this section:**  
 *Catatan dapat dituliskan dalam bentuk paragraf atau poin-poin, disesuaikan saja.*
