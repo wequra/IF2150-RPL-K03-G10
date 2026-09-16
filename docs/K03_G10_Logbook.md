@@ -68,7 +68,7 @@
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | 16-09-2026 | Muhammad Faiz Ramadhan | Menyiapkan dokumen K03_G10_UC.md, menyusun BAB 1 dan BAB 2, serta menyusun skenario use case UC01, UC02, dan UC09. | 5 | Done | - | |
-| 16-09-2026 | Andro Irsya Syafiq | Menyusun skenario use case UC03, UC05, dan UC08, termasuk skenario normal dan alternatif berdasarkan kebutuhan fungsional terkait. | 4 | Done | - | |
+| 16-09-2026 | Andro Irsya Syafiq | Menyusun skenario use case UC03, UC05, UC08, UC12, UC13, dan UC14 termasuk skenario normal dan alternatif berdasarkan kebutuhan fungsional terkait. | 5 | Done | - | |
 | 16-09-2026 | Raffi Fauzi Hermawan | Menyusun use case diagram yang mencakup UC01 sampai UC11 serta menyusun skenario use case UC06 dan UC07. | 5 | Done | - | |
 | 16-09-2026 | Rionaldo Casey Pandhitha | Menyusun skenario UC04 dan UC11, menyiapkan Form Asistensi dan Logbook Milestone 3, memperbaiki urutan user requirement, business requirement, dan system requirement berdasarkan hasil asistensi Milestone 2, serta menyesuaikan penomoran kebutuhan pada dokumen Milestone 3. | 5 | Done | - | |
 | 16-09-2026 | Muhammad Rafiandhi Suryadinata | Melakukan pemetaan KF01 sampai KF35 terhadap use case, menyusun skenario UC10, serta melakukan pemeriksaan akhir terhadap konsistensi dan kelengkapan dokumen Milestone 3. | 4 | Done | - | |
