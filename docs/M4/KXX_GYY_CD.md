@@ -220,6 +220,110 @@ Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi 
 
 > Lanjutkan pola **4.2.x** untuk setiap use case pada 3.2.
 
+### 4.2.5 Use Case UC5
+
+**Nama Use Case:** *Menerima Peringatan Dini Daya Kritis*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C05-01 | Teknisi | Akun teknisi yang bertanggung jawab dan menerima notifikasi. |
+| C05-02 | Perangkat | Perangkat komunal yang dipantau, mis. pompa/tangki/panel. |
+| C05-03 | Baterai | Komponen daya yang kapasitasnya dipantau. |
+| C05-04 | PenugasanPerangkat | Relasi penugasan teknisi terhadap perangkat tertentu. |
+| C05-05 | Notifikasi | Pesan peringatan yang dikirim sistem. |
+| C05-06 | PeringatanDayaKritis | Notifikasi khusus untuk daya baterai di bawah ambang aman. |
+
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC01" src="./assets/diagram/UC5.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 2. Diagram Kelas Use Case UC01</i>
+</p>
+<br>
+
+Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi milik setiap kelas dapat dituliskan pada tabel di bawah ini. Pastikan hubungan antarkelas menggunakan jenis relasi yang sesuai (asosiasi, agregasi, komposisi, generalisasi, atau dependensi).
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| *C02* | *Pesanan* | *idPesanan, total, status* | *buatPesanan(), hitungTotal()* |
+| *C03* | *Keranjang* | *daftarItem* | *tambahItem(), checkout()* |
+| *...* | *...* | *...* | *...* |
+
+
+### 4.2.6 Use Case UC6
+
+**Nama Use Case:** *Memantau Riwayat Kinerja Panel Surya*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C06-01 | Teknisi | Pengguna yang memantau riwayat kinerja panel surya. |
+| C06-02 | Perangkat | Kelas umum untuk perangkat yang dipantau. |
+| C06-03 | PanelSurya | Perangkat panel surya yang kinerjanya dianalisis. |
+| C06-04 | DataHistorisKinerja | Data historis kinerja panel surya berdasarkan waktu. |
+| C06-05 | RentangWaktu | Nilai rentang waktu yang dipilih teknisi. |
+
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC01" src="./assets/diagram/UC6.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 2. Diagram Kelas Use Case UC01</i>
+</p>
+<br>
+
+Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi milik setiap kelas dapat dituliskan pada tabel di bawah ini. Pastikan hubungan antarkelas menggunakan jenis relasi yang sesuai (asosiasi, agregasi, komposisi, generalisasi, atau dependensi).
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| *C02* | *Pesanan* | *idPesanan, total, status* | *buatPesanan(), hitungTotal()* |
+| *C03* | *Keranjang* | *daftarItem* | *tambahItem(), checkout()* |
+| *...* | *...* | *...* | *...* |
+
+
+### 4.2.7 Use Case UC7
+
+**Nama Use Case:** *Memperbarui Status Penanganan Gangguan  *
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C07-01 | Teknisi | Teknisi yang berwenang mengubah status laporan. |
+| C07-02 | LaporanGangguan | Laporan gangguan yang ditangani. |
+| C07-03 | PenugasanLaporan | Relasi penugasan teknisi terhadap laporan tertentu. |
+| C07-04 | RiwayatStatusLaporan | Riwayat perubahan status beserta timestamp. |
+| C07-05 | StatusLaporan | Enumerasi status laporan yang valid. |
+
+#### Diagram Kelas
+
+
+
+<p align="center">
+<img alt="Class Diagram UC01" src="./assets/diagram/UC7.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 2. Diagram Kelas Use Case UC01</i>
+</p>
+<br>
+
+Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi milik setiap kelas dapat dituliskan pada tabel di bawah ini. Pastikan hubungan antarkelas menggunakan jenis relasi yang sesuai (asosiasi, agregasi, komposisi, generalisasi, atau dependensi).
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| *C02* | *Pesanan* | *idPesanan, total, status* | *buatPesanan(), hitungTotal()* |
+| *C03* | *Keranjang* | *daftarItem* | *tambahItem(), checkout()* |
+| *...* | *...* | *...* | *...* |
+
+
 ## 4.3 Diagram Kelas Keseluruhan
 
 Gabungkan seluruh kelas dan hubungan antarkelas dari diagram kelas setiap use case menjadi satu diagram kelas keseluruhan. Pastikan tidak ada kelas yang terduplikasi.
