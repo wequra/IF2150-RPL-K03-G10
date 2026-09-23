@@ -82,7 +82,7 @@
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | 16-09-2026 | Muhammad Faiz Ramadhan | Merancang diagram kelas untuk UC01, UC02, UC12, dan UC13 | 5 | Done | - | |
-| 16-09-2026 | Andro Irsya Syafiq | Merancang diagram kelas untuk UC03, UC04, dan UC08 | 5 | Done | - | |
+| 16-09-2026 | Andro Irsya Syafiq | Merancang diagram kelas untuk UC03, UC04, dan UC08, serta mengerjakan BAB 5 traceability | 4 | Done | - | |
 | 16-09-2026 | Raffi Fauzi Hermawan | Merancang diagram kelas untuk UC05, UC06, dan UC07 | 4 | Done | - | |
 | 16-09-2026 | Rionaldo Casey Pandhitha | Merancang diagram kelas untuk UC09, UC11, dan UC14 | 4 | Done | - | |
 | 16-09-2026 | Muhammad Rafiandhi Suryadinata | Merancang diagram kelas untuk UC10, menyusun tabel identifikasi keseluruhan kelas, merancang keseluruhan diagram kelas, serta memastikan kekonsistenan seluruh dokumen | 6 | Done | - | |
