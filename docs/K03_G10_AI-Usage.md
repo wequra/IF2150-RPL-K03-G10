@@ -43,8 +43,12 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
 | :--- | :--- | :--- | :--- |
 | Gemini | Brainstorming parameter kebutuhan non fungsional | "Berikan saran pendefinisian parameter kebutuhan non-fungsional, terutama di ergonomy dan response time" | AI memberikan beberapa usulan, namun setelah kami validasi, kami modifikasi batasan response time jadi 2 detik untuk data sensor dan 5 detik untuk kalkulasi beban tinggi  | |
-| | | | | |
-| | | | | | 
+
+### Milestone 4
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+| :--- | :--- | :--- | :--- |
+| Deepseek | Notasi Mermaid | "Bagaimana notasi yang diperlukan untuk membuat class diagram di mermaid supaya menghilangkan class dengan kotak kosong" | AI memberikan dua usulan, melalui teks dan juga melalui setting, namun kami menggunakan setting karena bisa sekalian mengubah tema dari class diagram dari berwarna menjadi hitam putih | |
+
 ---
 ### Pernyataan Integritas dan Persetujuan
 
