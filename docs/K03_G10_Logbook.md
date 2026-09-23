@@ -73,6 +73,17 @@
 | 16-09-2026 | Rionaldo Casey Pandhitha | Menyusun skenario UC04 dan UC11, menyiapkan Form Asistensi dan Logbook Milestone 3, memperbaiki urutan user requirement, business requirement, dan system requirement berdasarkan hasil asistensi Milestone 2, serta menyesuaikan penomoran kebutuhan pada dokumen Milestone 3. | 5 | Done | - | |
 | 16-09-2026 | Muhammad Rafiandhi Suryadinata | Melakukan pemetaan KF01 sampai KF35 terhadap use case, menyusun skenario UC10, serta melakukan pemeriksaan akhir terhadap konsistensi dan kelengkapan dokumen Milestone 3. | 4 | Done | - | |
 
+### Milestone 4
+**Periode:** 10-09-2026 - 16-09-2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| 16-09-2026 | Muhammad Faiz Ramadhan | Merancang diagram kelas untuk UC01, UC02, UC12, dan UC13 | 5 | Done | - | |
+| 16-09-2026 | Andro Irsya Syafiq | Merancang diagram kelas untuk UC03, UC04, dan UC08 | 5 | Done | - | |
+| 16-09-2026 | Raffi Fauzi Hermawan | Merancang diagram kelas untuk UC05, UC06, dan UC07 | 4 | Done | - | |
+| 16-09-2026 | Rionaldo Casey Pandhitha | Merancang diagram kelas untuk UC09, UC11, dan UC14 | 4 | Done | - | |
+| 16-09-2026 | Muhammad Rafiandhi Suryadinata | Merancang diagram kelas untuk UC10, menyusun tabel identifikasi keseluruhan kelas, merancang keseluruhan diagram kelas, serta memastikan kekonsistenan seluruh dokumen | 6 | Done | - | |
+
 
 **Catatan/Evaluasi Milestone 3:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
