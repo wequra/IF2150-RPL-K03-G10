@@ -220,7 +220,7 @@ Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi 
 
 > Lanjutkan pola **4.2.x** untuk setiap use case pada 3.2.
 
-### 4.2.5 Use Case UC5
+### 4.2.5 Use Case 5
 
 **Nama Use Case:** *Menerima Peringatan Dini Daya Kritis*
 
@@ -246,16 +246,18 @@ Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi 
 </p>
 <br>
 
-Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi milik setiap kelas dapat dituliskan pada tabel di bawah ini. Pastikan hubungan antarkelas menggunakan jenis relasi yang sesuai (asosiasi, agregasi, komposisi, generalisasi, atau dependensi).
-
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
-| *C02* | *Pesanan* | *idPesanan, total, status* | *buatPesanan(), hitungTotal()* |
-| *C03* | *Keranjang* | *daftarItem* | *tambahItem(), checkout()* |
-| *...* | *...* | *...* | *...* |
+| C05-01 | Teknisi | idTeknisi, nama, kontak | terimaNotifikasi() |
+| C05-02 | Perangkat | idPerangkat, nama, lokasi | - |
+| C05-03 | Baterai | idBaterai, kapasitasPersen, ambangBatasAman | cekKapasitas() |
+| C05-04 | PenugasanPerangkat | idPenugasan, idTeknisi, idPerangkat | verifikasiTanggungJawab() |
+| C05-05 | Notifikasi | idNotifikasi, pesan, waktu, statusBaca | kirim(), tandaiDibaca() |
+| C05-06 | PeringatanDayaKritis | level, kapasitasSaatIni | - |
 
 
-### 4.2.6 Use Case UC6
+
+### 4.2.6 Use Case 6
 
 **Nama Use Case:** *Memantau Riwayat Kinerja Panel Surya*
 
@@ -280,16 +282,17 @@ Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi 
 </p>
 <br>
 
-Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi milik setiap kelas dapat dituliskan pada tabel di bawah ini. Pastikan hubungan antarkelas menggunakan jenis relasi yang sesuai (asosiasi, agregasi, komposisi, generalisasi, atau dependensi).
 
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
-| *C02* | *Pesanan* | *idPesanan, total, status* | *buatPesanan(), hitungTotal()* |
-| *C03* | *Keranjang* | *daftarItem* | *tambahItem(), checkout()* |
-| *...* | *...* | *...* | *...* |
+| C06-01 | Teknisi | idTeknisi, nama | pilihRentangWaktu(), lihatRiwayatKinerja() |
+| C06-02 | Perangkat | idPerangkat, nama, tipe | - |
+| C06-03 | PanelSurya | idPanel, kapasitas, lokasi | getDataKinerja() |
+| C06-04 | DataHistorisKinerja | idData, waktu, dayaDihasilkan, energi | ambilBerdasarkanRentang() |
+| C06-05 | RentangWaktu | waktuMulai, waktuSelesai | validasi() |
 
 
-### 4.2.7 Use Case UC7
+### 4.2.7 Use Case 7
 
 **Nama Use Case:** *Memperbarui Status Penanganan Gangguan  *
 
@@ -315,13 +318,13 @@ Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi 
 </p>
 <br>
 
-Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi milik setiap kelas dapat dituliskan pada tabel di bawah ini. Pastikan hubungan antarkelas menggunakan jenis relasi yang sesuai (asosiasi, agregasi, komposisi, generalisasi, atau dependensi).
-
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
-| *C02* | *Pesanan* | *idPesanan, total, status* | *buatPesanan(), hitungTotal()* |
-| *C03* | *Keranjang* | *daftarItem* | *tambahItem(), checkout()* |
-| *...* | *...* | *...* | *...* |
+| C07-01 | Teknisi | idTeknisi, nama | ubahStatusLaporan() |
+| C07-02 | LaporanGangguan | idLaporan, jenisGangguan, deskripsi, status, waktuDibuat | ubahStatus() |
+| C07-03 | PenugasanLaporan | idPenugasan, idTeknisi, idLaporan, waktuPenugasan | verifikasi() |
+| C07-04 | RiwayatStatusLaporan | idRiwayat, status, timestamp | catat() |
+| C07-05 | StatusLaporan | MENUNGGU, SEDANG_DIPERBAIKI, SELESAI | - |
 
 
 ## 4.3 Diagram Kelas Keseluruhan
