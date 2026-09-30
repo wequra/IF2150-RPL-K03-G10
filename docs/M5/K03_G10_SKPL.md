@@ -31,6 +31,7 @@ Dipersiapkan oleh:
 | Revisi | Deskripsi |
 | :--- | :--- |
 | *A* | *Kompilasi dokumen SKPL Milestone 5 (BAB 1–6) dari dokumen Milestone 1–4 dengan revisi hasil asistensi, penulisan kebutuhan fungsional dalam format EARS, serta penambahan matriks traceability.* |
+| *B* | *Menambahkan KF36–KF51 dan KNF14–KNF15 untuk UC12–UC14 serta memperbarui traceability* |
 
 <br>
 
@@ -198,6 +199,23 @@ Tabel 3.1. Kebutuhan Fungsional
 | *KF33* | *R10* | *Sistem harus menghitung kewajiban iuran setiap warga secara otomatis menggunakan parameter data pemakaian aktual dan tarif periode terkait.* |
 | *KF34* | *R17* | *Ketika pengguna menggunakan fitur pencarian laporan, sistem harus memfilter daftar tiket gangguan secara spesifik berdasarkan ID pelapor.* |
 | *KF35* | *R28* | *Ketika sistem mendeteksi perubahan status laporan, sistem harus mencatat dan menyimpan timestamp perubahan tersebut.* |
+| *KF36* | *R46* | *Ketika calon pengguna membuka halaman registrasi, sistem harus menyediakan formulir pendaftaran yang mencakup nama, email, password, dan pilihan peran.* |
+| *KF37* | *R46* | *Ketika calon pengguna menekan tombol daftar, sistem harus memvalidasi bahwa seluruh data wajib pada formulir telah terisi.* |
+| *KF38* | *R46* | *Ketika calon pengguna menekan tombol daftar, sistem harus memastikan bahwa email yang dimasukkan belum digunakan oleh akun lain.* |
+| *KF39* | *R46* | *Ketika data registrasi dinyatakan valid, sistem harus menyimpan data pendaftaran dengan status akun "Menunggu Persetujuan" secara otomatis.* |
+| *KF40* | *R46* | *Ketika data registrasi berhasil disimpan, sistem harus menampilkan notifikasi bahwa akun harus menunggu persetujuan pengurus.* |
+| *KF41* | *R47* | *Ketika pengguna membuka halaman login, sistem harus menyediakan formulir email dan password.* |
+| *KF42* | *R47* | *Ketika pengguna menekan tombol login, sistem harus memverifikasi kecocokan email dan password dengan data akun terdaftar.* |
+| *KF43* | *R47* | *Ketika kredensial pengguna cocok, sistem harus memeriksa status akun dan hanya memberikan akses jika status akun adalah "Disetujui".* |
+| *KF44* | *R47* | *Ketika status akun masih "Menunggu Persetujuan" atau "Ditolak", sistem harus menolak akses dan menampilkan informasi yang sesuai dengan status tersebut.* |
+| *KF45* | *R47* | *Ketika email atau password tidak sesuai, sistem harus menolak akses dan menampilkan pesan bahwa email atau password salah.* |
+| *KF46* | *R47* | *Ketika login berhasil, sistem harus mengarahkan pengguna ke dashboard yang sesuai dengan perannya.* |
+| *KF47* | *R48* | *Ketika pengurus membuka halaman manajemen akun, sistem harus memverifikasi kewenangan pengurus dan menampilkan daftar akun berstatus "Menunggu Persetujuan".* |
+| *KF48* | *R48* | *Ketika pengguna yang bukan pengurus mencoba membuka halaman manajemen akun, sistem harus memblokir akses dan menampilkan informasi bahwa fitur hanya tersedia untuk pengurus.* |
+| *KF49* | *R48* | *Ketika pengurus menekan tombol "Setujui" pada suatu akun, sistem harus mengubah status akun tersebut menjadi "Disetujui".* |
+| *KF50* | *R48* | *Ketika pengurus menekan tombol "Tolak" pada suatu akun, sistem harus mengubah status akun tersebut menjadi "Ditolak".* |
+| *KF51* | *R48* | *Ketika status akun berhasil diubah, sistem harus memperbarui daftar akun yang menunggu persetujuan dan menampilkan notifikasi hasil tindakan.* |
+
 
 ## 3.2 Kebutuhan Non-Fungsional (KNF)
 
@@ -218,6 +236,8 @@ Tabel 3.2. Kebutuhan Non-Fungsional
 | *KNF11* | *R03, R06* | *Response time* | *Sistem harus memperbarui nilai input sensor pada dashboard pengguna dalam waktu maksimal 2 detik.* |
 | *KNF12* | *R41* | *Response time* | *Sistem harus menyelesaikan kalkulasi otomatis seluruh iuran komunal dalam waktu maksimal 5 detik.* |
 | *KNF13* | *R03, R06* | *Memory* | *Sistem harus mengeksekusi firmware pembacaan sensor dengan penggunaan memori yang tidak melewati batas kapasitas memori internal mikrokontroler.* |
+| *KNF14* | *R46, R47* | *Security* | *Sistem harus menyimpan password pengguna dalam bentuk ter-hash dan tidak boleh menyimpannya sebagai teks biasa.* |
+| *KNF15* | *R47* | *Security* | *Sistem tidak boleh menampilkan informasi yang membedakan email tidak terdaftar dari password salah pada pesan kegagalan login.* |
 
 ---
 
@@ -247,11 +267,9 @@ Tabel 3.2. Kebutuhan Non-Fungsional
 | UC09 | Menganalisis Pemakaian Komunal | Pengurus melihat data agregat dan riwayat pemakaian air serta energi komunal berdasarkan periode. | Pengurus | KF22, KF23, KF24 |
 | UC10 | Menghitung dan Menetapkan Iuran Warga | Pengurus menghitung iuran berdasarkan data pemakaian dan aturan tarif periode terkait, meninjau hasilnya, lalu menetapkannya sebagai final. | Pengurus | KF25, KF26, KF27, KF28, KF33 |
 | UC11 | Membuat Rekapitulasi Pemakaian dan Iuran | Pengurus menghasilkan rekapitulasi pemakaian dan iuran dari data final untuk periode yang dipilih. | Pengurus | KF29, KF30, KF31, KF32 |
-| UC12 | Melakukan Registrasi Akun | Calon pengguna mendaftarkan data diri dan pilihan peran sehingga akun berstatus menunggu persetujuan. | Calon Pengguna | —* |
-| UC13 | Melakukan Login Akun | Pengguna terdaftar memasukkan kredensial untuk mengakses sistem sesuai peran dan status persetujuan akun. | Warga, Teknisi, Pengurus | —* |
-| UC14 | Mengelola Persetujuan Akun | Pengurus meninjau permintaan registrasi dan menyetujui atau menolak akun calon pengguna. | Pengurus | —* |
-
-<sub>\* UC12–UC14 dipertahankan karena merupakan hasil revisi asistensi M3 dan telah dimodelkan pada M4. Namun, dokumen Requirement Gathering M2 serta daftar KF pada M4 saat ini belum memiliki kebutuhan fungsional khusus untuk registrasi, login, dan persetujuan akun. </sub>
+| UC12 | Melakukan Registrasi Akun | Calon pengguna mendaftarkan data diri dan pilihan peran sehingga akun berstatus menunggu persetujuan. | Calon Pengguna |  KF36, KF37, KF38, KF39, KF40  |
+| UC13 | Melakukan Login Akun | Pengguna terdaftar memasukkan kredensial untuk mengakses sistem sesuai peran dan status persetujuan akun. | Warga, Teknisi, Pengurus | KF41, KF42, KF43, KF44, KF45, KF46  |
+| UC14 | Mengelola Persetujuan Akun | Pengurus meninjau permintaan registrasi dan menyetujui atau menolak akun calon pengguna. | Pengurus | KF47, KF48, KF49, KF50, KF51  |
 
 ## 4.3 Use Case Diagram
 
@@ -1157,12 +1175,12 @@ Tabel 6.1. Traceability Kelas terhadap Use Case dan Kebutuhan Fungsional
 
 | ID Kelas | Nama Kelas | ID Use Case | ID KF |
 | :--- | :--- | :--- | :--- |
-| C01 | Akun | UC12, UC13, UC14 | —* |
-| C02 | Warga | UC01, UC02, UC03, UC04, UC10, UC12, UC13 | KF01, KF02, KF03, KF04, KF05, KF06, KF07, KF08, KF09, KF10, KF11, KF25, KF26, KF27, KF28, KF33, KF34 |
-| C03 | Teknisi | UC05, UC06, UC07, UC08, UC12, UC13 | KF12, KF13, KF14, KF15, KF16, KF17, KF18, KF19, KF20, KF21, KF35 |
-| C04 | Pengurus | UC09, UC10, UC11, UC12, UC13, UC14 | KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33 |
-| C05 | CalonPengguna | UC12 | —* |
-| C06 | StatusAkun | UC12, UC13, UC14 | —* |
+| C01 | Akun | UC12, UC13, UC14 | KF36, KF37, KF38, KF39, KF40, KF41, KF42, KF43, KF44, KF45, KF46, KF47, KF48, KF49, KF50, KF51 |
+| C02 | Warga | UC01, UC02, UC03, UC04, UC10, UC12, UC13 | KF01, KF02, KF03, KF04, KF05, KF06, KF07, KF08, KF09, KF10, KF11, KF25, KF26, KF27, KF28, KF33, KF34, KF36, KF37, KF38, KF39, KF40, KF41, KF42, KF43, KF44, KF45, KF46 |
+| C03 | Teknisi | UC05, UC06, UC07, UC08, UC12, UC13 | KF12, KF13, KF14, KF15, KF16, KF17, KF18, KF19, KF20, KF21, KF35, KF36, KF37, KF38, KF39, KF40, KF41, KF42, KF43, KF44, KF45, KF46 |
+| C04 | Pengurus | UC09, UC10, UC11, UC12, UC13, UC14 | KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33, KF36, KF37, KF38, KF39, KF40, KF41, KF42, KF43, KF44, KF45, KF46, KF47, KF48, KF49, KF50, KF51 |
+| C05 | CalonPengguna | UC12 | KF36, KF37, KF38, KF39, KF40 |
+| C06 | StatusAkun | UC12, UC13, UC14 | KF36, KF37, KF38, KF39, KF40, KF41, KF42, KF43, KF44, KF45, KF46, KF47, KF48, KF49, KF50, KF51 |
 | C07 | Perangkat | UC01, UC05, UC06, UC08 | KF01, KF02, KF03, KF04, KF13, KF14, KF15, KF16, KF20, KF21 |
 | C08 | TangkiAir | UC01 | KF01, KF02, KF03, KF04 |
 | C09 | Baterai | UC01, UC05 | KF01, KF02, KF03, KF04, KF13, KF14 |
@@ -1186,7 +1204,6 @@ Tabel 6.1. Traceability Kelas terhadap Use Case dan Kebutuhan Fungsional
 | C27 | CatatanPemeliharaan | UC08 | KF20, KF21 |
 | C28 | Rekapitulasi | UC11 | KF29, KF30, KF31, KF32 |
 
-<sub>\* UC12–UC14 belum memiliki kebutuhan fungsional khusus (lihat catatan Bab 4.2), sehingga kelas yang hanya terkait UC tersebut (C01, C05, C06) tidak memiliki ID KF.</sub>
 
 ## 6.2 Traceability KF → Use Case → Kelas
 
@@ -1229,6 +1246,22 @@ Tabel 6.2. Traceability Kebutuhan Fungsional terhadap Use Case dan Kelas
 | KF33 | UC10 | C02, C04, C14, C15, C16, C17, C18, C19 |
 | KF34 | UC04 | C02, C20, C22 |
 | KF35 | UC07 | C03, C20, C21, C22, C24 |
+| KF36 | UC12 | C01, C02, C03, C04, C05, C06 |
+| KF37 | UC12 | C01, C02, C03, C04, C05, C06 |
+| KF38 | UC12 | C01, C02, C03, C04, C05, C06 |
+| KF39 | UC12 | C01, C02, C03, C04, C05, C06 |
+| KF40 | UC12 | C01, C02, C03, C04, C05, C06 |
+| KF41 | UC13 | C01, C02, C03, C04, C06 |
+| KF42 | UC13 | C01, C02, C03, C04, C06 |
+| KF43 | UC13 | C01, C02, C03, C04, C06 |
+| KF44 | UC13 | C01, C02, C03, C04, C06 |
+| KF45 | UC13 | C01, C02, C03, C04, C06 |
+| KF46 | UC13 | C01, C02, C03, C04, C06 |
+| KF47 | UC14 | C01, C04, C06 |
+| KF48 | UC14 | C01, C04, C06 |
+| KF49 | UC14 | C01, C04, C06 |
+| KF50 | UC14 | C01, C04, C06 |
+| KF51 | UC14 | C01, C04, C06 |
 
 ---
 
