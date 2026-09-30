@@ -221,64 +221,574 @@ Salin ulang skenario **setiap** use case (skenario normal dan alternatif) dari B
 # BAB 5: Pemodelan Kelas
 
 ## 5.1 Identifikasi Kelas
-Salin ulang seluruh kelas yang telah diidentifikasi dari BAB 4.1 dokumen *Class Diagram*.
 
 | ID Kelas | Nama Kelas | Deskripsi Kelas | ID Use Case |
 | :--- | :--- | :--- | :--- |
-| *C01* | *Pelanggan* | *Menyimpan data akun pelanggan yang membuat pesanan.* | *UC01, UC05* |
-| *C02* | *Pesanan* | *Menyimpan data pesanan beserta status pembayarannya.* | *UC01, UC03, UC05* |
-| *C03* | *Keranjang* | *Menyimpan sementara item yang dipilih sebelum checkout.* | *UC01, UC02* |
-| *...* | *...* | *...* | *...* |
+| C01 | Akun | Superkelas abstrak akun sistem; menyimpan kredensial dan status persetujuan, menentukan dashboard tujuan via late binding. | UC12, UC13, UC14 |
+| C02 | Warga | Akun warga; memantau air/energi, melihat tagihan final, mengirim & menelusuri laporan. | UC01, UC02, UC03, UC04 |
+| C03 | Teknisi | Akun teknisi; menerima peringatan daya kritis, memantau panel, update status & catat pemeliharaan. | UC05, UC06, UC07, UC08 |
+| C04 | Pengurus | Akun pengurus; menganalisis pemakaian komunal, menghitung/menetapkan iuran, rekapitulasi, approval akun. | UC09, UC10, UC11, UC14 |
+| C05 | CalonPengguna | Data pendaftaran sebelum menjadi Akun; menyimpan nama, email, password, peran pilihan. | UC12 |
+| C06 | StatusAkun | Enumerasi status persetujuan akun: MENUNGGU, DISETUJUI, DITOLAK. | UC12, UC13, UC14 |
+| C07 | Perangkat | Superkelas abstrak perangkat komunal; mendefinisikan statusTerbaru() dan pembacaanTerakhir(). | UC01, UC05, UC06, UC08 |
+| C08 | TangkiAir | Perangkat tangki dengan volumeLiter dan ambang Rendah/Kritis; mengklasifikasikan statusAir(). | UC01 |
+| C09 | Baterai | Perangkat baterai dengan kapasitasPersen dan ambangBatasAman; cekKapasitas(). | UC01, UC05 |
+| C10 | PanelSurya | Perangkat panel surya dengan dayaWatt; dayaSaatIni() dan getDataKinerja(). | UC01, UC06 |
+| C11 | PembacaanSensor | Satu pembacaan sensor (nilai, satuan, waktu) yang dicatat berkala. | UC01 |
+| C12 | DataHistorisKinerja | Data historis kinerja panel surya (waktu, dayaDihasilkan, energi) untuk grafik. | UC06 |
+| C13 | RentangWaktu | Value object rentang waktu (waktuMulai, waktuSelesai) untuk filter. | UC06 |
+| C14 | Periode | Rentang periode tagihan (bulan, tahun) dengan flag statusFinal. | UC02, UC09, UC10, UC11 |
+| C15 | DataPemakaian | Pemakaian air (m3) & energi (kWh) per warga per periode; sumber hitung iuran & analitik. | UC09, UC10, UC11 |
+| C16 | AturanTarif | Aturan tarif per periode yang sama untuk seluruh warga (tarifAirPerM3, tarifEnergiPerKWh, biayaTetap). | UC10 |
+| C17 | Tagihan | Tagihan iuran per warga per periode (jumlahIuran, dataPemakaianDasar, status). | UC02, UC10 |
+| C18 | StatusTagihan | Enumerasi status tagihan: DRAFT, FINAL. | UC02, UC10, UC11 |
+| C19 | KalkulatorIuran | Domain service yang menghitung tagihan otomatis dari DataPemakaian + AturanTarif. | UC10 |
+| C20 | LaporanGangguan | Laporan gangguan (jenis, deskripsi, status, waktuDibuat) yang dikirim warga. | UC03, UC04, UC07 |
+| C21 | StatusLaporan | Enumerasi status laporan: MENUNGGU, SEDANG_DIPERBAIKI, SELESAI. | UC03, UC04, UC07 |
+| C22 | RiwayatStatusLaporan | Catatan perubahan status laporan beserta timestamp. | UC04, UC07 |
+| C23 | PenugasanPerangkat | Relasi penugasan Teknisi terhadap Perangkat tertentu. | UC05 |
+| C24 | PenugasanLaporan | Relasi penugasan Teknisi terhadap LaporanGangguan tertentu. | UC07 |
+| C25 | Notifikasi | Superkelas pesan notifikasi (pesan, waktu, statusBaca) dengan kirim(). | UC05 |
+| C26 | PeringatanDayaKritis | Subkelas Notifikasi khusus baterai di bawah ambang aman. | UC05 |
+| C27 | CatatanPemeliharaan | Catatan kegiatan pemeliharaan (perangkat, waktu, tindakan, hasil). | UC08 |
+| C28 | Rekapitulasi | Dokumen agregat pemakaian & iuran final per periode yang dapat diekspor/cetak. | UC11 |
 
 ## 5.2 Diagram Kelas per Use Case
 Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diagram*, lengkap dengan tabel atribut dan metode/operasinya.
 
 ### 5.2.1 Use Case UC01
 
-**Nama Use Case:** *Memesan Produk*
+**Nama Use Case:** *Memantau Ketersediaan Air dan Energi*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C02 | Warga | Pemilik akun berperan warga yang memantau dashboard air dan energi. |
+| C07 | Perangkat | Superkelas abstrak seluruh perangkat komunal; menjawab pesan status terkini (late binding). |
+| C08 | TangkiAir | Menyimpan volume air dan ambang batas; mengklasifikasikan status air (Normal/Rendah/Kritis). |
+| C09 | Baterai | Menyimpan kapasitas baterai dalam persen. |
+| C10 | PanelSurya | Menyimpan daya keluaran panel surya dalam Watt. |
+| C11 | PembacaanSensor | Merepresentasikan satu pembacaan sensor (nilai, satuan, waktu) yang dicatat berkala. |
+
+#### Diagram Kelas
 
 <p align="center">
-<img alt="Contoh Class Diagram" src="./assets/diagram/contoh-class-diagram.webp" width="70%">
+<img alt="Class Diagram UC01" src="./assets/diagram/UC1.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 3. Contoh Diagram Kelas Use Case UC01</i>
+<i>Gambar 2. Diagram Kelas Use Case UC01</i>
 </p>
+<br>
 
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
-| *C02* | *Pesanan* | *idPesanan, total, status* | *buatPesanan(), hitungTotal()* |
-| *C03* | *Keranjang* | *daftarItem* | *tambahItem(), checkout()* |
-| *...* | *...* | *...* | *...* |
-
-> Lanjutkan pola **5.2.x** untuk setiap use case pada 4.2.
-
-## 5.3 Diagram Kelas Keseluruhan
-Gabungkan seluruh kelas dan hubungan antarkelas dari BAB 4.3 dokumen *Class Diagram* menjadi satu diagram kelas keseluruhan. Pastikan tidak ada kelas yang terduplikasi atau tertinggal.
-
-<p align="center">
-<img alt="Contoh Class Diagram Keseluruhan" src="./assets/diagram/contoh-class-diagram.webp" width="70%">
-</p>
-<p align="center">
-<i>Gambar 4. Contoh Diagram Kelas Keseluruhan</i>
-</p>
-
-| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
-| :--- | :--- | :--- | :--- |
-| *C01* | *Pelanggan* | *idPelanggan, nama, email* | *lihatRiwayatPesanan()* |
-| *C02* | *Pesanan* | *idPesanan, total, status* | *hitungTotal(), perbaruiStatus()* |
-| *...* | *...* | *...* | *...* |
+| C02 | Warga | idWarga, nama | pantauPemantauan() |
+| C07 | Perangkat | idPerangkat, nama | statusTerbaru() (abstrak), pembacaanTerakhir() |
+| C08 | TangkiAir | idTangki, volumeLiter, ambangRendah, ambangKritis | statusTerbaru(), statusAir() |
+| C09 | Baterai | idBaterai, kapasitasPersen | statusTerbaru(), kapasitas() |
+| C10 | PanelSurya | idPanel, dayaWatt | statusTerbaru(), dayaSaatIni() |
+| C11 | PembacaanSensor | idPembacaan, nilai, satuan, waktu | catat() |
 
 ---
 
+### 5.2.2 Use Case UC02
+
+**Nama Use Case:** *Melihat Tagihan Iuran Final*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C02 | Warga | Pemilik tagihan yang melihat rincian iurannya. |
+| C17 | Tagihan | Menyimpan data tagihan dan mengetahui status final serta rinciannya sendiri. |
+| C14 | Periode | Menyimpan rentang periode tagihan (bulan/tahun). |
+
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC02" src="./assets/diagram/UC2.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 3. Diagram Kelas Use Case UC02</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C02 | Warga | idWarga, nama | lihatTagihan() |
+| C17 | Tagihan | idTagihan, jumlahIuran, statusFinal, dataPemakaianDasar | sudahFinal(), rincian() |
+| C14 | Periode | idPeriode, bulan, tahun | - |
+
+### 5.2.3 Use Case UC03
+
+**Nama Use Case:** *Mengirim Laporan Gangguan*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C02 | Warga | Menyimpan data akun warga yang mengirimkan laporan untuk memvalidasi status keanggotaan terdaftar. |
+| C20 | LaporanGangguan | Menyimpan formulir laporan gangguan yang dibuat warga (jenis gangguan, deskripsi, foto pendukung) yang otomatis ditetapkan berstatus "Menunggu". |
+| C21 | StatusLaporan | Enumerasi yang menyimpan nilai batas status laporan yang valid. |
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC01" src="./assets/diagram/UC3.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 4. Diagram Kelas Use Case UC03</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C02 | Warga | idWarga, nama, statusTerdaftar | validasiKeanggotaan(), kirimLaporan() |
+| C20 | LaporanGangguan | idLaporan, idWarga, jenisGangguan, deskripsi, fotoPendukung, waktuDibuat, status | setStatusMenunggu(), simpan() |
+| C21 | StatusLaporan | MENUNGGU, SEDANG_DIPERBAIKI, SELESAI | - |
+
+### 5.2.4 Use Case UC04
+
+**Nama Use Case:** *Menelusuri Status Laporan Gangguan*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C02 | Warga | Aktor yang menelusuri daftar riwayat laporan gangguan berdasarkan identitasnya. |
+| C20 | LaporanGangguan | Menyimpan data laporan yang pernah dikirim oleh warga beserta status terkininya untuk ditampilkan pada sistem. |
+| C22 | RiwayatStatusLaporan | Menyimpan riwayat perkembangan status laporan gangguan dari waktu ke waktu. |
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC01" src="./assets/diagram/UC4.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 5. Diagram Kelas Use Case UC04</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C02 | Warga | idWarga, nama | lihatDaftarLaporan(), pilihLaporan() |
+| C20 | LaporanGangguan | idLaporan, idWarga, jenisGangguan, deskripsi, statusLengkap | getLaporanByIdWarga(), getDetailLaporan() |
+| C22 | RiwayatStatusLaporan | idRiwayat, idLaporan, status, timestamp | getRiwayatPerkembangan() |
+
+
+### 5.2.5 Use Case 5
+
+**Nama Use Case:** *Menerima Peringatan Dini Daya Kritis*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C03 | Teknisi | Akun teknisi yang bertanggung jawab dan menerima notifikasi. |
+| C07 | Perangkat | Perangkat komunal yang dipantau, mis. pompa/tangki/panel. |
+| C09 | Baterai | Komponen daya yang kapasitasnya dipantau. |
+| C23 | PenugasanPerangkat | Relasi penugasan teknisi terhadap perangkat tertentu. |
+| C25 | Notifikasi | Pesan peringatan yang dikirim sistem. |
+| C26 | PeringatanDayaKritis | Notifikasi khusus untuk daya baterai di bawah ambang aman. |
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC01" src="./assets/diagram/UC5.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 6. Diagram Kelas Use Case UC05</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C03 | Teknisi | idTeknisi, nama, kontak | terimaNotifikasi() |
+| C07 | Perangkat | idPerangkat, nama, lokasi | - |
+| C09 | Baterai | idBaterai, kapasitasPersen, ambangBatasAman | cekKapasitas() |
+| C23 | PenugasanPerangkat | idPenugasan, idTeknisi, idPerangkat | verifikasiTanggungJawab() |
+| C25 | Notifikasi | idNotifikasi, pesan, waktu, statusBaca | kirim(), tandaiDibaca() |
+| C26 | PeringatanDayaKritis | level, kapasitasSaatIni | - |
+
+
+
+### 5.2.6 Use Case 6
+
+**Nama Use Case:** *Memantau Riwayat Kinerja Panel Surya*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C03 | Teknisi | Pengguna yang memantau riwayat kinerja panel surya. |
+| C07 | Perangkat | Kelas umum untuk perangkat yang dipantau. |
+| C10 | PanelSurya | Perangkat panel surya yang kinerjanya dianalisis. |
+| C12 | DataHistorisKinerja | Data historis kinerja panel surya berdasarkan waktu. |
+| C13 | RentangWaktu | Nilai rentang waktu yang dipilih teknisi. |
+
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC01" src="./assets/diagram/UC6.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 7. Diagram Kelas Use Case UC06</i>
+</p>
+<br>
+
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C03 | Teknisi | idTeknisi, nama | pilihRentangWaktu(), lihatRiwayatKinerja() |
+| C07 | Perangkat | idPerangkat, nama, tipe | - |
+| C10 | PanelSurya | idPanel, kapasitas, lokasi | getDataKinerja() |
+| C12 | DataHistorisKinerja | idData, waktu, dayaDihasilkan, energi | ambilBerdasarkanRentang() |
+| C13 | RentangWaktu | waktuMulai, waktuSelesai | validasi() |
+
+
+### 5.2.7 Use Case 7
+
+**Nama Use Case:** *Memperbarui Status Penanganan Gangguan  *
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C03 | Teknisi | Teknisi yang berwenang mengubah status laporan. |
+| C20 | LaporanGangguan | Laporan gangguan yang ditangani. |
+| C24 | PenugasanLaporan | Relasi penugasan teknisi terhadap laporan tertentu. |
+| C22 | RiwayatStatusLaporan | Riwayat perubahan status beserta timestamp. |
+| C21 | StatusLaporan | Enumerasi status laporan yang valid. |
+
+#### Diagram Kelas
+
+
+
+<p align="center">
+<img alt="Class Diagram UC01" src="./assets/diagram/UC7.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 8. Diagram Kelas Use Case UC07</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C03 | Teknisi | idTeknisi, nama | ubahStatusLaporan() |
+| C20 | LaporanGangguan | idLaporan, jenisGangguan, deskripsi, status, waktuDibuat | ubahStatus() |
+| C24 | PenugasanLaporan | idPenugasan, idTeknisi, idLaporan, waktuPenugasan | verifikasi() |
+| C22 | RiwayatStatusLaporan | idRiwayat, status, timestamp | catat() |
+| C21 | StatusLaporan | MENUNGGU, SEDANG_DIPERBAIKI, SELESAI | - |
+
+### 5.2.8 Use Case UC08
+
+**Nama Use Case:** *Mencatat Kegiatan Pemeliharaan*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C03 | Teknisi | Akun petugas yang melakukan pengisian formulir pencatatan pemeliharaan. |
+| C27 | CatatanPemeliharaan | Entri log yang menyimpan rincian perawatan fisik alat (waktu pelaksanaan, tindakan, catatan hasil). |
+| C07 | Perangkat | Menyimpan detail alat komunal yang sedang dicatat riwayat perbaikannya oleh teknisi. |
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC08" src="./assets/diagram/UC8.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 9. Diagram Kelas Use Case UC08</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C03 | Teknisi | idTeknisi, nama | buatCatatanPemeliharaan() |
+| C27 | CatatanPemeliharaan | idCatatan, idTeknisi, idPerangkat, waktuPelaksanaan, tindakan, catatanHasil | validasiFormulir(), simpan() |
+| C07 | Perangkat | idPerangkat, namaPerangkat, lokasi | getRiwayatPemeliharaan() |
+
+### 5.2.9 Use Case UC09
+
+**Nama Use Case:** *Menganalisis Pemakaian Komunal*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C04 | Pengurus | Pengguna yang berwenang mengakses dashboard administratif dan melihat analitik pemakaian komunal. |
+| C14 | Periode | Merepresentasikan periode yang dipilih untuk mengelompokkan dan membandingkan data pemakaian. |
+| C15 | DataPemakaian | Menyimpan data pemakaian air atau energi yang dapat dikelompokkan dan dianalisis berdasarkan periode. |
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC09" src="./assets/diagram/UC9.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 10. Diagram Kelas Use Case UC09</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C04 | Pengurus | idPengurus, nama | verifikasiKewenangan() |
+| C14 | Periode | idPeriode, bulan, tahun | - |
+| C15 | DataPemakaian | idPemakaian, idWarga, volumeAirM3, energiKWh, waktuCatat | isLengkap() |
+
+### 5.2.10 Use Case 10
+
+**Nama Use Case:** *Menghitung dan Menetapkan Iuran Warga* — Aktor: **Pengurus** — KF: KF25, KF26, KF27, KF28, KF33 — Relasi: `<<include>> UC09`, `<<extend>> UC02`
+
+**Ringkasan skenario (dari 3.4.10):** Pengurus memilih periode → sistem mengambil DataPemakaian & menghitung otomatis dengan AturanTarif yang sama untuk semua warga → pratinjau ditampilkan → Pengurus menekan Tetapkan Final → verifikasi kewenangan → status Periode/Tagihan menjadi FINAL. Alternatif: pengurus tidak berwenang (ditolak) dan data pemakaian belum lengkap (peringatan).
+
+#### Identifikasi Kelas — UC10
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C04 | Pengurus | Aktor pengurus yang memilih periode, meninjau hasil, dan menetapkan final; memverifikasi kewenangannya sendiri. |
+| C14 | Periode | Periode tagihan (bulan, tahun) dengan statusFinal; menjadi konteks perhitungan dan finalisasi. |
+| C15 | DataPemakaian | Pemakaian air (m³) & energi (kWh) per warga per periode; sumber utama perhitungan. |
+| C16 | AturanTarif | Tarif/aturan perhitungan tunggal per periode (tarifAirPerM3, tarifEnergiPerKWh, biayaTetap) — menjamin KF28. |
+| C17 | Tagihan | Hasil perhitungan iuran per warga (jumlahIuran, dataPemakaianDasar, status); mengetahui sudahFinal() & rincian() sendiri. |
+| C19 | KalkulatorIuran | Domain service yang menghitung otomatis, memvalidasi kelengkapan & kewenangan, dan menetapkan final. |
+| C18 | StatusTagihan | Enumerasi status tagihan: DRAFT, FINAL. |
+| C02 | Warga | Warga pemilik Tagihan (asosiasi Tagihan→Warga, DataPemakaian→Warga). |
+
+
+> Pemetaan global: C10-01→C04, C10-02→C14, C10-03→C15, C10-04→C16, C10-05→C17, C10-06→C19, C10-07→C18, C10-08→C02.
+
+#### Diagram Kelas — UC10
+
+<p align="center">
+<img alt="Class Diagram UC10" src="./assets/diagram/UC10.png" width="90%">
+</p>
+<p align="center">
+<i>Gambar 11. Diagram Kelas Use Case UC10 — Menghitung & Menetapkan Iuran </i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C04 | Pengurus | idPengurus, nama, email | pilihPeriode(bulan, tahun): Periode, hitungIuran(periode: Periode): List<Tagihan>, tinjauHasil(daftar), tetapkanFinal(periode: Periode), verifikasiKewenangan(): boolean |
+| C14 | Periode | idPeriode, bulan, tahun, statusFinal: boolean | isFinal(): boolean, tandaiFinal(): void |
+| C15 | DataPemakaian | idPemakaian, idWarga, volumeAirM3, energiKWh, waktuCatat | isLengkap(): boolean |
+| C16 | AturanTarif | idAturan, tarifAirPerM3, tarifEnergiPerKWh, biayaTetap, periodeId | terapkan(volume, energi): double, isValidUntukPeriode(p: Periode): boolean |
+| C17 | Tagihan | idTagihan, idWarga, idPeriode, jumlahIuran, dataPemakaianDasar, status: StatusTagihan | hitungTotal(tarif, pemakaian): double, sudahFinal(): boolean, rincian(): String, tetapkanFinal(): void |
+| C19 | KalkulatorIuran | — (service stateless) | hitung(periode): List<Tagihan>, pratinjau(periode): List<Tagihan>, validasiKelengkapan(periode): boolean, validasiKewenangan(pengurus): boolean, tetapkanFinal(periode, pengurus): void |
+| C18 | StatusTagihan | DRAFT, FINAL | — |
+| C02 | Warga | idWarga, nama | lihatTagihan(): Tagihan |
+
+### 5.2.11 Use Case UC11
+
+**Nama Use Case:** *Membuat Rekapitulasi Pemakaian dan Iuran*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C04 | Pengurus | Pengguna berwenang yang memilih periode dan membuat rekapitulasi administratif. |
+| C14 | Periode | Merepresentasikan periode pemakaian dan iuran yang akan direkapitulasi. |
+| C15 | DataPemakaian | Menyimpan data pemakaian air atau energi beserta status finalnya. |
+| C17 | Tagihan | Menyimpan data iuran warga beserta status final untuk periode terkait. |
+| C28 | Rekapitulasi | Merepresentasikan rekapitulasi pemakaian dan iuran yang dapat dihasilkan, diekspor, atau dicetak. |
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC11" src="./assets/diagram/UC11.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 12. Diagram Kelas Use Case UC11</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C04 | Pengurus | idPengurus, nama | verifikasiKewenangan(), buatRekapitulasi() |
+| C14 | Periode | idPeriode, bulan, tahun, statusFinal | isFinal() |
+| C15 | DataPemakaian | idPemakaian, idWarga, volumeAirM3, energiKWh, waktuCatat | isLengkap() |
+| C17 | Tagihan | idTagihan, idWarga, idPeriode, jumlahIuran, dataPemakaianDasar, status | sudahFinal(), rincian() |
+| C18 | StatusTagihan | DRAFT, FINAL | - |
+| C28 | Rekapitulasi | idRekap, idPeriode, totalPemakaianAir, totalPemakaianEnergi, totalIuran | generate(periode), ekspor(), cetak() |
+
+### 5.2.12 Use Case UC12
+
+**Nama Use Case:** *Melakukan Registrasi Akun*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C05 | CalonPengguna | Pendaftar yang mengisi data diri dan pilihan peran sebelum akun dibuat. |
+| C01 | Akun | Superkelas abstrak yang menyimpan identitas dan status persetujuan akun. |
+| C02 | Warga | Bentuk khusus akun untuk peran warga. |
+| C03 | Teknisi | Bentuk khusus akun untuk peran teknisi. |
+| C04 | Pengurus | Bentuk khusus akun untuk peran pengurus. |
+| C06 | StatusAkun | Enumerasi status persetujuan akun yang valid. |
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC12" src="./assets/diagram/UC12.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 13. Diagram Kelas Use Case UC12</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C05 | CalonPengguna | nama, email, password, peranPilihan | daftarkan() |
+| C01 | Akun | email, password, nama, statusAkun | statusAkun() |
+| C02 | Warga | idWarga, nama | - |
+| C03 | Teknisi | idTeknisi, nama | - |
+| C04 | Pengurus | idPengurus, nama | - |
+| C06 | StatusAkun | status | - |
+
+---
+
+### 5.2.13 Use Case UC13
+
+**Nama Use Case:** *Melakukan Login Akun*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C01 | Akun | Superkelas abstrak yang memverifikasi kredensial dan statusnya sendiri. |
+| C02 | Warga | Bentuk khusus akun warga; menjawab dashboard tujuan sendiri. |
+| C03 | Teknisi | Bentuk khusus akun teknisi; menjawab dashboard tujuan sendiri. |
+| C04 | Pengurus | Bentuk khusus akun pengurus; menjawab dashboard tujuan sendiri. |
+| C06 | StatusAkun | Enumerasi status persetujuan akun yang valid. |
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC13" src="./assets/diagram/UC13.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 14. Diagram Kelas Use Case UC13</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C01 | Akun | email, password, statusAkun | cocokKredensial(email, password), sudahDisetujui(), dashboardTujuan() |
+| C02 | Warga | idWarga, nama | dashboardTujuan() |
+| C03 | Teknisi | idTeknisi, nama | dashboardTujuan() |
+| C04 | Pengurus | idPengurus, nama | dashboardTujuan() |
+| C06 | StatusAkun | status | - |
+
+
+### 5.2.14 Use Case UC14
+
+**Nama Use Case:** *Mengelola Persetujuan Akun*
+
+#### Identifikasi Kelas
+
+| ID Kelas | Nama Kelas | Deskripsi Kelas |
+| :--- | :--- | :--- |
+| C01 | Akun | Menyimpan identitas pengguna dan status persetujuan akun yang dapat diperbarui setelah proses peninjauan. |
+| C04 | Pengurus | Bentuk khusus akun yang berwenang meninjau serta menyetujui atau menolak akun yang menunggu persetujuan. |
+| C06 | StatusAkun | Merepresentasikan status persetujuan akun, seperti Menunggu Persetujuan, Disetujui, atau Ditolak. |
+
+#### Diagram Kelas
+
+<p align="center">
+<img alt="Class Diagram UC14" src="./assets/diagram/UC14.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 15. Diagram Kelas Use Case UC14</i>
+</p>
+<br>
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C01 | Akun | email, password, nama, statusAkun | ubahStatus() |
+| C04 | Pengurus | idPengurus, nama | lihatAkunMenunggu(), setujuiAkun(), tolakAkun() |
+| C06 | StatusAkun | MENUNGGU, DISETUJUI, DITOLAK | - |
+
+---
+
+## 5.3 Diagram Kelas Keseluruhan 
+
+
+<p align="center">
+<img alt="Class Diagram Keseluruhan" src="./assets/diagram/overall-class.png" width="95%">
+</p>
+<p align="center">
+<i>Gambar 16. Diagram Kelas Keseluruhan Fajar Tech (28 kelas, 14 UC terintegrasi)</i>
+</p>
+<br>
+
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C01 | Akun | email, password, nama, statusAkun | cocokKredensial(email, password), sudahDisetujui(), dashboardTujuan() {abstract} |
+| C02 | Warga | idWarga, nama | pantauPemantauan(), lihatTagihan(), lihatRiwayatLaporan() |
+| C03 | Teknisi | idTeknisi, nama, kontak | terimaNotifikasi(), ubahStatusLaporan(), pilihRentangWaktu() |
+| C04 | Pengurus | idPengurus, nama | verifikasiKewenangan(), hitungIuran(periode), tetapkanFinal(periode), buatRekapitulasi() |
+| C05 | CalonPengguna | nama, email, password, peranPilihan | daftarkan(): Akun |
+| C06 | StatusAkun | MENUNGGU, DISETUJUI, DITOLAK | — |
+| C07 | Perangkat | idPerangkat, nama, lokasi | statusTerbaru() {abstract}, pembacaanTerakhir() |
+| C08 | TangkiAir | idTangki, volumeLiter, ambangRendah, ambangKritis | statusAir(), statusTerbaru() |
+| C09 | Baterai | idBaterai, kapasitasPersen, ambangBatasAman | cekKapasitas(), kapasitas() |
+| C10 | PanelSurya | idPanel, dayaWatt, kapasitas, lokasi | dayaSaatIni(), getDataKinerja() |
+| C11 | PembacaanSensor | idPembacaan, nilai, satuan, waktu | catat() |
+| C12 | DataHistorisKinerja | idData, waktu, dayaDihasilkan, energi | ambilBerdasarkanRentang(r: RentangWaktu) |
+| C13 | RentangWaktu | waktuMulai, waktuSelesai | validasi() |
+| C14 | Periode | idPeriode, bulan, tahun, statusFinal | isFinal(), tandaiFinal() |
+| C15 | DataPemakaian | idPemakaian, idWarga, volumeAirM3, energiKWh, waktuCatat | isLengkap() |
+| C16 | AturanTarif | idAturan, tarifAirPerM3, tarifEnergiPerKWh, biayaTetap, periodeId | terapkan(volume, energi), isValidUntukPeriode() |
+| C17 | Tagihan | idTagihan, idWarga, idPeriode, jumlahIuran, dataPemakaianDasar, status | hitungTotal(), sudahFinal(), rincian(), tetapkanFinal() |
+| C18 | StatusTagihan | DRAFT, FINAL | — |
+| C19 | KalkulatorIuran | — (service) | hitung(periode), pratinjau(periode), validasiKelengkapan(), validasiKewenangan(), tetapkanFinal() |
+| C20 | LaporanGangguan | idLaporan, jenisGangguan, deskripsi, status, waktuDibuat | ubahStatus(s), simpan() |
+| C21 | StatusLaporan | MENUNGGU, SEDANG_DIPERBAIKI, SELESAI | — |
+| C22 | RiwayatStatusLaporan | idRiwayat, status, timestamp | catat() |
+| C23 | PenugasanPerangkat | idPenugasan, idTeknisi, idPerangkat | verifikasiTanggungJawab() |
+| C24 | PenugasanLaporan | idPenugasan, idTeknisi, idLaporan, waktuPenugasan | verifikasi() |
+| C25 | Notifikasi | idNotifikasi, pesan, waktu, statusBaca | kirim(), tandaiDibaca() |
+| C26 | PeringatanDayaKritis | level, kapasitasSaatIni | — (inherit kirim()) |
+| C27 | CatatanPemeliharaan | idCatatan, waktuPelaksanaan, tindakan, catatanHasil | simpan(), validasi() |
+| C28 | Rekapitulasi | idRekap, idPeriode, totalPemakaianAir, totalPemakaianEnergi, totalIuran | generate(periode), ekspor(), cetak() |
+
 # BAB 6: Traceability
-Salin ulang tabel Traceability dari BAB 5 dokumen *Class Diagram*, cocokkan setiap Kebutuhan Fungsional, Use Case, dan Kelas yang saling terkait.
 
 | ID Kelas | ID Use Case | ID KF |
 | :--- | :--- | :--- |
-| *C01* | *UC01, UC05* | *KF01, KF06* |
-| *C02* | *UC01, UC03, UC05* | *KF01, KF02, KF05, KF06* |
-| *C03* | *UC01, UC02* | *KF01, KF02* |
-| *...* | *...* | *...* |
+| *C01* | *UC12, UC13, UC14* | *KF09, KF14, KF18, KF23, KF27* |
+| *C02* | *UC01, UC02, UC03, UC04* | *KF01, KF02, KF03, KF04, KF05, KF06, KF07, KF08, KF09, KF10, KF11, KF34* |
+| *C03* | *UC05, UC06, UC07, UC08* | *KF12, KF13, KF14, KF15, KF16, KF17, KF18, KF19, KF20, KF21, KF35* |
+| *C04* | *UC09, UC10, UC11, UC14* | *KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33* |
+| *C05* | *UC12* | *KF09, KF14* |
+| *C06* | *UC12, UC13, UC14* | *KF09, KF14, KF18, KF23, KF27* |
+| *C07* | *UC01, UC05, UC06, UC08* | *KF01, KF02, KF03, KF04, KF13, KF14, KF15, KF16, KF20, KF21* |
+| *C08* | *UC01* | *KF01, KF02, KF03, KF04* |
+| *C09* | *UC01, UC05* | *KF01, KF02, KF03, KF04, KF13, KF14* |
+| *C10* | *UC01, UC06* | *KF01, KF02, KF03, KF04, KF15, KF16* |
+| *C11* | *UC01* | *KF01, KF02, KF03, KF04* |
+| *C12* | *UC06* | *KF15, KF16* |
+| *C13* | *UC06* | *KF15, KF16* |
+| *C14* | *UC02, UC09, UC10, UC11* | *KF05, KF06, KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33* |
+| *C15* | *UC09, UC10, UC11* | *KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33* |
+| *C16* | *UC10* | *KF25, KF26, KF27, KF28, KF33* |
+| *C17* | *UC02, UC10* | *KF05, KF06, KF25, KF26, KF27, KF28, KF33* |
+| *C18* | *UC02, UC10, UC11* | *KF05, KF06, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33* |
+| *C19* | *UC10* | *KF25, KF26, KF27, KF28, KF33* |
+| *C20* | *UC03, UC04, UC07* | *KF07, KF08, KF09, KF10, KF11, KF12, KF17, KF18, KF19, KF34, KF35* |
+| *C21* | *UC03, UC04, UC07* | *KF07, KF08, KF09, KF10, KF11, KF12, KF17, KF18, KF19, KF34, KF35* |
+| *C22* | *UC04, UC07* | *KF11, KF12, KF17, KF18, KF19, KF34, KF35* |
+| *C23* | *UC05* | *KF13, KF14* |
+| *C24* | *UC07* | *KF12, KF17, KF18, KF19, KF35* |
+| *C25* | *UC05* | *KF13, KF14* |
+| *C26* | *UC05* | *KF13, KF14* |
+| *C27* | *UC08* | *KF20, KF21* |
+| *C28* | *UC11* | *KF29, KF30, KF31, KF32* |
 
 ---
 
