@@ -109,53 +109,87 @@ Tuliskan seluruh jenis pengguna (*role*/aktor) yang terlibat dalam perangkat lun
 
 ## 2.4 Batasan Perangkat Lunak
 Batasan yang harus dituliskan, di antaranya:
-1. *P/L harus memakai file data/API dari sistem lain (sebutkan, misal Payment Gateway dummy).*
-2. *P/L harus memakai format data yang sama dengan sistem lain.*
-3. *P/L harus berfungsi pada platform tertentu (misal: web browser modern, atau desktop Windows dan Linux).*
-4. *...*
+1. *P/L hanya berfokus pada platform utama berbasis website dan diakses melalui web browser, tidak memiliki aplikasi terinstall (seperti .apk atau .exe).*
+2. *P/L bergantung pada ketersediaan data pemantauan fisik yang dikirimkan secara berkala oleh perangkat keras (sensor, mikrokontroler pada tangki dan panel surya) di lapangan.*
+3. *P/L beroperasi di lokasi yang memiliki cakupan sinyal komunikasi yang memadai atau akses Wi-Fi terpusat untuk kelancaran pembaruan data sensor.*
+4. *P/L hanya menangani pencatatan dan kalkulasi iuran warga, dan tidak terintegrasi dengan Payment Gateway untuk memproses transaksi pembayaran secara digital.*
+5. *P/L mengekspor berkas rekapitulasi ke dalam format dokumen universal seperti PDF atau CSV.*
 
 ## 2.5 Lingkungan Operasi Perangkat Lunak
-Spesifikasi *operating system* atau lingkungan yang dibutuhkan P/L untuk beroperasi. Bagian ini digunakan untuk memastikan pengguna memiliki spesifikasi yang cukup untuk menjalankan P/L. Misalnya mencakup komponen server, client, OS, DBMS, tetapi tidak menutupi kemungkinan komponen lain.
 
 | Komponen | Spesifikasi |
 | :--- | :--- |
-| *Server* | *[contoh: Node.js v20, dijalankan pada layanan cloud]* |
-| *Client* | *[contoh: Web Browser modern (Chrome, Firefox terbaru)]* |
-| *DBMS* | *[contoh: PostgreSQL 15]* |
-| *OS* | *[contoh: Cross-platform (Windows/Linux/MacOS) melalui browser]* |
-| *...* | *...* |
+| *Server* | *[Node.js atau PHP, dijalankan pada layanan cloud hosting / VPS]* |
+| *Client* | *[Web Browser modern (Google Chrome, Mozilla Firefox, Safari, Microsoft Edge).]* |
+| *DBMS* | *[PostgreSQL atau MySQL]* |
+| *OS* | *[Cross-platform (Windows, Linux, macOS, Android, iOS) melalui browser.]* |
+| *Perangkat Keras* | *Mikrokontroler IoT pada fasilitas komunitas (untuk mengirim data metrik operasional).* |
 
 ---
 
 # BAB 3: Deskripsi Kebutuhan Perangkat Lunak
 
 ## 3.1 Kebutuhan Fungsional (KF)
-Salin ulang **seluruh Kebutuhan Fungsional (KF)** versi terbaru dari BAB 2.1 dokumen *Class Diagram* (sudah versi final dan sudah memakai format EARS). Pastikan ID Kebutuhan (kolom "ID Kebutuhan") juga konsisten dengan ID pada tabel Pemetaan Kebutuhan di dokumen *Requirement Gathering*.
 
 Tabel 3.1. Kebutuhan Fungsional
 
 | ID KF | ID Kebutuhan | Penjelasan |
 | :--- | :--- | :--- |
-| *KF01* | *R01* | *Ketika pelanggan membuka halaman katalog, sistem harus menampilkan daftar produk yang tersedia.* |
-| *KF02* | *R02* | *Ketika pelanggan memilih "Tambah ke Keranjang" pada suatu produk, sistem harus menyimpan produk tersebut ke dalam keranjang pelanggan.* |
-| *KF03* | *R03* | *Ketika pelanggan menekan tombol checkout, sistem harus menampilkan pilihan metode pembayaran yang tersedia.* |
-| *KF04* | *R04* | *Ketika pelanggan memilih metode pembayaran, sistem harus mengirimkan permintaan otorisasi beserta nominal tagihan dan ID pesanan ke payment gateway (dummy).* |
-| *KF05* | *R04* | *Ketika payment gateway (dummy) mengembalikan status pembayaran berhasil, sistem harus memperbarui status pesanan menjadi "Lunas" dan menampilkan notifikasi pembayaran berhasil.* |
-| *KF06* | *R05* | *Ketika pelanggan membuka menu riwayat pesanan, sistem harus menampilkan daftar pesanan beserta statusnya.* |
-| *KFXX* | *...* | *...* |
+| *KF01* | *R01* | *Ketika warga membuka dashboard utama, sistem harus menampilkan volume/level air pada tangki penampungan secara real-time.* |
+| *KF02* | *R02* | *Sistem harus mengklasifikasikan dan menampilkan status ketersediaan air (Normal, Rendah, Kritis) berdasarkan ambang batas yang telah dikonfigurasi.* |
+| *KF03* | *R04* | *Ketika warga membuka dashboard utama, sistem harus menampilkan kapasitas baterai (%) dan daya keluaran panel surya (Watt) secara real-time.* |
+| *KF04* | *R05* | *Sistem harus menyimpan dan menampilkan parameter daya menggunakan satuan pengukuran yang konsisten (seperti Watt dan persen) di seluruh antarmuka.* |
+| *KF05* | *R07* | *Ketika warga mengakses menu tagihan, sistem harus menampilkan rincian iuran periode berjalan yang mencakup periode tagihan, data pemakaian, dan total iuran.* |
+| *KF06* | *R09* | *Sistem harus membatasi visibilitas tagihan kepada warga hanya jika status perhitungan iuran periode tersebut telah ditetapkan sebagai final oleh pengurus.* |
+| *KF07* | *R11* | *Ketika warga membuka fitur pelaporan, sistem harus menyediakan formulir gangguan yang mencakup input jenis kendala, deskripsi, dan foto pendukung.* |
+| *KF08* | *R11* | *Ketika pengguna menekan tombol kirim formulir, sistem harus menyimpan laporan gangguan tersebut sebagai entri data baru* |
+| *KF09* | *R12* | *Ketika laporan gangguan dikirim, sistem harus memvalidasi bahwa pengirim merupakan warga terdaftar sebelum memproses penyimpanan.* |
+| *KF10* | *R13* | *Ketika laporan gangguan baru berhasil disimpan, sistem harus menetapkan status awal laporan tersebut menjadi "Menunggu" secara otomatis.* |
+| *KF11* | *R15* | *Ketika pelapor membuka halaman riwayat, sistem harus menampilkan status terkini dan rekam jejak perkembangan laporan gangguan miliknya.* |
+| *KF12* | *R16* | *Sistem harus membatasi nilai status laporan gangguan secara mutlak pada tiga pilihan: Menunggu, Sedang Diperbaiki, atau Selesai.* |
+| *KF13* | *R18* | *Ketika kapasitas daya baterai menyentuh atau turun di bawah ambang batas aman, sistem harus mengirimkan notifikasi otomatis kepada teknisi.* |
+| *KF14* | *R20* | *Sistem harus mengirimkan notifikasi peringatan daya kritis hanya kepada akun teknisi terdaftar yang ditugaskan pada perangkat terkait.* |
+| *KF15* | *R22* | *Ketika teknisi memilih suatu rentang waktu, sistem harus menampilkan grafik tren kinerja panel surya sesuai durasi tersebut.* |
+| *KF16* | *R23* | *Sistem harus menyimpan log data kinerja perangkat keras secara berkala sebagai basis historis.* |
+| *KF17* | *R25* | *Ketika teknisi membuka detail laporan, sistem harus menyediakan fungsi pembaruan status untuk mencatat progres penanganan lapangan.* |
+| *KF18* | *R26* | *Ketika pengguna mencoba mengubah status laporan, sistem harus memverifikasi bahwa pengguna tersebut adalah teknisi dengan hak penugasan yang sesuai.* |
+| *KF19* | *R27* | *Sistem harus memastikan perubahan status laporan gangguan hanya dapat dilakukan secara berurutan sesuai tahapan, yaitu dari Menunggu, kemudian Sedang Diperbaiki, dan terakhir Selesai.* |
+| *KF20* | *R29* | *Ketika teknisi membuka menu pemeliharaan, sistem harus menyediakan formulir pencatatan yang memuat ID perangkat, waktu, tindakan, dan hasil akhir.* |
+| *KF21* | *R30* | *Ketika formulir pemeliharaan disimpan, sistem harus mengarsipkan data tersebut ke dalam riwayat perangkat yang dapat ditelusuri.* |
+| *KF22* | *R33* | *Ketika pengurus mengakses dashboard administratif, sistem harus menampilkan data agregat dan riwayat pemakaian air serta energi komunal.* |
+| *KF23* | *R34* | *Ketika pengguna mencoba membuka modul administratif, sistem harus memblokir akses jika pengguna tidak memiliki kredensial pengurus.* |
+| *KF24* | *R35* | *Sistem harus mengelompokkan dan mengindeks seluruh data pemakaian warga berdasarkan periode waktu (contoh: bulanan) secara konsisten.* |
+| *KF25* | *R37* | *Ketika pengurus menginisiasi perhitungan, sistem harus mengkalkulasi iuran warga berdasarkan data pemakaian pada periode yang dipilih.* |
+| *KF26* | *R37* | *Ketika proses kalkulasi iuran selesai, sistem harus menampilkan pratinjau hasil perhitungan kepada pengurus untuk proses peninjauan.* |
+| *KF27* | *R39* | *Ketika tombol penetapan hasil perhitungan iuran ditekan, sistem harus memverifikasi hak akses administratif pengguna sebelum mengunci data tagihan.* |
+| *KF28* | *R40* | *Sistem harus memberlakukan tarif atau aturan perhitungan yang seragam kepada seluruh warga dalam satu periode tagihan yang sama.* |
+| *KF29* | *R42* | *Ketika pengurus menginisiasi modul rekapitulasi, sistem harus menampilkan opsi pemilihan periode pemakaian dan iuran.* |
+| *KF30* | *R42* | *Ketika pengurus mengonfirmasi pembuatan rekapitulasi, sistem harus membuat (ekspor/cetak) dokumen rekap data pemakaian dan iuran berdasarkan periode terpilih.* |
+| *KF31* | *R43* | *Ketika pengguna membuat rekapitulasi administratif, sistem harus memvalidasi kewenangan tingkat pengurus.* |
+| *KF32* | *R44* | *Ketika pengurus membuat dokumen rekapitulasi, sistem harus menggunakan data pemakaian dan iuran yang telah berstatus final untuk periode terkait.* |
+| *KF33* | *R10* | *Sistem harus menghitung kewajiban iuran setiap warga secara otomatis menggunakan parameter data pemakaian aktual dan tarif periode terkait.* |
+| *KF34* | *R17* | *Ketika pengguna menggunakan fitur pencarian laporan, sistem harus memfilter daftar tiket gangguan secara spesifik berdasarkan ID pelapor.* |
+| *KF35* | *R28* | *Ketika sistem mendeteksi perubahan status laporan, sistem harus mencatat dan menyimpan timestamp perubahan tersebut.* |
 
 ## 3.2 Kebutuhan Non-Fungsional (KNF)
-Salin ulang Kebutuhan Non-Fungsional dari BAB 2.5 dokumen *Requirement Gathering*, sesuaikan ID Kebutuhan (kolom "ID Kebutuhan") apabila terjadi perubahan penomoran pada BAB 3.1 di atas.
 
 Tabel 3.2. Kebutuhan Non-Fungsional
 
 | ID KNF | ID Kebutuhan | Parameter | Deskripsi Kebutuhan |
 | :--- | :--- | :--- | :--- |
-| *KNF01* | *R03* | *Reliability* | *Proses transaksi pembayaran harus memenuhi prinsip ACID untuk mencegah terjadinya data tersangkut (lost update) apabila terjadi kegagalan jaringan di tengah proses.* |
-| *KNF02* | *R04* | *Security* | *Sistem harus mengenkripsi PIN atau password pengguna menggunakan algoritma SHA-256 sebelum data dikirimkan ke server, serta tidak menyimpannya dalam bentuk plain-text di database.* |
-| *...* | *...* | *...* | *...* |
-
-<sub>*Silakan pilih parameter yang relevan dengan P/L kalian (Availability, Reliability, Ergonomy, Portability, Memory, Response time, Safety, Security, dsb), tidak perlu semua parameter diisi. Lihat kembali dokumen Requirement Gathering untuk penjelasan tiap parameter.*<sub>
+| *KNF01* | *R12, R26, R34, R39, R43* | *Security* | *Selama pengguna menggunakan sistem, sistem harus membatasi akses fitur yang muncul pada dashboard pengguna sesuai dengan kewenangannya.* |
+| *KNF02* | *R07, R11, R15, R29, R33* | *Security* | *Ketika pengguna membuka data pada sebuah fitur, sistem harus menampilkan data sesuai kewenangan pengguna tersebut.* |
+| *KNF03* | *R13, R18, R20* | *Reliability* | *Ketika koneksi jaringan terputus saat pengiriman data, sistem harus menyimpan data tersebut secara sementara untuk dikirim ulang secara otomatis setelah koneksi pulih.* |
+| *KNF04* | *R23, R30* | *Reliability* | *Ketika sistem menerima data riwayat kinerja perangkat, sistem harus mampu menampilkannya kembali paling lama 5 detik setelah pengguna membuka halaman riwayat.* |
+| *KNF05* | *R18, R20* | *Safety* | *Ketika menerima data kondisi baterai melewati batas aman, sistem harus mengirimkan peringatan kepada teknisi dalam waktu maksimal 3 detik.* |
+| *KNF06* | *R01, R04, R33* | *Availability* | *Sistem harus mempertahankan ketersediaan akses (uptime) setidaknya 99% setiap bulan selama jam operasional komunitas.* |
+| *KNF07* | *R01, R04, R07, R11, R15* | *Ergonomy* | *Sistem harus menyediakan antarmuka pengguna (UI) yang mudah dioperasikan oleh warga tanpa mewajibkan panduan pelatihan khusus.* |
+| *KNF08* | *R22, R25, R29* | *Ergonomy* | *Sistem harus merender antarmuka pencatatan lapangan secara responsif ketika diakses melalui perangkat smartphone teknisi.* |
+| *KNF09* | *R01, R11, R33* | *Portability* | *Sistem harus dapat diakses secara langsung melalui berbagai web browser modern tanpa mengharuskan pengguna menginstal aplikasi tambahan.* |
+| *KNF10* | *R45* | *Portability* | *Sistem harus mengekspor berkas rekapitulasi ke dalam format dokumen yang universal, yaitu PDF atau CSV.* |
+| *KNF11* | *R03, R06* | *Response time* | *Sistem harus memperbarui nilai input sensor pada dashboard pengguna dalam waktu maksimal 2 detik.* |
+| *KNF12* | *R41* | *Response time* | *Sistem harus menyelesaikan kalkulasi otomatis seluruh iuran komunal dalam waktu maksimal 5 detik.* |
+| *KNF13* | *R03, R06* | *Memory* | *Sistem harus mengeksekusi firmware pembacaan sensor dengan penggunaan memori yang tidak melewati batas kapasitas memori internal mikrokontroler.* |
 
 ---
 
