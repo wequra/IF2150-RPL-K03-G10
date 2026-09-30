@@ -619,9 +619,9 @@ Use Case Diagram berikut menggunakan versi terakhir dari dokumen *Class Diagram*
 | ID Kelas | Nama Kelas | Deskripsi Kelas | ID Use Case |
 | :--- | :--- | :--- | :--- |
 | C01 | Akun | Superkelas abstrak akun sistem; menyimpan kredensial dan status persetujuan, menentukan dashboard tujuan via late binding. | UC12, UC13, UC14 |
-| C02 | Warga | Akun warga; memantau air/energi, melihat tagihan final, mengirim & menelusuri laporan. | UC01, UC02, UC03, UC04 |
-| C03 | Teknisi | Akun teknisi; menerima peringatan daya kritis, memantau panel, update status & catat pemeliharaan. | UC05, UC06, UC07, UC08 |
-| C04 | Pengurus | Akun pengurus; menganalisis pemakaian komunal, menghitung/menetapkan iuran, rekapitulasi, approval akun. | UC09, UC10, UC11, UC14 |
+| C02 | Warga | Akun warga; memantau air/energi, melihat tagihan final, mengirim & menelusuri laporan. | UC01, UC02, UC03, UC04, UC10, UC12, UC13 |
+| C03 | Teknisi | Akun teknisi; menerima peringatan daya kritis, memantau panel, update status & catat pemeliharaan. | UC05, UC06, UC07, UC08, UC12, UC13 |
+| C04 | Pengurus | Akun pengurus; menganalisis pemakaian komunal, menghitung/menetapkan iuran, rekapitulasi, approval akun. | UC09, UC10, UC11, UC12, UC13, UC14 |
 | C05 | CalonPengguna | Data pendaftaran sebelum menjadi Akun; menyimpan nama, email, password, peran pilihan. | UC12 |
 | C06 | StatusAkun | Enumerasi status persetujuan akun: MENUNGGU, DISETUJUI, DITOLAK. | UC12, UC13, UC14 |
 | C07 | Perangkat | Superkelas abstrak perangkat komunal; mendefinisikan statusTerbaru() dan pembacaanTerakhir(). | UC01, UC05, UC06, UC08 |
@@ -634,11 +634,11 @@ Use Case Diagram berikut menggunakan versi terakhir dari dokumen *Class Diagram*
 | C14 | Periode | Rentang periode tagihan (bulan, tahun) dengan flag statusFinal. | UC02, UC09, UC10, UC11 |
 | C15 | DataPemakaian | Pemakaian air (m3) & energi (kWh) per warga per periode; sumber hitung iuran & analitik. | UC09, UC10, UC11 |
 | C16 | AturanTarif | Aturan tarif per periode yang sama untuk seluruh warga (tarifAirPerM3, tarifEnergiPerKWh, biayaTetap). | UC10 |
-| C17 | Tagihan | Tagihan iuran per warga per periode (jumlahIuran, dataPemakaianDasar, status). | UC02, UC10 |
-| C18 | StatusTagihan | Enumerasi status tagihan: DRAFT, FINAL. | UC02, UC10, UC11 |
+| C17 | Tagihan | Tagihan iuran per warga per periode (jumlahIuran, dataPemakaianDasar, status). | UC02, UC10, UC11 |
+| C18 | StatusTagihan | Enumerasi status tagihan: DRAFT, FINAL. | UC10, UC11 |
 | C19 | KalkulatorIuran | Domain service yang menghitung tagihan otomatis dari DataPemakaian + AturanTarif. | UC10 |
 | C20 | LaporanGangguan | Laporan gangguan (jenis, deskripsi, status, waktuDibuat) yang dikirim warga. | UC03, UC04, UC07 |
-| C21 | StatusLaporan | Enumerasi status laporan: MENUNGGU, SEDANG_DIPERBAIKI, SELESAI. | UC03, UC04, UC07 |
+| C21 | StatusLaporan | Enumerasi status laporan: MENUNGGU, SEDANG_DIPERBAIKI, SELESAI. | UC03, UC07 |
 | C22 | RiwayatStatusLaporan | Catatan perubahan status laporan beserta timestamp. | UC04, UC07 |
 | C23 | PenugasanPerangkat | Relasi penugasan Teknisi terhadap Perangkat tertentu. | UC05 |
 | C24 | PenugasanLaporan | Relasi penugasan Teknisi terhadap LaporanGangguan tertentu. | UC07 |
@@ -671,7 +671,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC01" src="./assets/diagram/UC1.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 2. Diagram Kelas Use Case UC01</i>
+<i>Gambar 3. Diagram Kelas Use Case UC01</i>
 </p>
 <br>
 
@@ -705,7 +705,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC02" src="./assets/diagram/UC2.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 3. Diagram Kelas Use Case UC02</i>
+<i>Gambar 4. Diagram Kelas Use Case UC02</i>
 </p>
 <br>
 
@@ -730,10 +730,10 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 #### Diagram Kelas
 
 <p align="center">
-<img alt="Class Diagram UC01" src="./assets/diagram/UC3.png" width="70%">
+<img alt="Class Diagram UC03" src="./assets/diagram/UC3.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 4. Diagram Kelas Use Case UC03</i>
+<i>Gambar 5. Diagram Kelas Use Case UC03</i>
 </p>
 <br>
 
@@ -758,10 +758,10 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 #### Diagram Kelas
 
 <p align="center">
-<img alt="Class Diagram UC01" src="./assets/diagram/UC4.png" width="70%">
+<img alt="Class Diagram UC04" src="./assets/diagram/UC4.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 5. Diagram Kelas Use Case UC04</i>
+<i>Gambar 6. Diagram Kelas Use Case UC04</i>
 </p>
 <br>
 
@@ -772,7 +772,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 | C22 | RiwayatStatusLaporan | idRiwayat, idLaporan, status, timestamp | getRiwayatPerkembangan() |
 
 
-### 5.2.5 Use Case 5
+### 5.2.5 Use Case UC05
 
 **Nama Use Case:** *Menerima Peringatan Dini Daya Kritis*
 
@@ -790,10 +790,10 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 #### Diagram Kelas
 
 <p align="center">
-<img alt="Class Diagram UC01" src="./assets/diagram/UC5.png" width="70%">
+<img alt="Class Diagram UC05" src="./assets/diagram/UC5.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 6. Diagram Kelas Use Case UC05</i>
+<i>Gambar 7. Diagram Kelas Use Case UC05</i>
 </p>
 <br>
 
@@ -808,7 +808,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 
 
 
-### 5.2.6 Use Case 6
+### 5.2.6 Use Case UC06
 
 **Nama Use Case:** *Memantau Riwayat Kinerja Panel Surya*
 
@@ -826,10 +826,10 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 #### Diagram Kelas
 
 <p align="center">
-<img alt="Class Diagram UC01" src="./assets/diagram/UC6.png" width="70%">
+<img alt="Class Diagram UC06" src="./assets/diagram/UC6.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 7. Diagram Kelas Use Case UC06</i>
+<i>Gambar 8. Diagram Kelas Use Case UC06</i>
 </p>
 <br>
 
@@ -843,9 +843,9 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 | C13 | RentangWaktu | waktuMulai, waktuSelesai | validasi() |
 
 
-### 5.2.7 Use Case 7
+### 5.2.7 Use Case UC07
 
-**Nama Use Case:** *Memperbarui Status Penanganan Gangguan  *
+**Nama Use Case:** *Memperbarui Status Penanganan Gangguan*
 
 #### Identifikasi Kelas
 
@@ -862,10 +862,10 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 
 
 <p align="center">
-<img alt="Class Diagram UC01" src="./assets/diagram/UC7.png" width="70%">
+<img alt="Class Diagram UC07" src="./assets/diagram/UC7.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 8. Diagram Kelas Use Case UC07</i>
+<i>Gambar 9. Diagram Kelas Use Case UC07</i>
 </p>
 <br>
 
@@ -895,7 +895,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC08" src="./assets/diagram/UC8.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 9. Diagram Kelas Use Case UC08</i>
+<i>Gambar 10. Diagram Kelas Use Case UC08</i>
 </p>
 <br>
 
@@ -923,7 +923,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC09" src="./assets/diagram/UC9.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 10. Diagram Kelas Use Case UC09</i>
+<i>Gambar 11. Diagram Kelas Use Case UC09</i>
 </p>
 <br>
 
@@ -933,7 +933,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 | C14 | Periode | idPeriode, bulan, tahun | - |
 | C15 | DataPemakaian | idPemakaian, idWarga, volumeAirM3, energiKWh, waktuCatat | isLengkap() |
 
-### 5.2.10 Use Case 10
+### 5.2.10 Use Case UC10
 
 **Nama Use Case:** *Menghitung dan Menetapkan Iuran Warga* — Aktor: **Pengurus** — KF: KF25, KF26, KF27, KF28, KF33 — Relasi: `<<include>> UC09`, `<<extend>> UC02`
 
@@ -961,7 +961,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC10" src="./assets/diagram/UC10.png" width="90%">
 </p>
 <p align="center">
-<i>Gambar 11. Diagram Kelas Use Case UC10 — Menghitung & Menetapkan Iuran </i>
+<i>Gambar 12. Diagram Kelas Use Case UC10 — Menghitung & Menetapkan Iuran </i>
 </p>
 <br>
 
@@ -988,6 +988,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 | C14 | Periode | Merepresentasikan periode pemakaian dan iuran yang akan direkapitulasi. |
 | C15 | DataPemakaian | Menyimpan data pemakaian air atau energi beserta status finalnya. |
 | C17 | Tagihan | Menyimpan data iuran warga beserta status final untuk periode terkait. |
+| C18 | StatusTagihan | Enumerasi status tagihan (DRAFT/FINAL) yang menentukan apakah data iuran dapat direkapitulasi. |
 | C28 | Rekapitulasi | Merepresentasikan rekapitulasi pemakaian dan iuran yang dapat dihasilkan, diekspor, atau dicetak. |
 
 #### Diagram Kelas
@@ -996,7 +997,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC11" src="./assets/diagram/UC11.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 12. Diagram Kelas Use Case UC11</i>
+<i>Gambar 13. Diagram Kelas Use Case UC11</i>
 </p>
 <br>
 
@@ -1030,7 +1031,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC12" src="./assets/diagram/UC12.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 13. Diagram Kelas Use Case UC12</i>
+<i>Gambar 14. Diagram Kelas Use Case UC12</i>
 </p>
 <br>
 
@@ -1065,7 +1066,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC13" src="./assets/diagram/UC13.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 14. Diagram Kelas Use Case UC13</i>
+<i>Gambar 15. Diagram Kelas Use Case UC13</i>
 </p>
 <br>
 
@@ -1096,7 +1097,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC14" src="./assets/diagram/UC14.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 15. Diagram Kelas Use Case UC14</i>
+<i>Gambar 16. Diagram Kelas Use Case UC14</i>
 </p>
 <br>
 
@@ -1115,7 +1116,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram Keseluruhan" src="./assets/diagram/overall-class.png" width="95%">
 </p>
 <p align="center">
-<i>Gambar 16. Diagram Kelas Keseluruhan Fajar Tech (28 kelas, 14 UC terintegrasi)</i>
+<i>Gambar 17. Diagram Kelas Keseluruhan Fajar Tech (28 kelas, 14 UC terintegrasi)</i>
 </p>
 <br>
 
@@ -1153,36 +1154,84 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 
 # BAB 6: Traceability
 
-| ID Kelas | ID Use Case | ID KF |
+## 6.1 Traceability Kelas → Use Case → KF
+
+Tabel 6.1. Traceability Kelas terhadap Use Case dan Kebutuhan Fungsional
+
+| ID Kelas | Nama Kelas | ID Use Case | ID KF |
+| :--- | :--- | :--- | :--- |
+| C01 | Akun | UC12, UC13, UC14 | —* |
+| C02 | Warga | UC01, UC02, UC03, UC04, UC10, UC12, UC13 | KF01, KF02, KF03, KF04, KF05, KF06, KF07, KF08, KF09, KF10, KF11, KF25, KF26, KF27, KF28, KF33, KF34 |
+| C03 | Teknisi | UC05, UC06, UC07, UC08, UC12, UC13 | KF12, KF13, KF14, KF15, KF16, KF17, KF18, KF19, KF20, KF21, KF35 |
+| C04 | Pengurus | UC09, UC10, UC11, UC12, UC13, UC14 | KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33 |
+| C05 | CalonPengguna | UC12 | —* |
+| C06 | StatusAkun | UC12, UC13, UC14 | —* |
+| C07 | Perangkat | UC01, UC05, UC06, UC08 | KF01, KF02, KF03, KF04, KF13, KF14, KF15, KF16, KF20, KF21 |
+| C08 | TangkiAir | UC01 | KF01, KF02, KF03, KF04 |
+| C09 | Baterai | UC01, UC05 | KF01, KF02, KF03, KF04, KF13, KF14 |
+| C10 | PanelSurya | UC01, UC06 | KF01, KF02, KF03, KF04, KF15, KF16 |
+| C11 | PembacaanSensor | UC01 | KF01, KF02, KF03, KF04 |
+| C12 | DataHistorisKinerja | UC06 | KF15, KF16 |
+| C13 | RentangWaktu | UC06 | KF15, KF16 |
+| C14 | Periode | UC02, UC09, UC10, UC11 | KF05, KF06, KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33 |
+| C15 | DataPemakaian | UC09, UC10, UC11 | KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33 |
+| C16 | AturanTarif | UC10 | KF25, KF26, KF27, KF28, KF33 |
+| C17 | Tagihan | UC02, UC10, UC11 | KF05, KF06, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33 |
+| C18 | StatusTagihan | UC10, UC11 | KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33 |
+| C19 | KalkulatorIuran | UC10 | KF25, KF26, KF27, KF28, KF33 |
+| C20 | LaporanGangguan | UC03, UC04, UC07 | KF07, KF08, KF09, KF10, KF11, KF12, KF17, KF18, KF19, KF34, KF35 |
+| C21 | StatusLaporan | UC03, UC07 | KF07, KF08, KF09, KF10, KF12, KF17, KF18, KF19, KF35 |
+| C22 | RiwayatStatusLaporan | UC04, UC07 | KF11, KF12, KF17, KF18, KF19, KF34, KF35 |
+| C23 | PenugasanPerangkat | UC05 | KF13, KF14 |
+| C24 | PenugasanLaporan | UC07 | KF12, KF17, KF18, KF19, KF35 |
+| C25 | Notifikasi | UC05 | KF13, KF14 |
+| C26 | PeringatanDayaKritis | UC05 | KF13, KF14 |
+| C27 | CatatanPemeliharaan | UC08 | KF20, KF21 |
+| C28 | Rekapitulasi | UC11 | KF29, KF30, KF31, KF32 |
+
+<sub>\* UC12–UC14 belum memiliki kebutuhan fungsional khusus (lihat catatan Bab 4.2), sehingga kelas yang hanya terkait UC tersebut (C01, C05, C06) tidak memiliki ID KF.</sub>
+
+## 6.2 Traceability KF → Use Case → Kelas
+
+Tabel 6.2. Traceability Kebutuhan Fungsional terhadap Use Case dan Kelas
+
+| ID KF | ID Use Case | ID Kelas |
 | :--- | :--- | :--- |
-| *C01* | *UC12, UC13, UC14* | *KF09, KF14, KF18, KF23, KF27* |
-| *C02* | *UC01, UC02, UC03, UC04* | *KF01, KF02, KF03, KF04, KF05, KF06, KF07, KF08, KF09, KF10, KF11, KF34* |
-| *C03* | *UC05, UC06, UC07, UC08* | *KF12, KF13, KF14, KF15, KF16, KF17, KF18, KF19, KF20, KF21, KF35* |
-| *C04* | *UC09, UC10, UC11, UC14* | *KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33* |
-| *C05* | *UC12* | *KF09, KF14* |
-| *C06* | *UC12, UC13, UC14* | *KF09, KF14, KF18, KF23, KF27* |
-| *C07* | *UC01, UC05, UC06, UC08* | *KF01, KF02, KF03, KF04, KF13, KF14, KF15, KF16, KF20, KF21* |
-| *C08* | *UC01* | *KF01, KF02, KF03, KF04* |
-| *C09* | *UC01, UC05* | *KF01, KF02, KF03, KF04, KF13, KF14* |
-| *C10* | *UC01, UC06* | *KF01, KF02, KF03, KF04, KF15, KF16* |
-| *C11* | *UC01* | *KF01, KF02, KF03, KF04* |
-| *C12* | *UC06* | *KF15, KF16* |
-| *C13* | *UC06* | *KF15, KF16* |
-| *C14* | *UC02, UC09, UC10, UC11* | *KF05, KF06, KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33* |
-| *C15* | *UC09, UC10, UC11* | *KF22, KF23, KF24, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33* |
-| *C16* | *UC10* | *KF25, KF26, KF27, KF28, KF33* |
-| *C17* | *UC02, UC10* | *KF05, KF06, KF25, KF26, KF27, KF28, KF33* |
-| *C18* | *UC02, UC10, UC11* | *KF05, KF06, KF25, KF26, KF27, KF28, KF29, KF30, KF31, KF32, KF33* |
-| *C19* | *UC10* | *KF25, KF26, KF27, KF28, KF33* |
-| *C20* | *UC03, UC04, UC07* | *KF07, KF08, KF09, KF10, KF11, KF12, KF17, KF18, KF19, KF34, KF35* |
-| *C21* | *UC03, UC04, UC07* | *KF07, KF08, KF09, KF10, KF11, KF12, KF17, KF18, KF19, KF34, KF35* |
-| *C22* | *UC04, UC07* | *KF11, KF12, KF17, KF18, KF19, KF34, KF35* |
-| *C23* | *UC05* | *KF13, KF14* |
-| *C24* | *UC07* | *KF12, KF17, KF18, KF19, KF35* |
-| *C25* | *UC05* | *KF13, KF14* |
-| *C26* | *UC05* | *KF13, KF14* |
-| *C27* | *UC08* | *KF20, KF21* |
-| *C28* | *UC11* | *KF29, KF30, KF31, KF32* |
+| KF01 | UC01 | C02, C07, C08, C09, C10, C11 |
+| KF02 | UC01 | C02, C07, C08, C09, C10, C11 |
+| KF03 | UC01 | C02, C07, C08, C09, C10, C11 |
+| KF04 | UC01 | C02, C07, C08, C09, C10, C11 |
+| KF05 | UC02 | C02, C14, C17 |
+| KF06 | UC02 | C02, C14, C17 |
+| KF07 | UC03 | C02, C20, C21 |
+| KF08 | UC03 | C02, C20, C21 |
+| KF09 | UC03 | C02, C20, C21 |
+| KF10 | UC03 | C02, C20, C21 |
+| KF11 | UC04 | C02, C20, C22 |
+| KF12 | UC07 | C03, C20, C21, C22, C24 |
+| KF13 | UC05 | C03, C07, C09, C23, C25, C26 |
+| KF14 | UC05 | C03, C07, C09, C23, C25, C26 |
+| KF15 | UC06 | C03, C07, C10, C12, C13 |
+| KF16 | UC06 | C03, C07, C10, C12, C13 |
+| KF17 | UC07 | C03, C20, C21, C22, C24 |
+| KF18 | UC07 | C03, C20, C21, C22, C24 |
+| KF19 | UC07 | C03, C20, C21, C22, C24 |
+| KF20 | UC08 | C03, C07, C27 |
+| KF21 | UC08 | C03, C07, C27 |
+| KF22 | UC09 | C04, C14, C15 |
+| KF23 | UC09 | C04, C14, C15 |
+| KF24 | UC09 | C04, C14, C15 |
+| KF25 | UC10 | C02, C04, C14, C15, C16, C17, C18, C19 |
+| KF26 | UC10 | C02, C04, C14, C15, C16, C17, C18, C19 |
+| KF27 | UC10 | C02, C04, C14, C15, C16, C17, C18, C19 |
+| KF28 | UC10 | C02, C04, C14, C15, C16, C17, C18, C19 |
+| KF29 | UC11 | C04, C14, C15, C17, C18, C28 |
+| KF30 | UC11 | C04, C14, C15, C17, C18, C28 |
+| KF31 | UC11 | C04, C14, C15, C17, C18, C28 |
+| KF32 | UC11 | C04, C14, C15, C17, C18, C28 |
+| KF33 | UC10 | C02, C04, C14, C15, C16, C17, C18, C19 |
+| KF34 | UC04 | C02, C20, C22 |
+| KF35 | UC07 | C03, C20, C21, C22, C24 |
 
 ---
 
