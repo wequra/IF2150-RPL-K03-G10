@@ -140,112 +140,475 @@ Fajar Tech merupakan aplikasi web tunggal yang menjadi pusat kendali dan informa
 
 ## 2.4 Batasan Perangkat Lunak
 Batasan yang harus dituliskan, di antaranya:
-1. *P/L harus memakai file data/API dari sistem lain (sebutkan, misal Payment Gateway dummy).*
-2. *P/L harus memakai format data yang sama dengan sistem lain.*
-3. *P/L harus berfungsi pada platform tertentu (misal: web browser modern, atau desktop Windows dan Linux).*
-4. *...*
+1. *P/L hanya berfokus pada platform utama berbasis website dan diakses melalui web browser, tidak memiliki aplikasi terinstall (seperti .apk atau .exe).*
+2. *P/L bergantung pada ketersediaan data pemantauan fisik yang dikirimkan secara berkala oleh perangkat keras (sensor, mikrokontroler pada tangki dan panel surya) di lapangan.*
+3. *P/L beroperasi di lokasi yang memiliki cakupan sinyal komunikasi yang memadai atau akses Wi-Fi terpusat untuk kelancaran pembaruan data sensor.*
+4. *P/L hanya menangani pencatatan dan kalkulasi iuran warga, dan tidak terintegrasi dengan Payment Gateway untuk memproses transaksi pembayaran secara digital.*
+5. *P/L mengekspor berkas rekapitulasi ke dalam format dokumen universal seperti PDF atau CSV.*
 
 ## 2.5 Lingkungan Operasi Perangkat Lunak
-Spesifikasi *operating system* atau lingkungan yang dibutuhkan P/L untuk beroperasi. Bagian ini digunakan untuk memastikan pengguna memiliki spesifikasi yang cukup untuk menjalankan P/L. Misalnya mencakup komponen server, client, OS, DBMS, tetapi tidak menutupi kemungkinan komponen lain.
 
 | Komponen | Spesifikasi |
 | :--- | :--- |
-| *Server* | *[contoh: Node.js v20, dijalankan pada layanan cloud]* |
-| *Client* | *[contoh: Web Browser modern (Chrome, Firefox terbaru)]* |
-| *DBMS* | *[contoh: PostgreSQL 15]* |
-| *OS* | *[contoh: Cross-platform (Windows/Linux/MacOS) melalui browser]* |
-| *...* | *...* |
+| *Server* | *[Node.js atau PHP, dijalankan pada layanan cloud hosting / VPS]* |
+| *Client* | *[Web Browser modern (Google Chrome, Mozilla Firefox, Safari, Microsoft Edge).]* |
+| *DBMS* | *[PostgreSQL atau MySQL]* |
+| *OS* | *[Cross-platform (Windows, Linux, macOS, Android, iOS) melalui browser]* |
+| *Perangkat Keras* | *[Mikrokontroler IoT pada fasilitas komunitas (untuk mengirim data metrik operasional)]* |
 
 ---
 
 # BAB 3: Deskripsi Kebutuhan Perangkat Lunak
 
 ## 3.1 Kebutuhan Fungsional (KF)
-Salin ulang **seluruh Kebutuhan Fungsional (KF)** versi terbaru dari BAB 2.1 dokumen *Class Diagram* (sudah versi final dan sudah memakai format EARS). Pastikan ID Kebutuhan (kolom "ID Kebutuhan") juga konsisten dengan ID pada tabel Pemetaan Kebutuhan di dokumen *Requirement Gathering*.
 
 Tabel 3.1. Kebutuhan Fungsional
 
 | ID KF | ID Kebutuhan | Penjelasan |
 | :--- | :--- | :--- |
-| *KF01* | *R01* | *Ketika pelanggan membuka halaman katalog, sistem harus menampilkan daftar produk yang tersedia.* |
-| *KF02* | *R02* | *Ketika pelanggan memilih "Tambah ke Keranjang" pada suatu produk, sistem harus menyimpan produk tersebut ke dalam keranjang pelanggan.* |
-| *KF03* | *R03* | *Ketika pelanggan menekan tombol checkout, sistem harus menampilkan pilihan metode pembayaran yang tersedia.* |
-| *KF04* | *R04* | *Ketika pelanggan memilih metode pembayaran, sistem harus mengirimkan permintaan otorisasi beserta nominal tagihan dan ID pesanan ke payment gateway (dummy).* |
-| *KF05* | *R04* | *Ketika payment gateway (dummy) mengembalikan status pembayaran berhasil, sistem harus memperbarui status pesanan menjadi "Lunas" dan menampilkan notifikasi pembayaran berhasil.* |
-| *KF06* | *R05* | *Ketika pelanggan membuka menu riwayat pesanan, sistem harus menampilkan daftar pesanan beserta statusnya.* |
-| *KFXX* | *...* | *...* |
+| *KF01* | *R01* | *Ketika warga membuka dashboard utama, sistem harus menampilkan volume/level air pada tangki penampungan secara real-time.* |
+| *KF02* | *R02* | *Sistem harus mengklasifikasikan dan menampilkan status ketersediaan air (Normal, Rendah, Kritis) berdasarkan ambang batas yang telah dikonfigurasi.* |
+| *KF03* | *R04* | *Ketika warga membuka dashboard utama, sistem harus menampilkan kapasitas baterai (%) dan daya keluaran panel surya (Watt) secara real-time.* |
+| *KF04* | *R05* | *Sistem harus menyimpan dan menampilkan parameter daya menggunakan satuan pengukuran yang konsisten (seperti Watt dan persen) di seluruh antarmuka.* |
+| *KF05* | *R07* | *Ketika warga mengakses menu tagihan, sistem harus menampilkan rincian iuran periode berjalan yang mencakup periode tagihan, data pemakaian, dan total iuran.* |
+| *KF06* | *R09* | *Sistem harus membatasi visibilitas tagihan kepada warga hanya jika status perhitungan iuran periode tersebut telah ditetapkan sebagai final oleh pengurus.* |
+| *KF07* | *R11* | *Ketika warga membuka fitur pelaporan, sistem harus menyediakan formulir gangguan yang mencakup input jenis kendala, deskripsi, dan foto pendukung.* |
+| *KF08* | *R11* | *Ketika pengguna menekan tombol kirim formulir, sistem harus menyimpan laporan gangguan tersebut sebagai entri data baru* |
+| *KF09* | *R12* | *Ketika laporan gangguan dikirim, sistem harus memvalidasi bahwa pengirim merupakan warga terdaftar sebelum memproses penyimpanan.* |
+| *KF10* | *R13* | *Ketika laporan gangguan baru berhasil disimpan, sistem harus menetapkan status awal laporan tersebut menjadi "Menunggu" secara otomatis.* |
+| *KF11* | *R15* | *Ketika pelapor membuka halaman riwayat, sistem harus menampilkan status terkini dan rekam jejak perkembangan laporan gangguan miliknya.* |
+| *KF12* | *R16* | *Sistem harus membatasi nilai status laporan gangguan secara mutlak pada tiga pilihan: Menunggu, Sedang Diperbaiki, atau Selesai.* |
+| *KF13* | *R18* | *Ketika kapasitas daya baterai menyentuh atau turun di bawah ambang batas aman, sistem harus mengirimkan notifikasi otomatis kepada teknisi.* |
+| *KF14* | *R20* | *Sistem harus mengirimkan notifikasi peringatan daya kritis hanya kepada akun teknisi terdaftar yang ditugaskan pada perangkat terkait.* |
+| *KF15* | *R22* | *Ketika teknisi memilih suatu rentang waktu, sistem harus menampilkan grafik tren kinerja panel surya sesuai durasi tersebut.* |
+| *KF16* | *R23* | *Sistem harus menyimpan log data kinerja perangkat keras secara berkala sebagai basis historis.* |
+| *KF17* | *R25* | *Ketika teknisi membuka detail laporan, sistem harus menyediakan fungsi pembaruan status untuk mencatat progres penanganan lapangan.* |
+| *KF18* | *R26* | *Ketika pengguna mencoba mengubah status laporan, sistem harus memverifikasi bahwa pengguna tersebut adalah teknisi dengan hak penugasan yang sesuai.* |
+| *KF19* | *R27* | *Sistem harus memastikan perubahan status laporan gangguan hanya dapat dilakukan secara berurutan sesuai tahapan, yaitu dari Menunggu, kemudian Sedang Diperbaiki, dan terakhir Selesai.* |
+| *KF20* | *R29* | *Ketika teknisi membuka menu pemeliharaan, sistem harus menyediakan formulir pencatatan yang memuat ID perangkat, waktu, tindakan, dan hasil akhir.* |
+| *KF21* | *R30* | *Ketika formulir pemeliharaan disimpan, sistem harus mengarsipkan data tersebut ke dalam riwayat perangkat yang dapat ditelusuri.* |
+| *KF22* | *R33* | *Ketika pengurus mengakses dashboard administratif, sistem harus menampilkan data agregat dan riwayat pemakaian air serta energi komunal.* |
+| *KF23* | *R34* | *Ketika pengguna mencoba membuka modul administratif, sistem harus memblokir akses jika pengguna tidak memiliki kredensial pengurus.* |
+| *KF24* | *R35* | *Sistem harus mengelompokkan dan mengindeks seluruh data pemakaian warga berdasarkan periode waktu (contoh: bulanan) secara konsisten.* |
+| *KF25* | *R37* | *Ketika pengurus menginisiasi perhitungan, sistem harus mengkalkulasi iuran warga berdasarkan data pemakaian pada periode yang dipilih.* |
+| *KF26* | *R37* | *Ketika proses kalkulasi iuran selesai, sistem harus menampilkan pratinjau hasil perhitungan kepada pengurus untuk proses peninjauan.* |
+| *KF27* | *R39* | *Ketika tombol penetapan hasil perhitungan iuran ditekan, sistem harus memverifikasi hak akses administratif pengguna sebelum mengunci data tagihan.* |
+| *KF28* | *R40* | *Sistem harus memberlakukan tarif atau aturan perhitungan yang seragam kepada seluruh warga dalam satu periode tagihan yang sama.* |
+| *KF29* | *R42* | *Ketika pengurus menginisiasi modul rekapitulasi, sistem harus menampilkan opsi pemilihan periode pemakaian dan iuran.* |
+| *KF30* | *R42* | *Ketika pengurus mengonfirmasi pembuatan rekapitulasi, sistem harus membuat (ekspor/cetak) dokumen rekap data pemakaian dan iuran berdasarkan periode terpilih.* |
+| *KF31* | *R43* | *Ketika pengguna membuat rekapitulasi administratif, sistem harus memvalidasi kewenangan tingkat pengurus.* |
+| *KF32* | *R44* | *Ketika pengurus membuat dokumen rekapitulasi, sistem harus menggunakan data pemakaian dan iuran yang telah berstatus final untuk periode terkait.* |
+| *KF33* | *R10* | *Sistem harus menghitung kewajiban iuran setiap warga secara otomatis menggunakan parameter data pemakaian aktual dan tarif periode terkait.* |
+| *KF34* | *R17* | *Ketika pengguna menggunakan fitur pencarian laporan, sistem harus memfilter daftar tiket gangguan secara spesifik berdasarkan ID pelapor.* |
+| *KF35* | *R28* | *Ketika sistem mendeteksi perubahan status laporan, sistem harus mencatat dan menyimpan timestamp perubahan tersebut.* |
 
 ## 3.2 Kebutuhan Non-Fungsional (KNF)
-Salin ulang Kebutuhan Non-Fungsional dari BAB 2.5 dokumen *Requirement Gathering*, sesuaikan ID Kebutuhan (kolom "ID Kebutuhan") apabila terjadi perubahan penomoran pada BAB 3.1 di atas.
 
 Tabel 3.2. Kebutuhan Non-Fungsional
 
 | ID KNF | ID Kebutuhan | Parameter | Deskripsi Kebutuhan |
 | :--- | :--- | :--- | :--- |
-| *KNF01* | *R03* | *Reliability* | *Proses transaksi pembayaran harus memenuhi prinsip ACID untuk mencegah terjadinya data tersangkut (lost update) apabila terjadi kegagalan jaringan di tengah proses.* |
-| *KNF02* | *R04* | *Security* | *Sistem harus mengenkripsi PIN atau password pengguna menggunakan algoritma SHA-256 sebelum data dikirimkan ke server, serta tidak menyimpannya dalam bentuk plain-text di database.* |
-| *...* | *...* | *...* | *...* |
-
-<sub>*Silakan pilih parameter yang relevan dengan P/L kalian (Availability, Reliability, Ergonomy, Portability, Memory, Response time, Safety, Security, dsb), tidak perlu semua parameter diisi. Lihat kembali dokumen Requirement Gathering untuk penjelasan tiap parameter.*<sub>
+| *KNF01* | *R12, R26, R34, R39, R43* | *Security* | *Selama pengguna menggunakan sistem, sistem harus membatasi akses fitur yang muncul pada dashboard pengguna sesuai dengan kewenangannya.* |
+| *KNF02* | *R07, R11, R15, R29, R33* | *Security* | *Ketika pengguna membuka data pada sebuah fitur, sistem harus menampilkan data sesuai kewenangan pengguna tersebut.* |
+| *KNF03* | *R13, R18, R20* | *Reliability* | *Ketika koneksi jaringan terputus saat pengiriman data, sistem harus menyimpan data tersebut secara sementara untuk dikirim ulang secara otomatis setelah koneksi pulih.* |
+| *KNF04* | *R23, R30* | *Reliability* | *Ketika sistem menerima data riwayat kinerja perangkat, sistem harus mampu menampilkannya kembali paling lama 5 detik setelah pengguna membuka halaman riwayat.* |
+| *KNF05* | *R18, R20* | *Safety* | *Ketika menerima data kondisi baterai melewati batas aman, sistem harus mengirimkan peringatan kepada teknisi dalam waktu maksimal 3 detik.* |
+| *KNF06* | *R01, R04, R33* | *Availability* | *Sistem harus mempertahankan ketersediaan akses (uptime) setidaknya 99% setiap bulan selama jam operasional komunitas.* |
+| *KNF07* | *R01, R04, R07, R11, R15* | *Ergonomy* | *Sistem harus menyediakan antarmuka pengguna (UI) yang mudah dioperasikan oleh warga tanpa mewajibkan panduan pelatihan khusus.* |
+| *KNF08* | *R22, R25, R29* | *Ergonomy* | *Sistem harus merender antarmuka pencatatan lapangan secara responsif ketika diakses melalui perangkat smartphone teknisi.* |
+| *KNF09* | *R01, R11, R33* | *Portability* | *Sistem harus dapat diakses secara langsung melalui berbagai web browser modern tanpa mengharuskan pengguna menginstal aplikasi tambahan.* |
+| *KNF10* | *R45* | *Portability* | *Sistem harus mengekspor berkas rekapitulasi ke dalam format dokumen yang universal, yaitu PDF atau CSV.* |
+| *KNF11* | *R03, R06* | *Response time* | *Sistem harus memperbarui nilai input sensor pada dashboard pengguna dalam waktu maksimal 2 detik.* |
+| *KNF12* | *R41* | *Response time* | *Sistem harus menyelesaikan kalkulasi otomatis seluruh iuran komunal dalam waktu maksimal 5 detik.* |
+| *KNF13* | *R03, R06* | *Memory* | *Sistem harus mengeksekusi firmware pembacaan sensor dengan penggunaan memori yang tidak melewati batas kapasitas memori internal mikrokontroler.* |
 
 ---
 
 # BAB 4: Pemodelan Use Case
 
 ## 4.1 Identifikasi Aktor
-Salin ulang daftar aktor final dari BAB 3.1 dokumen *Use Case & Scenario Use Case* atau *Class Diagram*. Tambahkan ID Aktor mengikuti Aturan Penomoran pada 1.4.
 
 | ID Aktor | Aktor | Deskripsi |
 | :--- | :--- | :--- |
-| *A01* | *Pelanggan* | *Pengguna yang memesan produk, mengelola keranjang, dan menyelesaikan pembayaran melalui sistem.* |
-| *...* | *...* | *...* |
+| A01 | Warga | Pengguna non-teknis yang menggunakan sistem untuk memantau ketersediaan air dan energi komunal, melihat tagihan iuran final, mengirim laporan gangguan, serta menelusuri perkembangan laporan yang pernah dikirim. |
+| A02 | Teknisi | Pengguna yang bertanggung jawab terhadap pemantauan dan penanganan teknis perangkat komunal, termasuk menerima peringatan daya kritis, memantau riwayat kinerja panel surya, memperbarui status penanganan gangguan, dan mencatat kegiatan pemeliharaan. |
+| A03 | Pengurus | Pengguna yang memiliki kewenangan administratif untuk menganalisis pemakaian komunal, menghitung dan menetapkan iuran warga, membuat rekapitulasi pemakaian dan iuran, serta mengelola persetujuan registrasi akun. |
+| A04 | Calon Pengguna | Pengguna yang belum memiliki akun aktif dan melakukan registrasi dengan mengisi data diri serta memilih peran sebelum akun dapat disetujui oleh pengurus. |
 
 ## 4.2 Identifikasi Use Case
-Salin ulang daftar Use Case versi terbaru dari BAB 3.2 dokumen *Class Diagram*, pastikan seluruh ID KF yang dirujuk sudah sesuai dengan tabel pada 3.1.
 
 | ID UC | Nama Use Case | Deskripsi Singkat | Aktor | ID KF |
 | :--- | :--- | :--- | :--- | :--- |
-| *UC01* | *Memesan Produk* | *Pelanggan memilih produk hingga pesanan tersimpan di sistem.* | *Pelanggan* | *KF01, KF02* |
-| *UC02* | *Melihat Keranjang* | *Pelanggan melihat daftar item yang telah dipilih sebelum checkout.* | *Pelanggan* | *KF02* |
-| *UC03* | *Melakukan Pembayaran* | *Pelanggan menyelesaikan pembayaran atas pesanan yang dibuat.* | *Pelanggan* | *KF03, KF04, KF05* |
-| *UC04* | *Memilih Metode Pembayaran* | *Pelanggan memilih metode pembayaran alternatif (kartu atau e-wallet).* | *Pelanggan* | *KF03* |
-| *UC05* | *Melihat Riwayat Pesanan* | *Pelanggan melihat daftar pesanan yang pernah dibuat beserta statusnya.* | *Pelanggan* | *KF06* |
-| *...* | *...* | *...* | *...* | *...* |
+| UC01 | Memantau Ketersediaan Air dan Energi | Warga melihat informasi ketersediaan air, kapasitas baterai, dan daya panel surya melalui dashboard. | Warga | KF01, KF02, KF03, KF04 |
+| UC02 | Melihat Tagihan Iuran Final | Warga melihat rincian tagihan iuran yang telah ditetapkan final oleh pengurus. | Warga | KF05, KF06 |
+| UC03 | Mengirim Laporan Gangguan | Warga mengisi dan mengirim laporan gangguan infrastruktur komunal. | Warga | KF07, KF08, KF09, KF10 |
+| UC04 | Menelusuri Status Laporan Gangguan | Warga melihat status terkini dan riwayat perkembangan laporan gangguan yang pernah dikirim. | Warga | KF11, KF34 |
+| UC05 | Menerima Peringatan Dini Daya Kritis | Teknisi menerima notifikasi otomatis ketika kapasitas baterai mencapai atau berada di bawah ambang batas aman. | Teknisi | KF13, KF14 |
+| UC06 | Memantau Riwayat Kinerja Panel Surya | Teknisi melihat grafik riwayat kinerja panel surya berdasarkan rentang waktu yang dipilih. | Teknisi | KF15, KF16 |
+| UC07 | Memperbarui Status Penanganan Gangguan | Teknisi yang berwenang memperbarui status laporan gangguan sesuai progres penanganan. | Teknisi | KF12, KF17, KF18, KF19, KF35 |
+| UC08 | Mencatat Kegiatan Pemeliharaan | Teknisi mencatat kegiatan pemeliharaan atau perbaikan perangkat ke dalam sistem. | Teknisi | KF20, KF21 |
+| UC09 | Menganalisis Pemakaian Komunal | Pengurus melihat data agregat dan riwayat pemakaian air serta energi komunal berdasarkan periode. | Pengurus | KF22, KF23, KF24 |
+| UC10 | Menghitung dan Menetapkan Iuran Warga | Pengurus menghitung iuran berdasarkan data pemakaian dan aturan tarif periode terkait, meninjau hasilnya, lalu menetapkannya sebagai final. | Pengurus | KF25, KF26, KF27, KF28, KF33 |
+| UC11 | Membuat Rekapitulasi Pemakaian dan Iuran | Pengurus menghasilkan rekapitulasi pemakaian dan iuran dari data final untuk periode yang dipilih. | Pengurus | KF29, KF30, KF31, KF32 |
+| UC12 | Melakukan Registrasi Akun | Calon pengguna mendaftarkan data diri dan pilihan peran sehingga akun berstatus menunggu persetujuan. | Calon Pengguna | —* |
+| UC13 | Melakukan Login Akun | Pengguna terdaftar memasukkan kredensial untuk mengakses sistem sesuai peran dan status persetujuan akun. | Warga, Teknisi, Pengurus | —* |
+| UC14 | Mengelola Persetujuan Akun | Pengurus meninjau permintaan registrasi dan menyetujui atau menolak akun calon pengguna. | Pengurus | —* |
+
+<sub>\* UC12–UC14 dipertahankan karena merupakan hasil revisi asistensi M3 dan telah dimodelkan pada M4. Namun, dokumen Requirement Gathering M2 serta daftar KF pada M4 saat ini belum memiliki kebutuhan fungsional khusus untuk registrasi, login, dan persetujuan akun. </sub>
 
 ## 4.3 Use Case Diagram
-Salin ulang Use Case Diagram dari BAB 3.3 dokumen *Use Case & Scenario Use Case* atau *Class Diagram* (gunakan versi paling akhir/terbaru apabila terdapat perubahan).
+
+Use Case Diagram berikut menggunakan versi terakhir dari dokumen *Class Diagram* M4 dan mencakup keseluruhan use case UC01 sampai UC14. Diagram juga mempertahankan relasi antarpenggunaan (*include/extend*) yang telah direvisi berdasarkan hasil asistensi sebelumnya.
 
 <p align="center">
-<img alt="Contoh Use Case Diagram" src="./assets/diagram/contoh-uc-diagram.webp" width="70%">
+<img alt="Use Case Diagram Fajar Tech" src="./assets/diagram/Use Case Diagram.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 2. Contoh Use Case Diagram</i>
+<i>Gambar 2. Use Case Diagram Fajar Tech</i>
 </p>
 
 ## 4.4 Skenario Use Case
-Salin ulang skenario **setiap** use case (skenario normal dan alternatif) dari BAB 3.4 dokumen *Use Case & Scenario Use Case*, sesuaikan dengan daftar UC final pada 4.2. Jika use case melibatkan lebih dari satu aktor manusia yang benar-benar berinteraksi langsung (misalnya *Kasir* yang memverifikasi transaksi setelah *Pelanggan* membayar), tambahkan kolom aksi tersendiri untuk aktor tersebut di samping kolom "Reaksi Perangkat Lunak". Sistem eksternal otomatis seperti *payment gateway* **bukan aktor**, sehingga interaksinya cukup dituliskan sebagai bagian dari "Reaksi Perangkat Lunak", bukan kolom aktor terpisah.
 
 ### 4.4.1 Skenario UC01
 
-**Nama Use Case:** *Memesan Produk*
+**Nama Use Case:** *Memantau Ketersediaan Air dan Energi*
 
 **Skenario Normal**
 
 | No | Aksi Aktor | Reaksi Perangkat Lunak |
 | :--- | :--- | :--- |
-| 1 | *Pelanggan memilih produk dari katalog* | *Sistem menampilkan detail produk dan menambahkannya ke keranjang* |
-| 2 | *Pelanggan menekan tombol checkout* | *Sistem membuat pesanan baru dari isi keranjang dan menampilkan ringkasan pesanan* |
-| ... | *...* | *...* |
+| 1 | Warga membuka dashboard utama. | Sistem menampilkan volume/level air tangki berdasarkan data terbaru. |
+| 2 | - | Sistem menampilkan klasifikasi status ketersediaan air, yaitu Normal, Rendah, atau Kritis. |
+| 3 | - | Sistem menampilkan kapasitas baterai dalam persen dan daya panel surya dalam Watt. |
 
-**Skenario Alternatif 1: Produk Tidak Tersedia**
+**Skenario Alternatif 1: Data Sensor Tidak Tersedia**
 
 | No | Aksi Aktor | Reaksi Perangkat Lunak |
 | :--- | :--- | :--- |
-| 1 | *Pelanggan memilih produk dari katalog* | *Sistem menampilkan pesan "Produk tidak tersedia" karena stok habis* |
-| 2 | *Pelanggan memilih produk lain* | *Sistem kembali ke langkah 1 skenario normal* |
-| ... | *...* | *...* |
+| 1 | Warga membuka dashboard utama. | Sistem tidak menerima data sensor terbaru. |
+| 2 | - | Sistem menampilkan data terakhir yang tersimpan beserta waktu pembacaan terakhir dan pemberitahuan bahwa data terbaru belum tersedia. |
 
-<sub>*Lanjutkan pola 4.4.x ini untuk setiap ID UC pada 4.2, sampai seluruh use case memiliki skenarionya masing-masing.*<sub>
+### 4.4.2 Skenario UC02
+
+**Nama Use Case:** *Melihat Tagihan Iuran Final*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Warga membuka menu tagihan iuran. | Sistem menampilkan daftar periode tagihan yang tersedia. |
+| 2 | Warga memilih periode tagihan. | Sistem memeriksa status tagihan pada periode tersebut. |
+| 3 | - | Sistem menampilkan tagihan yang telah berstatus final beserta rincian periode, data pemakaian dasar perhitungan, dan jumlah iuran. |
+
+**Skenario Alternatif 1: Tagihan Belum Ditetapkan Final**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Warga memilih periode tagihan. | Sistem memeriksa status perhitungan iuran pada periode tersebut. |
+| 2 | - | Sistem mendeteksi bahwa tagihan belum berstatus final dan menampilkan informasi bahwa tagihan final belum tersedia. |
+
+### 4.4.3 Skenario UC03
+
+**Nama Use Case:** *Mengirim Laporan Gangguan*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Warga membuka menu pelaporan gangguan. | Sistem menampilkan formulir laporan yang mencakup jenis gangguan, deskripsi, dan informasi pendukung. |
+| 2 | Warga mengisi formulir dan menekan tombol kirim. | Sistem memvalidasi bahwa pengirim merupakan warga yang terdaftar pada komunitas terkait. |
+| 3 | - | Sistem menetapkan status awal laporan menjadi "Menunggu". |
+| 4 | - | Sistem menyimpan laporan sebagai entri baru. |
+| 5 | - | Sistem menampilkan notifikasi bahwa laporan berhasil dikirim. |
+
+**Skenario Alternatif 1: Warga Tidak Terdaftar**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Warga menekan tombol kirim pada formulir laporan. | Sistem memvalidasi status keanggotaan pengirim. |
+| 2 | - | Sistem mendeteksi bahwa pengirim bukan warga terdaftar pada komunitas terkait. |
+| 3 | - | Sistem menolak pengiriman laporan dan menampilkan pesan bahwa pengguna tidak memiliki otorisasi. |
+
+### 4.4.4 Skenario UC04
+
+**Nama Use Case:** *Menelusuri Status Laporan Gangguan*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Warga membuka halaman riwayat laporan gangguan. | Sistem mencari laporan berdasarkan identitas warga. |
+| 2 | - | Sistem menampilkan daftar laporan gangguan milik warga tersebut. |
+| 3 | Warga memilih salah satu laporan. | Sistem menampilkan status terkini laporan yang dipilih. |
+| 4 | Warga membuka detail perkembangan laporan. | Sistem menampilkan riwayat perubahan status laporan beserta waktunya. |
+
+**Skenario Alternatif 1: Laporan Tidak Ditemukan**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Warga membuka halaman riwayat laporan gangguan. | Sistem mencari laporan berdasarkan identitas warga. |
+| 2 | - | Sistem tidak menemukan laporan yang terkait dengan identitas warga tersebut. |
+| 3 | - | Sistem menampilkan informasi bahwa belum ada laporan gangguan yang dapat ditampilkan. |
+
+### 4.4.5 Skenario UC05
+
+**Nama Use Case:** *Menerima Peringatan Dini Daya Kritis*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | - | Sistem mendeteksi kapasitas baterai mencapai atau berada di bawah ambang batas aman. |
+| 2 | - | Sistem menentukan teknisi terdaftar yang bertanggung jawab atas perangkat terkait. |
+| 3 | - | Sistem mengirimkan notifikasi otomatis peringatan daya kritis kepada teknisi tersebut. |
+| 4 | Teknisi membuka notifikasi peringatan. | Sistem menampilkan detail peringatan, termasuk perangkat terkait, kapasitas baterai, dan waktu terjadinya kondisi kritis. |
+
+**Skenario Alternatif 1: Koneksi Jaringan Terputus**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | - | Sistem mendeteksi kondisi daya kritis ketika koneksi jaringan sedang terputus. |
+| 2 | - | Sistem menyimpan data peringatan sementara. |
+| 3 | - | Sistem mengirim ulang notifikasi kepada teknisi setelah koneksi kembali tersedia. |
+
+### 4.4.6 Skenario UC06
+
+**Nama Use Case:** *Memantau Riwayat Kinerja Panel Surya*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Teknisi membuka halaman pemantauan perangkat. | Sistem menampilkan halaman riwayat kinerja panel surya. |
+| 2 | Teknisi memilih rentang waktu. | Sistem mengambil data historis pada rentang waktu yang dipilih. |
+| 3 | - | Sistem menampilkan grafik dan tren kinerja panel surya berdasarkan data historis tersebut. |
+
+**Skenario Alternatif 1: Data Historis Belum Tersedia**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Teknisi memilih rentang waktu. | Sistem memeriksa ketersediaan data historis pada rentang waktu tersebut. |
+| 2 | - | Sistem tidak menemukan data dan menampilkan pesan bahwa data historis belum tersedia. |
+
+### 4.4.7 Skenario UC07
+
+**Nama Use Case:** *Memperbarui Status Penanganan Gangguan*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Teknisi membuka daftar laporan yang ditugaskan kepadanya. | Sistem menampilkan laporan gangguan yang dapat ditindaklanjuti oleh teknisi tersebut. |
+| 2 | Teknisi memilih salah satu laporan. | Sistem menampilkan detail laporan dan status penanganan terkini. |
+| 3 | Teknisi memilih status baru sesuai progres penanganan. | Sistem memverifikasi bahwa teknisi memiliki penugasan atas laporan tersebut. |
+| 4 | - | Sistem memvalidasi bahwa perubahan mengikuti tahapan status yang diperbolehkan. |
+| 5 | - | Sistem menyimpan status baru dan mencatat timestamp perubahan. |
+
+**Skenario Alternatif 1: Teknisi Tidak Berwenang**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Teknisi mencoba mengubah status laporan yang tidak ditugaskan kepadanya. | Sistem memverifikasi penugasan teknisi. |
+| 2 | - | Sistem menolak perubahan dan menampilkan pesan bahwa teknisi tidak berwenang atas laporan tersebut. |
+
+**Skenario Alternatif 2: Perubahan Status Tidak Valid**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Teknisi memilih perubahan status yang tidak mengikuti tahapan penanganan yang diperbolehkan. | Sistem memeriksa urutan status laporan. |
+| 2 | - | Sistem menolak perubahan dan menampilkan status yang dapat dipilih sesuai kondisi laporan saat ini. |
+
+### 4.4.8 Skenario UC08
+
+**Nama Use Case:** *Mencatat Kegiatan Pemeliharaan*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Teknisi membuka menu pencatatan pemeliharaan. | Sistem menampilkan formulir yang mencakup perangkat, waktu pelaksanaan, tindakan, dan catatan hasil. |
+| 2 | Teknisi mengisi formulir dan menekan tombol simpan. | Sistem memvalidasi kelengkapan isian. |
+| 3 | - | Sistem menyimpan catatan pemeliharaan sebagai riwayat yang dapat ditelusuri berdasarkan perangkat dan waktu. |
+| 4 | - | Sistem menampilkan notifikasi bahwa catatan pemeliharaan berhasil disimpan. |
+
+**Skenario Alternatif 1: Formulir Tidak Lengkap**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Teknisi menekan tombol simpan ketika masih terdapat kolom wajib yang kosong. | Sistem memvalidasi kelengkapan masukan. |
+| 2 | - | Sistem membatalkan penyimpanan dan menandai kolom yang harus dilengkapi. |
+
+### 4.4.9 Skenario UC09
+
+**Nama Use Case:** *Menganalisis Pemakaian Komunal*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengurus membuka dashboard administratif. | Sistem memverifikasi peran pengguna sebagai pengurus. |
+| 2 | Pengurus memilih periode analisis. | Sistem mengambil dan mengelompokkan data pemakaian air serta energi pada periode tersebut. |
+| 3 | - | Sistem menampilkan data agregat dan riwayat pemakaian dalam bentuk yang dapat dianalisis oleh pengurus. |
+
+**Skenario Alternatif 1: Pengguna Bukan Pengurus**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Warga atau Teknisi mencoba membuka dashboard administratif. | Sistem memeriksa kewenangan pengguna. |
+| 2 | - | Sistem menolak akses dan menampilkan informasi bahwa fitur hanya tersedia untuk pengurus. |
+
+### 4.4.10 Skenario UC10
+
+**Nama Use Case:** *Menghitung dan Menetapkan Iuran Warga*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengurus membuka menu perhitungan iuran dan memilih periode. | Sistem mengambil data pemakaian warga untuk periode yang dipilih. |
+| 2 | - | Sistem menghitung iuran setiap warga secara otomatis menggunakan aturan tarif yang berlaku pada periode tersebut. |
+| 3 | - | Sistem menampilkan hasil perhitungan iuran kepada pengurus untuk ditinjau. |
+| 4 | Pengurus meninjau hasil dan menekan tombol "Tetapkan Final". | Sistem memverifikasi kewenangan pengurus. |
+| 5 | - | Sistem menetapkan hasil perhitungan iuran periode tersebut sebagai final. |
+| 6 | - | Sistem menampilkan notifikasi bahwa iuran berhasil ditetapkan final. |
+
+**Skenario Alternatif 1: Pengurus Tidak Berwenang**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengurus menekan tombol "Tetapkan Final". | Sistem memverifikasi kewenangan pengurus. |
+| 2 | - | Sistem mendeteksi bahwa akun tidak memiliki kewenangan untuk melakukan finalisasi. |
+| 3 | - | Sistem menolak penetapan final dan menampilkan pesan otorisasi. |
+
+**Skenario Alternatif 2: Data Pemakaian Belum Lengkap**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengurus memilih periode perhitungan iuran. | Sistem memeriksa kelengkapan data pemakaian warga pada periode tersebut. |
+| 2 | - | Sistem mendeteksi bahwa data pemakaian sebagian warga belum lengkap. |
+| 3 | - | Sistem menghentikan perhitungan dan menampilkan informasi bahwa data harus dilengkapi terlebih dahulu. |
+
+### 4.4.11 Skenario UC11
+
+**Nama Use Case:** *Membuat Rekapitulasi Pemakaian dan Iuran*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengurus membuka menu rekapitulasi pemakaian dan iuran. | Sistem memverifikasi kewenangan pengurus dan menampilkan pilihan periode. |
+| 2 | Pengurus memilih periode rekapitulasi. | Sistem mengambil data pemakaian dan iuran pada periode yang dipilih. |
+| 3 | - | Sistem memeriksa bahwa data yang digunakan untuk rekapitulasi telah berstatus final. |
+| 4 | Pengurus memilih untuk membuat rekapitulasi. | Sistem menghasilkan rekapitulasi berdasarkan data pada periode tersebut. |
+| 5 | Pengurus memilih ekspor atau cetak. | Sistem menghasilkan dokumen rekapitulasi yang dapat diekspor atau dicetak. |
+
+**Skenario Alternatif 1: Data Belum Final**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengurus memilih periode rekapitulasi. | Sistem mengambil data pemakaian dan iuran pada periode yang dipilih. |
+| 2 | - | Sistem menemukan data yang belum berstatus final. |
+| 3 | - | Sistem menolak pembuatan rekapitulasi dan menampilkan informasi bahwa rekapitulasi hanya dapat dibuat menggunakan data final. |
+
+**Skenario Alternatif 2: Pengguna Tidak Berwenang**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengguna yang bukan pengurus mencoba membuka menu rekapitulasi. | Sistem memeriksa kewenangan pengguna. |
+| 2 | - | Sistem menolak akses ke menu rekapitulasi. |
+
+### 4.4.12 Skenario UC12
+
+**Nama Use Case:** *Melakukan Registrasi Akun*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Calon Pengguna membuka halaman registrasi. | Sistem menampilkan formulir pendaftaran yang berisi nama, email, password, dan pilihan peran. |
+| 2 | Calon Pengguna mengisi data dan menekan tombol daftar. | Sistem memvalidasi kelengkapan data dan memastikan email belum terdaftar. |
+| 3 | - | Sistem menyimpan data pendaftaran dengan status "Menunggu Persetujuan". |
+| 4 | - | Sistem menampilkan notifikasi bahwa registrasi berhasil dan akun harus menunggu persetujuan pengurus. |
+
+**Skenario Alternatif 1: Email Sudah Terdaftar**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Calon Pengguna menekan tombol daftar. | Sistem memvalidasi data pendaftaran. |
+| 2 | - | Sistem mendeteksi bahwa email telah digunakan oleh akun lain. |
+| 3 | - | Sistem menolak pendaftaran dan meminta calon pengguna menggunakan email lain. |
+
+**Skenario Alternatif 2: Data Registrasi Tidak Lengkap**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Calon Pengguna menekan tombol daftar ketika masih terdapat data wajib yang kosong. | Sistem memvalidasi kelengkapan formulir. |
+| 2 | - | Sistem membatalkan pendaftaran dan menandai data yang harus dilengkapi. |
+
+### 4.4.13 Skenario UC13
+
+**Nama Use Case:** *Melakukan Login Akun*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Warga, Teknisi, atau Pengurus membuka halaman login. | Sistem menampilkan formulir email dan password. |
+| 2 | Pengguna memasukkan kredensial dan menekan tombol login. | Sistem memverifikasi kecocokan email dan password. |
+| 3 | - | Sistem memastikan status akun pengguna adalah "Disetujui". |
+| 4 | - | Sistem mengarahkan pengguna ke dashboard sesuai perannya. |
+
+**Skenario Alternatif 1: Akun Masih Menunggu Persetujuan**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengguna memasukkan kredensial yang benar dan menekan tombol login. | Sistem memverifikasi kredensial dan status akun. |
+| 2 | - | Sistem mendeteksi bahwa status akun masih "Menunggu Persetujuan". |
+| 3 | - | Sistem menolak akses dan menampilkan informasi bahwa akun masih dalam proses peninjauan pengurus. |
+
+**Skenario Alternatif 2: Akun Ditolak**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengguna memasukkan kredensial akun yang berstatus ditolak. | Sistem memverifikasi kredensial dan status akun. |
+| 2 | - | Sistem mendeteksi bahwa status akun adalah "Ditolak". |
+| 3 | - | Sistem menolak akses dan menampilkan informasi bahwa akun tidak memperoleh persetujuan. |
+
+**Skenario Alternatif 3: Kredensial Salah**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengguna memasukkan email atau password yang tidak sesuai. | Sistem memverifikasi kredensial. |
+| 2 | - | Sistem tidak menemukan kombinasi kredensial yang valid. |
+| 3 | - | Sistem menolak akses dan menampilkan pesan bahwa email atau password salah. |
+
+### 4.4.14 Skenario UC14
+
+**Nama Use Case:** *Mengelola Persetujuan Akun*
+
+**Skenario Normal**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengurus membuka halaman manajemen akun. | Sistem memverifikasi kewenangan pengurus dan menampilkan daftar akun berstatus "Menunggu Persetujuan". |
+| 2 | Pengurus memilih salah satu akun dan menekan tombol "Setujui". | Sistem memvalidasi aksi persetujuan. |
+| 3 | - | Sistem mengubah status akun menjadi "Disetujui". |
+| 4 | - | Sistem menampilkan notifikasi bahwa akun berhasil disetujui dan memperbarui daftar akun yang menunggu persetujuan. |
+
+**Skenario Alternatif 1: Pengurus Menolak Akun**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Pengurus memilih akun yang sedang ditinjau dan menekan tombol "Tolak". | Sistem memvalidasi aksi penolakan. |
+| 2 | - | Sistem mengubah status akun menjadi "Ditolak". |
+| 3 | - | Sistem menampilkan notifikasi bahwa pendaftaran akun telah ditolak dan memperbarui daftar akun yang menunggu persetujuan. |
+
+**Skenario Alternatif 2: Pengguna Bukan Pengurus**
+
+| No | Aksi Aktor | Reaksi Perangkat Lunak |
+| :--- | :--- | :--- |
+| 1 | Warga atau Teknisi mencoba membuka halaman manajemen persetujuan akun. | Sistem memeriksa kewenangan pengguna. |
+| 2 | - | Sistem menolak akses dan menampilkan informasi bahwa fitur hanya tersedia untuk pengurus. |
 
 ---
 
