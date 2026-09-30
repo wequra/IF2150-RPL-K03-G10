@@ -7,23 +7,23 @@ SPESIFIKASI KEBUTUHAN PERANGKAT LUNAK (SKPL)
 </h1>
 <br>
 
-## *Nama Perangkat Lunak*
+## *FAJAR TECH*
 
-### Untuk: *[Nama Asisten]*
+### Untuk: *Tigress / Agatha*
 
 Dipersiapkan oleh:
 | Informasi | Keterangan |
 | --- | --- |
-| Kelas | *\[Kelas\]* |
-| Kelompok | *\[Nomor Kelompok\]*  |
+| Kelas | K-3 |
+| Kelompok | 10  |
 
 | NIM | Nama |
-|---|---|
-| *[NIM 1]* | *[Nama Anggota 1]* |
-| *[NIM 2]* | *[Nama Anggota 2]* |
-| *[NIM 3]* | *[Nama Anggota 3]* |
-| *[NIM 4]* | *[Nama Anggota 4]* |
-| *[NIM 5]* | *[Nama Anggota 5]* |
+| --- | --- |
+| *13525054* | *Raffi Fauzi Hermawan* |
+| *13525030* | *Rionaldo Casey Pandhitha* |
+| *13525129* | *Andro Irsa Syafiq* |
+| *13525078* | *Muhammad Faiz Ramadhan* |
+| *13525006* | *Muhammad Rafiandhi Suryadinata* |
 ---
 
 ## Daftar Perubahan
@@ -40,15 +40,13 @@ Dipersiapkan oleh:
 # BAB 1: Pendahuluan
 
 ## 1.1 Tujuan Penulisan Dokumen
-Tuliskan dengan ringkas tujuan dokumen SKPL ini dibuat dan siapa saja yang akan menggunakan dokumen ini.
+Dokumen Spesifikasi Kebutuhan Perangkat Lunak (SKPL) ini disusun untuk merangkum secara formal seluruh kebutuhan fungsional dan non-fungsional, model use case, serta model kelas dari perangkat lunak Fajar Tech dalam satu dokumen acuan yang utuh dan tertelusur. Dokumen ini digunakan oleh: (1) tim pengembang Kelompok FAJAR67 sebagai dasar implementasi, pengujian, dan validasi perangkat lunak; (2) asisten mata kuliah IF2150 Rekayasa Perangkat Lunak sebagai bahan penilaian dan asistensi; serta (3) pemangku kepentingan komunitas (warga, teknisi, dan pengurus) sebagai konfirmasi atas kebutuhan sistem yang akan dibangun.
 
 ## 1.2 Lingkup Masalah
-Tuliskan dengan ringkas nama aplikasi dan deskripsi singkatnya. Bagian ini maksimal berisi satu paragraf, dapat diringkas dari BAB 1 *Analisis Permasalahan* pada dokumen *Topic Brainstorming*.
+Fajar Tech adalah platform berbasis web untuk memantau dan mengelola infrastruktur air serta energi surya komunal di tingkat komunitas, yang mencakup pemantauan ketersediaan air tangki dan status daya surya secara real-time, pelaporan gangguan beserta penanganannya, analitik pemakaian komunal, hingga perhitungan iuran warga dan rekapitulasi laporan, guna mewujudkan pengelolaan infrastruktur air dan energi yang lebih terukur, transparan, dan berkelanjutan yang berkesusaian dengan tujuan SDG 6 dan SDG 7.
+
 
 ## 1.3 Definisi, Istilah, dan Singkatan
-Semua definisi dan singkatan yang digunakan dalam dokumen ini beserta penjelasannya.
-
-Tabel 1.3. Definisi Istilah dan Singkatan
 
 | Singkatan, Akronim, atau Istilah | Penjelasan |
 | :--- | :--- |
@@ -58,27 +56,30 @@ Tabel 1.3. Definisi Istilah dan Singkatan
 | *KNF* | *Singkatan dari Kebutuhan Non-Fungsional.* |
 | *UC* | *Singkatan dari Use Case.* |
 | *EARS* | *Easy Approach to Requirements Syntax, yaitu pola penulisan kebutuhan agar konsisten dan mudah diuji.* |
-| *...* | *...* |
+| *RG* | *Singkatan dari Requirement Gathering.* |
+
 
 ## 1.4 Aturan Penomoran
-Tuliskan aturan penomoran (ID) yang digunakan dalam dokumen ini. Gunakan pola ID yang **sama** dengan yang sudah dipakai pada dokumen-dokumen sebelumnya, jangan membuat pola baru di dokumen ini.
-
-Tabel 1.4. Aturan Penomoran
 
 | Hal/Bagian | Penomoran | Keterangan |
 | :--- | :--- | :--- |
-| *Kebutuhan Fungsional* | *KFXX* | |
-| *Kebutuhan Non-Fungsional* | *KNFXX* | |
-| *Aktor* | *AXX* | |
-| *Use Case* | *UCXX* | |
-| *Kelas* | *CXX* | |
-| *...* | *...* |
+| *Kebutuhan Fungsional* | *KFXX* | XX adalah nomor kebutuhan fungsional |
+| *Kebutuhan Non-Fungsional* | *KNFXX* | XX adalah nomor kebutuhan non-fungsional |
+| *Aktor* | *AXX* | XX adalah nomor aktor |
+| *Use Case* | *UCXX* | XX adalah nomor use case |
+| *Kelas* | *CXX* | XX adalah nomor kelas |
+| *Requirement Gathering* | *RXX* | XX adalah nomor requirement gathering |
 
 ## 1.5 Referensi
-Dokumentasi P/L yang dirujuk oleh dokumen ini. Referensi dapat berupa buku, panduan, ataupun dokumentasi lain yang dipakai dalam pengembangan P/L ini.
+1. Dokumen Milestone 1 Kelompok K03-G10.
+2. Dokumen Milestone 2 Kelompok K03-G10.
+3. Dokumen Milestone 3 Kelompok K03-G10.
+4. Dokumen Milestone 4 Kelompok K03-G10.
+5. Wirfs-Brock, R. & McKean, D., *Object Design: Roles, Responsibilities, and Collaborations*.
+6. Mavin, A., Wilkinson, W., Herd, A., et al. (2009). *EARS: Easy Approach to Requirements Syntax*.
 
 ## 1.6 Deskripsi Umum Dokumen (Ikhtisar)
-Tuliskan sistematika pembahasan dokumen SKPL ini secara runut (misalnya: BAB 2 membahas deskripsi umum P/L, BAB 3 membahas kebutuhan fungsional dan non-fungsional, dst).
+Dokumen ini disusun dengan sistematika sebagai berikut. BAB 2 mendeskripsikan proses bisnis sistem, lingkup perangkat lunak beserta keterkaitannya dengan perangkat pengukuran di lapangan, jenis pengguna dan kebutuhannya, batasan, serta lingkungan operasi perangkat lunak. BAB 3 merinci seluruh kebutuhan fungsional dalam format EARS dan kebutuhan non-fungsional beserta parameternya. BAB 4 mempresentasikan pemodelan use case yang berisi identifikasi aktor, identifikasi use case, diagram use case, dan skenario setiap use case. BAB 5 mempresentasikan pemodelan kelas yang berisi identifikasi kelas, diagram kelas per use case lengkap dengan atribut dan metode, serta diagram kelas keseluruhan. BAB 6 menyajikan matriks traceability yang menautkan setiap kelas dengan use case dan kebutuhan fungsional yang direalisasikannya.
 
 ---
 
@@ -86,16 +87,43 @@ Tuliskan sistematika pembahasan dokumen SKPL ini secara runut (misalnya: BAB 2 m
 
 ## 2.1 Deskripsi Umum Sistem
 Perangkat lunak kami dibuat agar dapat memantau dan mengelola air dan juga surya. Sistem ini dirancang dengan memfokuskan pada platform utama dan satu-satunya melalui website. Website dipilih dikarenakan dapat diakses oleh warga melalui device manapun. Beberapa fitur yang terdapat pada website antara lain adalah melihat ketersediaan air, status daya surya, tagihan iuran, analitik penggunaan komunal, pengelolaan iuran warga, dan platform laporan gangguan serta status perbaikan dari laporan yang masuk.
+
 Dari kacamata pengguna, perangkat lunak yang diusulkan ini berfungsi sebagai pusat kendali dan informasi yang memungkinkan operator fasilitas desa dan stakeholder untuk memantau status pompa air, tingkat keterisian tangki, serta juga daya panel surya dan baterai secara real-time. Selain itu, warga juga dapat mencari informasi yang mudah dipahami mengenai ketersediaan air, kondisi pasokan energi, rincian iuran, serta perkembangan laporan gangguan.
+
 Alur kerja sistem ini yaitu menjadi jembatan antar dunia fisik dan digital dalam pengelolaan air dan energi komunal. Perangkat keras di lapangan seperti sensor pada tangki penampungan, pompa air, dan panel surya dapat mengirimkan data aktual ke platform web. Sistem kemudian memproses data tersebut menjadi informasi yang siap digunakan yaitu, tampilan ketersediaan air dan status daya pada dasbor warga, notifikasi peringatan pada teknisi ketika metrik daya sudah hampir habis, serta menyediakan data pemakaian bagi pengurus untuk keperluan analitik dan kalkulasi iuran.
+
 Harapan dari penerapan solusi ini adalah terciptanya pengelolaan infrastruktur air dan energi komunal yang lebih terukur, transparan, dan berkelanjutan di tingkat komunitas. Dengan pemrosesan yang lebih terdigitalisasi, warga dapat memperoleh kepastian informasi tanpa harus bertanya langsung kepada pengurus, teknisi dapat menangani masalah di lapangan dengan lebih taktis, serta pengurus dapat mengelola data lebih cepat dalam mengambil keputusan komunitas dan kalkulasi iuran.
-Proses bisnis sistem berlangsung dalam empat aliran utama yang melibatkan Warga, Teknisi, Pengurus, dan Sistem sebagai peserta, yaitu: (1) pemantauan ketersediaan air dan daya kelistrikan oleh warga; (2) pemantauan teknis dan peringatan dini, meliputi penerimaan peringatan daya kritis, pemantauan efisiensi panel surya, dan pembaruan status penanganan gangguan oleh teknisi; (3) pelaporan dan penanganan gangguan, dimulai dari pengiriman laporan oleh warga, penelusuran status laporan, hingga pencatatan pemeliharaan oleh teknisi; dan (4) analitik pemakaian dan pengelolaan iuran, meliputi analisis data komunal, kalkulasi dan penetapan iuran oleh pengurus, penayangan tagihan final kepada warga, serta pencetakan rekapitulasi laporan. Kedua belas aktivitas pada aliran tersebut (memantau ketersediaan air, memantau daya kelistrikan, melihat tagihan iuran, mengirim laporan gangguan, melacak status laporan, menerima peringatan daya kritis, memantau efisiensi perangkat, mengelola progres perbaikan, mencatat log pemeliharaan, menganalisis data komunal, mengkalkulasi iuran warga, dan mencetak rekapitulasi laporan) digambarkan pada diagram aktivitas berikut.
+
+Proses bisnis Fajar Tech melibatkan Warga, Teknisi, Pengurus, dan Sistem dalam empat aliran utama: (1) pemantauan ketersediaan air dan daya kelistrikan, (2) pemantauan teknis dan peringatan dini, (3) pelaporan dan penanganan gangguan, serta (4) analitik pemakaian dan pengelolaan iuran. Rangkaian aktivitas pada keempat aliran tersebut digambarkan pada diagram aktivitas berikut.
+
 
 <p align="center">
-<img alt="Contoh Activity Diagram" src="./assets/diagram/diagram-act-1.avif" width="70%">
+<img alt="Swimlane Diagram Pemantauan Air dan Energi oleh Warga" src="./assets/diagram/proses-pemantauan-warga.svg" width="90%">
 </p>
 <p align="center">
-<i>Gambar 1. Contoh Activity Diagram Proses Bisnis</i>
+<i>Gambar 1. Swimlane Diagram Pemantauan Air dan Energi oleh Warga</i>
+</p>
+
+<p align="center">
+<img alt="Swimlane Diagram Pemantauan Teknis dan Peringatan Dini" src="./assets/diagram/proses-pemantauan-teknis.svg" width="90%">
+</p>
+<p align="center">
+<i>Gambar 2. Swimlane Diagram Pemantauan Teknis dan Peringatan Dini</i>
+</p>
+
+<p align="center">
+<img alt="Swimlane Diagram Pelaporan dan Penanganan Gangguan" src="./assets/diagram/proses-gangguan.svg" width="90%">
+</p>
+<p align="center">
+<i>Gambar 3. Swimlane Diagram Pelaporan dan Penanganan Gangguan</i>
+</p>
+
+<p align="center">
+<img alt="Swimlane Diagram Analitik Pemakaian dan Pengelolaan Iuran" src="./assets/diagram/proses-iuran-analitik.svg" width="90%">
+</p>
+
+<p align="center">
+<i>Gambar 4. Swimlane Diagram Analitik Pemakaian dan Pengelolaan Iuran</i>
 </p>
 
 ## 2.2 Deskripsi Umum Perangkat Lunak
@@ -105,10 +133,9 @@ Fajar Tech merupakan aplikasi web tunggal yang menjadi pusat kendali dan informa
 
 | Pengguna | Kebutuhan |
 | :-- | :-- |
-| Warga (A01) | Warga harus dapat memantau ketersediaan air tangki dan status daya panel surya serta baterai secara real-time, melihat rincian tagihan iuran yang telah ditetapkan final, mengirim laporan gangguan infrastruktur, dan menelusuri status penanganan laporan yang pernah dikirimnya tanpa harus bertanya langsung kepada pengurus. |
-| Teknisi (A02) | Teknisi harus dapat menerima notifikasi peringatan dini ketika daya baterai mencapai atau berada di bawah ambang batas aman, memantau grafik riwayat kinerja panel surya dalam rentang waktu terpilih, memperbarui status penanganan laporan gangguan sesuai penugasannya, dan mencatat kegiatan pemeliharaan atau perbaikan perangkat sebagai riwayat yang tertelusur. |
-| Pengurus (A03) | Pengurus harus dapat melihat dasbor agregat pemakaian air dan energi komunal berdasarkan periode, menghitung dan menetapkan iuran warga sebagai final, menghasilkan rekapitulasi pemakaian dan iuran yang dapat diekspor atau dicetak, serta menyetujui atau menolak permintaan registrasi akun baru. |
-| Calon Pengguna (A04) | Calon pengguna harus dapat mendaftarkan akun beserta pilihan perannya melalui formulir registrasi, dengan akun berstatus menunggu persetujuan pengurus sebelum dapat mengakses sistem sesuai hak akses perannya. |
+| Warga | Pengguna ini bertindak sebagai pihak yang menggunakan sistem untuk memantau air dan listrik dari infrastruktur komunal. Karakteristik dari pengguna ini adalah bersifat non-teknis dan mengutamakan kemudahan mengakses informasi ketersediaan air, status daya, tagihan iuran, serta perkembangan laporan gangguan yang mereka ajukan. |
+| Teknisi | Pengguna ini bertindak sebagai pihak yang bertanggung jawab memantau kondisi fisik pompa air, tangki, panel surya, baterai secara langsung di lapangan, dan memasukkan statusnya pada sistem. Karakteristik dari pengguna ini adalah mengutamakan informasi teknis dan real-time untuk melakukan tindakan preventif atau perbaikan sebelum terjadi kegagalan sistem. |
+| Pengurus | Pengguna ini bertindak sebagai pihak yang dapat mengakses dashboard pemakaian air dan energi komunal untuk tujuan pengelolaan administratif komunitas seperti pencatatan iuran, pemantauan pemakaian komunal, dan pengawasan tindak lanjut laporan gangguan. Karakteristik dari pengguna ini adalah mengutamakan gambaran menyeluruh untuk pengambilan keputusan dan menjaga transparansi terhadap warga. |
 
 
 ## 2.4 Batasan Perangkat Lunak
