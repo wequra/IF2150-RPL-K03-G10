@@ -30,10 +30,7 @@ Dipersiapkan oleh:
 
 | Revisi | Deskripsi |
 | :--- | :--- |
-| *A* | *Deskripsikan perubahan yang dilakukan dari dokumen sebelumnya pada dokumen ini. Jika tidak terdapat perubahan, harap kosongkan tabel.* |
-| *B* |  |
-| *C* |  |
-| ... |  |
+| *A* | *Kompilasi dokumen SKPL Milestone 5 (BAB 1–6) dari dokumen Milestone 1–4 dengan revisi hasil asistensi, penulisan kebutuhan fungsional dalam format EARS, serta penambahan matriks traceability.* |
 
 <br>
 
@@ -264,7 +261,7 @@ Use Case Diagram berikut menggunakan versi terakhir dari dokumen *Class Diagram*
 <img alt="Use Case Diagram Fajar Tech" src="./assets/diagram/Use Case Diagram.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 2. Use Case Diagram Fajar Tech</i>
+<i>Gambar 5. Use Case Diagram Fajar Tech</i>
 </p>
 
 ## 4.4 Skenario Use Case
@@ -671,7 +668,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC01" src="./assets/diagram/UC1.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 3. Diagram Kelas Use Case UC01</i>
+<i>Gambar 6. Diagram Kelas Use Case UC01</i>
 </p>
 <br>
 
@@ -705,7 +702,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC02" src="./assets/diagram/UC2.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 4. Diagram Kelas Use Case UC02</i>
+<i>Gambar 7. Diagram Kelas Use Case UC02</i>
 </p>
 <br>
 
@@ -733,7 +730,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC03" src="./assets/diagram/UC3.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 5. Diagram Kelas Use Case UC03</i>
+<i>Gambar 8. Diagram Kelas Use Case UC03</i>
 </p>
 <br>
 
@@ -761,7 +758,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC04" src="./assets/diagram/UC4.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 6. Diagram Kelas Use Case UC04</i>
+<i>Gambar 9. Diagram Kelas Use Case UC04</i>
 </p>
 <br>
 
@@ -793,7 +790,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC05" src="./assets/diagram/UC5.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 7. Diagram Kelas Use Case UC05</i>
+<i>Gambar 10. Diagram Kelas Use Case UC05</i>
 </p>
 <br>
 
@@ -829,7 +826,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC06" src="./assets/diagram/UC6.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 8. Diagram Kelas Use Case UC06</i>
+<i>Gambar 11. Diagram Kelas Use Case UC06</i>
 </p>
 <br>
 
@@ -865,7 +862,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC07" src="./assets/diagram/UC7.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 9. Diagram Kelas Use Case UC07</i>
+<i>Gambar 12. Diagram Kelas Use Case UC07</i>
 </p>
 <br>
 
@@ -895,7 +892,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC08" src="./assets/diagram/UC8.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 10. Diagram Kelas Use Case UC08</i>
+<i>Gambar 13. Diagram Kelas Use Case UC08</i>
 </p>
 <br>
 
@@ -923,7 +920,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC09" src="./assets/diagram/UC9.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 11. Diagram Kelas Use Case UC09</i>
+<i>Gambar 14. Diagram Kelas Use Case UC09</i>
 </p>
 <br>
 
@@ -961,7 +958,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC10" src="./assets/diagram/UC10.png" width="90%">
 </p>
 <p align="center">
-<i>Gambar 12. Diagram Kelas Use Case UC10 — Menghitung & Menetapkan Iuran </i>
+<i>Gambar 15. Diagram Kelas Use Case UC10 — Menghitung & Menetapkan Iuran </i>
 </p>
 <br>
 
@@ -997,7 +994,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC11" src="./assets/diagram/UC11.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 13. Diagram Kelas Use Case UC11</i>
+<i>Gambar 16. Diagram Kelas Use Case UC11</i>
 </p>
 <br>
 
@@ -1031,7 +1028,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC12" src="./assets/diagram/UC12.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 14. Diagram Kelas Use Case UC12</i>
+<i>Gambar 17. Diagram Kelas Use Case UC12</i>
 </p>
 <br>
 
@@ -1066,7 +1063,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC13" src="./assets/diagram/UC13.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 15. Diagram Kelas Use Case UC13</i>
+<i>Gambar 18. Diagram Kelas Use Case UC13</i>
 </p>
 <br>
 
@@ -1097,7 +1094,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram UC14" src="./assets/diagram/UC14.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 16. Diagram Kelas Use Case UC14</i>
+<i>Gambar 19. Diagram Kelas Use Case UC14</i>
 </p>
 <br>
 
@@ -1116,7 +1113,7 @@ Salin ulang diagram kelas untuk setiap use case dari BAB 4.2 dokumen *Class Diag
 <img alt="Class Diagram Keseluruhan" src="./assets/diagram/overall-class.png" width="95%">
 </p>
 <p align="center">
-<i>Gambar 17. Diagram Kelas Keseluruhan Fajar Tech (28 kelas, 14 UC terintegrasi)</i>
+<i>Gambar 20. Diagram Kelas Keseluruhan Fajar Tech (28 kelas, 14 UC terintegrasi)</i>
 </p>
 <br>
 
@@ -1236,5 +1233,5 @@ Tabel 6.2. Traceability Kebutuhan Fungsional terhadap Use Case dan Kelas
 ---
 
 # Referensi
-- Diagram UML: [https://drive.google.com/file/d/1dWHSIYX9YLLHwaWSedQTZqx9cc3SbARq/view?usp=sharing](https://www.drawio./), [https://staruml.io/](https://staruml.io/)
-- Use Case Diagram [Use Case Diagram](https://drive.google.com/file/d/1dWHSIYX9YLLHwaWSedQTZqx9cc3SbARq/view?usp=sharing)
+- Diagram UML: [draw.io](https://app.diagrams.net/), [StarUML](https://staruml.io/)
+- Use Case Diagram: [Use Case Diagram](https://drive.google.com/file/d/1dWHSIYX9YLLHwaWSedQTZqx9cc3SbARq/view?usp=sharing)
