@@ -40,7 +40,7 @@ Dipersiapkan oleh:
 # BAB 1: Pendahuluan
 
 ## 1.1 Tujuan Penulisan Dokumen
-Dokumen Spesifikasi Kebutuhan Perangkat Lunak (SKPL) ini disusun untuk merangkum secara formal seluruh kebutuhan fungsional dan non-fungsional, model use case, serta model kelas dari perangkat lunak Fajar Tech dalam satu dokumen acuan yang utuh dan tertelusur. Dokumen ini digunakan oleh: (1) tim pengembang Kelompok FAJAR67 sebagai dasar implementasi, pengujian, dan validasi perangkat lunak; (2) asisten mata kuliah IF2150 Rekayasa Perangkat Lunak sebagai bahan penilaian dan asistensi; serta (3) pemangku kepentingan komunitas (warga, teknisi, dan pengurus) sebagai konfirmasi atas kebutuhan sistem yang akan dibangun.
+Dokumen Spesifikasi Kebutuhan Perangkat Lunak (SKPL) ini disusun untuk merangkum secara formal seluruh kebutuhan fungsional dan non-fungsional, model use case, serta model kelas dari perangkat lunak Fajar Tech dalam satu dokumen acuan yang utuh dan tertelusur. Dokumen ini digunakan oleh: (1) tim pengembang Kelompok FAJAR67 sebagai dasar implementasi, pengujian, dan validasi perangkat lunak serta (2) asisten mata kuliah IF2150 Rekayasa Perangkat Lunak sebagai bahan penilaian dan asistensi.
 
 ## 1.2 Lingkup Masalah
 Fajar Tech adalah platform berbasis web untuk memantau dan mengelola infrastruktur air serta energi surya komunal di tingkat komunitas, yang mencakup pemantauan ketersediaan air tangki dan status daya surya secara real-time, pelaporan gangguan beserta penanganannya, analitik pemakaian komunal, hingga perhitungan iuran warga dan rekapitulasi laporan, guna mewujudkan pengelolaan infrastruktur air dan energi yang lebih terukur, transparan, dan berkelanjutan yang berkesusaian dengan tujuan SDG 6 dan SDG 7.
