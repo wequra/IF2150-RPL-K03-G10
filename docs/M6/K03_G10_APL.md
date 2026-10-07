@@ -104,33 +104,190 @@ Ketentuan pengisian Tabel 2.1:
 
 # BAB 3: Model Arsitektur Perangkat Lunak
 
-*Architectural View* adalah bagaimana cara kita melihat/mendeskripsikan arsitektur sebuah sistem dari sudut pandang tertentu. Dalam perancangan arsitektur aplikasi, dibutuhkan *Architectural View* yang dapat mempermudah pemahaman dari proses aplikasi yang akan dikembangkan. Tujuan dari *Architectural View* adalah menjadi bahan komunikasi, pemisahan masalah, mempermudah analisis, dan pemandu saat eksekusi pengembangan sistem tersebut.
+Architectural View adalah cara mendeskripsikan arsitektur sistem dari sudut pandang tertentu. Pada BAB 3 ini, model arsitektur Fajar Tech digambarkan menggunakan **Logical View** sebagai view utama dan **Physical View** sebagai view pelengkap. Pemilihan ini disesuaikan dengan style **Layered Architecture** pada BAB 1 serta komponen pada Tabel 2.1.
 
-Buatlah model arsitektur dari aplikasi yang akan dirancang dalam bentuk *view*. Model arsitektur ini berfungsi untuk memperlihatkan bagaimana setiap komponen, modul, dan subsistem saling berinteraksi serta berkolaborasi dalam menjalankan fungsi utama sistem secara keseluruhan. Anda dapat membuat satu atau lebih *view* tergantung kebutuhan dalam bentuk gambar. Pilihlah notasi yang sesuai. Contoh *view* yang dapat digunakan antara lain ***Logical View***, ***Process View***, ***Development View***, serta ***Physical View***.
+## 3.1 Logical View
 
-Ketentuan pengisian BAB 3:
-1. Setiap view menggambarkan **keseluruhan sistem**, bukan satu use case atau satu fitur saja.
-2. Buat **minimal satu view**. Setiap view dituliskan dalam subbab tersendiri (3.1, 3.2, dan seterusnya). Tidak perlu membuat keempat view, pilih yang paling membantu menjelaskan P/L Anda, lalu jelaskan alasan pemilihannya.
-3. Setiap view harus **konsisten dengan BAB 2**. Seluruh komponen pada Tabel 2.1 harus muncul dengan nama yang sama, dan tidak boleh ada komponen pada view yang tidak terdaftar di Tabel 2.1.
-4. Setiap view harus **mencerminkan style/pattern pada BAB 1**.
-5. Jika membuat lebih dari satu view, setiap view harus menggambarkan sistem yang sama dari sudut pandang berbeda. View tambahan melengkapi view pertama, bukan mengulanginya.
-6. Beri label pada setiap garis atau panah yang menghubungkan komponen agar hubungan antarkomponen dapat dipahami tanpa penjelasan tambahan.
-7. Jika membuat *Physical View*, gambarkan lingkungan operasi pada Tabel 1.1.
-
-## 3.1 XXX View
-
-Tuliskan secara singkat mengenai model arsitektur perangkat lunak yang Anda pilih dan sertakan alasan mengapa model arsitektur tersebut cocok untuk aplikasi Anda.
+Logical View dipilih karena mampu memperlihatkan pembagian tanggung jawab setiap lapisan dan hubungan fungsional antarkomponen. View ini juga paling mudah dicek konsistensinya dengan Tabel 2.1 dan style Layered Architecture pada BAB 1.
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/contoh-logical-view.webp" width="100%">
+<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Logical.png" width="100%">
 </p>
 <p align="center">
-<i>Gambar 2. Contoh Logical View pada P/L E-Commerce</i>
+<i>Gambar 2. Logical View</i>
 </p>
+
+**Gambar 3.1. Logical View Fajar Tech**
+
+Gambar 3.1 memperlihatkan empat lapisan utama, yaitu **Presentation Layer**, **Business Layer**, **Data Access Layer**, dan **Database**. Aktor serta sistem eksternal digambarkan dengan garis putus-putus di luar sistem, yaitu Warga, Teknisi, Pengurus, Calon Pengguna, dan Perangkat IoT.
+
+### Presentation Layer
+
+- `WargaView`
+- `TeknisiView`
+- `PengurusView`
+- `AuthView`
+- `TelemetriAPI`
+
+### Business Layer
+
+Controller:
+
+- `MonitoringController`
+- `LaporanController`
+- `PemeliharaanController`
+- `IuranController`
+- `AkunController`
+
+Komponen pendukung:
+
+- `Validasi`
+
+Modul domain:
+
+- `ModulAkun`
+- `ModulMonitoring`
+- `ModulLaporan`
+- `ModulPemeliharaan`
+- `ModulIuran`
+- `ModulNotifikasi`
+
+### Data Access Layer
+
+- `DataAkunBoundary`
+- `DataPerangkatBoundary`
+- `DataLaporanBoundary`
+- `DataIuranBoundary`
+
+### Database
+
+- `Database`
+
+### Hubungan Antarkomponen
+
+Aktor eksternal ke Presentation Layer:
+
+- Warga → `WargaView`
+- Teknisi → `TeknisiView`
+- Pengurus → `PengurusView`
+- Calon Pengguna → `AuthView`
+- Perangkat IoT → `TelemetriAPI` : “kirim data metrik operasional”
+
+Presentation Layer ke Business Layer:
+
+- `WargaView` → `MonitoringController` : “lihat dashboard air/energi (UC01)”
+- `WargaView` → `IuranController` : “lihat tagihan final (UC02)”
+- `WargaView` → `LaporanController` : “buat/lihat laporan gangguan (UC03–UC04)”
+- `TeknisiView` → `MonitoringController` : “lihat peringatan daya kritis & riwayat panel surya (UC05–UC06)”
+- `TeknisiView` → `LaporanController` : “perbarui status gangguan (UC07)”
+- `TeknisiView` → `PemeliharaanController` : “catat pemeliharaan (UC08)”
+- `PengurusView` → `IuranController` : “analitik pemakaian, kelola iuran, rekapitulasi (UC09–UC11)”
+- `PengurusView` → `AkunController` : “persetujuan akun (UC14)”
+- `AuthView` → `AkunController` : “registrasi/login (UC12–UC13)”
+- `TelemetriAPI` → `MonitoringController` : “teruskan data telemetri (UC01, UC05, UC06)”
+
+Controller ke `Validasi`:
+
+- `MonitoringController`, `LaporanController`, `PemeliharaanController`, `IuranController`, `AkunController` → `Validasi` : “validasi input”
+
+Controller ke modul domain:
+
+- `MonitoringController` → `ModulMonitoring`, `ModulNotifikasi`
+- `LaporanController` → `ModulLaporan`
+- `PemeliharaanController` → `ModulPemeliharaan`
+- `IuranController` → `ModulIuran`
+- `AkunController` → `ModulAkun`
+
+Modul domain ke Data Access Layer:
+
+- `ModulAkun` → `DataAkunBoundary` : “akses data akun, peran, kredensial”
+- `ModulMonitoring` → `DataPerangkatBoundary` : “akses perangkat, sensor, historis”
+- `ModulLaporan` → `DataLaporanBoundary` : “akses laporan, status, penugasan”
+- `ModulPemeliharaan` → `DataPerangkatBoundary` : “akses catatan pemeliharaan”
+- `ModulIuran` → `DataIuranBoundary` : “akses periode, pemakaian, tarif, tagihan, rekap”
+- `ModulNotifikasi` → `DataPerangkatBoundary` : “akses penugasan & notifikasi perangkat”
+
+Data Access Layer ke Database:
+
+- `DataAkunBoundary` → `Database` : “query/CRUD akun”
+- `DataPerangkatBoundary` → `Database` : “query/CRUD perangkat”
+- `DataLaporanBoundary` → `Database` : “query/CRUD laporan”
+- `DataIuranBoundary` → `Database` : “query/CRUD iuran”
+
+Aturan ketergantungan antarlapisan mengikuti pola top-to-bottom. Lapisan atas dapat menggunakan layanan lapisan di bawahnya, tetapi lapisan bawah tidak menggunakan layanan dari lapisan di atasnya.
 
 Gambar 2 adalah contoh *Logical View* dalam bentuk *block diagram*. Seluruh komponen pada Tabel 2.1 digambarkan dan dikelompokkan sesuai pola yang digunakan, ditambah komponen pendukung dan basis data. Sistem di luar P/L digambarkan dengan garis putus-putus. Setiap garis diberi label agar hubungan antarkomponen dapat dipahami.
 
-<sub><b><i>Catatan</i></b>: <i>Ganti XXX dengan nama view yang dibuat, misalnya Logical View. Gambar 2 hanya contoh untuk P/L e-commerce, ganti dengan view milik kelompok Anda yang memuat seluruh komponen pada Tabel 2.1. Jenis view dan notasinya boleh berbeda dari contoh. Jika membuat view tambahan, lanjutkan pola 3.x ini (3.2, 3.3, dan seterusnya).</i></sub>
+## 3.2 Physical View
+
+Physical View dipilih untuk menunjukkan lingkungan operasi sesuai Tabel 1.1, yaitu web browser, server Node.js atau PHP, DBMS PostgreSQL atau MySQL, dan perangkat keras IoT.
+
+<p align="center">
+<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Physical.png" width="100%">
+</p>
+<p align="center">
+<i>Gambar 3. Physical View</i>
+</p>
+
+**Gambar 3.2. Physical View Fajar Tech**
+
+Gambar 3.2 memperlihatkan empat node utama.
+
+### Client Device
+
+Label: “Web Browser modern pada OS cross-platform: Windows/Linux/macOS/Android/iOS”
+
+Isi:
+
+- `WargaView`
+- `TeknisiView`
+- `PengurusView`
+- `AuthView`
+
+### Server Cloud/VPS
+
+Label: “Node.js atau PHP”
+
+Isi:
+
+- `TelemetriAPI`
+- `MonitoringController`
+- `LaporanController`
+- `PemeliharaanController`
+- `IuranController`
+- `AkunController`
+- `Validasi`
+- `ModulAkun`
+- `ModulMonitoring`
+- `ModulLaporan`
+- `ModulPemeliharaan`
+- `ModulIuran`
+- `ModulNotifikasi`
+- `DataAkunBoundary`
+- `DataPerangkatBoundary`
+- `DataLaporanBoundary`
+- `DataIuranBoundary`
+
+### Database Server
+
+Label: “PostgreSQL atau MySQL”
+
+Isi:
+
+- `Database`
+
+### Perangkat Keras IoT
+
+Label: “Mikrokontroler IoT pada fasilitas komunitas”
+
+Node ini merupakan lingkungan operasi dari Tabel 1.1, bukan komponen perangkat lunak pada Tabel 2.1.
+
+### Hubungan Antarnode
+
+- Client Device → Server Cloud/VPS : “HTTPS request/response”
+- Perangkat Keras IoT → `TelemetriAPI` : “kirim data metrik operasional via HTTP/MQTT”
+- Server Cloud/VPS → Database Server : “SQL query/CRUD via TCP”
+
 
 ---
 
