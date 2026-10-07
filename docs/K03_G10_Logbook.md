@@ -25,8 +25,8 @@
 * [Milestone 1](#milestone-1)
 * [Milestone 2](#milestone-2)
 * [Milestone 3](#milestone-3)
-* Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
-
+* [Milestone 4](#milestone-4)
+* [Milestone 6](#milestone-6)
 
 ---
 
@@ -37,12 +37,11 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *04-05-2026* | *[Nama Mahasiswa]* | *[Jelaskan Pekerjaan secara Singkat]* | *[Durasi Pengerjaan]* | *[On Progress/Done]* | [Kendala yang dialami, jika tidak ada cukup tandai "-"] | 
 | *05-05-2026* | *John Doe* | *Mendesain diagram kelas* | *3* | *Done* | *-* | 
-| 31-08-2026 | Muhammad Rafiandhi Suryadinata | Meriset dan menganalisis kebutuhan masyarakat yang relevan dengan SDG 6 & 7 serta mencari referensi dan sumbernya, Menuliskan Latar Belakang Masalah dan Kondisi Saat ini pada Bab 1 | 8 | Done | - | |
-| 01-09-2026 | Raffi Fauzi Hermawan | Melakukan analisis mengenai perangkat lunak yang akan dibuat serta melakukan riset referensi | 7 | Done |- | |
-| 01-09-2026 | Muhammad Faiz Ramadhan | Menganalisis dan mendeskripsikan aktor serta menyusun kebutuhan pengguna awal yang relevan dengan sistem pemantauan air dan energi surya komunal pada Bab 3 | 5 | Done | - | |
-| 01-09-2026 | Andro Irsya Syafiq | Merancang deskripsi aktivitas sistem (Subbab 3.3) dengan mengidentifikasi dan memetakan 12 aktivitas operasional secara spesifik berdasarkan peran masing-masing subjek/aktor  | 7 | Done | - | |
-| 01-09-2026 | Rionaldo Casey Pandhitha | Merancang Model Proses Bisnis (3.4) dalam bentuk swimlane diagram, meliputi proses pemantauan air dan energi, pemantauan teknis dan peringatan dini, pelaporan dan penanganan gangguan, serta analitik pemakaian dan pengelolaan iuran. Termasuk revisi notasi diagram, perbaikan layout, dan finalisasi diagram dalam format SVG. | 3 | Done | - | |
-
+| 31-08-2026 | Muhammad Rafiandhi Suryadinata | Meriset dan menganalisis kebutuhan masyarakat yang relevan dengan SDG 6 & 7 serta mencari referensi dan sumbernya, Menuliskan Latar Belakang Masalah dan Kondisi Saat ini pada Bab 1 | 8 | Done | - |
+| 01-09-2026 | Raffi Fauzi Hermawan | Melakukan analisis mengenai perangkat lunak yang akan dibuat serta melakukan riset referensi | 7 | Done |- |
+| 01-09-2026 | Muhammad Faiz Ramadhan | Menganalisis dan mendeskripsikan aktor serta menyusun kebutuhan pengguna awal yang relevan dengan sistem pemantauan air dan energi surya komunal pada Bab 3 | 5 | Done | - |
+| 01-09-2026 | Andro Irsya Syafiq | Merancang deskripsi aktivitas sistem (Subbab 3.3) dengan mengidentifikasi dan memetakan 12 aktivitas operasional secara spesifik berdasarkan peran masing-masing subjek/aktor | 7 | Done | - |
+| 01-09-2026 | Rionaldo Casey Pandhitha | Merancang Model Proses Bisnis (3.4) dalam bentuk swimlane diagram, meliputi proses pemantauan air dan energi, pemantauan teknis dan peringatan dini, pelaporan dan penanganan gangguan, serta analitik pemakaian dan pengelolaan iuran. Termasuk revisi notasi diagram, perbaikan layout, dan finalisasi diagram dalam format SVG. | 3 | Done | - |
 
 **Catatan/Evaluasi Milestone 1:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
@@ -52,12 +51,11 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
-| 08-09-2026 | Muhammad Rafiandhi Suryadinata | Mendefinisikan daftar kebutuhan fungsional pada sistem secara rinci dan memetakannya dengan ID kebutuhan yang relevan. | 4 | Done | - | |
-| 08-09-2026 | Raffi Fauzi Hermawan | Merumuskan system requirement dari sisi interaksi perangkat keras/lunak dan menentukan status kelayakan implementasi perangkat lunak. | 6 | Done |- | |
-| 08-09-2026 | Muhammad Faiz Ramadhan | Merumuskan kebutuhan non-fungsional pada aspek teknis (security, reliability, safety, dan availability), menyelaraskan penomoran ID pada dokumen, dan memfinalisasi berkas  tugas.  | 5 | Done | - | |
-| 08-09-2026 | Andro Irsya Syafiq | Menyusun spesifikasi kebutuhan non-fungsional dengan fokus pada parameter umum (ergonomy, portability, response time, dan memory).  | 3 | Done | - | |
-| 08-09-2026 | Rionaldo Casey Pandhitha | Melakukan pemetaan detail terkait user requirement dan business requirement berdasarkan deskripsi aktivitas sistem  komunal. | 4 | Done | - | |
-
+| 08-09-2026 | Muhammad Rafiandhi Suryadinata | Mendefinisikan daftar kebutuhan fungsional pada sistem secara rinci dan memetakannya dengan ID kebutuhan yang relevan. | 4 | Done | - |
+| 08-09-2026 | Raffi Fauzi Hermawan | Merumuskan system requirement dari sisi interaksi perangkat keras/lunak dan menentukan status kelayakan implementasi perangkat lunak. | 6 | Done |- |
+| 08-09-2026 | Muhammad Faiz Ramadhan | Merumuskan kebutuhan non-fungsional pada aspek teknis (security, reliability, safety, dan availability), menyelaraskan penomoran ID pada dokumen, dan memfinalisasi berkas tugas. | 5 | Done | - |
+| 08-09-2026 | Andro Irsya Syafiq | Menyusun spesifikasi kebutuhan non-fungsional dengan fokus pada parameter umum (ergonomy, portability, response time, dan memory). | 3 | Done | - |
+| 08-09-2026 | Rionaldo Casey Pandhitha | Melakukan pemetaan detail terkait user requirement dan business requirement berdasarkan deskripsi aktivitas sistem komunal. | 4 | Done | - |
 
 **Catatan/Evaluasi Milestone 2:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
@@ -67,11 +65,11 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
-| 16-09-2026 | Muhammad Faiz Ramadhan | Menyiapkan dokumen K03_G10_UC.md, menyusun BAB 1 dan BAB 2, serta menyusun skenario use case UC01, UC02, dan UC09. | 5 | Done | - | |
-| 16-09-2026 | Andro Irsya Syafiq | Menyusun skenario use case UC03, UC05, UC08, UC12, UC13, dan UC14 termasuk skenario normal dan alternatif berdasarkan kebutuhan fungsional terkait. | 5 | Done | - | |
-| 16-09-2026 | Raffi Fauzi Hermawan | Menyusun use case diagram yang mencakup UC01 sampai UC11 serta menyusun skenario use case UC06 dan UC07. | 5 | Done | - | |
-| 16-09-2026 | Rionaldo Casey Pandhitha | Menyusun skenario UC04 dan UC11, menyiapkan Form Asistensi dan Logbook Milestone 3, memperbaiki urutan user requirement, business requirement, dan system requirement berdasarkan hasil asistensi Milestone 2, serta menyesuaikan penomoran kebutuhan pada dokumen Milestone 3. | 5 | Done | - | |
-| 16-09-2026 | Muhammad Rafiandhi Suryadinata | Melakukan pemetaan KF01 sampai KF35 terhadap use case, menyusun skenario UC10, serta melakukan pemeriksaan akhir terhadap konsistensi dan kelengkapan dokumen Milestone 3. | 4 | Done | - | |
+| 16-09-2026 | Muhammad Faiz Ramadhan | Menyiapkan dokumen K03_G10_UC.md, menyusun BAB 1 dan BAB 2, serta menyusun skenario use case UC01, UC02, dan UC09. | 5 | Done | - |
+| 16-09-2026 | Andro Irsya Syafiq | Menyusun skenario use case UC03, UC05, UC08, UC12, UC13, dan UC14 termasuk skenario normal dan alternatif berdasarkan kebutuhan fungsional terkait. | 5 | Done | - |
+| 16-09-2026 | Raffi Fauzi Hermawan | Menyusun use case diagram yang mencakup UC01 sampai UC11 serta menyusun skenario use case UC06 dan UC07. | 5 | Done | - |
+| 16-09-2026 | Rionaldo Casey Pandhitha | Menyusun skenario UC04 dan UC11, menyiapkan Form Asistensi dan Logbook Milestone 3, memperbaiki urutan user requirement, business requirement, dan system requirement berdasarkan hasil asistensi Milestone 2, serta menyesuaikan penomoran kebutuhan pada dokumen Milestone 3. | 5 | Done | - |
+| 16-09-2026 | Muhammad Rafiandhi Suryadinata | Melakukan pemetaan KF01 sampai KF35 terhadap use case, menyusun skenario UC10, serta melakukan pemeriksaan akhir terhadap konsistensi dan kelengkapan dokumen Milestone 3. | 4 | Done | - |
 
 **Catatan/Evaluasi Milestone 3:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
@@ -81,15 +79,25 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
-| 16-09-2026 | Muhammad Faiz Ramadhan | Merancang diagram kelas untuk UC01, UC02, UC12, dan UC13 | 5 | Done | - | |
-| 16-09-2026 | Andro Irsya Syafiq | Merancang diagram kelas untuk UC03, UC04, dan UC08, serta mengerjakan BAB 5 traceability | 4 | Done | - | |
-| 16-09-2026 | Raffi Fauzi Hermawan | Merancang diagram kelas untuk UC05, UC06, dan UC07 | 4 | Done | - | |
-| 16-09-2026 | Rionaldo Casey Pandhitha | Merancang diagram kelas untuk UC09, UC11, dan UC14 | 4 | Done | - | |
-| 16-09-2026 | Muhammad Rafiandhi Suryadinata | Merancang diagram kelas untuk UC10, menyusun tabel identifikasi keseluruhan kelas, merancang keseluruhan diagram kelas, serta memastikan kekonsistenan seluruh dokumen | 6 | Done | - | |
+| 16-09-2026 | Muhammad Faiz Ramadhan | Merancang diagram kelas untuk UC01, UC02, UC12, dan UC13 | 5 | Done | - |
+| 16-09-2026 | Andro Irsya Syafiq | Merancang diagram kelas untuk UC03, UC04, dan UC08, serta mengerjakan BAB 5 traceability | 4 | Done | - |
+| 16-09-2026 | Raffi Fauzi Hermawan | Merancang diagram kelas untuk UC05, UC06, dan UC07 | 4 | Done | - |
+| 16-09-2026 | Rionaldo Casey Pandhitha | Merancang diagram kelas untuk UC09, UC11, dan UC14 | 4 | Done | - |
+| 16-09-2026 | Muhammad Rafiandhi Suryadinata | Merancang diagram kelas untuk UC10, menyusun tabel identifikasi keseluruhan kelas, merancang keseluruhan diagram kelas, serta memastikan kekonsistenan seluruh dokumen | 6 | Done | - |
 
 **Catatan/Evaluasi Milestone 4:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
 
----
+### Milestone 6
+**Periode:** 30-09-2026 - 07-10-2026
 
-``Gunakan format penulisan Logbook yang sama untuk setiap Milestone dan pastikan pembuatan Daftar Isi juga sudah sesuai sebelum Logbook dikumpulkan. ``
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 06-10-2026 | Muhammad Faiz Ramadhan | Menyusun BAB 1 Style/Pattern Arsitektur Acuan: memilih Layered Architecture, menjelaskan pembagian layer dan alasan pemilihan berdasarkan SKPL, menyusun diagram penerapan, serta mengaitkan lingkungan operasi dengan pattern. | 4 | Done | - |
+| 07-10-2026 | Andro Irsa Syafiq | Menyusun BAB 2 bagian modul/domain dengan mengelompokkan kelas-kelas dari M4/M5 ke dalam modul bisnis dan menjelaskan tanggung jawab masing-masing modul. | 3 | Done | - |
+| 07-10-2026 | Rionaldo Casey Pandhitha | Menyusun BAB 2 bagian View dan Controller serta komponen pendukung validasi, notifikasi, dan basis data; menyelaraskan Tabel 2.1 dengan Layered Architecture, komponen anggota lain, SKPL M5, dan hasil Asistensi Akbar; serta menyiapkan Form Asistensi dan Logbook Milestone 6. | 4 | Done | - |
+| 07-10-2026 | Raffi Fauzi Hermawan | Menyusun BAB 3 Model Arsitektur Perangkat Lunak dalam bentuk Logical View yang memuat seluruh komponen pada Tabel 2.1 beserta relasi berlabelnya. | 4 | On Progress | - |
+| 07-10-2026 | Muhammad Rafiandhi Suryadinata | Melakukan pemeriksaan konsistensi penamaan BAB 1–3, penelusuran use case ke komponen, dan final review dokumen M6. | 3 | On Progress | - |
+
+**Catatan/Evaluasi Milestone 6:**
+* Pembagian pekerjaan mengikuti pembagian tugas M6. Status Raffi dan Rafiandhi disesuaikan kembali setelah BAB 3 dan final review selesai.

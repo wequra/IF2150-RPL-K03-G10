@@ -12,10 +12,11 @@ ARSITEKTUR PERANGKAT LUNAK (APL)
 ### Untuk: *Tigress / Agatha*
 
 Dipersiapkan oleh:
+
 | Informasi | Keterangan |
 | --- | --- |
 | Kelas | K-3 |
-| Kelompok | 10  |
+| Kelompok | 10 |
 
 | NIM | Nama |
 | --- | --- |
@@ -32,19 +33,17 @@ Dipersiapkan oleh:
 
 # BAB 1: Style/Pattern Arsitektur Acuan
 
-Fajar Tech menggunakan **Layered Architecture** empat lapisan (presentation, business, data access, database) dengan aturan top-to-bottom. Sesuai Tabel 2.1: *presentation* berisi boundary (View/API); *business* berisi controller dan 28 entity (dalam 6 modul domain) untuk aturan bisnis dengan kendali didelegasikan; *data access* berisi boundary pengontrol akses data; dan *database* untuk penyimpanan terpusat. Pola ini dipilih karena memisahkan UI, aturan bisnis (KF02, KF06, KF25-28), dan akses data, sehingga mendukung keandalan (KNF05, KNF06) dan pemeliharaan. Gambar 1 menerapkan pola ini dengan nama komponen identik dengan Tabel 2.1.
+Fajar Tech menggunakan **Layered Architecture** dengan empat lapisan, yaitu **Presentation Layer**, **Business Layer**, **Data Access Layer**, dan **Database**. Pembagian ini mengikuti pola Layered Architecture yang digunakan pada Asistensi Akbar M6. *Presentation Layer* menangani interaksi pengguna dan masukan dari perangkat lapangan, *Business Layer* menangani controller, aturan bisnis, dan entitas/domain aplikasi, *Data Access Layer* menjadi batas akses data antara logika bisnis dan penyimpanan, sedangkan *Database* menyimpan data persisten. Ketergantungan antarlapisan mengikuti aturan *top-to-bottom*: lapisan atas dapat menggunakan layanan lapisan di bawahnya, tetapi lapisan bawah tidak menggunakan layanan dari lapisan di atasnya.
 
+Pemilihan pola ini sesuai dengan karakteristik Fajar Tech yang memiliki beberapa jenis pengguna dengan antarmuka berbeda, aturan bisnis yang saling berkaitan, data pemantauan dan transaksi yang perlu disimpan secara terpusat, serta masukan berkala dari perangkat pengukuran lapangan. Pemisahan tanggung jawab antarlapisan membantu membatasi perubahan antarkomponen dan mendukung kebutuhan keamanan berdasarkan peran (KNF01–KNF02). Keandalan, keselamatan, ketersediaan, dan waktu respons tetap ditelusurkan ke KNF03–KNF06 serta KNF11–KNF12. Biaya tambahan berupa alur permintaan yang melewati beberapa lapisan diterima karena kebutuhan kinerja sistem masih memiliki batas waktu respons yang terukur.
 
-Pemilihan ini didasarkan pada karakteristik perangkat lunak: UI, business rule, dan akses penyimpanan membutuhkan batas yang jelas karena empat peran memiliki tampilan berbeda namun memakai keadaan yang sama, dan aturan bisnis (KF02, KF06, KF12, KF19, KF25–KF28, KF33) kerap berubah sehingga penggantian implementasi penyimpanan atau tampilan tidak menyentuh lapisan lain. Atribut mutu dominan adalah kemampuan pemeliharaan dan keandalan (KNF05, KNF06), sedangkan kinerja tingkat sedang (KNF11, KNF12) membuat biaya latensi antar lapisan dapat diterima; setiap use case UC01–UC14 tertelusur ke kombinasi boundary–controller–entity–boundary data yang jelas.
-
-
-Gambar 1 menerapkan gaya berlapis dengan setiap kotak diisi komponen nyata milik aplikasi, dan nama komponen ini dipakai sama persis pada Tabel 2.1 serta BAB 3. Panah kebergantungan antarlapisan seluruhnya mengarah ke bawah sesuai aturan top-to-bottom, sedangkan pihak eksternal (perangkat lapangan dan perangkat teknisi) digambarkan dengan garis putus-putus.
+Gambar 1 menerapkan Layered Architecture pada Fajar Tech. Blok entitas pada *Business Layer* merepresentasikan modul domain pada Tabel 2.1: **Entitas Akun & Peran** merepresentasikan `ModulAkun`, **Entitas Perangkat & Pembacaan** merepresentasikan `ModulMonitoring`, **Entitas Laporan & Pemeliharaan** merepresentasikan `ModulLaporan` dan `ModulPemeliharaan`, **Entitas Iuran & Rekapitulasi** merepresentasikan `ModulIuran`, dan **Entitas Notifikasi** merepresentasikan `ModulNotifikasi`. `Validasi` digunakan sebagai komponen pendukung oleh controller pada *Business Layer*. Nama controller, View/API, dan data boundary pada gambar digunakan secara konsisten pada Tabel 2.1.
 
 <p align="center">
-<img alt="Contoh Arsitektur MVC" src="./assets/diagram/layered_structure.png" width="70%">
+<img alt="Layered Architecture Fajar Tech" src="./assets/diagram/layered_structure.png" width="70%">
 </p>
 <p align="center">
-<i>Gambar 1. Contoh Arsitektur MVC</i>
+<i>Gambar 1. Layered Architecture Fajar Tech</i>
 </p>
 
 Selain style/pattern, lingkungan operasi Fajar Tech adalah sebagai berikut.
@@ -59,53 +58,47 @@ Tabel 1.1. Lingkungan Operasi Perangkat Lunak
 | *OS* | *[Cross-platform (Windows, Linux, macOS, Android, iOS) melalui browser]* |
 | *Perangkat Keras* | *[Mikrokontroler IoT pada fasilitas komunitas (untuk mengirim data metrik operasional)]* |
 
-Kaitan teknologi dengan style/pattern: halaman dan komponen React pada Next.js mengimplementasikan boundary di presentation layer, route handler menjadi titik masuk ke controller di business layer, Prisma ORM mengimplementasikan boundary data access, dan PostgreSQL menjadi database; batas lapisan ditegakkan oleh organisasi modul proyek, bukan struktur folder bawaan kerangka kerja.
+Kaitan teknologi dengan style/pattern: web browser menjadi lingkungan utama *Presentation Layer*; logika aplikasi pada server Node.js atau PHP menjalankan *Business Layer* dan *Data Access Layer*; PostgreSQL atau MySQL menjadi *Database* sesuai keputusan implementasi; dan mikrokontroler IoT berinteraksi dengan sistem melalui `TelemetriAPI`. Dengan demikian, pemetaan teknologi tetap mengikuti lingkungan operasi yang telah ditetapkan pada SKPL tanpa menetapkan framework atau DBMS yang belum diputuskan.
 
 ---
 
 # BAB 2: Identifikasi Komponen / Modul / Subsistem
 
-Pada bagian ini, lakukan identifikasi terhadap komponen, modul, atau subsistem yang menyusun aplikasi berdasarkan *pattern* arsitektur yang telah ditetapkan sebelumnya. Setiap komponen memiliki tanggung jawab tertentu dalam mendukung fungsionalitas sistem.
-
-Setiap komponen memiliki tanggung jawab tertentu dalam mendukung fungsionalitas sistem secara keseluruhan. Komponen dapat dikelompokkan berdasarkan lapisan arsitektur (misalnya *Model*, *View*, dan *Controller* pada pattern MVC), atau berdasarkan fungsi atau peran komponen di dalam sistem (misalnya modul autentikasi, manajemen data, dan integrasi eksternal).
+Komponen Fajar Tech dikelompokkan mengikuti empat lapisan pada BAB 1. Komponen pada *Business Layer* bukan pengganti kelas pada SKPL, melainkan wadah tanggung jawab yang mengelompokkan kelas-kelas terkait. Keseluruhan kelas C01–C28 tetap tercakup oleh modul domain, dan controller serta View/API mendukung UC01–UC14.
 
 Tabel 2.1. Identifikasi Komponen/Modul/Subsistem
 
-| Nama Komponen/Modul/Subsistem | Jenis                 | Penjelasan                                                                                                           |
-| :---------------------------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------- |
-| *ModulAkun*                 | *Model*                | *Merepresentasikan entitas akun pengguna, peran, dan status persetujuan registrasi serta metode untuk mengakses dan mengubahnya.*     |
-| *ModulMonitoring*               | *Model*                | *Merepresentasikan data metrik operasional fisik perangkat secara real-time dan riwayat kinerja serta metode untuk mengakses dan mengubahnya.*                                                       |
-| *ModulLaporan*               | *Model*                | *Merepresentasikan data laporan gangguan, riwayat status penanganan, dan penugasan teknisi serta metode untuk mengakses dan mengubahnya.*                                                       |
-| *ModulPemeliharaan*               | *Model*                | *Merepresentasikan data riwayat kegiatan pemeliharaan perangkat dan penugasan teknisi serta metode untuk mengakses dan mengubahnya.*                                                       |
-| *ModulIuran*               | *Model*                | *Merepresentasikan data pemakaian, aturan tarif, kalkulasi tagihan otomatis, dan rekapitulasi iuran serta metode untuk mengakses dan mengubahnya.*                                                       |
-| *ModulNotifikasi*               | *Model*                | *Merepresentasikan data pesan sistem dan peringatan dini daya kritis perangkat serta metode untuk mengakses dan mengubahnya.*                                                       |
-| *...*                         | *...*                 | *...*                                                                                                                |
-
-| Nama Komponen/Modul/Subsistem | Jenis                 | Penjelasan                                                                                                           |
-| :---------------------------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------- |
-| *KatalogView*                 | *View*                | *Menampilkan daftar produk dan meneruskan aksi pelanggan (misalnya "Tambah ke Keranjang") ke KatalogController.*     |
-| *KeranjangView*               | *View*                | *Menampilkan isi keranjang pelanggan beserta tombol checkout.*                                                       |
-| *CheckoutView*                | *View*                | *Menampilkan ringkasan pesanan dan pilihan metode pembayaran kepada pelanggan.*                                      |
-| *RiwayatPesananView*          | *View*                | *Menampilkan daftar pesanan yang pernah dibuat pelanggan beserta statusnya.*                                         |
-| *KatalogController*           | *Controller*          | *Memproses permintaan daftar produk dan penambahan produk ke keranjang.*                                             |
-| *KeranjangController*         | *Controller*          | *Memproses perubahan isi keranjang dan membuat pesanan baru saat checkout.*                                          |
-| *PembayaranController*        | *Controller*          | *Memproses pemilihan metode pembayaran dan meneruskan permintaan otorisasi ke PaymentGatewayAdapter.*                |
-| *PesananController*           | *Controller*          | *Memproses permintaan riwayat pesanan milik pelanggan.*                                                              |
-| *Produk*                      | *Model*               | *Merepresentasikan data produk beserta stoknya serta metode untuk mengakses dan mengubahnya.*                        |
-| *Keranjang*                   | *Model*               | *Merepresentasikan item yang dipilih pelanggan sebelum checkout serta metode untuk mengakses dan mengubahnya.*       |
-| *Pesanan*                     | *Model*               | *Merepresentasikan data pesanan beserta status pembayarannya serta metode untuk mengakses dan mengubahnya.*          |
-| *Pelanggan*                   | *Model*               | *Merepresentasikan data akun pelanggan serta metode untuk mengakses dan mengubahnya.*                                |
-| *Validasi*                    | *Pendukung*           | *Memvalidasi input pelanggan sebelum diproses oleh controller.*                                                      |
-| *PaymentGatewayAdapter*       | *Integrasi Eksternal* | *Mengirim permintaan otorisasi ke payment gateway (dummy) dan meneruskan status pembayaran ke PembayaranController.* |
-| *Database*                    | *Penyimpanan Data*    | *Menyimpan seluruh data model secara persisten, baik lokal (misalnya SQLite) maupun terpusat (misalnya Supabase).*   |
-| *...*                         | *...*                 | *...*                                                                                                                |
+| Nama Komponen/Modul/Subsistem | Jenis | Penjelasan |
+| :--- | :--- | :--- |
+| *WargaView* | *PRESENTATION LAYER* | *Menampilkan dashboard air dan energi, tagihan final, serta fitur laporan gangguan bagi Warga dan meneruskan aksi pengguna ke controller terkait (UC01–UC04).* |
+| *TeknisiView* | *PRESENTATION LAYER* | *Menampilkan peringatan daya kritis, riwayat kinerja panel surya, pembaruan status gangguan, dan pencatatan pemeliharaan bagi Teknisi (UC05–UC08).* |
+| *PengurusView* | *PRESENTATION LAYER* | *Menampilkan analitik pemakaian, pengelolaan iuran, rekapitulasi, dan persetujuan akun bagi Pengurus (UC09–UC11, UC14).* |
+| *AuthView* | *PRESENTATION LAYER* | *Menyediakan antarmuka registrasi dan login serta meneruskan data autentikasi ke AkunController (UC12–UC13).* |
+| *TelemetriAPI* | *PRESENTATION LAYER* | *Menerima data dari perangkat pengukuran lapangan dan meneruskannya ke MonitoringController untuk mendukung pemantauan serta peringatan (UC01, UC05, UC06).* |
+| *MonitoringController* | *BUSINESS LAYER* | *Mengoordinasikan pemantauan air dan energi, pengolahan telemetri, riwayat kinerja panel surya, dan evaluasi kondisi daya kritis dengan ModulMonitoring dan ModulNotifikasi (UC01, UC05, UC06).* |
+| *LaporanController* | *BUSINESS LAYER* | *Mengoordinasikan pembuatan laporan gangguan, penelusuran riwayat/status, dan pembaruan status penanganan dengan ModulLaporan (UC03, UC04, UC07).* |
+| *PemeliharaanController* | *BUSINESS LAYER* | *Mengoordinasikan pencatatan kegiatan pemeliharaan atau perbaikan perangkat dengan ModulPemeliharaan (UC08).* |
+| *IuranController* | *BUSINESS LAYER* | *Mengoordinasikan akses tagihan final, analitik pemakaian, perhitungan dan finalisasi iuran, serta pembuatan rekapitulasi dengan ModulIuran (UC02, UC09–UC11).* |
+| *AkunController* | *BUSINESS LAYER* | *Mengoordinasikan registrasi, login, pemeriksaan status akun, serta persetujuan atau penolakan akun dengan ModulAkun (UC12–UC14).* |
+| *Validasi* | *BUSINESS LAYER* | *Menyediakan pemeriksaan input yang dapat digunakan ulang, seperti kelengkapan field, format, tipe data, dan rentang dasar. Aturan bisnis tetap ditangani controller dan modul domain terkait.* |
+| *ModulAkun* | *BUSINESS LAYER* | *Mengelompokkan C01 Akun, C02 Warga, C03 Teknisi, C04 Pengurus, C05 CalonPengguna, dan C06 StatusAkun untuk aturan akun, peran, autentikasi, dan persetujuan akun (UC12–UC14 serta penggunaan akun pada use case terkait).* |
+| *ModulMonitoring* | *BUSINESS LAYER* | *Mengelompokkan C07 Perangkat, C08 TangkiAir, C09 Baterai, C10 PanelSurya, C11 PembacaanSensor, C12 DataHistorisKinerja, dan C13 RentangWaktu untuk pemantauan perangkat dan data historis (UC01, UC05, UC06).* |
+| *ModulLaporan* | *BUSINESS LAYER* | *Mengelompokkan C20 LaporanGangguan, C21 StatusLaporan, C22 RiwayatStatusLaporan, dan C24 PenugasanLaporan untuk pelaporan serta penanganan gangguan (UC03, UC04, UC07).* |
+| *ModulPemeliharaan* | *BUSINESS LAYER* | *Mewadahi C27 CatatanPemeliharaan untuk pencatatan tindakan, waktu, hasil, dan perangkat yang dipelihara (UC08).* |
+| *ModulIuran* | *BUSINESS LAYER* | *Mengelompokkan C14 Periode, C15 DataPemakaian, C16 AturanTarif, C17 Tagihan, C18 StatusTagihan, C19 KalkulatorIuran, dan C28 Rekapitulasi untuk pemakaian, kalkulasi/finalisasi iuran, dan rekapitulasi (UC02, UC09–UC11).* |
+| *ModulNotifikasi* | *BUSINESS LAYER* | *Mengelompokkan C23 PenugasanPerangkat, C25 Notifikasi, dan C26 PeringatanDayaKritis untuk menentukan penerima serta isi peringatan daya kritis (UC05).* |
+| *DataAkunBoundary* | *DATA ACCESS LAYER* | *Menjadi batas akses data akun, peran, status persetujuan, dan kredensial antara Business Layer dan Database.* |
+| *DataPerangkatBoundary* | *DATA ACCESS LAYER* | *Menjadi batas akses data perangkat, pembacaan sensor, data historis, penugasan perangkat, notifikasi terkait perangkat, dan catatan pemeliharaan.* |
+| *DataLaporanBoundary* | *DATA ACCESS LAYER* | *Menjadi batas akses data laporan gangguan, riwayat status, dan penugasan laporan.* |
+| *DataIuranBoundary* | *DATA ACCESS LAYER* | *Menjadi batas akses data periode, pemakaian, aturan tarif, tagihan, dan rekapitulasi.* |
+| *Database* | *DATABASE* | *Menyimpan data persisten Fajar Tech secara terpusat menggunakan PostgreSQL atau MySQL sesuai lingkungan operasi pada SKPL.* |
 
 Ketentuan pengisian Tabel 2.1:
-1. Kolom **Jenis** mengikuti pengelompokan pada *style/pattern* di BAB 1. Untuk MVC, jenisnya adalah *Model*, *View*, dan *Controller*. Jenis lain boleh ditambahkan, misalnya *Pendukung* untuk komponen bantu yang dipakai bersama, atau *Integrasi Eksternal* untuk penghubung ke sistem di luar P/L yang disebutkan pada subbab 2.2 dokumen SKPL. Kolom ini juga boleh diisi dengan *Subsistem*, *Modul*, atau *Komponen* apabila komponen dikelompokkan berdasarkan fungsinya. Tuliskan subsistem terlebih dahulu, lalu komponen penyusunnya di baris-baris berikutnya.
-2. Komponen **tidak sama dengan** kelas. Satu komponen boleh mewadahi beberapa kelas dari diagram kelas pada dokumen SKPL. Pastikan seluruh kelas tercakup oleh setidaknya satu komponen.
-3. Pastikan seluruh use case pada dokumen SKPL dapat dijalankan oleh komponen-komponen yang didaftarkan di tabel ini. Jangan menambahkan komponen untuk fitur yang tidak ada di SKPL.
+1. Kolom **Jenis** mengikuti pengelompokan pada *style/pattern* di BAB 1.
+2. Komponen **tidak sama dengan** kelas. Satu komponen dapat mewadahi beberapa kelas dari diagram kelas pada dokumen SKPL.
+3. Seluruh kelas C01–C28 tercakup oleh modul domain dan seluruh UC01–UC14 dapat dijalankan melalui View/API, controller, modul domain, data boundary, dan Database yang sesuai.
 
-<sub><b><i>Catatan</i></b>: <i>Nama komponen pada Tabel 2.1 harus dipakai sama persis pada gambar di BAB 1 dan setiap view di BAB 3. Jika saat membuat view ternyata dibutuhkan komponen baru, tambahkan komponen tersebut ke Tabel 2.1 terlebih dahulu.</i></sub>
+<sub><b><i>Catatan</i></b>: <i>Nama komponen pada Tabel 2.1 menjadi acuan untuk BAB 3. Jika diperlukan perubahan komponen, perubahan harus diselaraskan kembali pada BAB 1, Tabel 2.1, dan view pada BAB 3.</i></sub>
 
 ---
 
@@ -119,7 +112,7 @@ Ketentuan pengisian BAB 3:
 1. Setiap view menggambarkan **keseluruhan sistem**, bukan satu use case atau satu fitur saja.
 2. Buat **minimal satu view**. Setiap view dituliskan dalam subbab tersendiri (3.1, 3.2, dan seterusnya). Tidak perlu membuat keempat view, pilih yang paling membantu menjelaskan P/L Anda, lalu jelaskan alasan pemilihannya.
 3. Setiap view harus **konsisten dengan BAB 2**. Seluruh komponen pada Tabel 2.1 harus muncul dengan nama yang sama, dan tidak boleh ada komponen pada view yang tidak terdaftar di Tabel 2.1.
-4. Setiap view harus **mencerminkan style/pattern pada BAB 1**. Misalnya, jika memilih MVC, pembagian *Model*, *View*, dan *Controller* harus terlihat jelas pada diagram.
+4. Setiap view harus **mencerminkan style/pattern pada BAB 1**.
 5. Jika membuat lebih dari satu view, setiap view harus menggambarkan sistem yang sama dari sudut pandang berbeda. View tambahan melengkapi view pertama, bukan mengulanginya.
 6. Beri label pada setiap garis atau panah yang menghubungkan komponen agar hubungan antarkomponen dapat dipahami tanpa penjelasan tambahan.
 7. Jika membuat *Physical View*, gambarkan lingkungan operasi pada Tabel 1.1.
@@ -135,7 +128,7 @@ Tuliskan secara singkat mengenai model arsitektur perangkat lunak yang Anda pili
 <i>Gambar 2. Contoh Logical View pada P/L E-Commerce</i>
 </p>
 
-Gambar 2 adalah contoh *Logical View* dalam bentuk *block diagram*. Seluruh komponen pada Tabel 2.1 digambarkan dan dikelompokkan sesuai pola MVC (*View*, *Controller*, *Model*), ditambah komponen pendukung dan basis data. Sistem di luar P/L, seperti *Payment Gateway (dummy)*, digambarkan dengan garis putus-putus dan tidak perlu dimasukkan ke Tabel 2.1. Setiap garis diberi label: "Memanggil" untuk *View* yang memanggil *Controller*, "akses" untuk *Controller* yang mengakses *Model*, serta agregasi dan komposisi untuk hubungan antar-*Model*.
+Gambar 2 adalah contoh *Logical View* dalam bentuk *block diagram*. Seluruh komponen pada Tabel 2.1 digambarkan dan dikelompokkan sesuai pola yang digunakan, ditambah komponen pendukung dan basis data. Sistem di luar P/L digambarkan dengan garis putus-putus. Setiap garis diberi label agar hubungan antarkomponen dapat dipahami.
 
 <sub><b><i>Catatan</i></b>: <i>Ganti XXX dengan nama view yang dibuat, misalnya Logical View. Gambar 2 hanya contoh untuk P/L e-commerce, ganti dengan view milik kelompok Anda yang memuat seluruh komponen pada Tabel 2.1. Jenis view dan notasinya boleh berbeda dari contoh. Jika membuat view tambahan, lanjutkan pola 3.x ini (3.2, 3.3, dan seterusnya).</i></sub>
 

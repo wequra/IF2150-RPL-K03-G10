@@ -4,39 +4,38 @@
 
 | Informasi | Keterangan |
 | --- | --- |
-| **Hari** | *\[Hari\]* |
-| **Tanggal** | *\[DD/MM/YYYY\]* |
-| **Kelas** | *\[Kelas\]* |
-| **Nomor Kelompok** | *\[Nomor Kelompok\]*  |
-| **Nama Kelompok** | *\[Nama Kelompok\]*  |
-| **Nama Perangkat Lunak** | *\[Nama P/L\]*  |
-| **Dokumen** | *\[Nama Dokumen yang diasistensikan\]*  |
+| **Hari** | *Jumat* |
+| **Tanggal** | *02/10/2026* |
+| **Waktu** | *16.00–17.15 WIB* |
+| **Kelas** | *K03* |
+| **Nomor Kelompok** | *10* |
+| **Nama Kelompok** | *FAJAR67* |
+| **Nama Perangkat Lunak** | *Fajar Tech* |
+| **Dokumen** | *K03_G10_APL.md* |
 
 ### Anggota Kelompok
 
 | NIM | Nama |
 | --- | --- |
-| *\[NIM 1\]* | *\[Nama Anggota 1\]* |
-| *\[NIM 2\]* | *\[Nama Anggota 2\]* |
-| *\[NIM 3\]* | *\[Nama Anggota 3\]* |
-| *\[NIM 4\]* | *\[Nama Anggota 4\]* |
-| *\[NIM 5\]* | *\[Nama Anggota 5\]* |
+| *13525054* | *Raffi Fauzi Hermawan* |
+| *13525030* | *Rionaldo Casey Pandhitha* |
+| *13525129* | *Andro Irsa Syafiq* |
+| *13525078* | *Muhammad Faiz Ramadhan* |
+| *13525006* | *Muhammad Rafiandhi Suryadinata* |
 
 ### Catatan
 
 | Catatan |
 | --- |
-| 1. *\[Berikan catatan hasil asistensi\]*  |
-| 2. ... |
-| 3. ... |
-| 4. ... |
-
-**Notes for this section:**  
-*Catatan dapat dituliskan dalam bentuk paragraf atau poin-poin, disesuaikan saja.* 
+| 1. *BAB 1, BAB 2, dan BAB 3 harus konsisten dan menjelaskan design yang sama.* |
+| 2. *Untuk Layered Architecture gunakan alur top-to-bottom; layer bawah tidak menggunakan service dari layer di atas.* |
+| 3. *Tabel 2.1 harus mencakup seluruh kelas dan mendukung seluruh use case pada SKPL. Jenis komponen mengikuti layer/pattern yang dipilih.* |
+| 4. *BAB 3 minimal memuat satu view yang menggambarkan keseluruhan sistem, seluruh komponen Tabel 2.1, dan relasi yang berlabel.* |
+| 5. *Lingkungan operasi disalin dari SKPL 2.5 dan dikaitkan dengan style/pattern yang dipilih.* |
 
 ## Dokumentasi
 
-<!-- ![](./assets/foto-asistensi.jpg) -->
+<!-- Ganti dengan dokumentasi asistensi M6 jika file sudah tersedia.
 <p align="center">
   <img src="./assets/foto-asistensi.jpg" width="100%">
 </p>
@@ -44,3 +43,4 @@
 <p align="center">
   <i>Gambar 1. Dokumentasi kegiatan asistensi.</i>
 </p>
+-->
