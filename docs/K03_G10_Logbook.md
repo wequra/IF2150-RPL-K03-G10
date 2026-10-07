@@ -97,7 +97,7 @@
 | 07-10-2026 | Andro Irsa Syafiq | Menyusun BAB 2 bagian modul/domain dengan mengelompokkan kelas-kelas dari M4/M5 ke dalam modul bisnis dan menjelaskan tanggung jawab masing-masing modul. | 3 | Done | - |
 | 07-10-2026 | Rionaldo Casey Pandhitha | Menyusun BAB 2 bagian View dan Controller serta komponen pendukung validasi, notifikasi, dan basis data; menyelaraskan Tabel 2.1 dengan Layered Architecture, komponen anggota lain, SKPL M5, dan hasil Asistensi Akbar; serta menyiapkan Form Asistensi dan Logbook Milestone 6. | 4 | Done | - |
 | 07-10-2026 | Raffi Fauzi Hermawan | Menyusun BAB 3 Model Arsitektur Perangkat Lunak dalam bentuk Logical View yang memuat seluruh komponen pada Tabel 2.1 beserta relasi berlabelnya. | 4 | Done | - |
-| 07-10-2026 | Muhammad Rafiandhi Suryadinata | Melakukan pemeriksaan konsistensi penamaan BAB 1–3, penelusuran use case ke komponen, dan final review dokumen M6. | 3 | On Progress | - |
+| 07-10-2026 | Muhammad Rafiandhi Suryadinata | Melakukan pemeriksaan konsistensi penamaan BAB 1–3, penelusuran use case ke komponen, dan final review dokumen M6. | 3 | Done | - |
 
 **Catatan/Evaluasi Milestone 6:**
 * Pembagian pekerjaan mengikuti pembagian tugas M6. Status Raffi dan Rafiandhi disesuaikan kembali setelah BAB 3 dan final review selesai.

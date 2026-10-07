@@ -37,7 +37,7 @@ Fajar Tech menggunakan **Layered Architecture** dengan empat lapisan, yaitu **Pr
 
 Pemilihan pola ini sesuai dengan karakteristik Fajar Tech yang memiliki beberapa jenis pengguna dengan antarmuka berbeda, aturan bisnis yang saling berkaitan, data pemantauan dan transaksi yang perlu disimpan secara terpusat, serta masukan berkala dari perangkat pengukuran lapangan. Pemisahan tanggung jawab antarlapisan membantu membatasi perubahan antarkomponen dan mendukung kebutuhan keamanan berdasarkan peran (KNF01–KNF02). Keandalan, keselamatan, ketersediaan, dan waktu respons tetap ditelusurkan ke KNF03–KNF06 serta KNF11–KNF12. Biaya tambahan berupa alur permintaan yang melewati beberapa lapisan diterima karena kebutuhan kinerja sistem masih memiliki batas waktu respons yang terukur.
 
-Gambar 1 menerapkan Layered Architecture pada Fajar Tech. Blok entitas pada *Business Layer* merepresentasikan modul domain pada Tabel 2.1: **Entitas Akun & Peran** merepresentasikan `ModulAkun`, **Entitas Perangkat & Pembacaan** merepresentasikan `ModulMonitoring`, **Entitas Laporan & Pemeliharaan** merepresentasikan `ModulLaporan` dan `ModulPemeliharaan`, **Entitas Iuran & Rekapitulasi** merepresentasikan `ModulIuran`, dan **Entitas Notifikasi** merepresentasikan `ModulNotifikasi`. `Validasi` digunakan sebagai komponen pendukung oleh controller pada *Business Layer*. Nama controller, View/API, dan data boundary pada gambar digunakan secara konsisten pada Tabel 2.1.
+Gambar 1 menerapkan Layered Architecture pada Fajar Tech. Blok entitas pada *Business Layer* merepresentasikan modul domain pada Tabel 2.1: **Entitas Akun & Peran** merepresentasikan `ModulAkun`, **Entitas Perangkat & Pembacaan** merepresentasikan `ModulMonitoring`, **Entitas Laporan & Pemeliharaan** merepresentasikan `ModulLaporan` dan `ModulPemeliharaan`, **Entitas Iuran & Rekapitulasi** merepresentasikan `ModulIuran`, dan **Entitas Notifikasi** merepresentasikan `ModulNotifikasi`. `Validasi` digunakan sebagai komponen pendukung oleh controller pada *Business Layer*. Nama controller, View/API, dan data boundary pada gambar digunakan secara konsisten pada Tabel 2.1. `Validasi` sebagai komponen pendukung tidak digambar pada Gambar 1 agar gambar tetap ringkas, tetapi digambarkan pada Logical View (Gambar 3.1).
 
 <p align="center">
 <img alt="Layered Architecture Fajar Tech" src="./assets/diagram/layered_structure.png" width="70%">
@@ -52,11 +52,11 @@ Tabel 1.1. Lingkungan Operasi Perangkat Lunak
 
 | Komponen | Spesifikasi |
 | :--- | :--- |
-| *Server* | *[Node.js atau PHP, dijalankan pada layanan cloud hosting / VPS]* |
-| *Client* | *[Web Browser modern (Google Chrome, Mozilla Firefox, Safari, Microsoft Edge).]* |
-| *DBMS* | *[PostgreSQL atau MySQL]* |
-| *OS* | *[Cross-platform (Windows, Linux, macOS, Android, iOS) melalui browser]* |
-| *Perangkat Keras* | *[Mikrokontroler IoT pada fasilitas komunitas (untuk mengirim data metrik operasional)]* |
+| *Server* | Node.js atau PHP, dijalankan pada layanan cloud hosting / VPS |
+| *Client* | Web Browser modern (Google Chrome, Mozilla Firefox, Safari, Microsoft Edge). |
+| *DBMS* | PostgreSQL atau MySQL |
+| *OS* | Cross-platform (Windows, Linux, macOS, Android, iOS) melalui browser |
+| *Perangkat Keras* | Mikrokontroler IoT pada fasilitas komunitas (untuk mengirim data metrik operasional) |
 
 Kaitan teknologi dengan style/pattern: web browser menjadi lingkungan utama *Presentation Layer*; logika aplikasi pada server Node.js atau PHP menjalankan *Business Layer* dan *Data Access Layer*; PostgreSQL atau MySQL menjadi *Database* sesuai keputusan implementasi; dan mikrokontroler IoT berinteraksi dengan sistem melalui `TelemetriAPI`. Dengan demikian, pemetaan teknologi tetap mengikuti lingkungan operasi yang telah ditetapkan pada SKPL tanpa menetapkan framework atau DBMS yang belum diputuskan.
 
@@ -111,13 +111,11 @@ Architectural View adalah cara mendeskripsikan arsitektur sistem dari sudut pand
 Logical View dipilih karena mampu memperlihatkan pembagian tanggung jawab setiap lapisan dan hubungan fungsional antarkomponen. View ini juga paling mudah dicek konsistensinya dengan Tabel 2.1 dan style Layered Architecture pada BAB 1.
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Logical.png" width="100%">
+<img alt="Logical View Fajar Tech" src="./assets/diagram/Logical.png" width="100%">
 </p>
 <p align="center">
-<i>Gambar 2. Logical View</i>
+<i>Gambar 3.1. Logical View Fajar Tech</i>
 </p>
-
-**Gambar 3.1. Logical View Fajar Tech**
 
 Gambar 3.1 memperlihatkan empat lapisan utama, yaitu **Presentation Layer**, **Business Layer**, **Data Access Layer**, dan **Database**. Aktor serta sistem eksternal digambarkan dengan garis putus-putus di luar sistem, yaitu Warga, Teknisi, Pengurus, Calon Pengguna, dan Perangkat IoT.
 
@@ -216,20 +214,18 @@ Data Access Layer ke Database:
 
 Aturan ketergantungan antarlapisan mengikuti pola top-to-bottom. Lapisan atas dapat menggunakan layanan lapisan di bawahnya, tetapi lapisan bawah tidak menggunakan layanan dari lapisan di atasnya.
 
-Gambar 2 adalah contoh *Logical View* dalam bentuk *block diagram*. Seluruh komponen pada Tabel 2.1 digambarkan dan dikelompokkan sesuai pola yang digunakan, ditambah komponen pendukung dan basis data. Sistem di luar P/L digambarkan dengan garis putus-putus. Setiap garis diberi label agar hubungan antarkomponen dapat dipahami.
+Gambar 3.1 berbentuk *block diagram*: seluruh komponen pada Tabel 2.1 digambarkan dan dikelompokkan sesuai pola yang digunakan, ditambah komponen pendukung dan basis data. Sistem di luar P/L digambarkan dengan garis putus-putus, dan setiap garis diberi label agar hubungan antarkomponen dapat dipahami.
 
 ## 3.2 Physical View
 
 Physical View dipilih untuk menunjukkan lingkungan operasi sesuai Tabel 1.1, yaitu web browser, server Node.js atau PHP, DBMS PostgreSQL atau MySQL, dan perangkat keras IoT.
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Physical.png" width="100%">
+<img alt="Physical View Fajar Tech" src="./assets/diagram/Physical.png" width="100%">
 </p>
 <p align="center">
-<i>Gambar 3. Physical View</i>
+<i>Gambar 3.2. Physical View Fajar Tech</i>
 </p>
-
-**Gambar 3.2. Physical View Fajar Tech**
 
 Gambar 3.2 memperlihatkan empat node utama.
 
@@ -288,6 +284,31 @@ Node ini merupakan lingkungan operasi dari Tabel 1.1, bukan komponen perangkat l
 - Perangkat Keras IoT → `TelemetriAPI` : “kirim data metrik operasional via HTTP/MQTT”
 - Server Cloud/VPS → Database Server : “SQL query/CRUD via TCP”
 
+
+## 3.3 Traceability Use Case ke Komponen
+
+Tabel 3.1 menelusuri setiap use case SKPL ke komponen yang menjalankannya. Seluruh controller juga memanggil `Validasi` untuk pemeriksaan input.
+
+Tabel 3.1. Traceability UC → Komponen
+
+| UC | View/API | Controller | Modul Domain | Data Boundary |
+| :--- | :--- | :--- | :--- | :--- |
+| UC01 | `WargaView`, `TelemetriAPI` | `MonitoringController` | `ModulMonitoring` | `DataPerangkatBoundary` |
+| UC02 | `WargaView` | `IuranController` | `ModulIuran` | `DataIuranBoundary` |
+| UC03 | `WargaView` | `LaporanController` | `ModulLaporan` | `DataLaporanBoundary` |
+| UC04 | `WargaView` | `LaporanController` | `ModulLaporan` | `DataLaporanBoundary` |
+| UC05 | `TeknisiView`, `TelemetriAPI` | `MonitoringController` | `ModulMonitoring`, `ModulNotifikasi` | `DataPerangkatBoundary` |
+| UC06 | `TeknisiView`, `TelemetriAPI` | `MonitoringController` | `ModulMonitoring` | `DataPerangkatBoundary` |
+| UC07 | `TeknisiView` | `LaporanController` | `ModulLaporan` | `DataLaporanBoundary` |
+| UC08 | `TeknisiView` | `PemeliharaanController` | `ModulPemeliharaan` | `DataPerangkatBoundary` |
+| UC09 | `PengurusView` | `IuranController` | `ModulIuran` | `DataIuranBoundary` |
+| UC10 | `PengurusView` | `IuranController` | `ModulIuran` | `DataIuranBoundary` |
+| UC11 | `PengurusView` | `IuranController` | `ModulIuran` | `DataIuranBoundary` |
+| UC12 | `AuthView` | `AkunController` | `ModulAkun` | `DataAkunBoundary` |
+| UC13 | `AuthView` | `AkunController` | `ModulAkun` | `DataAkunBoundary` |
+| UC14 | `PengurusView` | `AkunController` | `ModulAkun` | `DataAkunBoundary` |
+
+Seluruh UC01–UC14 dapat dijalankan oleh komponen yang terdaftar, dan seluruh komponen pada Tabel 2.1 digunakan oleh setidaknya satu use case. `Database` digunakan oleh semua use case melalui data boundary terkait.
 
 ---
 
