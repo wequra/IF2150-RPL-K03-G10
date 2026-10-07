@@ -7,25 +7,23 @@ ARSITEKTUR PERANGKAT LUNAK (APL)
 </h1>
 <br>
 
-## *Nama Perangkat Lunak*
+## *FAJAR TECH*
 
-### Untuk: *[Nama Asisten]*
+### Untuk: *Tigress / Agatha*
 
 Dipersiapkan oleh:
-
 | Informasi | Keterangan |
 | --- | --- |
-| Kelas | *\[Kelas\]* |
-| Kelompok | *\[Nomor Kelompok\]*  |
-| Nama Kelompok | *\[Nama Kelompok\]*  |
+| Kelas | K-3 |
+| Kelompok | 10  |
 
-| NIM       | Nama               |
-| --------- | ------------------ |
-| *[NIM 1]* | *[Nama Anggota 1]* |
-| *[NIM 2]* | *[Nama Anggota 2]* |
-| *[NIM 3]* | *[Nama Anggota 3]* |
-| *[NIM 4]* | *[Nama Anggota 4]* |
-| *[NIM 5]* | *[Nama Anggota 5]* |
+| NIM | Nama |
+| --- | --- |
+| *13525054* | *Raffi Fauzi Hermawan* |
+| *13525030* | *Rionaldo Casey Pandhitha* |
+| *13525129* | *Andro Irsa Syafiq* |
+| *13525078* | *Muhammad Faiz Ramadhan* |
+| *13525006* | *Muhammad Rafiandhi Suryadinata* |
 
 ---
 
@@ -34,14 +32,16 @@ Dipersiapkan oleh:
 
 # BAB 1: Style/Pattern Arsitektur Acuan
 
-Fajar Tech menggunakan Layered Architecture empat lapisan sebagai satu-satunya style arsitektur acuan; basis data bersama dan pemisahan view–controller–model ala MVC terwujud di dalam lapisan-lapisan tersebut, sehingga keseluruhan sistem dijelaskan dengan satu gaya yang konsisten. Presentation layer berisi user interfacer (DashboardWargaView, DashboardTeknisiView, DashboardPengurusView, LaporanGangguanView, AuthView) dan antarmuka mesin TelemetriAPI; application services layer berisi controller (MonitoringController, LaporanController, PemeliharaanController, IuranController, AkunController) sebagai titik pemeriksaan kewenangan terpusat (KNF01, KNF02); domain services layer berisi modul pemegang kelas dan aturan bisnis SKPL (ModulMonitoring, ModulLaporan, ModulPemeliharaan, ModulIuran, ModulAkun, ModulNotifikasi) dengan gaya kendali didelegasikan; technical services layer berisi RepositoriData (PostgreSQL), NotifikasiGateway, serta SensorAdapter di perangkat lapangan yang menyangga kiriman data saat koneksi terputus (KNF03). Aturan antarlapisan bersifat top-to-bottom.
-Pemilihan ini didasarkan pada karakteristik perangkat lunak: empat peran dengan dasbor berbeda membuat view per peran tidak menyentuh logika domain; alur bisnis (pemantauan, laporan dan pemeliharaan, iuran, akun) masing-masing diwadahi satu controller sehingga UC01–UC14 tertelusur jelas; dan aturan bisnis (KF02, KF06, KF12, KF19, KF25–KF28, KF33) terpusat di domain. Atribut mutu dominan adalah keandalan (KNF05 ≤ 3 detik; KNF06 99%) dan kemampuan pemeliharaan (perubahan tarif hanya menyentuh satu modul), sedangkan kinerja tingkat sedang (KNF11 ≤ 2 detik; KNF12 ≤ 5 detik) membuat latensi berlapis dapat diterima. MVC hanya menerangkan lapisan antarmuka, pipe and filter tidak cocok untuk sistem interaktif, dan microservices berlebihan untuk tim lima orang; repository dan client-server terwujud di dalam lapisan.
+Fajar Tech menggunakan **Layered Architecture** empat lapisan (presentation, business, data access, database) dengan aturan top-to-bottom. Sesuai Tabel 2.1: *presentation* berisi boundary (View/API); *business* berisi controller dan 28 entity (dalam 6 modul domain) untuk aturan bisnis dengan kendali didelegasikan; *data access* berisi boundary pengontrol akses data; dan *database* untuk penyimpanan terpusat. Pola ini dipilih karena memisahkan UI, aturan bisnis (KF02, KF06, KF25-28), dan akses data, sehingga mendukung keandalan (KNF05, KNF06) dan pemeliharaan. Gambar 1 menerapkan pola ini dengan nama komponen identik dengan Tabel 2.1.
+
+
+Pemilihan ini didasarkan pada karakteristik perangkat lunak: UI, business rule, dan akses penyimpanan membutuhkan batas yang jelas karena empat peran memiliki tampilan berbeda namun memakai keadaan yang sama, dan aturan bisnis (KF02, KF06, KF12, KF19, KF25–KF28, KF33) kerap berubah sehingga penggantian implementasi penyimpanan atau tampilan tidak menyentuh lapisan lain. Atribut mutu dominan adalah kemampuan pemeliharaan dan keandalan (KNF05, KNF06), sedangkan kinerja tingkat sedang (KNF11, KNF12) membuat biaya latensi antar lapisan dapat diterima; setiap use case UC01–UC14 tertelusur ke kombinasi boundary–controller–entity–boundary data yang jelas.
+
 
 Gambar 1 menerapkan gaya berlapis dengan setiap kotak diisi komponen nyata milik aplikasi, dan nama komponen ini dipakai sama persis pada Tabel 2.1 serta BAB 3. Panah kebergantungan antarlapisan seluruhnya mengarah ke bawah sesuai aturan top-to-bottom, sedangkan pihak eksternal (perangkat lapangan dan perangkat teknisi) digambarkan dengan garis putus-putus.
 
-
 <p align="center">
-<img alt="Contoh Arsitektur MVC" src="./assets/diagram/contoh-arsitektur-mvc.webp" width="70%">
+<img alt="Contoh Arsitektur MVC" src="./assets/diagram/layered_structure.png" width="70%">
 </p>
 <p align="center">
 <i>Gambar 1. Contoh Arsitektur MVC</i>
@@ -58,6 +58,8 @@ Tabel 1.1. Lingkungan Operasi Perangkat Lunak
 | *DBMS* | *[PostgreSQL atau MySQL]* |
 | *OS* | *[Cross-platform (Windows, Linux, macOS, Android, iOS) melalui browser]* |
 | *Perangkat Keras* | *[Mikrokontroler IoT pada fasilitas komunitas (untuk mengirim data metrik operasional)]* |
+
+Kaitan teknologi dengan style/pattern: halaman dan komponen React pada Next.js mengimplementasikan boundary di presentation layer, route handler menjadi titik masuk ke controller di business layer, Prisma ORM mengimplementasikan boundary data access, dan PostgreSQL menjadi database; batas lapisan ditegakkan oleh organisasi modul proyek, bukan struktur folder bawaan kerangka kerja.
 
 ---
 
