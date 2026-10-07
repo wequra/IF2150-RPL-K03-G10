@@ -71,6 +71,16 @@ Tabel 2.1. Identifikasi Komponen/Modul/Subsistem
 
 | Nama Komponen/Modul/Subsistem | Jenis                 | Penjelasan                                                                                                           |
 | :---------------------------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------- |
+| *ModulAkun*                 | *Model*                | *Merepresentasikan entitas akun pengguna, peran, dan status persetujuan registrasi serta metode untuk mengakses dan mengubahnya.*     |
+| *ModulMonitoring*               | *Model*                | *Merepresentasikan data metrik operasional fisik perangkat secara real-time dan riwayat kinerja serta metode untuk mengakses dan mengubahnya.*                                                       |
+| *ModulLaporan*               | *Model*                | *Merepresentasikan data laporan gangguan, riwayat status penanganan, dan penugasan teknisi serta metode untuk mengakses dan mengubahnya.*                                                       |
+| *ModulPemeliharaan*               | *Model*                | *Merepresentasikan data riwayat kegiatan pemeliharaan perangkat dan penugasan teknisi serta metode untuk mengakses dan mengubahnya.*                                                       |
+| *ModulIuran*               | *Model*                | *Merepresentasikan data pemakaian, aturan tarif, kalkulasi tagihan otomatis, dan rekapitulasi iuran serta metode untuk mengakses dan mengubahnya.*                                                       |
+| *ModulNotifikasi*               | *Model*                | *Merepresentasikan data pesan sistem dan peringatan dini daya kritis perangkat serta metode untuk mengakses dan mengubahnya.*                                                       |
+| *...*                         | *...*                 | *...*                                                                                                                |
+
+| Nama Komponen/Modul/Subsistem | Jenis                 | Penjelasan                                                                                                           |
+| :---------------------------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------- |
 | *KatalogView*                 | *View*                | *Menampilkan daftar produk dan meneruskan aksi pelanggan (misalnya "Tambah ke Keranjang") ke KatalogController.*     |
 | *KeranjangView*               | *View*                | *Menampilkan isi keranjang pelanggan beserta tombol checkout.*                                                       |
 | *CheckoutView*                | *View*                | *Menampilkan ringkasan pesanan dan pilihan metode pembayaran kepada pelanggan.*                                      |
