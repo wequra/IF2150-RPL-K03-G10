@@ -1231,7 +1231,7 @@ Bab ini menyajikan diagram kelas perancangan keseluruhan (*Overall Design Class 
 ## 4.1 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas Perancangan Keseluruhan Fajar Tech" src="./assets/diagram/overall-class.png" width="100%">
+<img alt="Diagram Kelas Perancangan Keseluruhan Fajar Tech" src="./assets/diagram/ClassDiagram.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 4.1. Diagram Kelas Perancangan Keseluruhan Fajar Tech</i>
