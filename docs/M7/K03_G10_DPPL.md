@@ -286,6 +286,7 @@ Pengurus membuka dashboard administratif, lalu `IuranController` memeriksa kewen
 <p align="center">
 <i>Gambar 3.9.1. Sequence Diagram UC09 - Skenario Normal</i>
 </p>
+
 - **Skenario Alternatif 1: Pengguna Bukan Pengurus**
 Warga atau Teknisi membuka dashboard administratif. `IuranController.periksaKewenangan()` mendeteksi bahwa akun bukan `Pengurus` dan mengembalikan `false`. Akses ditolak dan tidak ada data yang diambil dari `DataIuranBoundary` (KF23, KNF01, KNF02).
  
@@ -295,6 +296,7 @@ Warga atau Teknisi membuka dashboard administratif. `IuranController.periksaKewe
 <p align="center">
 <i>Gambar 3.9.2. Sequence Diagram UC09 - Pengguna Bukan Pengurus</i>
 </p>
+
 ### 3.9.3 Diagram Kelas
  
 <p align="center">
@@ -342,6 +344,7 @@ Pengurus memilih periode. Setelah `Validasi` dan `KalkulatorIuran.validasiKeleng
 <p align="center">
 <i>Gambar 3.10.1. Sequence Diagram UC10 - Skenario Normal</i>
 </p>
+
 - **Skenario Alternatif 1: Pengurus Tidak Berwenang**
 `Pengurus.verifikasiKewenangan()` mengembalikan `false`, sehingga penetapan final ditolak dan pesan otorisasi ditampilkan. Tidak ada `Tagihan` atau `Periode` yang berubah.
  
@@ -351,6 +354,7 @@ Pengurus memilih periode. Setelah `Validasi` dan `KalkulatorIuran.validasiKeleng
 <p align="center">
 <i>Gambar 3.10.2. Sequence Diagram UC10 - Pengurus Tidak Berwenang</i>
 </p>
+
 - **Skenario Alternatif 2: Data Pemakaian Belum Lengkap**
 `DataPemakaian.isLengkap()` mengembalikan `false` untuk sebagian warga. `KalkulatorIuran.validasiKelengkapan()` mengembalikan `false`, perhitungan dihentikan sebelum `Tagihan` dibuat, dan pengurus diminta melengkapi data terlebih dahulu.
  
@@ -360,6 +364,7 @@ Pengurus memilih periode. Setelah `Validasi` dan `KalkulatorIuran.validasiKeleng
 <p align="center">
 <i>Gambar 3.10.3. Sequence Diagram UC10 - Data Pemakaian Belum Lengkap</i>
 </p>
+
 ### 3.10.3 Diagram Kelas
  
 <p align="center">
@@ -403,6 +408,7 @@ Pengurus membuka menu rekapitulasi. Kewenangan diperiksa lewat `Pengurus.verifik
 <p align="center">
 <i>Gambar 3.11.1. Sequence Diagram UC11 - Skenario Normal</i>
 </p>
+
 - **Skenario Alternatif 1: Data Belum Final**
 `Periode.isFinal()` bernilai `false`, atau periode sudah final tetapi masih ada `Tagihan` yang `sudahFinal()` bernilai `false`. `Rekapitulasi.generate()` tidak dipanggil, dan pengurus diberi informasi bahwa rekapitulasi hanya dapat dibuat dari data final.
  
@@ -412,6 +418,7 @@ Pengurus membuka menu rekapitulasi. Kewenangan diperiksa lewat `Pengurus.verifik
 <p align="center">
 <i>Gambar 3.11.2. Sequence Diagram UC11 - Data Belum Final</i>
 </p>
+
 - **Skenario Alternatif 2: Pengguna Tidak Berwenang**
 Pengguna bukan pengurus (Warga atau Teknisi) mencoba membuka menu rekapitulasi. `IuranController.periksaKewenangan()` mengembalikan `false` dan akses ditolak (KF31, KNF01).
  
@@ -421,6 +428,7 @@ Pengguna bukan pengurus (Warga atau Teknisi) mencoba membuka menu rekapitulasi. 
 <p align="center">
 <i>Gambar 3.11.3. Sequence Diagram UC11 - Pengguna Tidak Berwenang</i>
 </p>
+
 ### 3.11.3 Diagram Kelas
  
 <p align="center">
