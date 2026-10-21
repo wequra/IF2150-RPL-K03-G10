@@ -154,66 +154,114 @@ Tuliskan secara singkat model arsitektur yang dipilih dan alasan model tersebut 
 
 # BAB 3: Realisasi Use Case
 
-## 3.1 Use Case [Nama Use Case 1]
+## 3.1 Use Case Memantau Ketersediaan Air dan Energi
 
-**ID Use Case:** *[UC01 sesuai SKPL]*  
-**Nama Use Case:** *[Nama use case sesuai SKPL]*
+**ID Use Case:** *UC01*  
+**Nama Use Case:** *Memantau Ketersediaan Air dan Energi*
 
 ### 3.1.1 Identifikasi Kelas
 
-Identifikasi kelas yang terkait dengan use case tersebut. Kelas di tahap perancangan dapat berbeda dengan dengan kelas di tahap analisis. Dapat menggunakan tabel di bawah:
-
-Tabel 3.1. Identifikasi Kelas Use Case [UC01]
+Tabel 3.1. Identifikasi Kelas Use Case Memantau Ketersediaan Air dan Energi
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
-| 1 | *[Nama kelas perancangan]* | *[Nama kelas analisis pada SKPL]* |
-| 2 | *[Nama kelas perancangan]* | *[Nama kelas analisis pada SKPL]* |
-| ... | *...* | *...* |
+| 1 | *WargaView* | *-* |
+| 2 | *TelemetriAPI* | *-* |
+| 3 | *MonitoringController* | *-* |
+| 4 | *TangkiAir* | *TangkiAir* |
+| 5 | *Baterai* | *Baterai* |
+| 6 | *PanelSurya* | *PanelSurya* |
+| 7 | *PembacaanSensor.* | *PembacaanSensor* |
+| 8 | *DataPerangkatBoundary* | *-* |
 
 ### 3.1.2 Sequence Diagram
 
-Buat *sequence diagram* untuk **setiap skenario use case**, mencakup skenario normal dan alternatif pada subbab 4.4 SKPL. Diagram melibatkan kelas-kelas yang telah diidentifikasi pada SKPL. 
-
 - **Skenario Normal**
 
-<p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/contoh-sequence_diagram.png" width="50%">
-</p>
-<p align="center">
-<i>Gambar X. Sequence Diagram [UC01]</i>
-</p>
-
-- **Skenario Alternatif [Nomor]: [Nama Skenario]**
+Warga membuka dashboard utama untuk memantau ketersediaan infrastruktur. `MonitoringController` menarik data metrik terbaru melalui `DataPerangkatBoundary`. Setelah data diperoleh, controller mendelegasikan pengecekan ke masing-masing entitas domain (`TangkiAir`, `Baterai`, `PanelSurya`) untuk dievaluasi. Hasil status dan kapasitas kemudian dirangkai dan ditampilkan kepada warga.
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/contoh-sequence_diagram.png" width="50%">
+<img alt="Gambar 3.1.N. Sequence Diagram UC01 — Skenario Normal" src="./assets/diagram/UC1_Normal.drawio.png" width="50%">
 </p>
 <p align="center">
-<i>Gambar X. Sequence Diagram [UC01] - [Nama skenario alternatif]</i>
+<i>Gambar 3.1.N. Sequence Diagram UC01 — Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Data Sensor Tidak Tersedia**
+
+`MonitoringController` berupaya menarik data metrik terbaru, namun `DataPerangkatBoundary` mengembalikan nilai `null` atau data usang akibat perangkat IoT tidak mengirimkan pembaruan. Sistem memberikan respons error dengan menampilkan pesan bahwa data terbaru belum tersedia serta mempertahankan tampilan data terakhir.
+
+<p align="center">
+<img alt="Gambar 3.1.A1. Sequence Diagram UC01 — Data Sensor Tidak Tersedia" src="./assets/diagram/UC1_Alt1.drawio.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.1.A1. Sequence Diagram UC01 — Data Sensor Tidak Tersedia</i>
 </p>
 
 ### 3.1.3 Diagram Kelas
 
-Buatlah diagram kelas untuk use case ini yang terdiri atas kelas-kelas dari 3.1.1. **Setiap kelas pada diagram wajib menampilkan atribut dan metode/operasi langsung di dalam kotak kelasnya**, sehingga tidak perlu membuat tabel daftar atribut dan metode per kelas pada subbab ini. Daftar lengkap atribut dan metode seluruh kelas disajikan pada Tabel 4.1 (Bab 4).
-
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/contoh_class-diagram2.jpg" width="35%">
+<img alt="Gambar 3.1.K. Diagram Kelas UC01" src="./assets/diagram/UC1_Kelazz.drawio.png" width="35%">
 </p>
 <p align="center">
-<i>Gambar X. Diagram Kelas [Nama Uce Case]</i>
+<i>Gambar 3.1.K. Diagram Kelas UC01</i>
 </p>
 
-Pada diagram, pastikan:
-- Atribut dituliskan beserta visibilitas dan tipe datanya, misalnya `- email: String`.
-- Operasi dituliskan beserta visibilitas, parameter, dan tipe kembaliannya, misalnya `+ login(email: String, password: String): Boolean`.
-- Relasi antarkelas (asosiasi, agregasi, komposisi, generalisasi, dan dependensi) digambarkan lengkap dengan multiplisitas.
-- Semua operasi yang dipanggil pada sequence diagram 3.1.2 (skenario normal dan alternatif) ada pada kelas yang bersangkutan.
-- Kelas yang sama dengan kelas di use case lain memakai nama, atribut, dan metode yang konsisten.
+Atribut dan operasi ditampilkan langsung pada kompartemen kelas dengan visibilitas (lingkaran hijau untuk public, kotak merah untuk private).
 
-## 3.2 Use Case 2
+<br>
 
-Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
+## 3.2 Use Case Melihat Tagihan Iuran Final
+
+**ID Use Case:** *UC02*  
+**Nama Use Case:** *Melihat Tagihan Iuran Final*
+
+### 3.2.1 Identifikasi Kelas
+
+Tabel 3.2. Identifikasi Kelas Use Case Melihat Tagihan Iuran Final
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *WargaView* | *-* |
+| 2 | *IuranController* | *-* |
+| 3 | *Tagihan* | *Tagihan* |
+| 4 | *Periode* | *Periode* |
+| 5 | *DataIuranBoundaryi* | *-* |
+
+### 3.2.2 Sequence Diagram
+
+- **Skenario Normal**
+
+Warga memilih periode tagihan yang diinginkan. `IuranController` meminta data tagihan terkait dari `DataIuranBoundary`. Entitas `Tagihan` memvalidasi statusnya (`sudahFinal`) dan mengembalikan hasil `true`. Tagihan yang sudah sah kemudian dibongkar rinciannya dan dikembalikan ke antarmuka untuk ditampilkan kepada warga.
+
+<p align="center">
+<img alt="Gambar 3.2.N. Sequence Diagram UC02 — Skenario Normal" src="./assets/diagram/UC2_Normal.drawio.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.2.N. Sequence Diagram UC02 — Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Tagihan Belum Ditetapkan Final**
+
+Ketika warga memilih periode tagihan, entitas `Tagihan` mendeteksi bahwa statusnya masih berstatus *draft* atau belum disetujui pengurus (mengembalikan `false`). Sistem memblokir rincian dan menampilkan pesan informasi bahwa tagihan final belum tersedia.
+
+<p align="center">
+<img alt="Gambar 3.2.A1. Sequence Diagram UC02 — Tagihan Belum Ditetapkan Final" src="./assets/diagram/UC2_Alt1.drawio.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.2.A1. Sequence Diagram UC02 — Tagihan Belum Ditetapkan Final</i>
+</p>
+
+### 3.2.3 Diagram Kelas
+
+<p align="center">
+<img alt="Gambar 3.2.K. Diagram Kelas UC02" src="./assets/diagram/UC2_Kelazz.drawio.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 3.2.K. Diagram Kelas UC02</i>
+</p>
+
+Atribut dan operasi ditampilkan langsung pada kompartemen kelas dengan visibilitas (lingkaran hijau untuk public, kotak merah untuk private).
 
 <br>
 
@@ -229,15 +277,114 @@ Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 
 
 <br>
 
-## 3.5 Use Case 5
+## 3.5 Use Case Menerima Peringatan Dini Daya Kritis
 
-Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
+**ID Use Case:** *UC05*  
+**Nama Use Case:** *Menerima Peringatan Dini Daya Kritis*
+
+### 3.5.1 Identifikasi Kelas
+
+Tabel 3.5. Identifikasi Kelas Use Case Menerima Peringatan Dini Daya Kritis
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *TeknisiView* | *-* |
+| 2 | *TelemetriAPI* | *-* |
+| 3 | *MonitoringController* | *Tagihan* |
+| 4 | *Baterai* | *Baterai* |
+| 5 | *PenugasanPerangkat* | *PenugasanPerangkat* |
+| 6 | *PeringatanDayaKritis* | *PeringatanDayaKritis* |
+| 7 | *DataIuranBoundaryi* | *-* |
+
+### 3.5.2 Sequence Diagram
+
+- **Skenario Normal**
+
+Berdasarkan *trigger* telemetri, `MonitoringController` mengevaluasi kapasitas baterai. Saat mendeteksi kondisi kritis, sistem mencari teknisi yang ditugaskan melalui `DataPerangkatBoundary` dan memverifikasi tanggung jawabnya. Objek `PeringatanDayaKritis` dibuat dan dikirimkan ke antarmuka perangkat Teknisi yang bersangkutan dalam wujud *push notification*.
+
+<p align="center">
+<img alt="Gambar 3.5.N. Sequence Diagram UC05 — Skenario Normal" src="./assets/diagram/UC5_Normal.drawio.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.5.N. Sequence Diagram UC05 — Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Koneksi Jaringan Terputus**
+
+Saat notifikasi kritis dikirim, koneksi jaringan menuju perangkat teknisi sedang terputus. Objek `PeringatanDayaKritis` menyadari kegagalan ini dan menyimpannya ke database dengan status *pending*. Ketika teknisi *online* kembali, sistem secara otomatis menarik data *pending* tersebut dan menampilkannya.
+
+<p align="center">
+<img alt="Gambar 3.5.A1. Sequence Diagram UC05 — Koneksi Jaringan Terputus" src="./assets/diagram/UC5_Alt1.drawio.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.5.A1. Sequence Diagram UC05 — Koneksi Jaringan Terputus</i>
+</p>
+
+### 3.5.3 Diagram Kelas
+
+<p align="center">
+<img alt="Gambar 3.5.K. Diagram Kelas UC05" src="./assets/diagram/UC5_Kelazz.drawio.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 3.5.K. Diagram Kelas UC05</i>
+</p>
+
+Atribut dan operasi ditampilkan langsung pada kompartemen kelas dengan visibilitas (lingkaran hijau untuk public, kotak merah untuk private).
 
 <br>
 
-## 3.6 Use Case 6
+## 3.6 Use Case Memantau Riwayat Kinerja Panel Surya
 
-Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
+**ID Use Case:** *UC06*  
+**Nama Use Case:** *Memantau Riwayat Kinerja Panel Surya*
+
+### 3.6.1 Identifikasi Kelas
+
+Tabel 3.6. Identifikasi Kelas Use Case Memantau Riwayat Kinerja Panel Surya
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *TeknisiView* | *-* |
+| 2 | *MonitoringController* | *Tagihan* |
+| 3 | *PanelSurya* | *PanelSurya* |
+| 4 | *RentangWaktu* | *RentangWaktu* |
+| 5 | *DataHistorisKinerja* | *DataHistorisKinerja* |
+| 6 | *DataIuranBoundaryi* | *-* |
+
+### 3.6.2 Sequence Diagram
+
+- **Skenario Normal**
+
+Teknisi memilih filter rentang waktu. `MonitoringController` memvalidasi logika penanggalan menggunakan kelas `RentangWaktu`. Jika valid, entitas `PanelSurya` akan mengambil raw data dari `DataPerangkatBoundary`, kemudian dikonversi oleh `DataHistorisKinerja` menjadi format data grafik yang dapat digambar oleh antarmuka.
+
+<p align="center">
+<img alt="Gambar 3.6.N. Sequence Diagram UC06 — Skenario Normal" src="./assets/diagram/UC6_Normal.drawio.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.6.N. Sequence Diagram UC06 — Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Data Historis Belum Tersedia**
+
+Setelah memvalidasi rentang waktu, `PanelSurya` menanyakan riwayat log kepada *database*. Karena belum ada aktivitas atau data terhapus pada periode tersebut, daftar yang dikembalikan kosong. Sistem menampilkan pesan error bahwa data historis tidak ditemukan.
+
+<p align="center">
+<img alt="Gambar 3.6.A1. Sequence Diagram UC06 — Data Historis Belum Tersedia" src="./assets/diagram/UC6_Alt1.drawio.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.6.A1. Sequence Diagram UC06 — Data Historis Belum Tersedia</i>
+</p>
+
+### 3.6.3 Diagram Kelas
+
+<p align="center">
+<img alt="Gambar 3.6.K. Diagram Kelas UC06" src="./assets/diagram/UC6_Kelazz.drawio.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 3.6.K. Diagram Kelas UC06</i>
+</p>
+
+Atribut dan operasi ditampilkan langsung pada kompartemen kelas dengan visibilitas (lingkaran hijau untuk public, kotak merah untuk private).
 
 <br>
 
