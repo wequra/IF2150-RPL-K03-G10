@@ -253,23 +253,184 @@ Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 
 
 <br>
 
-## 3.9 Use Case 9
+## 3.9 Use Case Menganalisis Pemakaian Komunal
+ 
+**ID Use Case:** *UC09*  
+**Nama Use Case:** *Menganalisis Pemakaian Komunal*
+ 
+### 3.9.1 Identifikasi Kelas
+ 
+Realisasi UC09 melewati jalur `PengurusView` → `IuranController` → `ModulIuran` → `DataIuranBoundary` sesuai Tabel 3.1 dokumen APL. Kelas *boundary*, *control*, dan *repository* adalah kelas perancangan baru yang berasal dari komponen APL, sehingga tidak memiliki kelas analisis.
+ 
+Tabel 3.9. Identifikasi Kelas Use Case UC09
+ 
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `PengurusView` «boundary» | — (komponen *PengurusView*, APL Tabel 2.1) |
+| 2 | `IuranController` «control» | — (komponen *IuranController*, APL Tabel 2.1) |
+| 3 | `Validasi` «utility» | — (komponen *Validasi*, APL Tabel 2.1) |
+| 4 | `DataIuranBoundary` «repository» | — (komponen *DataIuranBoundary*, APL Tabel 2.1) |
+| 5 | `Akun` «entity» | C01 – Akun |
+| 6 | `Pengurus` «entity» | C04 – Pengurus |
+| 7 | `Periode` «entity» | C14 – Periode |
+| 8 | `DataPemakaian` «entity» | C15 – DataPemakaian |
+ 
+### 3.9.2 Sequence Diagram
+ 
+- **Skenario Normal**
+Pengurus membuka dashboard administratif, lalu `IuranController` memeriksa kewenangan melalui `Pengurus.verifikasiKewenangan()`. Setelah pengurus memilih periode, `Validasi` memeriksa periode. `DataIuranBoundary` mengambil `Periode` dan `DataPemakaian` pada periode itu (KF24), dan `IuranController` menghitung agregat air dan energi. View menampilkan agregat dan riwayat pemakaian (KF22).
+ 
+<p align="center">
+<img alt="Sequence Diagram UC09 - Skenario Normal" src="./assets/diagram/UC09-seq-normal.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 3.9.1. Sequence Diagram UC09 - Skenario Normal</i>
+</p>
+- **Skenario Alternatif 1: Pengguna Bukan Pengurus**
+Warga atau Teknisi membuka dashboard administratif. `IuranController.periksaKewenangan()` mendeteksi bahwa akun bukan `Pengurus` dan mengembalikan `false`. Akses ditolak dan tidak ada data yang diambil dari `DataIuranBoundary` (KF23, KNF01, KNF02).
+ 
+<p align="center">
+<img alt="Sequence Diagram UC09 - Alternatif 1" src="./assets/diagram/UC09-seq-alt1.png" width="55%">
+</p>
+<p align="center">
+<i>Gambar 3.9.2. Sequence Diagram UC09 - Pengguna Bukan Pengurus</i>
+</p>
+### 3.9.3 Diagram Kelas
+ 
+<p align="center">
+<img alt="Diagram Kelas UC09" src="./assets/diagram/UC09-class.png" width="90%">
+</p>
+<p align="center">
+<i>Gambar 3.9.3. Diagram Kelas UC09 - Menganalisis Pemakaian Komunal</i>
+</p>
+---
+ 
+## 3.10 Use Case Menghitung dan Menetapkan Iuran Warga
+ 
+**ID Use Case:** *UC10*  
+**Nama Use Case:** *Menghitung dan Menetapkan Iuran Warga*
+ 
+### 3.10.1 Identifikasi Kelas
+ 
+UC10 memiliki relasi `<<include>> UC09` dan `<<extend>> UC02` (SKPL). `DataPemakaian` dan `Periode` dipakai ulang dengan definisi yang sama seperti di UC09. `KalkulatorIuran` (C19) adalah *domain service* di `ModulIuran`; `IuranController` hanya mendelegasikan ke service ini.
+ 
+Tabel 3.10. Identifikasi Kelas Use Case UC10
+ 
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `PengurusView` «boundary» | — (komponen *PengurusView*, APL Tabel 2.1) |
+| 2 | `IuranController` «control» | — (komponen *IuranController*, APL Tabel 2.1) |
+| 3 | `Validasi` «utility» | — (komponen *Validasi*, APL Tabel 2.1) |
+| 4 | `DataIuranBoundary` «repository» | — (komponen *DataIuranBoundary*, APL Tabel 2.1) |
+| 5 | `KalkulatorIuran` «service» | C19 – KalkulatorIuran |
+| 6 | `Pengurus` «entity» | C04 – Pengurus |
+| 7 | `Periode` «entity» | C14 – Periode |
+| 8 | `DataPemakaian` «entity» | C15 – DataPemakaian |
+| 9 | `AturanTarif` «entity» | C16 – AturanTarif |
+| 10 | `Tagihan` «entity» | C17 – Tagihan |
+| 11 | `StatusTagihan` «enumeration» | C18 – StatusTagihan |
+| 12 | `Warga` «entity» | C02 – Warga |
+ 
+### 3.10.2 Sequence Diagram
+ 
+- **Skenario Normal**
+Pengurus memilih periode. Setelah `Validasi` dan `KalkulatorIuran.validasiKelengkapan()` lolos, `KalkulatorIuran.pratinjau()` mengambil satu `AturanTarif` untuk periode itu dan memakainya untuk seluruh warga (KF28). Tiap `Tagihan` dibuat berstatus `DRAFT` dan dihitung lewat `hitungTotal()` (KF25, KF33). Hasilnya ditampilkan sebagai pratinjau (KF26). Saat pengurus menekan "Tetapkan Final", `KalkulatorIuran.validasiKewenangan()` memeriksa kewenangan (KF27). Setelah itu semua `Tagihan` dan `Periode` ditandai `FINAL` dan disimpan, lalu notifikasi berhasil ditampilkan.
+ 
+<p align="center">
+<img alt="Sequence Diagram UC10 - Skenario Normal" src="./assets/diagram/UC10-seq-normal.png" width="100%">
+</p>
+<p align="center">
+<i>Gambar 3.10.1. Sequence Diagram UC10 - Skenario Normal</i>
+</p>
+- **Skenario Alternatif 1: Pengurus Tidak Berwenang**
+`Pengurus.verifikasiKewenangan()` mengembalikan `false`, sehingga penetapan final ditolak dan pesan otorisasi ditampilkan. Tidak ada `Tagihan` atau `Periode` yang berubah.
+ 
+<p align="center">
+<img alt="Sequence Diagram UC10 - Alternatif 1" src="./assets/diagram/UC10-seq-alt1.png" width="60%">
+</p>
+<p align="center">
+<i>Gambar 3.10.2. Sequence Diagram UC10 - Pengurus Tidak Berwenang</i>
+</p>
+- **Skenario Alternatif 2: Data Pemakaian Belum Lengkap**
+`DataPemakaian.isLengkap()` mengembalikan `false` untuk sebagian warga. `KalkulatorIuran.validasiKelengkapan()` mengembalikan `false`, perhitungan dihentikan sebelum `Tagihan` dibuat, dan pengurus diminta melengkapi data terlebih dahulu.
+ 
+<p align="center">
+<img alt="Sequence Diagram UC10 - Alternatif 2" src="./assets/diagram/UC10-seq-alt2.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 3.10.3. Sequence Diagram UC10 - Data Pemakaian Belum Lengkap</i>
+</p>
+### 3.10.3 Diagram Kelas
+ 
+<p align="center">
+<img alt="Diagram Kelas UC10" src="./assets/diagram/UC10-class.png" width="100%">
+</p>
+<p align="center">
+<i>Gambar 3.10.4. Diagram Kelas UC10 - Menghitung dan Menetapkan Iuran Warga</i>
+</p>
+---
+ 
+## 3.11 Use Case Membuat Rekapitulasi Pemakaian dan Iuran
+ 
+**ID Use Case:** *UC11*  
+**Nama Use Case:** *Membuat Rekapitulasi Pemakaian dan Iuran*
+ 
+### 3.11.1 Identifikasi Kelas
+ 
+Tabel 3.11. Identifikasi Kelas Use Case UC11
+ 
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `PengurusView` «boundary» | — (komponen *PengurusView*, APL Tabel 2.1) |
+| 2 | `IuranController` «control» | — (komponen *IuranController*, APL Tabel 2.1) |
+| 3 | `Validasi` «utility» | — (komponen *Validasi*, APL Tabel 2.1) |
+| 4 | `DataIuranBoundary` «repository» | — (komponen *DataIuranBoundary*, APL Tabel 2.1) |
+| 5 | `Pengurus` «entity» | C04 – Pengurus |
+| 6 | `Periode` «entity» | C14 – Periode |
+| 7 | `DataPemakaian` «entity» | C15 – DataPemakaian |
+| 8 | `Tagihan` «entity» | C17 – Tagihan |
+| 9 | `StatusTagihan` «enumeration» | C18 – StatusTagihan |
+| 10 | `Rekapitulasi` «entity» | C28 – Rekapitulasi |
+ 
+### 3.11.2 Sequence Diagram
+ 
+- **Skenario Normal**
+Pengurus membuka menu rekapitulasi. Kewenangan diperiksa lewat `Pengurus.verifikasiKewenangan()` dan daftar periode ditampilkan (KF29, KF31). Setelah periode dipilih, `IuranController` memastikan data final dengan `Periode.isFinal()` dan `Tagihan.sudahFinal()` untuk setiap tagihan (KF32). Saat pengurus memilih "buat rekapitulasi", `Pengurus.buatRekapitulasi()` memanggil `Rekapitulasi.generate(periode)`, yang menjumlahkan `DataPemakaian` dan `Tagihan` periode itu (KF30). Terakhir, pengurus memilih ekspor (PDF atau CSV, KNF10) atau cetak.
+ 
+<p align="center">
+<img alt="Sequence Diagram UC11 - Skenario Normal" src="./assets/diagram/UC11-seq-normal.png" width="85%">
+</p>
+<p align="center">
+<i>Gambar 3.11.1. Sequence Diagram UC11 - Skenario Normal</i>
+</p>
+- **Skenario Alternatif 1: Data Belum Final**
+`Periode.isFinal()` bernilai `false`, atau periode sudah final tetapi masih ada `Tagihan` yang `sudahFinal()` bernilai `false`. `Rekapitulasi.generate()` tidak dipanggil, dan pengurus diberi informasi bahwa rekapitulasi hanya dapat dibuat dari data final.
+ 
+<p align="center">
+<img alt="Sequence Diagram UC11 - Alternatif 1" src="./assets/diagram/UC11-seq-alt1.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 3.11.2. Sequence Diagram UC11 - Data Belum Final</i>
+</p>
+- **Skenario Alternatif 2: Pengguna Tidak Berwenang**
+Pengguna bukan pengurus (Warga atau Teknisi) mencoba membuka menu rekapitulasi. `IuranController.periksaKewenangan()` mengembalikan `false` dan akses ditolak (KF31, KNF01).
+ 
+<p align="center">
+<img alt="Sequence Diagram UC11 - Alternatif 2" src="./assets/diagram/UC11-seq-alt2.png" width="55%">
+</p>
+<p align="center">
+<i>Gambar 3.11.3. Sequence Diagram UC11 - Pengguna Tidak Berwenang</i>
+</p>
+### 3.11.3 Diagram Kelas
+ 
+<p align="center">
+<img alt="Diagram Kelas UC11" src="./assets/diagram/UC11-class.png" width="100%">
+</p>
+<p align="center">
+<i>Gambar 3.11.4. Diagram Kelas UC11 - Membuat Rekapitulasi Pemakaian dan Iuran</i>
+</p>
 
-Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
-
-<br>
-
-## 3.10 Use Case 10
-
-Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
-
-<br>
-
-## 3.11 Use Case 11
-
-Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
-
-<br>
+</br>
 
 ## 3.12 Use Case 12
 
