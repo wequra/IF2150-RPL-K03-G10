@@ -66,7 +66,12 @@ Tabel 1.3. Definisi Istilah dan Singkatan
 | :--- | :--- |
 | *P/L* | *Singkatan dari Perangkat Lunak, yaitu aplikasi yang memberikan perintah kepada komputer untuk menjalankan tugas tertentu.* |
 | *DPPL* | *Singkatan dari Spesifikasi Kebutuhan Perangkat Lunak, yaitu dokumen yang merangkum kriteria-kriteria yang diperlukan untuk membangun aplikasi menjalankan tugasnya.* |
+| *SKPL* | *Spesifikasi Kebutuhan Perangkat Lunak, dokumen Milestone 5 yang menjadi acuan kebutuhan sistem.* |
+| *APL* | *Arsitektur Perangkat Lunak, dokumen Milestone 6 yang menjadi acuan perancangan arsitektur sistem.* |
 | *UC* | *Singkatan dari Use Case.* |
+| *C* | *Singkatan dari Kelas.* |
+| *KF* | *Kebutuhan Fungsional, fitur atau fungsi spesifik yang harus disediakan oleh perangkat lunak.* |
+| *KNF* | *Kebutuhan Non-Fungsional, batasan atau atribut mutu (seperti kinerja dan keandalan) yang harus dipenuhi sistem.* |
 
 ## 1.4 Aturan Penomoran
 
@@ -74,8 +79,10 @@ Tabel 1.4. Aturan Penomoran
 
 | Hal/Bagian | Penomoran | Keterangan |
 | :--- | :--- | :--- |
-| *Uce Case* | *UCXX* | |
-| *Kelas* | *CXX* | |
+| *Uce Case* | *UCXX* | XX = angka 01–14 sesuai dengan dokumen SKPL|
+| *Kelas* | *CXX* | XX = angka 01–28 sesuai dengan dokumen SKPL|
+| *Kebutuhan Fungsional* | *KFXX* | XX = angka 01–51 sesuai dengan dokumen SKPL|
+| *Kebutuhan Non-Fungsional* | *KNFXX* | XX = angka 01–15 sesuai dengan dokumen SKPL |
 
 ## 1.5 Referensi
 1. Dokumen Milestone 1 Kelompok K03-G10.
@@ -125,27 +132,210 @@ Tabel 2.3. Identifikasi Komponen/Modul/Subsistem
 
 | Nama Komponen/Modul/Subsistem | Jenis | Penjelasan |
 | :--- | :--- | :--- |
-| *[Nama komponen/modul/subsistem]* | *[Jenis]* | *[Tanggung jawab komponen]* |
-| *[Nama komponen/modul/subsistem]* | *[Jenis]* | *[Tanggung jawab komponen]* |
-| *...* | *...* | *...* |
+| *WargaView* | *PRESENTATION LAYER* | *Menampilkan dashboard air dan energi, tagihan final, serta fitur laporan gangguan bagi Warga dan meneruskan aksi pengguna ke controller terkait (UC01–UC04).* |
+| *TeknisiView* | *PRESENTATION LAYER* | *Menampilkan peringatan daya kritis, riwayat kinerja panel surya, pembaruan status gangguan, dan pencatatan pemeliharaan bagi Teknisi (UC05–UC08).* |
+| *PengurusView* | *PRESENTATION LAYER* | *Menampilkan analitik pemakaian, pengelolaan iuran, rekapitulasi, dan persetujuan akun bagi Pengurus (UC09–UC11, UC14).* |
+| *AuthView* | *PRESENTATION LAYER* | *Menyediakan antarmuka registrasi dan login serta meneruskan data autentikasi ke AkunController (UC12–UC13).* |
+| *TelemetriAPI* | *PRESENTATION LAYER* | *Menerima data dari perangkat pengukuran lapangan dan meneruskannya ke MonitoringController untuk mendukung pemantauan serta peringatan (UC01, UC05, UC06).* |
+| *MonitoringController* | *BUSINESS LAYER* | *Mengoordinasikan pemantauan air dan energi, pengolahan telemetri, riwayat kinerja panel surya, dan evaluasi kondisi daya kritis dengan ModulMonitoring dan ModulNotifikasi (UC01, UC05, UC06).* |
+| *LaporanController* | *BUSINESS LAYER* | *Mengoordinasikan pembuatan laporan gangguan, penelusuran riwayat/status, dan pembaruan status penanganan dengan ModulLaporan (UC03, UC04, UC07).* |
+| *PemeliharaanController* | *BUSINESS LAYER* | *Mengoordinasikan pencatatan kegiatan pemeliharaan atau perbaikan perangkat dengan ModulPemeliharaan (UC08).* |
+| *IuranController* | *BUSINESS LAYER* | *Mengoordinasikan akses tagihan final, analitik pemakaian, perhitungan dan finalisasi iuran, serta pembuatan rekapitulasi dengan ModulIuran (UC02, UC09–UC11).* |
+| *AkunController* | *BUSINESS LAYER* | *Mengoordinasikan registrasi, login, pemeriksaan status akun, serta persetujuan atau penolakan akun dengan ModulAkun (UC12–UC14).* |
+| *Validasi* | *BUSINESS LAYER* | *Menyediakan pemeriksaan input yang dapat digunakan ulang, seperti kelengkapan field, format, tipe data, dan rentang dasar. Aturan bisnis tetap ditangani controller dan modul domain terkait.* |
+| *ModulAkun* | *BUSINESS LAYER* | *Mengelompokkan C01 Akun, C02 Warga, C03 Teknisi, C04 Pengurus, C05 CalonPengguna, dan C06 StatusAkun untuk aturan akun, peran, autentikasi, dan persetujuan akun (UC12–UC14 serta penggunaan akun pada use case terkait).* |
+| *ModulMonitoring* | *BUSINESS LAYER* | *Mengelompokkan C07 Perangkat, C08 TangkiAir, C09 Baterai, C10 PanelSurya, C11 PembacaanSensor, C12 DataHistorisKinerja, dan C13 RentangWaktu untuk pemantauan perangkat dan data historis (UC01, UC05, UC06).* |
+| *ModulLaporan* | *BUSINESS LAYER* | *Mengelompokkan C20 LaporanGangguan, C21 StatusLaporan, C22 RiwayatStatusLaporan, dan C24 PenugasanLaporan untuk pelaporan serta penanganan gangguan (UC03, UC04, UC07).* |
+| *ModulPemeliharaan* | *BUSINESS LAYER* | *Mewadahi C27 CatatanPemeliharaan untuk pencatatan tindakan, waktu, hasil, dan perangkat yang dipelihara (UC08).* |
+| *ModulIuran* | *BUSINESS LAYER* | *Mengelompokkan C14 Periode, C15 DataPemakaian, C16 AturanTarif, C17 Tagihan, C18 StatusTagihan, C19 KalkulatorIuran, dan C28 Rekapitulasi untuk pemakaian, kalkulasi/finalisasi iuran, dan rekapitulasi (UC02, UC09–UC11).* |
+| *ModulNotifikasi* | *BUSINESS LAYER* | *Mengelompokkan C23 PenugasanPerangkat, C25 Notifikasi, dan C26 PeringatanDayaKritis untuk menentukan penerima serta isi peringatan daya kritis (UC05).* |
+| *DataAkunBoundary* | *DATA ACCESS LAYER* | *Menjadi batas akses data akun, peran, status persetujuan, dan kredensial antara Business Layer dan Database.* |
+| *DataPerangkatBoundary* | *DATA ACCESS LAYER* | *Menjadi batas akses data perangkat, pembacaan sensor, data historis, penugasan perangkat, notifikasi terkait perangkat, dan catatan pemeliharaan.* |
+| *DataLaporanBoundary* | *DATA ACCESS LAYER* | *Menjadi batas akses data laporan gangguan, riwayat status, dan penugasan laporan.* |
+| *DataIuranBoundary* | *DATA ACCESS LAYER* | *Menjadi batas akses data periode, pemakaian, aturan tarif, tagihan, dan rekapitulasi.* |
+| *Database* | *DATABASE* | *Menyimpan data persisten Fajar Tech secara terpusat menggunakan PostgreSQL atau MySQL sesuai lingkungan operasi pada SKPL.* |
 
 ## 2.4 Model Arsitektur Perangkat Lunak
 
-Gunakan hasil **BAB 3 Model Arsitektur Perangkat Lunak pada dokumen APL**. 
+Architectural View adalah cara mendeskripsikan arsitektur sistem dari sudut pandang tertentu. Pada bab ini, model arsitektur Fajar Tech digambarkan menggunakan **Logical View** sebagai view utama dan **Physical View** sebagai view pelengkap. Pemilihan ini disesuaikan dengan style **Layered Architecture** serta komponen pada Tabel 2.3.
 
-### 2.4.1 View [Nama View]
+### 2.4.1 Logical View
 
-Tuliskan secara singkat model arsitektur yang dipilih dan alasan model tersebut cocok untuk aplikasi.
+Logical View dipilih karena mampu memperlihatkan pembagian tanggung jawab setiap lapisan dan hubungan fungsional antarkomponen. View ini juga paling mudah dicek konsistensinya dengan Tabel 2.1 dan style Layered Architecture pada BAB 1.
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/contoh-logical-view.webp" width="50%">
+<img alt="Logical View Fajar Tech" src="./assets/diagram/Logical.png" width="100%">
 </p>
 <p align="center">
-<i>Gambar 2. Contoh Logical View pada P/L E-Commerce</i>
+<i>Gambar 3.1. Logical View Fajar Tech</i>
 </p>
 
-### 2.4.X View [Nama View]
-*[Lakukan hal yang sama dengan bagian sebelumnya]*
+Gambar 3.1 memperlihatkan empat lapisan utama, yaitu **Presentation Layer**, **Business Layer**, **Data Access Layer**, dan **Database**. Aktor serta sistem eksternal digambarkan dengan garis putus-putus di luar sistem, yaitu Warga, Teknisi, Pengurus, Calon Pengguna, dan Perangkat IoT.
+
+#### Presentation Layer
+
+- `WargaView`
+- `TeknisiView`
+- `PengurusView`
+- `AuthView`
+- `TelemetriAPI`
+
+#### Business Layer
+
+Controller:
+
+- `MonitoringController`
+- `LaporanController`
+- `PemeliharaanController`
+- `IuranController`
+- `AkunController`
+
+Komponen pendukung:
+
+- `Validasi`
+
+Modul domain:
+
+- `ModulAkun`
+- `ModulMonitoring`
+- `ModulLaporan`
+- `ModulPemeliharaan`
+- `ModulIuran`
+- `ModulNotifikasi`
+
+#### Data Access Layer
+
+- `DataAkunBoundary`
+- `DataPerangkatBoundary`
+- `DataLaporanBoundary`
+- `DataIuranBoundary`
+
+#### Database
+
+- `Database`
+
+#### Hubungan Antarkomponen
+
+Aktor eksternal ke Presentation Layer:
+
+- Warga → `WargaView`
+- Teknisi → `TeknisiView`
+- Pengurus → `PengurusView`
+- Calon Pengguna → `AuthView`
+- Perangkat IoT → `TelemetriAPI` : “kirim data metrik operasional”
+
+Presentation Layer ke Business Layer:
+
+- `WargaView` → `MonitoringController` : “lihat dashboard air/energi (UC01)”
+- `WargaView` → `IuranController` : “lihat tagihan final (UC02)”
+- `WargaView` → `LaporanController` : “buat/lihat laporan gangguan (UC03–UC04)”
+- `TeknisiView` → `MonitoringController` : “lihat peringatan daya kritis & riwayat panel surya (UC05–UC06)”
+- `TeknisiView` → `LaporanController` : “perbarui status gangguan (UC07)”
+- `TeknisiView` → `PemeliharaanController` : “catat pemeliharaan (UC08)”
+- `PengurusView` → `IuranController` : “analitik pemakaian, kelola iuran, rekapitulasi (UC09–UC11)”
+- `PengurusView` → `AkunController` : “persetujuan akun (UC14)”
+- `AuthView` → `AkunController` : “registrasi/login (UC12–UC13)”
+- `TelemetriAPI` → `MonitoringController` : “teruskan data telemetri (UC01, UC05, UC06)”
+
+Controller ke `Validasi`:
+
+- `MonitoringController`, `LaporanController`, `PemeliharaanController`, `IuranController`, `AkunController` → `Validasi` : “validasi input”
+
+Controller ke modul domain:
+
+- `MonitoringController` → `ModulMonitoring`, `ModulNotifikasi`
+- `LaporanController` → `ModulLaporan`
+- `PemeliharaanController` → `ModulPemeliharaan`
+- `IuranController` → `ModulIuran`
+- `AkunController` → `ModulAkun`
+
+Modul domain ke Data Access Layer:
+
+- `ModulAkun` → `DataAkunBoundary` : “akses data akun, peran, kredensial”
+- `ModulMonitoring` → `DataPerangkatBoundary` : “akses perangkat, sensor, historis”
+- `ModulLaporan` → `DataLaporanBoundary` : “akses laporan, status, penugasan”
+- `ModulPemeliharaan` → `DataPerangkatBoundary` : “akses catatan pemeliharaan”
+- `ModulIuran` → `DataIuranBoundary` : “akses periode, pemakaian, tarif, tagihan, rekap”
+- `ModulNotifikasi` → `DataPerangkatBoundary` : “akses penugasan & notifikasi perangkat”
+
+Data Access Layer ke Database:
+
+- `DataAkunBoundary` → `Database` : “query/CRUD akun”
+- `DataPerangkatBoundary` → `Database` : “query/CRUD perangkat”
+- `DataLaporanBoundary` → `Database` : “query/CRUD laporan”
+- `DataIuranBoundary` → `Database` : “query/CRUD iuran”
+
+Aturan ketergantungan antarlapisan mengikuti pola top-to-bottom. Lapisan atas dapat menggunakan layanan lapisan di bawahnya, tetapi lapisan bawah tidak menggunakan layanan dari lapisan di atasnya.
+
+Gambar 3.1 berbentuk *block diagram*: seluruh komponen pada Tabel 2.1 digambarkan dan dikelompokkan sesuai pola yang digunakan, ditambah komponen pendukung dan basis data. Sistem di luar P/L digambarkan dengan garis putus-putus, dan setiap garis diberi label agar hubungan antarkomponen dapat dipahami.
+
+### 2.4.2 Physical View
+
+Physical View dipilih untuk menunjukkan lingkungan operasi sesuai Tabel 1.1, yaitu web browser, server Node.js atau PHP, DBMS PostgreSQL atau MySQL, dan perangkat keras IoT.
+
+<p align="center">
+<img alt="Physical View Fajar Tech" src="./assets/diagram/Physical.png" width="100%">
+</p>
+<p align="center">
+<i>Gambar 3.2. Physical View Fajar Tech</i>
+</p>
+
+Gambar 3.2 memperlihatkan empat node utama.
+
+#### Client Device
+
+Label: “Web Browser modern pada OS cross-platform: Windows/Linux/macOS/Android/iOS”
+
+Isi:
+
+- `WargaView`
+- `TeknisiView`
+- `PengurusView`
+- `AuthView`
+
+#### Server Cloud/VPS
+
+Label: “Node.js atau PHP”
+
+Isi:
+
+- `TelemetriAPI`
+- `MonitoringController`
+- `LaporanController`
+- `PemeliharaanController`
+- `IuranController`
+- `AkunController`
+- `Validasi`
+- `ModulAkun`
+- `ModulMonitoring`
+- `ModulLaporan`
+- `ModulPemeliharaan`
+- `ModulIuran`
+- `ModulNotifikasi`
+- `DataAkunBoundary`
+- `DataPerangkatBoundary`
+- `DataLaporanBoundary`
+- `DataIuranBoundary`
+
+#### Database Server
+
+Label: “PostgreSQL atau MySQL”
+
+Isi:
+
+- `Database`
+
+#### Perangkat Keras IoT
+
+Label: “Mikrokontroler IoT pada fasilitas komunitas”
+
+Node ini merupakan lingkungan operasi dari Tabel 1.1, bukan komponen perangkat lunak pada Tabel 2.1.
+
+#### Hubungan Antarnode
+
+- Client Device → Server Cloud/VPS : “HTTPS request/response”
+- Perangkat Keras IoT → `TelemetriAPI` : “kirim data metrik operasional via HTTP/MQTT”
+- Server Cloud/VPS → Database Server : “SQL query/CRUD via TCP”
 
 <br>
 
@@ -725,19 +915,158 @@ Pengguna bukan pengurus (Warga atau Teknisi) mencoba membuka menu rekapitulasi. 
 
 ## 3.12 Use Case 12
 
-Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
+**ID Use Case:** *UC12*
+**Nama Use Case:** *Melakukan Registrasi Akun*
+ 
+### 3.12.1 Identifikasi Kelas
+
+Tabel 3.12. Identifikasi Kelas Use Case UC12
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `AuthView` «boundary» | — (komponen *AuthView*, APL Tabel 2.1) |
+| 2 | `AkunController` «control» | — (komponen *AkunController*, APL Tabel 2.1) |
+| 3 | `Validasi` «utility» | — (komponen *Validasi*, APL Tabel 2.1) |
+| 4 | `DataAkunBoundary` «repository» | — (komponen *DataAkunBoundary*, APL Tabel 2.1) |
+| 5 | `CalonPengguna` «entity» | C05 – CalonPengguna |
+| 6 | `Akun` «entity» | C01 – Akun |
+| 7 | `Warga` «entity» | C02 – Warga |
+| 8 | `Teknisi` «entity» | C03 – Teknisi |
+| 9 | `Pengurus` «entity» | C04 – Pengurus |
+| 10 | `StatusAkun` «entity» | C06 – StatusAkun |
+ 
+### 3.12.2 Sequence Diagram
+
+- **Skenario Normal**
+Calon pengguna membuka halaman registrasi dan mengisi formulir (nama, email, password, pilihan peran). Saat tombol "Daftar" ditekan, `AuthView` meneruskan permintaan ke `AkunController.daftarkan(nama, email, password, peran)`. Controller mengambil data email lewat `DataAkunBoundary.cariEmail(email)` dan memvalidasi kelengkapan serta keunikan email melalui `Validasi.validasiRegistrasi(nama, email, password, existing)`. Bila lolos, `CalonPengguna.daftarkan()` menciptakan akun peran lewat `Akun.buatAkun(peran)` dengan status awal "Menunggu Persetujuan" melalui `Akun.ubahStatus(...)`, lalu menyimpannya lewat `DataAkunBoundary.simpanAkun(akun)`. `AuthView` menampilkan notifikasi bahwa registrasi berhasil dan akun menunggu persetujuan pengurus (KF09, KF14).
+
+<p align="center">
+<img alt="Sequence Diagram UC12 - Skenario Normal" src="./assets/diagram/UC12-seq-normal.png" width="85%">
+</p>
+<p align="center">
+<i>Gambar 3.12.1. Sequence Diagram UC12 - Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Email Sudah Terdaftar**
+`DataAkunBoundary.cariEmail(email)` mengembalikan objek `Akun` yang sudah ada, sehingga `Validasi.validasiRegistrasi(...)` bernilai `false`. Tidak ada akun yang diciptakan; `AuthView` menampilkan pesan "Email sudah terdaftar, silakan gunakan email lain".
+
+<p align="center">
+<img alt="Sequence Diagram UC12 - Alternatif 1" src="./assets/diagram/UC12-seq-alt1.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 3.12.2. Sequence Diagram UC12 - Email Sudah Terdaftar</i>
+</p>
+
+### 3.12.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC12" src="./assets/diagram/UC12-class.png" width="100%">
+</p>
+<p align="center">
+<i>Gambar 3.12.3. Diagram Kelas UC12 - Melakukan Registrasi Akun (nilai izin StatusAkun: "Menunggu Persetujuan", "Disetujui", "Ditolak")</i>
+</p>
 
 <br>
 
 ## 3.13 Use Case 13
 
-Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
+**ID Use Case:** *UC13*
+**Nama Use Case:** *Melakukan Login Akun*
 
-<br>
+### 3.13.1 Identifikasi Kelas
+
+Tabel 3.13. Identifikasi Kelas Use Case UC13
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `AuthView` «boundary» | — (komponen *AuthView*, APL Tabel 2.1) |
+| 2 | `AkunController` «control» | — (komponen *AkunController*, APL Tabel 2.1) |
+| 3 | `DataAkunBoundary` «repository» | — (komponen *DataAkunBoundary*, APL Tabel 2.1) |
+| 4 | `Akun` «entity» | C01 – Akun |
+| 5 | `Warga` «entity» | C02 – Warga |
+| 6 | `Teknisi` «entity» | C03 – Teknisi |
+| 7 | `Pengurus` «entity» | C04 – Pengurus |
+| 8 | `StatusAkun` «entity» | C06 – StatusAkun |
+
+### 3.13.2 Sequence Diagram
+
+- **Skenario Normal**
+Pengguna (Warga/Teknisi/Pengurus) mengisi kredensial dan menekan "Login". `AkunController.login(email, password)` mengambil akun lewat `DataAkunBoundary.ambilAkun(email)`, lalu memverifikasi kecocokan kredensial dengan `Akun.cocokKredensial(email, password)` dan status persetujuan dengan `Akun.sudahDisetujui()`. Bila keduanya benar, tujuan halaman ditentukan oleh polimorfisme `Akun.dashboardTujuan()` yang dijawab berbeda oleh subclass peran (late binding), dan `AuthView` mengarahkan pengguna ke dasbor sesuai perannya (KF18, KF23, KF27).
+
+<p align="center">
+<img alt="Sequence Diagram UC13 - Skenario Normal" src="./assets/diagram/UC13-seq-normal.png" width="85%">
+</p>
+<p align="center">
+<i>Gambar 3.13.1. Sequence Diagram UC13 - Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Akun Belum Disetujui**
+`Akun.cocokKredensial(email, password)` bernilai `true` tetapi `Akun.sudahDisetujui()` bernilai `false` karena status akun masih "Menunggu Persetujuan". `AuthView` menampilkan pesan bahwa akun masih menunggu persetujuan pengurus dan pengguna tidak diarahkan ke dasbor mana pun.
+
+<p align="center">
+<img alt="Sequence Diagram UC13 - Alternatif 1" src="./assets/diagram/UC13-seq-alt1.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 3.13.2. Sequence Diagram UC13 - Akun Belum Disetujui</i>
+</p>
+
+### 3.13.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC13" src="./assets/diagram/UC13-class.png" width="100%">
+</p>
+<p align="center">
+<i>Gambar 3.13.3. Diagram Kelas UC13 - Melakukan Login Akun</i>
+</p>
 
 ## 3.14 Use Case 14
 
-Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
+**ID Use Case:** *UC14*
+**Nama Use Case:** *Mengelola Persetujuan Akun*
+
+### 3.14.1 Identifikasi Kelas
+
+Tabel 3.14. Identifikasi Kelas Use Case UC14
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `DashboardPengurusView` «boundary» | — (komponen *DashboardPengurusView*, APL Tabel 2.1) |
+| 2 | `AkunController` «control» | — (komponen *AkunController*, APL Tabel 2.1) |
+| 3 | `DataAkunBoundary` «repository» | — (komponen *DataAkunBoundary*, APL Tabel 2.1) |
+| 4 | `Pengurus` «entity» | C04 – Pengurus |
+| 5 | `Akun` «entity» | C01 – Akun |
+| 6 | `StatusAkun` «entity» | C06 – StatusAkun |
+
+### 3.14.2 Sequence Diagram
+
+- **Skenario Normal**
+Pengurus membuka menu persetujuan akun pada `DashboardPengurusView`. `AkunController.ambilAkunMenunggu()` terlebih dahulu memeriksa kewenangan lewat `Pengurus.verifikasiKewenangan()` (KF23), kemudian mengambil daftar akun berstatus "Menunggu Persetujuan" lewat `Pengurus.lihatAkunMenunggu()` yang membaca `DataAkunBoundary.ambilBerdasarkanStatus(...)`. Daftar ditampilkan; pengurus memilih akun dan menekan "Setujui" (atau "Tolak"), sehingga `Pengurus.setujuiAkun(akun)` memanggil `Akun.ubahStatus("Disetujui")` dan menyimpan perubahan lewat `DataAkunBoundary.perbaruiAkun(akun)`. `DashboardPengurusView` menampilkan notifikasi hasil persetujuan.
+
+<p align="center">
+<img alt="Sequence Diagram UC14 - Skenario Normal" src="./assets/diagram/UC14-seq-normal.png" width="85%">
+</p>
+<p align="center">
+<i>Gambar 3.14.1. Sequence Diagram UC14 - Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Tidak Ada Akun Menunggu Persetujuan**
+`DataAkunBoundary.ambilBerdasarkanStatus("Menunggu Persetujuan")` mengembalikan daftar kosong. `DashboardPengurusView` menampilkan informasi bahwa tidak ada akun yang menunggu persetujuan, sehingga tidak ada aksi persetujuan yang dapat dilakukan.
+
+<p align="center">
+<img alt="Sequence Diagram UC14 - Alternatif 1" src="./assets/diagram/UC14-seq-alt1.png" width="70%">
+</p>
+<p align="center">
+<i>Gambar 3.14.2. Sequence Diagram UC14 - Tidak Ada Akun Menunggu Persetujuan</i>
+</p>
+
+### 3.14.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC14" src="./assets/diagram/UC14-class.png" width="100%">
+</p>
+<p align="center">
+<i>Gambar 3.14.3. Diagram Kelas UC14 - Mengelola Persetujuan Akun</i>
+</p>
 
 <br>
 
