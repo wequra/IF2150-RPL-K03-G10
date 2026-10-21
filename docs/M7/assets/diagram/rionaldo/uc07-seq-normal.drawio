@@ -1,0 +1,909 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mxfile host="app.diagrams.net" version="32.5.5" agent="FajarTech-M7" type="device">
+  <diagram id="uc07-seq-normal" name="uc07-seq-normal">
+    <mxGraphModel dx="2210" dy="3760" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2210" pageHeight="3724" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="n2" value="UC07 — Skenario Normal" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=20;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="35" y="15" width="2140" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="n3" value="sd  Memperbarui Status Penanganan Gangguan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=15;" parent="1" vertex="1">
+          <mxGeometry x="35" y="53" width="2140" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="n4" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="55" y="2750" width="2100" height="795" as="geometry"/>
+        </mxCell>
+        <mxCell id="n5" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;" parent="1" vertex="1">
+          <mxGeometry x="56" y="2751" width="79" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="n6" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="135" y="2750" as="sourcePoint"/>
+            <mxPoint x="123" y="2777" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n7" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="123" y="2777" as="sourcePoint"/>
+            <mxPoint x="55" y="2777" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n8" value="opt" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="57" y="2751" width="66" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="n9" value="[transisiValid = true]" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="147" y="2751" width="1985" height="28" as="geometry"/>
+        </mxCell>
+        <mxCell id="n10" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="35" y="2265" width="2140" height="1345" as="geometry"/>
+        </mxCell>
+        <mxCell id="n11" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;" parent="1" vertex="1">
+          <mxGeometry x="36" y="2266" width="79" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="n12" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="115" y="2265" as="sourcePoint"/>
+            <mxPoint x="103" y="2292" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n13" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="103" y="2292" as="sourcePoint"/>
+            <mxPoint x="35" y="2292" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n14" value="opt" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="37" y="2266" width="66" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="n15" value="[berwenang = true]" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="127" y="2266" width="2025" height="28" as="geometry"/>
+        </mxCell>
+        <mxCell id="participant-a" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;group;strokeColor=none;fillColor=none;container=1;collapsible=0;recursiveResize=0;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="13" y="91" width="224" height="3624" as="geometry"/>
+        </mxCell>
+        <mxCell id="actor-head-a" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=ellipse;part=1;" parent="participant-a" vertex="1">
+          <mxGeometry x="102" y="0" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="n16" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-a" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="20" as="sourcePoint"/>
+            <mxPoint x="112" y="49" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n17" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-a" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="31" as="sourcePoint"/>
+            <mxPoint x="134" y="31" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n18" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-a" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="49" as="sourcePoint"/>
+            <mxPoint x="94" y="67" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n19" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-a" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="49" as="sourcePoint"/>
+            <mxPoint x="130" y="67" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label-a" value="Teknisi" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;connectable=0;part=1;" parent="participant-a" vertex="1">
+          <mxGeometry x="4" y="70" width="216" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="lifeline-a" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=none;part=1;" parent="participant-a" vertex="1">
+          <mxGeometry x="111.5" y="101" width="1" height="3523" as="geometry"/>
+        </mxCell>
+        <mxCell id="n20" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;part=1;" parent="participant-a" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="101" as="sourcePoint"/>
+            <mxPoint x="112" y="3624" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="participant-v" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;group;strokeColor=none;fillColor=none;container=1;collapsible=0;recursiveResize=0;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="258" y="91" width="224" height="3624" as="geometry"/>
+        </mxCell>
+        <mxCell id="head-v" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=ellipse;part=1;" parent="participant-v" vertex="1">
+          <mxGeometry x="90" y="10" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="n21" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-v" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="75" y="16" as="sourcePoint"/>
+            <mxPoint x="75" y="48" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n22" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-v" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="75" y="32" as="sourcePoint"/>
+            <mxPoint x="90" y="32" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label-v" value="v:TeknisiView" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;connectable=0;part=1;" parent="participant-v" vertex="1">
+          <mxGeometry x="4" y="60" width="216" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="lifeline-v" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=none;part=1;" parent="participant-v" vertex="1">
+          <mxGeometry x="111.5" y="101" width="1" height="3523" as="geometry"/>
+        </mxCell>
+        <mxCell id="n23" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;part=1;" parent="participant-v" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="101" as="sourcePoint"/>
+            <mxPoint x="112" y="3624" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="participant-c" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;group;strokeColor=none;fillColor=none;container=1;collapsible=0;recursiveResize=0;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="503" y="91" width="224" height="3624" as="geometry"/>
+        </mxCell>
+        <mxCell id="head-c" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=ellipse;part=1;" parent="participant-c" vertex="1">
+          <mxGeometry x="90" y="10" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="n24" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;curved=1;endArrow=open;endFill=0;endSize=7;part=1;" parent="participant-c" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="129" y="11" as="sourcePoint"/>
+            <mxPoint x="105" y="11" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="120" y="-2"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label-c" value="c:LaporanController" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;connectable=0;part=1;" parent="participant-c" vertex="1">
+          <mxGeometry x="4" y="60" width="216" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="lifeline-c" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=none;part=1;" parent="participant-c" vertex="1">
+          <mxGeometry x="111.5" y="101" width="1" height="3523" as="geometry"/>
+        </mxCell>
+        <mxCell id="n25" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;part=1;" parent="participant-c" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="101" as="sourcePoint"/>
+            <mxPoint x="112" y="3624" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="participant-m" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;group;strokeColor=none;fillColor=none;container=1;collapsible=0;recursiveResize=0;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="748" y="91" width="224" height="3624" as="geometry"/>
+        </mxCell>
+        <mxCell id="head-m" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=ellipse;part=1;" parent="participant-m" vertex="1">
+          <mxGeometry x="90" y="10" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="n26" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;curved=1;endArrow=open;endFill=0;endSize=7;part=1;" parent="participant-m" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="129" y="11" as="sourcePoint"/>
+            <mxPoint x="105" y="11" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="120" y="-2"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label-m" value="m:ModulLaporan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;connectable=0;part=1;" parent="participant-m" vertex="1">
+          <mxGeometry x="4" y="60" width="216" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="lifeline-m" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=none;part=1;" parent="participant-m" vertex="1">
+          <mxGeometry x="111.5" y="101" width="1" height="3523" as="geometry"/>
+        </mxCell>
+        <mxCell id="n27" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;part=1;" parent="participant-m" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="101" as="sourcePoint"/>
+            <mxPoint x="112" y="3624" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="participant-p" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;group;strokeColor=none;fillColor=none;container=1;collapsible=0;recursiveResize=0;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="993" y="91" width="224" height="3624" as="geometry"/>
+        </mxCell>
+        <mxCell id="head-p" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=ellipse;part=1;" parent="participant-p" vertex="1">
+          <mxGeometry x="90" y="10" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="n28" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-p" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="86" y="55" as="sourcePoint"/>
+            <mxPoint x="138" y="55" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label-p" value="p:PenugasanLaporan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;connectable=0;part=1;" parent="participant-p" vertex="1">
+          <mxGeometry x="4" y="60" width="216" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="lifeline-p" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=none;part=1;" parent="participant-p" vertex="1">
+          <mxGeometry x="111.5" y="101" width="1" height="3523" as="geometry"/>
+        </mxCell>
+        <mxCell id="n29" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;part=1;" parent="participant-p" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="101" as="sourcePoint"/>
+            <mxPoint x="112" y="3624" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="participant-l" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;group;strokeColor=none;fillColor=none;container=1;collapsible=0;recursiveResize=0;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="1238" y="91" width="224" height="3624" as="geometry"/>
+        </mxCell>
+        <mxCell id="head-l" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=ellipse;part=1;" parent="participant-l" vertex="1">
+          <mxGeometry x="90" y="10" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="n30" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-l" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="86" y="55" as="sourcePoint"/>
+            <mxPoint x="138" y="55" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label-l" value="l:LaporanGangguan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;connectable=0;part=1;" parent="participant-l" vertex="1">
+          <mxGeometry x="4" y="60" width="216" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="lifeline-l" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=none;part=1;" parent="participant-l" vertex="1">
+          <mxGeometry x="111.5" y="101" width="1" height="3523" as="geometry"/>
+        </mxCell>
+        <mxCell id="n31" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;part=1;" parent="participant-l" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="101" as="sourcePoint"/>
+            <mxPoint x="112" y="3624" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="participant-r" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;group;strokeColor=none;fillColor=none;container=1;collapsible=0;recursiveResize=0;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="1483" y="2943" width="224" height="772" as="geometry"/>
+        </mxCell>
+        <mxCell id="head-r" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=ellipse;part=1;" parent="participant-r" vertex="1">
+          <mxGeometry x="90" y="10" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="n32" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-r" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="86" y="55" as="sourcePoint"/>
+            <mxPoint x="138" y="55" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label-r" value="r:RiwayatStatusLaporan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;connectable=0;part=1;" parent="participant-r" vertex="1">
+          <mxGeometry x="4" y="60" width="216" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="lifeline-r" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=none;part=1;" parent="participant-r" vertex="1">
+          <mxGeometry x="111.5" y="101" width="1" height="671" as="geometry"/>
+        </mxCell>
+        <mxCell id="n33" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;part=1;" parent="participant-r" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="101" as="sourcePoint"/>
+            <mxPoint x="112" y="772" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="participant-d" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;group;strokeColor=none;fillColor=none;container=1;collapsible=0;recursiveResize=0;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="1728" y="91" width="224" height="3624" as="geometry"/>
+        </mxCell>
+        <mxCell id="head-d" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=ellipse;part=1;" parent="participant-d" vertex="1">
+          <mxGeometry x="90" y="10" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="n34" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-d" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="75" y="16" as="sourcePoint"/>
+            <mxPoint x="75" y="48" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n35" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-d" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="75" y="32" as="sourcePoint"/>
+            <mxPoint x="90" y="32" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label-d" value="d:DataLaporanBoundary" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;connectable=0;part=1;" parent="participant-d" vertex="1">
+          <mxGeometry x="4" y="60" width="216" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="lifeline-d" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=none;part=1;" parent="participant-d" vertex="1">
+          <mxGeometry x="111.5" y="101" width="1" height="3523" as="geometry"/>
+        </mxCell>
+        <mxCell id="n36" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;part=1;" parent="participant-d" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="101" as="sourcePoint"/>
+            <mxPoint x="112" y="3624" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="participant-db" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;group;strokeColor=none;fillColor=none;container=1;collapsible=0;recursiveResize=0;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="1973" y="91" width="224" height="3624" as="geometry"/>
+        </mxCell>
+        <mxCell id="head-db" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=ellipse;part=1;" parent="participant-db" vertex="1">
+          <mxGeometry x="90" y="10" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="n37" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-db" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="75" y="16" as="sourcePoint"/>
+            <mxPoint x="75" y="48" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n38" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;part=1;" parent="participant-db" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="75" y="32" as="sourcePoint"/>
+            <mxPoint x="90" y="32" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label-db" value="db:Database" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;connectable=0;part=1;" parent="participant-db" vertex="1">
+          <mxGeometry x="4" y="60" width="216" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="lifeline-db" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=none;part=1;" parent="participant-db" vertex="1">
+          <mxGeometry x="111.5" y="101" width="1" height="3523" as="geometry"/>
+        </mxCell>
+        <mxCell id="n39" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 5;part=1;" parent="participant-db" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="101" as="sourcePoint"/>
+            <mxPoint x="112" y="3624" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="activation-db-0" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-db" vertex="1">
+          <mxGeometry x="106" y="419" width="12" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-d-1" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-d" vertex="1">
+          <mxGeometry x="106" y="354" width="12" height="195" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-m-2" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-m" vertex="1">
+          <mxGeometry x="106" y="289" width="12" height="325" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-c-3" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-c" vertex="1">
+          <mxGeometry x="106" y="224" width="12" height="455" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-v-4" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-v" vertex="1">
+          <mxGeometry x="106" y="159" width="12" height="585" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-db-5" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-db" vertex="1">
+          <mxGeometry x="106" y="1069" width="12" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-d-6" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-d" vertex="1">
+          <mxGeometry x="106" y="1004" width="12" height="195" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-l-7" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-l" vertex="1">
+          <mxGeometry x="106" y="1264" width="12" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-m-8" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-m" vertex="1">
+          <mxGeometry x="106" y="939" width="12" height="455" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-c-9" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-c" vertex="1">
+          <mxGeometry x="106" y="874" width="12" height="585" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-v-10" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-v" vertex="1">
+          <mxGeometry x="106" y="809" width="12" height="715" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-db-11" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-db" vertex="1">
+          <mxGeometry x="106" y="1849" width="12" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-d-12" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-d" vertex="1">
+          <mxGeometry x="106" y="1784" width="12" height="195" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-p-13" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-p" vertex="1">
+          <mxGeometry x="106" y="2044" width="12" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-db-14" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-db" vertex="1">
+          <mxGeometry x="106" y="2334" width="12" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-d-15" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-d" vertex="1">
+          <mxGeometry x="106" y="2269" width="12" height="195" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-l-16" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-l" vertex="1">
+          <mxGeometry x="106" y="2529" width="12" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-l-17" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-l" vertex="1">
+          <mxGeometry x="106" y="2754" width="12" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-db-18" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-db" vertex="1">
+          <mxGeometry x="106" y="3064" width="12" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-d-19" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-d" vertex="1">
+          <mxGeometry x="106" y="2999" width="12" height="195" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-m-20" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-m" vertex="1">
+          <mxGeometry x="106" y="1719" width="12" height="1540" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-c-21" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-c" vertex="1">
+          <mxGeometry x="106" y="1654" width="12" height="1670" as="geometry"/>
+        </mxCell>
+        <mxCell id="activation-v-22" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;fillColor=#FFFFFF;part=1;" parent="participant-v" vertex="1">
+          <mxGeometry x="106" y="1589" width="12" height="1800" as="geometry"/>
+        </mxCell>
+        <mxCell id="n40" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.01646324155549248;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="lifeline-a" target="activation-v-4" m7Message="1" m7Order="1" m7SourceParticipant="a" m7TargetParticipant="v">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="125.5" y="250" as="sourcePoint"/>
+            <mxPoint x="364" y="250" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-1" value="1. bukaPenugasan()" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n40" vertex="1" m7Kind="call" m7Order="1" m7Receiver="TeknisiView" m7Operation="bukaPenugasan">
+          <mxGeometry x="0" y="0" width="141.453125" height="22" relative="1" as="geometry">
+            <mxPoint x="-70.7265625" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n41" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.1111111111111111;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-v-4" target="activation-c-3" m7Message="1" m7Order="2" m7SourceParticipant="v" m7TargetParticipant="c">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="376" y="315" as="sourcePoint"/>
+            <mxPoint x="609" y="315" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-2" value="2. daftarPenugasan()" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n41" vertex="1" m7Kind="call" m7Order="2" m7Receiver="LaporanController" m7Operation="daftarPenugasan">
+          <mxGeometry x="0" y="0" width="148.671875" height="22" relative="1" as="geometry">
+            <mxPoint x="-74.3359375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n42" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.14285714285714285;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-c-3" target="activation-m-2" m7Message="1" m7Order="3" m7SourceParticipant="c" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="621" y="380" as="sourcePoint"/>
+            <mxPoint x="854" y="380" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-3" value="3. daftarPenugasan(&#10;sesi.idTeknisi)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n42" vertex="1" m7Kind="call" m7Order="3" m7Receiver="ModulLaporan" m7Operation="daftarPenugasan">
+          <mxGeometry x="0" y="0" width="143.59375" height="38" relative="1" as="geometry">
+            <mxPoint x="-71.796875" y="-47" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n43" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.2;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-m-2" target="activation-d-1" m7Message="1" m7Order="4" m7SourceParticipant="m" m7TargetParticipant="d">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="866" y="445" as="sourcePoint"/>
+            <mxPoint x="1834" y="445" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-4" value="4. cariDaftarTugas(idTeknisi)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n43" vertex="1" m7Kind="call" m7Order="4" m7Receiver="DataLaporanBoundary" m7Operation="cariDaftarTugas">
+          <mxGeometry x="0" y="0" width="196.0" height="22" relative="1" as="geometry">
+            <mxPoint x="-98.0" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n44" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.3333333333333333;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-d-1" target="activation-db-0" m7Message="1" m7Order="5" m7SourceParticipant="d" m7TargetParticipant="db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1846" y="510" as="sourcePoint"/>
+            <mxPoint x="2079" y="510" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-5" value="5. query(Q_TUGAS, {idTeknisi})" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n44" vertex="1" m7Kind="call" m7Order="5" m7Receiver="Database" m7Operation="query">
+          <mxGeometry x="0" y="0" width="217.71875" height="22" relative="1" as="geometry">
+            <mxPoint x="-108.859375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n45" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.6666666666666666;entryPerimeter=0;" parent="1" edge="1" source="activation-db-0" target="activation-d-1" m7Message="1" m7Order="6" m7SourceParticipant="db" m7TargetParticipant="d">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2079" y="575" as="sourcePoint"/>
+            <mxPoint x="1846" y="575" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-6" value="6. baris tugas teknisi" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n45" vertex="1" m7Kind="return" m7Order="6">
+          <mxGeometry x="0" y="0" width="147.859375" height="22" relative="1" as="geometry">
+            <mxPoint x="-73.9296875" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n46" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.8;entryPerimeter=0;" parent="1" edge="1" source="activation-d-1" target="activation-m-2" m7Message="1" m7Order="7" m7SourceParticipant="d" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1834" y="640" as="sourcePoint"/>
+            <mxPoint x="866" y="640" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-7" value="7. daftar tugas" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n46" vertex="1" m7Kind="return" m7Order="7">
+          <mxGeometry x="0" y="0" width="107.921875" height="22" relative="1" as="geometry">
+            <mxPoint x="-53.9609375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n47" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.8571428571428571;entryPerimeter=0;" parent="1" edge="1" source="activation-m-2" target="activation-c-3" m7Message="1" m7Order="8" m7SourceParticipant="m" m7TargetParticipant="c">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="854" y="705" as="sourcePoint"/>
+            <mxPoint x="621" y="705" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-8" value="8. daftar tugas" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n47" vertex="1" m7Kind="return" m7Order="8">
+          <mxGeometry x="0" y="0" width="107.921875" height="22" relative="1" as="geometry">
+            <mxPoint x="-53.9609375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n48" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.8888888888888888;entryPerimeter=0;" parent="1" edge="1" source="activation-c-3" target="activation-v-4" m7Message="1" m7Order="9" m7SourceParticipant="c" m7TargetParticipant="v">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="609" y="770" as="sourcePoint"/>
+            <mxPoint x="376" y="770" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-9" value="9. daftar tugas" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n48" vertex="1" m7Kind="return" m7Order="9">
+          <mxGeometry x="0" y="0" width="107.921875" height="22" relative="1" as="geometry">
+            <mxPoint x="-53.9609375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n49" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.18251490207209764;entryPerimeter=0;" parent="1" edge="1" source="activation-v-4" target="lifeline-a" m7Message="1" m7Order="10" m7SourceParticipant="v" m7TargetParticipant="a">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="364" y="835" as="sourcePoint"/>
+            <mxPoint x="125.5" y="835" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-10" value="10. Daftar laporan yang&#10;ditugaskan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n49" vertex="1" m7Kind="return" m7Order="10">
+          <mxGeometry x="0" y="0" width="167.234375" height="38" relative="1" as="geometry">
+            <mxPoint x="-83.6171875" y="-47" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n50" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.20096508657394266;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="lifeline-a" target="activation-v-10" m7Message="1" m7Order="11" m7SourceParticipant="a" m7TargetParticipant="v">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="125.5" y="900" as="sourcePoint"/>
+            <mxPoint x="364" y="900" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-11" value="11. pilihTugas(idLaporan)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n50" vertex="1" m7Kind="call" m7Order="11" m7Receiver="TeknisiView" m7Operation="pilihTugas">
+          <mxGeometry x="0" y="0" width="176.265625" height="22" relative="1" as="geometry">
+            <mxPoint x="-88.1328125" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n51" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.09090909090909091;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-v-10" target="activation-c-9" m7Message="1" m7Order="12" m7SourceParticipant="v" m7TargetParticipant="c">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="376" y="965" as="sourcePoint"/>
+            <mxPoint x="609" y="965" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-12" value="12. detailTugas(idLaporan)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n51" vertex="1" m7Kind="call" m7Order="12" m7Receiver="LaporanController" m7Operation="detailTugas">
+          <mxGeometry x="0" y="0" width="185.484375" height="22" relative="1" as="geometry">
+            <mxPoint x="-92.7421875" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n52" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.1111111111111111;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-c-9" target="activation-m-8" m7Message="1" m7Order="13" m7SourceParticipant="c" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="621" y="1030" as="sourcePoint"/>
+            <mxPoint x="854" y="1030" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-13" value="13. detailTugas(&#10;sesi.idTeknisi, idLaporan)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n52" vertex="1" m7Kind="call" m7Order="13" m7Receiver="ModulLaporan" m7Operation="detailTugas">
+          <mxGeometry x="0" y="0" width="174.765625" height="38" relative="1" as="geometry">
+            <mxPoint x="-87.3828125" y="-47" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n53" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.14285714285714285;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-m-8" target="activation-d-6" m7Message="1" m7Order="14" m7SourceParticipant="m" m7TargetParticipant="d">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="866" y="1095" as="sourcePoint"/>
+            <mxPoint x="1834" y="1095" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-14" value="14. cariDetailTugas(idTeknisi, idLaporan)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n53" vertex="1" m7Kind="call" m7Order="14" m7Receiver="DataLaporanBoundary" m7Operation="cariDetailTugas">
+          <mxGeometry x="0" y="0" width="274.90625" height="22" relative="1" as="geometry">
+            <mxPoint x="-137.453125" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n54" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.3333333333333333;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-d-6" target="activation-db-5" m7Message="1" m7Order="15" m7SourceParticipant="d" m7TargetParticipant="db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1846" y="1160" as="sourcePoint"/>
+            <mxPoint x="2079" y="1160" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-15" value="15. query(&#10;Q_DETAIL_TUGAS, {idTeknisi,&#10;idLaporan})" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n54" vertex="1" m7Kind="call" m7Order="15" m7Receiver="Database" m7Operation="query">
+          <mxGeometry x="0" y="0" width="201.015625" height="54" relative="1" as="geometry">
+            <mxPoint x="-100.5078125" y="-63" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n55" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.6666666666666666;entryPerimeter=0;" parent="1" edge="1" source="activation-db-5" target="activation-d-6" m7Message="1" m7Order="16" m7SourceParticipant="db" m7TargetParticipant="d">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2079" y="1225" as="sourcePoint"/>
+            <mxPoint x="1846" y="1225" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-16" value="16. baris laporan yang&#10;ditugaskan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n55" vertex="1" m7Kind="return" m7Order="16">
+          <mxGeometry x="0" y="0" width="158.4375" height="38" relative="1" as="geometry">
+            <mxPoint x="-79.21875" y="-47" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n56" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.5714285714285714;entryPerimeter=0;" parent="1" edge="1" source="activation-d-6" target="activation-m-8" m7Message="1" m7Order="17" m7SourceParticipant="d" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1834" y="1290" as="sourcePoint"/>
+            <mxPoint x="866" y="1290" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-17" value="17. laporan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n56" vertex="1" m7Kind="return" m7Order="17">
+          <mxGeometry x="0" y="0" width="86.109375" height="22" relative="1" as="geometry">
+            <mxPoint x="-43.0546875" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n57" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.7142857142857143;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-m-8" target="activation-l-7" m7Message="1" m7Order="18" m7SourceParticipant="m" m7TargetParticipant="l">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="866" y="1355" as="sourcePoint"/>
+            <mxPoint x="1344" y="1355" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-18" value="18. getDetailLaporan()" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n57" vertex="1" m7Kind="call" m7Order="18" m7Receiver="LaporanGangguan" m7Operation="getDetailLaporan">
+          <mxGeometry x="0" y="0" width="159.546875" height="22" relative="1" as="geometry">
+            <mxPoint x="-79.7734375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n58" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.8571428571428571;entryPerimeter=0;" parent="1" edge="1" source="activation-l-7" target="activation-m-8" m7Message="1" m7Order="19" m7SourceParticipant="l" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1344" y="1420" as="sourcePoint"/>
+            <mxPoint x="866" y="1420" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-19" value="19. detail dan status" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n58" vertex="1" m7Kind="return" m7Order="19">
+          <mxGeometry x="0" y="0" width="145.9375" height="22" relative="1" as="geometry">
+            <mxPoint x="-72.96875" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n59" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.8888888888888888;entryPerimeter=0;" parent="1" edge="1" source="activation-m-8" target="activation-c-9" m7Message="1" m7Order="20" m7SourceParticipant="m" m7TargetParticipant="c">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="854" y="1485" as="sourcePoint"/>
+            <mxPoint x="621" y="1485" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-20" value="20. detail" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n59" vertex="1" m7Kind="return" m7Order="20">
+          <mxGeometry x="0" y="0" width="73.3125" height="22" relative="1" as="geometry">
+            <mxPoint x="-36.65625" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n60" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.9090909090909091;entryPerimeter=0;" parent="1" edge="1" source="activation-c-9" target="activation-v-10" m7Message="1" m7Order="21" m7SourceParticipant="c" m7TargetParticipant="v">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="609" y="1550" as="sourcePoint"/>
+            <mxPoint x="376" y="1550" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-21" value="21. detail" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n60" vertex="1" m7Kind="return" m7Order="21">
+          <mxGeometry x="0" y="0" width="73.3125" height="22" relative="1" as="geometry">
+            <mxPoint x="-36.65625" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n61" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.40391711609423786;entryPerimeter=0;" parent="1" edge="1" source="activation-v-10" target="lifeline-a" m7Message="1" m7Order="22" m7SourceParticipant="v" m7TargetParticipant="a">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="364" y="1615" as="sourcePoint"/>
+            <mxPoint x="125.5" y="1615" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-22" value="22. Detail dan status terkini" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n61" vertex="1" m7Kind="return" m7Order="22">
+          <mxGeometry x="0" y="0" width="193.25" height="22" relative="1" as="geometry">
+            <mxPoint x="-96.625" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n62" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.4223673005960829;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="lifeline-a" target="activation-v-22" m7Message="1" m7Order="23" m7SourceParticipant="a" m7TargetParticipant="v">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="125.5" y="1680" as="sourcePoint"/>
+            <mxPoint x="364" y="1680" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-23" value="23. ubahStatus(&#10;idLaporan, statusBaru)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n62" vertex="1" m7Kind="call" m7Order="23" m7Receiver="TeknisiView" m7Operation="ubahStatus">
+          <mxGeometry x="0" y="0" width="160.546875" height="38" relative="1" as="geometry">
+            <mxPoint x="-80.2734375" y="-47" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n63" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.03611111111111111;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-v-22" target="activation-c-21" m7Message="1" m7Order="24" m7SourceParticipant="v" m7TargetParticipant="c">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="376" y="1745" as="sourcePoint"/>
+            <mxPoint x="609" y="1745" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-24" value="24. perbaruiStatus(&#10;idLaporan, statusBaru)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n63" vertex="1" m7Kind="call" m7Order="24" m7Receiver="LaporanController" m7Operation="perbaruiStatus">
+          <mxGeometry x="0" y="0" width="160.546875" height="38" relative="1" as="geometry">
+            <mxPoint x="-80.2734375" y="-47" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n64" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.038922155688622756;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-c-21" target="activation-m-20" m7Message="1" m7Order="25" m7SourceParticipant="c" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="621" y="1810" as="sourcePoint"/>
+            <mxPoint x="854" y="1810" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-25" value="25. perbaruiStatus(&#10;sesi.idTeknisi, idLaporan,&#10;statusBaru)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n64" vertex="1" m7Kind="call" m7Order="25" m7Receiver="ModulLaporan" m7Operation="perbaruiStatus">
+          <mxGeometry x="0" y="0" width="173.8125" height="54" relative="1" as="geometry">
+            <mxPoint x="-86.90625" y="-63" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n65" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.04220779220779221;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-m-20" target="activation-d-12" m7Message="1" m7Order="26" m7SourceParticipant="m" m7TargetParticipant="d">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="866" y="1875" as="sourcePoint"/>
+            <mxPoint x="1834" y="1875" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-26" value="26. cariPenugasan(idTeknisi, idLaporan)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n65" vertex="1" m7Kind="call" m7Order="26" m7Receiver="DataLaporanBoundary" m7Operation="cariPenugasan">
+          <mxGeometry x="0" y="0" width="270.453125" height="22" relative="1" as="geometry">
+            <mxPoint x="-135.2265625" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n66" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.3333333333333333;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-d-12" target="activation-db-11" m7Message="1" m7Order="27" m7SourceParticipant="d" m7TargetParticipant="db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1846" y="1940" as="sourcePoint"/>
+            <mxPoint x="2079" y="1940" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-27" value="27. query(&#10;Q_PENUGASAN, {idTeknisi,&#10;idLaporan})" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n66" vertex="1" m7Kind="call" m7Order="27" m7Receiver="Database" m7Operation="query">
+          <mxGeometry x="0" y="0" width="186.078125" height="54" relative="1" as="geometry">
+            <mxPoint x="-93.0390625" y="-63" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n67" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.6666666666666666;entryPerimeter=0;" parent="1" edge="1" source="activation-db-11" target="activation-d-12" m7Message="1" m7Order="28" m7SourceParticipant="db" m7TargetParticipant="d">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2079" y="2005" as="sourcePoint"/>
+            <mxPoint x="1846" y="2005" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-28" value="28. data penugasan sesuai" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n67" vertex="1" m7Kind="return" m7Order="28">
+          <mxGeometry x="0" y="0" width="187.5625" height="22" relative="1" as="geometry">
+            <mxPoint x="-93.78125" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n68" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.16883116883116883;entryPerimeter=0;" parent="1" edge="1" source="activation-d-12" target="activation-m-20" m7Message="1" m7Order="29" m7SourceParticipant="d" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1834" y="2070" as="sourcePoint"/>
+            <mxPoint x="866" y="2070" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-29" value="29. penugasan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n68" vertex="1" m7Kind="return" m7Order="29">
+          <mxGeometry x="0" y="0" width="108.6875" height="22" relative="1" as="geometry">
+            <mxPoint x="-54.34375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n69" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.21103896103896103;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-m-20" target="activation-p-13" m7Message="1" m7Order="30" m7SourceParticipant="m" m7TargetParticipant="p">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="866" y="2135" as="sourcePoint"/>
+            <mxPoint x="1099" y="2135" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-30" value="30. verifikasi(&#10;idTeknisi, idLaporan)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n69" vertex="1" m7Kind="call" m7Order="30" m7Receiver="PenugasanLaporan" m7Operation="verifikasi">
+          <mxGeometry x="0" y="0" width="145.5" height="38" relative="1" as="geometry">
+            <mxPoint x="-72.75" y="-47" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n70" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.2532467532467532;entryPerimeter=0;" parent="1" edge="1" source="activation-p-13" target="activation-m-20" m7Message="1" m7Order="31" m7SourceParticipant="p" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1099" y="2200" as="sourcePoint"/>
+            <mxPoint x="866" y="2200" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-31" value="31. berwenang = true" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n70" vertex="1" m7Kind="return" m7Order="31">
+          <mxGeometry x="0" y="0" width="155.5" height="22" relative="1" as="geometry">
+            <mxPoint x="-77.75" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n71" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.35714285714285715;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-m-20" target="activation-d-15" m7Message="1" m7Order="32" m7SourceParticipant="m" m7TargetParticipant="d">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="866" y="2360" as="sourcePoint"/>
+            <mxPoint x="1834" y="2360" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-32" value="32. cariDetailTugas(idTeknisi, idLaporan)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n71" vertex="1" m7Kind="call" m7Order="32" m7Receiver="DataLaporanBoundary" m7Operation="cariDetailTugas">
+          <mxGeometry x="0" y="0" width="274.90625" height="22" relative="1" as="geometry">
+            <mxPoint x="-137.453125" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n72" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.3333333333333333;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-d-15" target="activation-db-14" m7Message="1" m7Order="33" m7SourceParticipant="d" m7TargetParticipant="db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1846" y="2425" as="sourcePoint"/>
+            <mxPoint x="2079" y="2425" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-33" value="33. query(&#10;Q_DETAIL_TUGAS, {idTeknisi,&#10;idLaporan})" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n72" vertex="1" m7Kind="call" m7Order="33" m7Receiver="Database" m7Operation="query">
+          <mxGeometry x="0" y="0" width="201.015625" height="54" relative="1" as="geometry">
+            <mxPoint x="-100.5078125" y="-63" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n73" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.6666666666666666;entryPerimeter=0;" parent="1" edge="1" source="activation-db-14" target="activation-d-15" m7Message="1" m7Order="34" m7SourceParticipant="db" m7TargetParticipant="d">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2079" y="2490" as="sourcePoint"/>
+            <mxPoint x="1846" y="2490" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-34" value="34. baris laporan terkini" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n73" vertex="1" m7Kind="return" m7Order="34">
+          <mxGeometry x="0" y="0" width="167.71875" height="22" relative="1" as="geometry">
+            <mxPoint x="-83.859375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n74" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.4837662337662338;entryPerimeter=0;" parent="1" edge="1" source="activation-d-15" target="activation-m-20" m7Message="1" m7Order="35" m7SourceParticipant="d" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1834" y="2555" as="sourcePoint"/>
+            <mxPoint x="866" y="2555" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-35" value="35. laporan; statusLama = laporan.status" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n74" vertex="1" m7Kind="return" m7Order="35">
+          <mxGeometry x="0" y="0" width="282.890625" height="22" relative="1" as="geometry">
+            <mxPoint x="-141.4453125" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n75" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.525974025974026;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-m-20" target="activation-l-16" m7Message="1" m7Order="36" m7SourceParticipant="m" m7TargetParticipant="l">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="866" y="2620" as="sourcePoint"/>
+            <mxPoint x="1344" y="2620" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-36" value="36. validasiTransisi(statusBaru)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n75" vertex="1" m7Kind="call" m7Order="36" m7Receiver="LaporanGangguan" m7Operation="validasiTransisi">
+          <mxGeometry x="0" y="0" width="215.125" height="22" relative="1" as="geometry">
+            <mxPoint x="-107.5625" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n76" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.5681818181818182;entryPerimeter=0;" parent="1" edge="1" source="activation-l-16" target="activation-m-20" m7Message="1" m7Order="37" m7SourceParticipant="l" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1344" y="2685" as="sourcePoint"/>
+            <mxPoint x="866" y="2685" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-37" value="37. transisiValid = true" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n76" vertex="1" m7Kind="return" m7Order="37">
+          <mxGeometry x="0" y="0" width="161.296875" height="22" relative="1" as="geometry">
+            <mxPoint x="-80.6484375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n77" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.672077922077922;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-m-20" target="activation-l-17" m7Message="1" m7Order="38" m7SourceParticipant="m" m7TargetParticipant="l">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="866" y="2845" as="sourcePoint"/>
+            <mxPoint x="1344" y="2845" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-38" value="38. ubahStatus(statusBaru)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n77" vertex="1" m7Kind="call" m7Order="38" m7Receiver="LaporanGangguan" m7Operation="ubahStatus">
+          <mxGeometry x="0" y="0" width="191.421875" height="22" relative="1" as="geometry">
+            <mxPoint x="-95.7109375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n78" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.7142857142857143;entryPerimeter=0;" parent="1" edge="1" source="activation-l-17" target="activation-m-20" m7Message="1" m7Order="39" m7SourceParticipant="l" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1344" y="2910" as="sourcePoint"/>
+            <mxPoint x="866" y="2910" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-39" value="39. status = statusBaru" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n78" vertex="1" m7Kind="return" m7Order="39">
+          <mxGeometry x="0" y="0" width="166.234375" height="22" relative="1" as="geometry">
+            <mxPoint x="-83.1171875" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n79" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;exitX=1;exitY=0.7564935064935064;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="activation-m-20" target="head-r" m7Message="1" m7Order="40" m7SourceParticipant="m" m7TargetParticipant="r" m7Create="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="866" y="2975" as="sourcePoint"/>
+            <mxPoint x="1573" y="2975.0" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-40" value="40. «create» RiwayatStatusLaporan(idLaporan, statusBaru, t1)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n79" vertex="1" m7Kind="call" m7Order="40" m7Receiver="RiwayatStatusLaporan" m7Operation="RiwayatStatusLaporan">
+          <mxGeometry x="0" y="0" width="419.671875" height="22" relative="1" as="geometry">
+            <mxPoint x="-209.8359375" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n80" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.8311688311688312;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-m-20" target="activation-d-19" m7Message="1" m7Order="41" m7SourceParticipant="m" m7TargetParticipant="d">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="866" y="3090" as="sourcePoint"/>
+            <mxPoint x="1834" y="3090" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-41" value="41. simpanStatusDanRiwayat(laporan, riwayat, idTeknisi, statusLama)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n80" vertex="1" m7Kind="call" m7Order="41" m7Receiver="DataLaporanBoundary" m7Operation="simpanStatusDanRiwayat">
+          <mxGeometry x="0" y="0" width="467.515625" height="22" relative="1" as="geometry">
+            <mxPoint x="-233.7578125" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n81" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.3333333333333333;exitPerimeter=0;entryX=0;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="activation-d-19" target="activation-db-18" m7Message="1" m7Order="42" m7SourceParticipant="d" m7TargetParticipant="db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1846" y="3155" as="sourcePoint"/>
+            <mxPoint x="2079" y="3155" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-42" value="42. transaksiStatus(&#10;laporan, riwayat, idTeknisi,&#10;statusLama)" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n81" vertex="1" m7Kind="call" m7Order="42" m7Receiver="Database" m7Operation="transaksiStatus">
+          <mxGeometry x="0" y="0" width="185.59375" height="54" relative="1" as="geometry">
+            <mxPoint x="-92.796875" y="-63" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n82" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.6666666666666666;entryPerimeter=0;" parent="1" edge="1" source="activation-db-18" target="activation-d-19" m7Message="1" m7Order="43" m7SourceParticipant="db" m7TargetParticipant="d">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2079" y="3220" as="sourcePoint"/>
+            <mxPoint x="1846" y="3220" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-43" value="43. commit = true; status dan&#10;timestamp tersimpan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n82" vertex="1" m7Kind="return" m7Order="43">
+          <mxGeometry x="0" y="0" width="208.703125" height="38" relative="1" as="geometry">
+            <mxPoint x="-104.3515625" y="-47" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n83" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.9577922077922078;entryPerimeter=0;" parent="1" edge="1" source="activation-d-19" target="activation-m-20" m7Message="1" m7Order="44" m7SourceParticipant="d" m7TargetParticipant="m">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1834" y="3285" as="sourcePoint"/>
+            <mxPoint x="866" y="3285" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-44" value="44. berhasil = true" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n83" vertex="1" m7Kind="return" m7Order="44">
+          <mxGeometry x="0" y="0" width="134.140625" height="22" relative="1" as="geometry">
+            <mxPoint x="-67.0703125" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n84" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.9610778443113772;entryPerimeter=0;" parent="1" edge="1" source="activation-m-20" target="activation-c-21" m7Message="1" m7Order="45" m7SourceParticipant="m" m7TargetParticipant="c">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="854" y="3350" as="sourcePoint"/>
+            <mxPoint x="621" y="3350" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-45" value="45. HasilStatus: BERHASIL" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n84" vertex="1" m7Kind="return" m7Order="45">
+          <mxGeometry x="0" y="0" width="182.59375" height="22" relative="1" as="geometry">
+            <mxPoint x="-91.296875" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n85" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.9638888888888889;entryPerimeter=0;" parent="1" edge="1" source="activation-c-21" target="activation-v-22" m7Message="1" m7Order="46" m7SourceParticipant="c" m7TargetParticipant="v">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="609" y="3415" as="sourcePoint"/>
+            <mxPoint x="376" y="3415" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-46" value="46. HasilStatus: BERHASIL" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n85" vertex="1" m7Kind="return" m7Order="46">
+          <mxGeometry x="0" y="0" width="182.59375" height="22" relative="1" as="geometry">
+            <mxPoint x="-91.296875" y="-31" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n86" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;exitX=0;exitY=1.0;exitPerimeter=0;entryX=1;entryY=0.9332954868010218;entryPerimeter=0;" parent="1" edge="1" source="activation-v-22" target="lifeline-a" m7Message="1" m7Order="47" m7SourceParticipant="v" m7TargetParticipant="a">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="364" y="3480" as="sourcePoint"/>
+            <mxPoint x="125.5" y="3480" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="message-label-47" value="47. Status baru dan waktu&#10;perubahan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;strokeColor=none;fillColor=#FFFFFF;align=center;fontSize=13;connectable=0;" parent="n86" vertex="1" m7Kind="return" m7Order="47">
+          <mxGeometry x="0" y="0" width="184.265625" height="38" relative="1" as="geometry">
+            <mxPoint x="-92.1328125" y="-47" as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

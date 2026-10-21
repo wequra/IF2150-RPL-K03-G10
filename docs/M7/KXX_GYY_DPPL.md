@@ -230,7 +230,7 @@ Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 
 <p align="center">
 <img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/overall-class.png" width="100%">
 </p>
-<p align="center">
+<p align="center">z
 <i>Gambar 4.1. Diagram Kelas Perancangan Keseluruhan Fajar Tech</i>
 </p>
 

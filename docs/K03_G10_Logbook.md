@@ -27,6 +27,7 @@
 * [Milestone 3](#milestone-3)
 * [Milestone 4](#milestone-4)
 * [Milestone 6](#milestone-6)
+* [Milestone 7](#milestone-7)
 
 ---
 
@@ -101,3 +102,20 @@
 
 **Catatan/Evaluasi Milestone 6:**
 * Pembagian pekerjaan mengikuti pembagian tugas M6. Status Raffi dan Rafiandhi disesuaikan kembali setelah BAB 3 dan final review selesai.
+
+
+---
+
+### Milestone 7
+**Periode:** [DD-MM-YYYY] - [DD-MM-YYYY]
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| [DD-MM-2026] | Muhammad Faiz Ramadhan | Menyusun BAB 1 Pendahuluan dan BAB 2 Perancangan Arsitektur (adaptasi dari APL M6), merancang realisasi UC12, UC13, dan UC14, serta memeriksa konsistensi nama kelas lintas use case. | [ ] | In Progress | - |
+| [DD-MM-2026] | Andro Irsa Syafiq | Merancang realisasi UC01, UC02, UC05, dan UC06 (identifikasi kelas, sequence diagram, dan diagram kelas). | [ ] | In Progress | - |
+| [DD-MM-2026] | Rionaldo Casey Pandhitha | Merancang realisasi UC03, UC04, UC07, dan UC08 (identifikasi kelas, sequence diagram, dan diagram kelas). | [ ] | In Progress | - |
+| [DD-MM-2026] | Raffi Fauzi Hermawan | Merancang realisasi UC09, UC10, dan UC11 serta menyusun draf awal BAB 4 Diagram Kelas Keseluruhan. | [ ] | In Progress | - |
+| [DD-MM-2026] | Muhammad Rafiandhi Suryadinata | Menyusun BAB 5 Matriks Kerunutan (kelas analisis dan kelas perancangan terhadap use case), mengintegrasikan BAB 4, menyiapkan Form Asistensi dan Logbook M7, serta final review konsistensi dokumen DPPL. | [ ] | In Progress | - |
+
+**Catatan/Evaluasi Milestone 7:**
+* Tanggal dan durasi diisi oleh masing-masing anggota; status disesuaikan setelah bagian masing-masing selesai.
