@@ -355,14 +355,14 @@ Tabel 3.1. Identifikasi Kelas Use Case Memantau Ketersediaan Air dan Energi
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
-| 1 | *WargaView* | *-* |
-| 2 | *TelemetriAPI* | *-* |
-| 3 | *MonitoringController* | *-* |
-| 4 | *TangkiAir* | *TangkiAir* |
-| 5 | *Baterai* | *Baterai* |
-| 6 | *PanelSurya* | *PanelSurya* |
-| 7 | *PembacaanSensor.* | *PembacaanSensor* |
-| 8 | *DataPerangkatBoundary* | *-* |
+| 1 | WargaView | — (kelas desain tambahan) |
+| 2 | TelemetriAPI | — (kelas desain tambahan) |
+| 3 | MonitoringController | — (kelas desain tambahan) |
+| 4 | TangkiAir | C08 TangkiAir |
+| 5 | Baterai | C09 Baterai |
+| 6 | PanelSurya | C10 PanelSurya |
+| 7 | PembacaanSensor | C11 PembacaanSensor |
+| 8 | DataPerangkatBoundary | — (kelas desain tambahan) |
 
 ### 3.1.2 Sequence Diagram
 
@@ -412,11 +412,11 @@ Tabel 3.2. Identifikasi Kelas Use Case Melihat Tagihan Iuran Final
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
-| 1 | *WargaView* | *-* |
-| 2 | *IuranController* | *-* |
-| 3 | *Tagihan* | *Tagihan* |
-| 4 | *Periode* | *Periode* |
-| 5 | *DataIuranBoundaryi* | *-* |
+| 1 | WargaView | — (kelas desain tambahan) |
+| 2 | IuranController | — (kelas desain tambahan) |
+| 3 | Tagihan | C17 Tagihan |
+| 4 | Periode | C14 Periode |
+| 5 | DataIuranBoundary | — (kelas desain tambahan) |
 
 ### 3.2.2 Sequence Diagram
 
@@ -616,13 +616,13 @@ Tabel 3.5. Identifikasi Kelas Use Case Menerima Peringatan Dini Daya Kritis
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
-| 1 | *TeknisiView* | *-* |
-| 2 | *TelemetriAPI* | *-* |
-| 3 | *MonitoringController* | *Tagihan* |
-| 4 | *Baterai* | *Baterai* |
-| 5 | *PenugasanPerangkat* | *PenugasanPerangkat* |
-| 6 | *PeringatanDayaKritis* | *PeringatanDayaKritis* |
-| 7 | *DataIuranBoundaryi* | *-* |
+| 1 | TeknisiView | — (kelas desain tambahan) |
+| 2 | TelemetriAPI | — (kelas desain tambahan) |
+| 3 | MonitoringController | — (kelas desain tambahan) |
+| 4 | Baterai | C09 Baterai |
+| 5 | PenugasanPerangkat | C23 PenugasanPerangkat |
+| 6 | PeringatanDayaKritis | C26 PeringatanDayaKritis |
+| 7 | DataPerangkatBoundary | — (kelas desain tambahan) |
 
 ### 3.5.2 Sequence Diagram
 
@@ -672,12 +672,12 @@ Tabel 3.6. Identifikasi Kelas Use Case Memantau Riwayat Kinerja Panel Surya
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
-| 1 | *TeknisiView* | *-* |
-| 2 | *MonitoringController* | *Tagihan* |
-| 3 | *PanelSurya* | *PanelSurya* |
-| 4 | *RentangWaktu* | *RentangWaktu* |
-| 5 | *DataHistorisKinerja* | *DataHistorisKinerja* |
-| 6 | *DataIuranBoundaryi* | *-* |
+| 1 | TeknisiView | — (kelas desain tambahan) |
+| 2 | MonitoringController | — (kelas desain tambahan) |
+| 3 | PanelSurya | C10 PanelSurya |
+| 4 | RentangWaktu | C13 RentangWaktu |
+| 5 | DataHistorisKinerja | C12 DataHistorisKinerja |
+| 6 | DataPerangkatBoundary | — (kelas desain tambahan) |
 
 ### 3.6.2 Sequence Diagram
 
