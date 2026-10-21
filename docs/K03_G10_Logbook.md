@@ -107,15 +107,15 @@
 ---
 
 ### Milestone 7
-**Periode:** [DD-MM-YYYY] - [DD-MM-YYYY]
+**Periode:** 08-10-2026 - 21-10-2026
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| [DD-MM-2026] | Muhammad Faiz Ramadhan | Menyusun BAB 1 Pendahuluan dan BAB 2 Perancangan Arsitektur (adaptasi dari APL M6), merancang realisasi UC12, UC13, dan UC14, serta memeriksa konsistensi nama kelas lintas use case. | [ ] | In Progress | - |
-| [DD-MM-2026] | Andro Irsa Syafiq | Merancang realisasi UC01, UC02, UC05, dan UC06 (identifikasi kelas, sequence diagram, dan diagram kelas). | [ ] | In Progress | - |
-| [DD-MM-2026] | Rionaldo Casey Pandhitha | Merancang realisasi UC03, UC04, UC07, dan UC08 (identifikasi kelas, sequence diagram, dan diagram kelas). | [ ] | In Progress | - |
-| [DD-MM-2026] | Raffi Fauzi Hermawan | Merancang realisasi UC09, UC10, dan UC11 serta menyusun draf awal BAB 4 Diagram Kelas Keseluruhan. | [ ] | In Progress | - |
-| [DD-MM-2026] | Muhammad Rafiandhi Suryadinata | Menyusun BAB 5 Matriks Kerunutan (kelas analisis dan kelas perancangan terhadap use case), mengintegrasikan BAB 4, menyiapkan Form Asistensi dan Logbook M7, serta final review konsistensi dokumen DPPL. | [ ] | In Progress | - |
+| 19-10-2026 | Muhammad Faiz Ramadhan | Menyusun BAB 1 Pendahuluan dan BAB 2 Perancangan Arsitektur (adaptasi dari APL M6), merancang realisasi UC12, UC13, dan UC14, serta memeriksa konsistensi nama kelas lintas use case. | 4 | Done | - |
+| 21-10-2026 | Andro Irsa Syafiq | Merancang realisasi UC01, UC02, UC05, dan UC06 (identifikasi kelas, sequence diagram, dan diagram kelas). | 3 | Done | - |
+| 21-10-2026 | Rionaldo Casey Pandhitha | Merancang realisasi UC03, UC04, UC07, dan UC08 (identifikasi kelas, sequence diagram, dan diagram kelas). | 3 | Done | - |
+| 19-10-2026 | Raffi Fauzi Hermawan | Merancang realisasi UC09, UC10, dan UC11 serta menyusun draf awal BAB 4 Diagram Kelas Keseluruhan. | 4 | Done | - |
+| 21-10-2026 | Muhammad Rafiandhi Suryadinata | Menyusun BAB 5 Matriks Kerunutan (kelas analisis dan kelas perancangan terhadap use case), mengintegrasikan BAB 4, menyiapkan Form Asistensi dan Logbook M7, serta final review konsistensi dokumen DPPL. | 4 | Done | - |
 
 **Catatan/Evaluasi Milestone 7:**
-* Tanggal dan durasi diisi oleh masing-masing anggota; status disesuaikan setelah bagian masing-masing selesai.
+* (Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim).
