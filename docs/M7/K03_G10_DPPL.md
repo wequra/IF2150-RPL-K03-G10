@@ -1217,14 +1217,6 @@ Pengurus membuka menu persetujuan akun pada `DashboardPengurusView`. `AkunContro
 
 <br>
 
-## 3.2 Use Case XX
-
-Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
-
-<br>
-
-
-
 ---
 
 # BAB 4: Diagram Kelas Keseluruhan
