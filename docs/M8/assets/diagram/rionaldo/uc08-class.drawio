@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mxfile host="app.diagrams.net" version="32.5.5" agent="FajarTech-M7" type="device">
+  <diagram id="uc08-class" name="uc08-class">
+    <mxGraphModel dx="2405" dy="1224" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2405" pageHeight="1085" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="n2" value="UC08 — Diagram Kelas" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="35" y="18" width="2335" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="n3" value="Mencatat Kegiatan Pemeliharaan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=16;" parent="1" vertex="1">
+          <mxGeometry x="35" y="57" width="2335" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-Teknisi" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="130" y="135" width="635" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="n4" value="«entity»&#10;C03 — Teknisi" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-Teknisi" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n5" value="- idTeknisi: String&#10;- nama: String" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Teknisi" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n6" value="+ getIdTeknisi(): String" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Teknisi" vertex="1">
+          <mxGeometry x="0" y="128" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-CatatanPemeliharaan" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="885" y="135" width="635" height="302" as="geometry"/>
+        </mxCell>
+        <mxCell id="n7" value="«entity»&#10;C27 — CatatanPemeliharaan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-CatatanPemeliharaan" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n8" value="- idCatatan: String&#10;- idTeknisi: String&#10;- idPerangkat: String&#10;- waktuPelaksanaan: DateTime&#10;- tindakan: String&#10;- catatanHasil: String" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-CatatanPemeliharaan" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="152" as="geometry"/>
+        </mxCell>
+        <mxCell id="n9" value="+ CatatanPemeliharaan(data: FormPemeliharaan, idTeknisi: String):&#10;    CatatanPemeliharaan&#10;+ validasiFormulir(): Boolean" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-CatatanPemeliharaan" vertex="1">
+          <mxGeometry x="0" y="216" width="635" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-Perangkat" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="1640" y="135" width="635" height="192" as="geometry"/>
+        </mxCell>
+        <mxCell id="n10" value="«entity»&#10;C07 — Perangkat {abstract}" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-Perangkat" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n11" value="- idPerangkat: String&#10;- namaPerangkat: String&#10;- lokasi: String" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Perangkat" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="n12" value="+ getIdPerangkat(): String" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Perangkat" vertex="1">
+          <mxGeometry x="0" y="150" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-TeknisiView" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="130" y="562" width="635" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="n13" value="«boundary»&#10;TeknisiView" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-TeknisiView" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n14" value="- pemeliharaanController: PemeliharaanController" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-TeknisiView" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n15" value="+ bukaFormPemeliharaan(): Tampilan&#10;+ simpanPemeliharaan(data: FormPemeliharaan): Tampilan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-TeknisiView" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-PemeliharaanController" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="885" y="562" width="635" height="192" as="geometry"/>
+        </mxCell>
+        <mxCell id="n16" value="«control»&#10;PemeliharaanController" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-PemeliharaanController" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n17" value="- sesi: KonteksSesi&#10;- modul: ModulPemeliharaan&#10;- validasi: Validasi" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-PemeliharaanController" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="n18" value="+ simpanCatatan(data: FormPemeliharaan): HasilPemeliharaan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-PemeliharaanController" vertex="1">
+          <mxGeometry x="0" y="150" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-Validasi" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="1640" y="562" width="635" height="148" as="geometry"/>
+        </mxCell>
+        <mxCell id="n19" value="«control, utility»&#10;Validasi" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-Validasi" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n20" value="- kolomPemeliharaan: List&lt;String&gt;" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Validasi" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n21" value="+ periksaPemeliharaan(data: FormPemeliharaan): HasilValidasi" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Validasi" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-ModulPemeliharaan" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="130" y="879" width="635" height="148" as="geometry"/>
+        </mxCell>
+        <mxCell id="n22" value="«control, service»&#10;ModulPemeliharaan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-ModulPemeliharaan" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n23" value="- data: DataPerangkatBoundary" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-ModulPemeliharaan" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n24" value="+ simpanCatatan(idTeknisi: String, data: FormPemeliharaan): HasilPemeliharaan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-ModulPemeliharaan" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-DataPerangkatBoundary" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="885" y="879" width="635" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="n25" value="«boundary, repository»&#10;DataPerangkatBoundary" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-DataPerangkatBoundary" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n26" value="- database: Database" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-DataPerangkatBoundary" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n27" value="+ cariPerangkat(idPerangkat: String): Perangkat?&#10;+ simpanCatatan(catatan: CatatanPemeliharaan): Boolean" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-DataPerangkatBoundary" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-Database" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="1640" y="879" width="635" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="n28" value="«boundary, persistence»&#10;Database" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-Database" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n29" value="- koneksi: KoneksiDB" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Database" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n30" value="+ query(sql: String, parameter: Map&lt;String, Object&gt;): List&lt;Baris&gt;&#10;+ execute(sql: String, parameter: Map&lt;String, Object&gt;): Integer" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Database" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n31" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=none;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-Teknisi" target="class-CatatanPemeliharaan">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="765" y="220.0" as="sourcePoint"/>
+            <mxPoint x="885" y="286.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="825.0" y="220.0"/>
+              <mxPoint x="825.0" y="286.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n32" value="1" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;align=center;" parent="1" vertex="1">
+          <mxGeometry x="773" y="194.0" width="58" height="23" as="geometry"/>
+        </mxCell>
+        <mxCell id="n33" value="0..*" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;align=center;" parent="1" vertex="1">
+          <mxGeometry x="820" y="260.0" width="58" height="23" as="geometry"/>
+        </mxCell>
+        <mxCell id="n34" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=none;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-CatatanPemeliharaan" target="class-Perangkat">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1520" y="286.0" as="sourcePoint"/>
+            <mxPoint x="1640" y="231.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1580.0" y="286.0"/>
+              <mxPoint x="1580.0" y="231.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n35" value="0..*" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1528" y="260.0" width="58" height="23" as="geometry"/>
+        </mxCell>
+        <mxCell id="n36" value="1" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1575" y="205.0" width="58" height="23" as="geometry"/>
+        </mxCell>
+        <mxCell id="n37" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-TeknisiView" target="class-PemeliharaanController">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="765" y="647.0" as="sourcePoint"/>
+            <mxPoint x="885" y="658.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="825.0" y="647.0"/>
+              <mxPoint x="825.0" y="658.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n38" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-PemeliharaanController" target="class-Validasi">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1520" y="658.0" as="sourcePoint"/>
+            <mxPoint x="1640" y="636.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1580.0" y="658.0"/>
+              <mxPoint x="1580.0" y="636.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n39" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="class-PemeliharaanController" target="class-ModulPemeliharaan">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1202.5" y="754" as="sourcePoint"/>
+            <mxPoint x="447.5" y="879" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1202.5" y="784"/>
+              <mxPoint x="447.5" y="784"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n40" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-ModulPemeliharaan" target="class-DataPerangkatBoundary">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="765" y="953.0" as="sourcePoint"/>
+            <mxPoint x="885" y="964.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="825.0" y="953.0"/>
+              <mxPoint x="825.0" y="964.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n41" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-DataPerangkatBoundary" target="class-Database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1520" y="964.0" as="sourcePoint"/>
+            <mxPoint x="1640" y="964.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1580.0" y="964.0"/>
+              <mxPoint x="1580.0" y="964.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

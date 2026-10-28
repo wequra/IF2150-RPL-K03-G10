@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mxfile host="app.diagrams.net" version="32.5.5" agent="FajarTech-M7" type="device">
+  <diagram id="uc03-class" name="uc03-class">
+    <mxGraphModel dx="2405" dy="1563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2405" pageHeight="1424" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="n2" value="UC03 — Diagram Kelas" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="35" y="18" width="2335" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="n3" value="Mengirim Laporan Gangguan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=16;" parent="1" vertex="1">
+          <mxGeometry x="35" y="57" width="2335" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-Warga" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="130" y="135" width="635" height="236" as="geometry"/>
+        </mxCell>
+        <mxCell id="n4" value="«entity»&#10;C02 — Warga" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-Warga" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n5" value="- idWarga: Integer&#10;- nama: String&#10;- idKomunitas: String&#10;- statusTerdaftar: Boolean" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Warga" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="108" as="geometry"/>
+        </mxCell>
+        <mxCell id="n6" value="+ validasiKeanggotaan(idKomunitas: String): Boolean&#10;+ getIdWarga(): Integer" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Warga" vertex="1">
+          <mxGeometry x="0" y="172" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-LaporanGangguan" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="885" y="135" width="635" height="324" as="geometry"/>
+        </mxCell>
+        <mxCell id="n7" value="«entity»&#10;C20 — LaporanGangguan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-LaporanGangguan" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n8" value="- idLaporan: String&#10;- idWarga: Integer&#10;- jenisGangguan: String&#10;- deskripsi: String&#10;- fotoPendukung: List&lt;URI&gt;&#10;- waktuDibuat: DateTime&#10;- status: StatusLaporan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-LaporanGangguan" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="174" as="geometry"/>
+        </mxCell>
+        <mxCell id="n9" value="+ LaporanGangguan(data: FormLaporan, idWarga: Integer, waktu: DateTime):&#10;    LaporanGangguan&#10;+ setStatusMenunggu(): Void" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-LaporanGangguan" vertex="1">
+          <mxGeometry x="0" y="238" width="635" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-StatusLaporan" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="1640" y="135" width="635" height="192" as="geometry"/>
+        </mxCell>
+        <mxCell id="n10" value="«enumeration»&#10;C21 — StatusLaporan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-StatusLaporan" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n11" value="+ MENUNGGU: StatusLaporan {readOnly}&#10;+ SEDANG_DIPERBAIKI: StatusLaporan {readOnly}&#10;+ SELESAI: StatusLaporan {readOnly}" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-StatusLaporan" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="n12" value="+ label(): String" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-StatusLaporan" vertex="1">
+          <mxGeometry x="0" y="150" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-WargaView" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="130" y="584" width="635" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="n13" value="«boundary»&#10;WargaView" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-WargaView" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n14" value="- controller: LaporanController" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-WargaView" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n15" value="+ bukaFormLaporan(): Tampilan&#10;+ kirimLaporan(data: FormLaporan): Tampilan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-WargaView" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-LaporanController" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="885" y="584" width="635" height="192" as="geometry"/>
+        </mxCell>
+        <mxCell id="n16" value="«control»&#10;LaporanController" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-LaporanController" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n17" value="- sesi: KonteksSesi&#10;- modul: ModulLaporan&#10;- validasi: Validasi" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-LaporanController" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="n18" value="+ kirimLaporan(data: FormLaporan): HasilLaporan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-LaporanController" vertex="1">
+          <mxGeometry x="0" y="150" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-Validasi" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="1640" y="584" width="635" height="148" as="geometry"/>
+        </mxCell>
+        <mxCell id="n19" value="«control, utility»&#10;Validasi" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-Validasi" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n20" value="- kolomLaporan: List&lt;String&gt;" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Validasi" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n21" value="+ periksaLaporan(data: FormLaporan): HasilValidasi" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Validasi" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-ModulAkun" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="130" y="901" width="635" height="148" as="geometry"/>
+        </mxCell>
+        <mxCell id="n22" value="«control, service»&#10;ModulAkun" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-ModulAkun" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n23" value="- data: DataAkunBoundary" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-ModulAkun" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n24" value="+ ambilWarga(idWarga: Integer): Warga?" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-ModulAkun" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-ModulLaporan" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="885" y="901" width="635" height="192" as="geometry"/>
+        </mxCell>
+        <mxCell id="n25" value="«control, service»&#10;ModulLaporan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-ModulLaporan" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n26" value="- data: DataLaporanBoundary&#10;- akun: ModulAkun" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-ModulLaporan" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n27" value="+ kirimLaporan(idWarga: Integer, idKomunitas: String, data: FormLaporan):&#10;    HasilLaporan" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-ModulLaporan" vertex="1">
+          <mxGeometry x="0" y="128" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-DataLaporanBoundary" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="1640" y="901" width="635" height="148" as="geometry"/>
+        </mxCell>
+        <mxCell id="n28" value="«boundary, repository»&#10;DataLaporanBoundary" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-DataLaporanBoundary" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n29" value="- database: Database" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-DataLaporanBoundary" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n30" value="+ simpanLaporan(laporan: LaporanGangguan): Boolean" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-DataLaporanBoundary" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-DataAkunBoundary" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="130" y="1218" width="635" height="148" as="geometry"/>
+        </mxCell>
+        <mxCell id="n31" value="«boundary, repository»&#10;DataAkunBoundary" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-DataAkunBoundary" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n32" value="- database: Database" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-DataAkunBoundary" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n33" value="+ cariWarga(idWarga: Integer): Warga?" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-DataAkunBoundary" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="class-Database" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;container=1;collapsible=0;" parent="1" vertex="1">
+          <mxGeometry x="885" y="1218" width="635" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="n34" value="«boundary, persistence»&#10;Database" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=center;fontStyle=1;fontSize=16;" parent="class-Database" vertex="1">
+          <mxGeometry x="0" y="0" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n35" value="- koneksi: KoneksiDB" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Database" vertex="1">
+          <mxGeometry x="0" y="64" width="635" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="n36" value="+ query(sql: String, parameter: Map&lt;String, Object&gt;): List&lt;Baris&gt;&#10;+ execute(sql: String, parameter: Map&lt;String, Object&gt;): Integer" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;align=left;verticalAlign=top;spacing=10;fontSize=14;" parent="class-Database" vertex="1">
+          <mxGeometry x="0" y="106" width="635" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="n37" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=none;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-Warga" target="class-LaporanGangguan">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="765" y="253.0" as="sourcePoint"/>
+            <mxPoint x="885" y="297.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="825.0" y="253.0"/>
+              <mxPoint x="825.0" y="297.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n38" value="1" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;align=center;" parent="1" vertex="1">
+          <mxGeometry x="773" y="227.0" width="58" height="23" as="geometry"/>
+        </mxCell>
+        <mxCell id="n39" value="0..*" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;shape=text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;align=center;" parent="1" vertex="1">
+          <mxGeometry x="820" y="271.0" width="58" height="23" as="geometry"/>
+        </mxCell>
+        <mxCell id="n40" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-LaporanGangguan" target="class-StatusLaporan">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1520" y="297.0" as="sourcePoint"/>
+            <mxPoint x="1640" y="231.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1580.0" y="297.0"/>
+              <mxPoint x="1580.0" y="231.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n41" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-WargaView" target="class-LaporanController">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="765" y="669.0" as="sourcePoint"/>
+            <mxPoint x="885" y="680.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="825.0" y="669.0"/>
+              <mxPoint x="825.0" y="680.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n42" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-LaporanController" target="class-Validasi">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1520" y="680.0" as="sourcePoint"/>
+            <mxPoint x="1640" y="658.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1580.0" y="680.0"/>
+              <mxPoint x="1580.0" y="658.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n43" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="class-LaporanController" target="class-ModulLaporan">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1202.5" y="776" as="sourcePoint"/>
+            <mxPoint x="1202.5" y="901" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1202.5" y="806"/>
+              <mxPoint x="1202.5" y="806"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n44" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=0.0;exitY=0.5;exitPerimeter=0;entryX=1.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-ModulLaporan" target="class-ModulAkun">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="885" y="997.0" as="sourcePoint"/>
+            <mxPoint x="765" y="975.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="825.0" y="997.0"/>
+              <mxPoint x="825.0" y="975.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n45" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="class-ModulAkun" target="class-DataAkunBoundary">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="447.5" y="1049" as="sourcePoint"/>
+            <mxPoint x="447.5" y="1218" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="447.5" y="1151"/>
+              <mxPoint x="447.5" y="1151"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n46" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-ModulLaporan" target="class-DataLaporanBoundary">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1520" y="997.0" as="sourcePoint"/>
+            <mxPoint x="1640" y="975.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1580.0" y="997.0"/>
+              <mxPoint x="1580.0" y="975.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n47" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;" parent="1" edge="1" source="class-DataAkunBoundary" target="class-Database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="765" y="1292.0" as="sourcePoint"/>
+            <mxPoint x="885" y="1303.0" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="825.0" y="1292.0"/>
+              <mxPoint x="825.0" y="1303.0"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n48" value="" style="fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;shadow=0;rounded=0;gradientColor=none;whiteSpace=wrap;html=0;fontFamily=DejaVu Sans;fontSize=14;strokeWidth=1.3;edgeStyle=none;endArrow=none;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;" parent="1" edge="1" source="class-DataLaporanBoundary" target="class-Database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1957.5" y="1049" as="sourcePoint"/>
+            <mxPoint x="1202.5" y="1218" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1957.5" y="1137"/>
+              <mxPoint x="1202.5" y="1137"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
