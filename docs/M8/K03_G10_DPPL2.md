@@ -31,10 +31,9 @@ Dipersiapkan oleh:
 
 | Revisi | Deskripsi |
 | :--- | :--- |
-| *A* | *Deskripsikan perubahan yang dilakukan dari dokumen sebelumnya pada dokumen ini. Jika tidak terdapat perubahan, harap kosongkan tabel.* |
-| *B* |  |
-| *C* |  |
-| ... |  |
+| A | 28 Oktober 2026: perincian kelas pendukung UC03, UC04, dan UC07, meliputi validasi sesi, pembatasan akses berdasarkan pemilik, transisi status, dan transaksi pencatatan riwayat. |
+| B | Penyusunan rancangan 20 antarmuka untuk UC01–UC14, terdiri atas 17 antarmuka desktop dan 3 antarmuka mobile, beserta spesifikasi objek, navigasi, otorisasi, dan respons interaksi. |
+| C | Penyelarasan uraian perancangan rinci kelas dan antarmuka, penjelasan skenario alternatif, serta penyajian rekapitulasi gambar dan identitas antarmuka. |
 
 ---
 
@@ -1399,6 +1398,8 @@ Tabel 5.1. Daftar Kelas Perancangan dan Kelas Analisis Terkait
 
 ---
 
+Tipe `Integer`, `String`, `Boolean`, `DateTime`, `URI`, `Void`, `List<T>` dan `Map<K,V>` mengikuti registri M7; `T?` berarti nullable. Tipe rekaman pendukung UC03, UC04, dan UC07 dirancang sebagai struktur data berikut: `FormLaporan={jenisGangguan:String, deskripsi:String, fotoPendukung:List<URI>}`; `KonteksSesi={idWarga:Integer?, idTeknisi:String?, idKomunitas:String, peran:String, statusAkun:StatusAkun}` berasal dari server; `HasilValidasi` memuat `valid:Boolean` dan kesalahan per kolom; `HasilLaporan` memuat kode hasil, ID/status bila berhasil serta pesan kesalahan bila gagal; `HasilStatus` memuat kode hasil, status/timestamp server bila berhasil dan opsi legal bila transisi ditolak. `DetailLaporan` adalah proyeksi C20 yang telah diotorisasi; `RingkasanStatus={status:StatusLaporan, timestamp:DateTime}`. `Tampilan` adalah hasil presentasi; `Baris` dan `KoneksiDB` adalah abstraksi persistensi. Rancangan ini mencakup struktur data logis; format pesan transportasi dan mekanisme deduplikasi pengiriman ulang ditentukan pada perancangan implementasi.
+
 ## 5.1 Kelas Akun
 
 **Nama Kelas:** *Akun*  
@@ -1498,13 +1499,8 @@ END FUNCTION
 
 ```text
 FUNCTION kirimLaporan(data) -> HasilLaporan
-    IF NOT validasiKeanggotaan(sesi.idKomunitas) THEN
-        RETURN HasilLaporan.gagal("Tidak memiliki otorisasi")
-    END IF
-    laporan ← NEW LaporanGangguan(data, this.idWarga, now())
-    laporan.setStatusMenunggu()
-    IF laporan.simpan() THEN RETURN HasilLaporan.sukses(laporan.idLaporan)
-    RETURN HasilLaporan.gagal("Penyimpanan gagal")
+    // Aksi domain memakai layanan yang sama; sesi bukan field milik Warga.
+    RETURN LaporanController.kirimLaporan(data)
 END FUNCTION
 ```
 
@@ -1549,19 +1545,7 @@ Tabel 5.3.2. Atribut Kelas Teknisi
 
 ```text
 FUNCTION ubahStatusLaporan(idLaporan, statusBaru) -> HasilStatus
-    tugas ← DataLaporanBoundary.cariPenugasan(this.idTeknisi, idLaporan)
-    IF tugas = NULL THEN RETURN HasilStatus.gagal("Teknisi tidak berwenang")
-    laporan ← DataLaporanBoundary.cariDetailTugas(this.idTeknisi, idLaporan)
-    IF NOT laporan.validasiTransisi(statusBaru) THEN
-        RETURN HasilStatus.gagal("Transisi tidak valid", laporan.statusBerikutnya())
-    END IF
-    statusLama ← laporan.status
-    laporan.ubahStatus(statusBaru)
-    riwayat ← NEW RiwayatStatusLaporan(idLaporan, statusBaru, now())
-    IF DataLaporanBoundary.simpanStatusDanRiwayat(laporan, riwayat, this.idTeknisi, statusLama) THEN
-        RETURN HasilStatus.sukses()
-    END IF
-    RETURN HasilStatus.gagal("Penyimpanan gagal")
+    RETURN LaporanController.perbaruiStatus(idLaporan, statusBaru)
 END FUNCTION
 ```
 
@@ -2172,6 +2156,8 @@ FUNCTION validasiTransisi(statusBaru) -> Boolean
 END FUNCTION
 ```
 
+Operasi `statusBerikutnya()` mengembalikan `[SEDANG_DIPERBAIKI]` dari `MENUNGGU`, `[SELESAI]` dari `SEDANG_DIPERBAIKI`, dan `[]` dari `SELESAI`. `ubahStatus()` wajib memanggil `validasiTransisi()` sebelum mengubah objek lokal; status sama, lompat, mundur, terminal, atau nilai di luar enumerasi ditolak tanpa mutasi. `setStatusMenunggu()` hanya untuk objek baru. Konstruktor menyalin formulir tervalidasi dan memberi ID/waktu server; `getDetailLaporan()` hanya sesudah cek pemilik/penugasan. `simpan()` mendelegasikan ke `DataLaporanBoundary.simpanLaporan(this)`; sukses hanya setelah persistensi berhasil. Perubahan objek lokal dinyatakan tersimpan hanya setelah transaksi berhasil di-COMMIT.
+
 ---
 
 ## 5.21 Kelas StatusLaporan
@@ -2223,7 +2209,7 @@ Tabel 5.22.2. Atribut Kelas RiwayatStatusLaporan
 
 ### 5.22.1 Algoritma/Query
 
-`catat()` meneruskan ke `DataLaporanBoundary`; tidak ada algoritma kompleks.
+Konstruktor mengikat ID laporan, status baru dan timestamp server; `getRiwayatPerkembangan()` memproyeksikan status/waktu. `catat()` menambah entri append-only melalui unit kerja pemanggil. Pada UC07, wajib menjadi bagian `Database.transaksiStatus()` yang sama dengan pembaruan status; tidak melakukan COMMIT terpisah. Kegagalan pencatatan membatalkan seluruh perubahan. Peristiwa pengajuan awal UC03 ditampilkan dari `LaporanGangguan.waktuDibuat`; entri `RiwayatStatusLaporan` mencatat perubahan status berikutnya.
 
 ---
 
@@ -2478,6 +2464,8 @@ Tabel 5.29.2. Atribut Kelas WargaView
 
 View bersifat pasif: meneruskan aksi ke controller dan merender `Tampilan`; tidak ada algoritma bisnis.
 
+Untuk UC03/04: `kirimLaporan()` mempertahankan isian saat invalid/gagal, menampilkan proses, dan menampilkan sukses beserta ID hanya sesudah hasil simpan berhasil. Offline berarti **belum terkirim**, disimpan sementara dan dikirim ulang sesuai KNF03; mekanisme deduplikasi pengiriman ulang merupakan parameter perancangan implementasi, sehingga pengiriman ulang belum memiliki jaminan bebas duplikasi dalam rancangan logis ini. `bukaRiwayat()` membedakan daftar kosong dari error. `pilihLaporan()`/`bukaPerkembangan()` menampilkan pesan generik “Laporan tidak tersedia untuk akun ini” untuk ID asing/tidak ditemukan; riwayat terurut waktu menaik. Tidak menampilkan SQL atau data pemilik lain.
+
 ---
 
 ## 5.30 Kelas TeknisiView
@@ -2508,6 +2496,8 @@ Tabel 5.30.2. Atribut Kelas TeknisiView
 ### 5.30.1 Algoritma/Query
 
 View pasif; meneruskan aksi ke controller terkait.
+
+Untuk UC07: `bukaPenugasan()` menampilkan hanya tugas sesi dan keterangan bahwa belum ada tugas apabila daftar kosong. `pilihTugas()` menolak detail tanpa penugasan. `ubahStatus()` menonaktifkan tombol selama proses; sukses menampilkan status/waktu server setelah COMMIT, penolakan menampilkan pesan kewenangan atau opsi status legal. Konflik/gagal simpan memuat ulang detail tanpa menimpa otomatis; `SELESAI` tidak menawarkan pembaruan.
 
 ---
 
@@ -2678,6 +2668,20 @@ FUNCTION kirimLaporan(data) -> HasilLaporan
     RETURN modul.kirimLaporan(sesi.idWarga, sesi.idKomunitas, data)
 END FUNCTION
 ```
+
+Seluruh operasi memeriksa sesi autentik, akun disetujui dan peran yang sesuai sebelum delegasi. `idWarga`, `idTeknisi`, `idKomunitas` selalu dari `KonteksSesi`, bukan formulir/request pengguna. ID laporan dan nilai enumerasi divalidasi sebelum akses data.
+
+```text
+daftarMilikWarga(): return modul.daftarMilikWarga(sesi.idWarga)
+detailMilikWarga(idLaporan): return modul.detailMilikWarga(sesi.idWarga, idLaporan)
+riwayatMilikWarga(idLaporan): return modul.riwayatMilikWarga(sesi.idWarga, idLaporan)
+daftarPenugasan(): return modul.daftarPenugasan(sesi.idTeknisi)
+detailTugas(idLaporan): return modul.detailTugas(sesi.idTeknisi, idLaporan)
+perbaruiStatus(idLaporan, statusBaru):
+    return modul.perbaruiStatus(sesi.idTeknisi, idLaporan, statusBaru)
+```
+
+Kesalahan koneksi/query diteruskan sebagai kegagalan terkontrol, tidak dikonversi menjadi daftar kosong atau sukses.
 
 ---
 
@@ -2859,6 +2863,8 @@ FUNCTION validasiRegistrasi(nama, email, password, existing) -> Boolean
 END FUNCTION
 ```
 
+Untuk `periksaLaporan(data)`: jenis/deskripsi wajib bertipe teks dan tidak kosong setelah trim; jenis harus dari daftar komunitas. Foto pendukung bersifat opsional; URI harus berasal dari unggahan terotorisasi dengan pemeriksaan tipe MIME dan ukuran sesuai kebijakan unggahan pada implementasi. Lokasi privat arbitrer ditolak. Operasi mengembalikan `HasilValidasi` berisi hasil validasi serta kesalahan per kolom. Validasi antarmuka dilengkapi dengan validasi ulang pada server. Batas ukuran dan tipe MIME yang diizinkan ditentukan sebagai parameter kebijakan unggahan.
+
 ---
 
 ## 5.40 Kelas ModulAkun
@@ -2896,6 +2902,8 @@ FUNCTION autentikasi(email, password) -> Akun?
     RETURN akun
 END FUNCTION
 ```
+
+Pada UC03, `ambilWarga(idWarga)` mendelegasikan ke `data.cariWarga(idWarga)` untuk memperoleh keanggotaan terkini; cache akun lama bukan satu-satunya bukti otorisasi.
 
 ---
 
@@ -2977,6 +2985,39 @@ FUNCTION kirimLaporan(idWarga, idKomunitas, data) -> HasilLaporan
     RETURN HasilLaporan.gagal("Penyimpanan gagal")
 END FUNCTION
 ```
+
+Parameter `data: FormLaporan` pada operasi kirim berbeda dari atribut `this.data: DataLaporanBoundary`; persistensi `laporan.simpan()` memakai boundary tersebut. Keanggotaan diperiksa sebelum konstruksi/INSERT, sehingga penolakan tidak memutasi laporan. Offline/invalid tidak mencapai persistensi dan tidak menghasilkan sukses. Pengiriman ulang sesuai KNF03 memerlukan pemeriksaan keanggotaan ulang. Mekanisme deduplikasi pada server ditentukan pada perancangan transportasi; rancangan logis ini belum menjamin pengiriman ulang bebas duplikasi.
+
+```text
+daftarMilikWarga(idWarga): return this.data.cariMilikWarga(idWarga)
+detailMilikWarga(idWarga, idLaporan):
+    laporan ← this.data.cariDetailMilik(idWarga, idLaporan)
+    return NULL jika laporan = NULL, selain itu laporan.getDetailLaporan()
+riwayatMilikWarga(idWarga, idLaporan):
+    laporan ← this.data.cariDetailMilik(idWarga, idLaporan)
+    IF laporan = NULL THEN THROW LaporanTidakTersedia("Laporan tidak tersedia untuk akun ini")
+    return this.data.cariRiwayatMilik(idWarga, idLaporan).map(getRiwayatPerkembangan)
+daftarPenugasan(idTeknisi): return this.data.cariDaftarTugas(idTeknisi)
+detailTugas(idTeknisi, idLaporan):
+    laporan ← this.data.cariDetailTugas(idTeknisi, idLaporan)
+    return NULL jika laporan = NULL, selain itu laporan.getDetailLaporan()
+perbaruiStatus(idTeknisi, idLaporan, statusBaru):
+    tugas ← this.data.cariPenugasan(idTeknisi, idLaporan)
+    IF tugas = NULL OR NOT tugas.verifikasi(idTeknisi, idLaporan) THEN
+        RETURN HasilStatus.gagal("Teknisi tidak berwenang")
+    laporan ← this.data.cariDetailTugas(idTeknisi, idLaporan)
+    IF laporan = NULL THEN RETURN HasilStatus.gagal("Tugas tidak tersedia")
+    IF NOT laporan.validasiTransisi(statusBaru) THEN
+        RETURN HasilStatus.gagal("Transisi tidak valid", laporan.statusBerikutnya())
+    statusLama ← laporan.status
+    laporan.ubahStatus(statusBaru)
+    riwayat ← NEW RiwayatStatusLaporan(idLaporan, statusBaru, now())
+    IF NOT this.data.simpanStatusDanRiwayat(laporan, riwayat, idTeknisi, statusLama) THEN
+        buang objek lokal; RETURN HasilStatus.gagal("Gagal atau konflik; muat ulang")
+    RETURN HasilStatus.sukses()
+```
+
+`riwayatMilikWarga()` memeriksa detail milik sesi pada permintaan yang sama sebelum membaca riwayat dengan predikat pemilik. ID asing/tidak ada menghasilkan kegagalan terkontrol dengan pesan generik; daftar kosong hanya berarti detail sah belum memiliki perubahan. Penugasan/status lama diperiksa ulang di transaksi.
 
 ---
 
@@ -3143,6 +3184,8 @@ Tabel 5.46.3. Query Operasi ambilBerdasarkanStatus
 | :--- | :--- | :--- |
 | Q-001 | `SELECT id_akun, email, nama, peran, status_akun FROM akun WHERE status_akun = ?` | Ambil akun per status. |
 
+Pada UC03, `cariWarga(idWarga)` memakai query berparameter `SELECT id_warga, id_komunitas, status_terdaftar FROM warga WHERE id_warga = :idWarga`. Hasil kosong menjadi `null`; lebih dari satu baris adalah error integritas, bukan akun pertama. Tidak mengambil password ke layanan laporan. Nama tabel dan kolom menyatakan rancangan logis persistensi; pemetaan ke skema fisik ditentukan pada implementasi basis data.
+
 ---
 
 ## 5.47 Kelas DataPerangkatBoundary
@@ -3210,7 +3253,7 @@ Tabel 5.48.1. Operasi Kelas DataLaporanBoundary
 | `+ cariPenugasan(idTeknisi: String, idLaporan: String): PenugasanLaporan?` | public | Penugasan laporan. |
 | `+ cariDaftarTugas(idTeknisi: String): List<LaporanGangguan>` | public | Daftar tugas teknisi. |
 | `+ cariDetailTugas(idTeknisi: String, idLaporan: String): LaporanGangguan?` | public | Detail tugas teknisi. |
-| `+ simpanStatusDanRiwayat(...): Boolean` | public | Simpan status + riwayat (transaksi). |
+| `+ simpanStatusDanRiwayat(laporan: LaporanGangguan, riwayat: RiwayatStatusLaporan, idTeknisi: String, statusLama: StatusLaporan): Boolean` | public | Simpan status + riwayat (transaksi). |
 
 Tabel 5.48.2. Atribut Kelas DataLaporanBoundary
 
@@ -3221,23 +3264,12 @@ Tabel 5.48.2. Atribut Kelas DataLaporanBoundary
 ### 5.48.1 Algoritma/Query
 
 **Nama Kelas:** *DataLaporanBoundary*  
-**Nama Operasi:** `+ simpanStatusDanRiwayat(...): Boolean`  
+**Nama Operasi:** `+ simpanStatusDanRiwayat(laporan: LaporanGangguan, riwayat: RiwayatStatusLaporan, idTeknisi: String, statusLama: StatusLaporan): Boolean`\
 **ID Algoritma:** *Algo-040*
 
 ```text
 FUNCTION simpanStatusDanRiwayat(laporan, riwayat, idTeknisi, statusLama) -> Boolean
-    TRY
-        database.BEGIN_TRANSACTION()
-        database.execute("UPDATE laporan_gangguan SET status = ? WHERE id_laporan = ?",
-                         {laporan.status, laporan.idLaporan})
-        database.execute("INSERT INTO riwayat_status_laporan (id_laporan, status, timestamp) VALUES (?, ?, ?)",
-                         {riwayat.idLaporan, riwayat.status, riwayat.timestamp})
-        database.COMMIT()
-        RETURN TRUE
-    CATCH Exception
-        database.ROLLBACK()
-        RETURN FALSE
-    END TRY
+    RETURN database.transaksiStatus(laporan, riwayat, idTeknisi, statusLama)
 END FUNCTION
 ```
 
@@ -3245,8 +3277,21 @@ Tabel 5.48.3. Query Operasi simpanStatusDanRiwayat
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-001 | `UPDATE laporan_gangguan SET status = ? WHERE id_laporan = ?` | Perbarui status. |
-| Q-002 | `INSERT INTO riwayat_status_laporan (id_laporan, status, timestamp) VALUES (?, ?, ?)` | Catat riwayat. |
+| Q-001 | `UPDATE laporan_gangguan SET status = :statusBaru WHERE id_laporan = :idLaporan AND status = :statusLama AND EXISTS (SELECT 1 FROM penugasan_laporan p WHERE p.id_laporan = :idLaporan AND p.id_teknisi = :idTeknisi)` | Dilakukan hanya oleh transaksi Algo-042 setelah cek transisi dan lock; tepat satu baris wajib. |
+| Q-002 | `INSERT INTO riwayat_status_laporan (id_riwayat, id_laporan, status, timestamp) VALUES (:idRiwayat, :idLaporan, :statusBaru, :waktuServer)` | Satu transaksi dengan UPDATE, gagal berarti rollback. |
+
+Semua query memakai binding parameter. Nama tabel, kolom, dan representasi koleksi foto menyatakan rancangan logis persistensi yang dipetakan ke skema fisik pada implementasi basis data. `simpanLaporan(laporan)` menyimpan jenis/deskripsi/foto/status awal/waktu/ID pemilik yang telah tervalidasi; true hanya setelah simpan berhasil. Untuk mencegah perubahan keanggotaan bersamaan dengan INSERT, unit kerja penyimpanan perlu memeriksa ulang akun dengan penguncian. Pemilihan mekanisme penguncian disesuaikan dengan DBMS pada implementasi.
+
+Tabel 5.48.4. Query Baca UC04/UC07
+
+| Operasi | Query logis terparameterisasi | Hasil/otorisasi |
+| :--- | :--- | :--- |
+| `cariMilikWarga` | `SELECT * FROM laporan_gangguan WHERE id_warga = :idWarga ORDER BY waktu_dibuat DESC, id_laporan ASC` | Hanya pemilik sesi; kosong sah, error diteruskan. |
+| `cariDetailMilik` | `SELECT * FROM laporan_gangguan WHERE id_warga = :idWarga AND id_laporan = :idLaporan` | Kosong → null; pesan generik untuk ID asing/tidak ada. |
+| `cariRiwayatMilik` | `SELECT r.* FROM riwayat_status_laporan r JOIN laporan_gangguan l ON l.id_laporan = r.id_laporan WHERE l.id_warga = :idWarga AND l.id_laporan = :idLaporan ORDER BY r.timestamp ASC, r.id_riwayat ASC` | Pemilik diperiksa pada setiap pembacaan; ID riwayat menentukan urutan jika timestamp sama. |
+| `cariPenugasan` | `SELECT * FROM penugasan_laporan WHERE id_teknisi = :idTeknisi AND id_laporan = :idLaporan` | Kosong → null/tidak berwenang. |
+| `cariDaftarTugas` | `SELECT l.* FROM laporan_gangguan l WHERE EXISTS (SELECT 1 FROM penugasan_laporan p WHERE p.id_laporan = l.id_laporan AND p.id_teknisi = :idTeknisi) ORDER BY l.waktu_dibuat ASC, l.id_laporan ASC` | Hanya tugas sesi; EXISTS tidak menggandakan laporan. |
+| `cariDetailTugas` | `SELECT l.* FROM laporan_gangguan l WHERE l.id_laporan = :idLaporan AND EXISTS (SELECT 1 FROM penugasan_laporan p WHERE p.id_laporan = l.id_laporan AND p.id_teknisi = :idTeknisi)` | Null bila tidak ditugaskan; tidak membocorkan detail. |
 
 ---
 
@@ -3308,7 +3353,7 @@ Tabel 5.50.1. Operasi Kelas Database
 | :--- | :--- | :--- |
 | `+ query(sql: String, parameter: Map<String, Object>): List<Baris>` | public | Jalankan SELECT. |
 | `+ execute(sql: String, parameter: Map<String, Object>): Integer` | public | Jalankan INSERT/UPDATE/DELETE. |
-| `+ transaksiStatus(...): Boolean` | public | Transaksi status + riwayat. |
+| `+ transaksiStatus(laporan: LaporanGangguan, riwayat: RiwayatStatusLaporan, idTeknisi: String, statusLama: StatusLaporan): Boolean` | public | Transaksi status + riwayat. |
 
 Tabel 5.50.2. Atribut Kelas Database
 
@@ -3319,22 +3364,27 @@ Tabel 5.50.2. Atribut Kelas Database
 ### 5.50.1 Algoritma/Query
 
 **Nama Kelas:** *Database*  
-**Nama Operasi:** `+ transaksiStatus(...): Boolean`  
+**Nama Operasi:** `+ transaksiStatus(laporan: LaporanGangguan, riwayat: RiwayatStatusLaporan, idTeknisi: String, statusLama: StatusLaporan): Boolean`\
 **ID Algoritma:** *Algo-042*
 
 ```text
 FUNCTION transaksiStatus(laporan, riwayat, idTeknisi, statusLama) -> Boolean
     TRY
         this.koneksi.BEGIN()
-        this.koneksi.execute(
-            "UPDATE laporan_gangguan SET status = ?, diperbarui_oleh = ? WHERE id_laporan = ? AND status = ?",
-            {laporan.status, idTeknisi, laporan.idLaporan, statusLama})
-        this.koneksi.execute(
-            "INSERT INTO riwayat_status_laporan (id_laporan, status, timestamp) VALUES (?, ?, ?)",
-            {riwayat.idLaporan, riwayat.status, riwayat.timestamp})
+        terkini ← SELECT laporan terkait FOR UPDATE
+        tugas ← SELECT penugasan terkait idTeknisi/idLaporan FOR UPDATE
+        IF terkini = NULL OR tugas = NULL OR terkini.status ≠ statusLama THEN
+            this.koneksi.ROLLBACK(); RETURN FALSE
+        IF NOT terkini.validasiTransisi(laporan.status) OR
+           riwayat.idLaporan ≠ laporan.idLaporan OR riwayat.status ≠ laporan.status THEN
+            this.koneksi.ROLLBACK(); RETURN FALSE
+        affected ← this.koneksi.execute(Q-001, {statusBaru: laporan.status, idTeknisi: idTeknisi, idLaporan: laporan.idLaporan, statusLama: statusLama})
+        IF affected ≠ 1 THEN this.koneksi.ROLLBACK(); RETURN FALSE
+        affected ← this.koneksi.execute(Q-002, {idRiwayat: riwayat.idRiwayat, idLaporan: riwayat.idLaporan, statusBaru: riwayat.status, waktuServer: riwayat.timestamp})
+        IF affected ≠ 1 THEN this.koneksi.ROLLBACK(); RETURN FALSE
         this.koneksi.COMMIT()
         RETURN TRUE
-    CATCH SQLException
+    CATCH Exception
         this.koneksi.ROLLBACK()
         RETURN FALSE
     END TRY
@@ -3345,56 +3395,673 @@ Tabel 5.50.3. Query Operasi transaksiStatus
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-001 | `UPDATE laporan_gangguan SET status = ?, diperbarui_oleh = ? WHERE id_laporan = ? AND status = ?` | Update status dengan guard. |
-| Q-002 | `INSERT INTO riwayat_status_laporan (id_laporan, status, timestamp) VALUES (?, ?, ?)` | Catat riwayat transisi. |
+| Q-001 | `UPDATE laporan_gangguan SET status = :statusBaru WHERE id_laporan = :idLaporan AND status = :statusLama AND EXISTS (SELECT 1 FROM penugasan_laporan p WHERE p.id_laporan = :idLaporan AND p.id_teknisi = :idTeknisi)` | Guard status lama + penugasan setelah validasi transisi; affected wajib 1. |
+| Q-002 | `INSERT INTO riwayat_status_laporan (id_riwayat, id_laporan, status, timestamp) VALUES (:idRiwayat, :idLaporan, :statusBaru, :waktuServer)` | Timestamp server, affected wajib 1; baru COMMIT keduanya. |
+
+Lock logis: `SELECT id_laporan, status FROM laporan_gangguan WHERE id_laporan = :idLaporan FOR UPDATE`, lalu `SELECT id_penugasan FROM penugasan_laporan WHERE id_laporan = :idLaporan AND id_teknisi = :idTeknisi FOR UPDATE`. Seluruh operasi penulisan penugasan menggunakan urutan penguncian yang sama untuk menjaga konsistensi transaksi. Query menyatakan rancangan transaksi logis; sintaks penguncian disesuaikan dengan DBMS pada implementasi. `query()`/`execute()` memakai prepared statement dan meneruskan kegagalan; tidak menginterpolasi input UI. Tidak ada COMMIT per langkah. Konflik/gagal membuang objek lokal dan memuat ulang, tanpa retry status otomatis.
+
 <br>
 
 ---
 
 # BAB 6: Perancangan Antarmuka
 
-## 6.1 Rancangan Antarmuka [ID Layar 1]
+Bab ini menjelaskan rancangan antarmuka Fajar Tech yang mendukung kebutuhan fungsional sesuai use case UC01–UC14 pada SKPL M5, pembagian komponen pada APL M6, serta operasi kelas pada M7 dan BAB 5. Perancangan mencakup antarmuka publik, Warga, Teknisi, dan Pengurus. Setiap layar diuraikan melalui gambar rancangan, spesifikasi objek antarmuka, serta respons sistem terhadap interaksi pengguna dan skenario alternatif. Referensi desain tersedia pada [rancangan antarmuka Fajar Tech](https://www.figma.com/design/m8esKpQeFqfidizfymXTJF/Fajar-Tech-Mockup?node-id=1-2).
 
-Masukkan versi awal prototipe antarmuka, dimana untuk setiap antarmuka/layar, tuliskan spesifikasi rinci objek yang ditampilkan dan reaksi sistem terhadap interaksi pengguna.
+Nama, nominal, tarif, waktu, dan nilai sensor pada gambar merupakan data ilustrasi. Antarmuka terlindungi memerlukan sesi autentik dan akun yang disetujui; server memeriksa kewenangan pada setiap pembacaan dan perubahan data. Setiap isian memiliki label, urutan fokus mengikuti urutan baca, dan tombol, tautan, tab, serta akordeon dapat dioperasikan melalui papan ketik. Pesan kesalahan dikaitkan dengan isian dan status disampaikan melalui teks, selain warna. Selama penyimpanan, tombol dinonaktifkan hingga respons diterima; pesan kesalahan teknis tidak memuat SQL, kata sandi, atau data pengguna lain. Cakupan sistem tidak mencakup pembayaran melalui payment gateway maupun kendali pompa.
 
-**Antarmuka:** *[ID layar]*  
-**Nama Layar:** *[Nama layar]*
+<a id="I-00"></a>
 
-<p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/contoh-design.png" width="50%">
-</p>
-<p align="center">
-<i>Gambar 6.1. Rancangan Antarmuka [ID Layar] - [Nama Layar]</i>
-</p>
+## 6.1 Rancangan Antarmuka I-00 — Landing page publik
 
-Tabel 6.1. Spesifikasi Objek Antarmuka [ID Layar]
+**ID Antarmuka:** I-00\
+**Nama Layar:** Landing page publik\
+**Peran/Aktor:** Publik\
+**UC terkait:** UC12/UC13 (navigasi publik)\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Memperkenalkan ruang informasi pasokan komunal dan mengarahkan pengunjung ke registrasi/login; halaman ini menjadi titik masuk layanan publik.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-00.png" alt="I-00 — Landing page publik" width="900"></p>
+<p align="center"><i>Gambar 6.1. I-00 — Landing page publik</i></p>
+
+Tabel 6.1. Spesifikasi Objek Antarmuka I-00
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *[ID objek]* | *[Jenis objek, misalnya Button, RTF Box, dll]* | *[String yang tampil pada layar]* | *[Reaksi sistem, layar tujuan, tautan, atau ID algoritma yang dijalankan]* |
-| *[ID objek]* | *[Jenis objek]* | *[Konten yang ditampilkan]* | *[Reaksi sistem atau nama file terkait beserta deskripsi ringkasnya]* |
-| *...* | *...* | *...* | *...* |
+| I-00-OBJ-01 | bilah navigasi | fajar.tech; Fitur; Untuk siapa; Cara kerja; Masuk; Daftar akun | Logo kembali ke awal I-00; tiga tautan bagian menggulir halaman yang sama; Masuk → I-01, Daftar akun → I-02. Tidak mengubah peran/sesi. |
+| I-00-OBJ-02 | bagian utama dan tombol | Pasokan bersama, lebih mudah dipantau.; Daftar akun; Lihat cara kerjanya | Tombol daftar → I-02; tombol cara kerja menggulir bagian langkah bergabung di I-00. |
+| I-00-OBJ-03 | blok informasi dan ilustrasi | Dua sumber. Satu keseharian.; Surya, Baterai, Warga, Sumber air, Tangki | Ilustrasi alur pasokan, bukan sensor langsung atau kontrol perangkat. |
+| I-00-OBJ-04 | tautan bagian | Lihat yang terhubung; Kenali alurnya | Menggulir penjelasan fitur dan alur di I-00; tidak membuka dashboard yang memerlukan autentikasi. |
+| I-00-OBJ-05 | kartu fitur | Pahami. Laporkan. Kelola.; Pantau pasokan; Telusuri laporan; Kelola komunal | Menjelaskan monitoring, urutan laporan dan iuran final; angka/diagram ilustrasi tidak menjadi data operasional. |
+| I-00-OBJ-06 | tautan peran | Kenali peran warga; Kenali peran teknisi; Kenali peran pengurus | Menggulir bagian peran I-00 dan memilih tab penjelasan yang sesuai; tidak memberi akses akun. |
+| I-00-OBJ-07 | tab | Warga; Teknisi; Pengurus | Memilih ringkasan tugas tiap peran di bagian “Satu komunitas. Tampilan yang tepat.”; tab Warga aktif pada kondisi awal. Pemilihan tab Teknisi atau Pengurus menampilkan ringkasan tugas peran yang dipilih. |
+| I-00-OBJ-08 | indikator tahapan | Daftarkan akun; Tunggu persetujuan; Gunakan ruangmu | Menjelaskan UC12 → UC14 → UC13; bukan tombol melewati persetujuan. |
+| I-00-OBJ-09 | akordeon | Pertanyaan umum: akses langsung, data sensor, tindak lanjut laporan, kendali pompa/pembayaran | Ketika salah satu dari empat pertanyaan dipilih, sistem menampilkan atau menyembunyikan jawaban terkait pada I-00. Jawaban menjelaskan akses akun, data sensor, tindak lanjut laporan, serta batas cakupan kendali pompa dan pembayaran. |
+| I-00-OBJ-10 | tombol dan footer | Daftar akun; Fitur; Untuk siapa; Cara kerja; FAQ | Tombol pendaftaran pada bagian akhir → I-02; footer menggulir bagian I-00. Footer menyajikan navigasi bagian serta atribusi foto dan ikon. |
 
+**Alur navigasi dan otorisasi:** Akses publik → I-01 atau I-02; dashboard hanya dibuka setelah autentikasi/peran disetujui. Tautan bagian tetap pada I-00.
 
-## 6.X Rancangan Antarmuka [ID Layar X]
+**Kondisi normal dan skenario alternatif:** Informasi publik dapat diakses tanpa autentikasi. Pemilihan tab mengganti ringkasan peran, sedangkan pemilihan pertanyaan menampilkan atau menyembunyikan jawaban terkait. Fokus papan ketik mengikuti urutan kontrol. Jika gambar gagal dimuat, teks informasi dan navigasi tetap tersedia.
 
-*[Ulangi pola 6.1 untuk layar berikutnya sampai semua layar teridentifikasi]*
+<a id="I-01"></a>
 
-## 6.Y Rancangan Antarmuka Keseluruhan
+## 6.2 Rancangan Antarmuka I-01 — Login
 
-Tuliskan daftar gambar seluruh antarmuka. Berikan ID unik untuk setiap tampilan dan gunakan ID yang sama pada subbab perancangan antarmuka masing-masing.
+**ID Antarmuka:** I-01\
+**Nama Layar:** Login\
+**Peran/Aktor:** Warga, Teknisi, Pengurus\
+**UC terkait:** UC13\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Mengautentikasi akun yang sudah memperoleh persetujuan sebelum masuk ke ruang sesuai peran.
 
-Tabel 6.Y. Rancangan Antarmuka Keseluruhan
+<p align="center"><img src="./assets/diagram/figma-final/I-01.png" alt="I-01 — Login" width="900"></p>
+<p align="center"><i>Gambar 6.2. I-01 — Login</i></p>
 
-| No | Tampilan Antarmuka |
-| :--- | :--- |
-| *[I-01]* | <img src="./assets/diagram/contoh-design.png" alt="Contoh Desain" width="400"> |
-| *[I-02]* | *[Sisipkan gambar antarmuka I-02]* |
-| *[I-XX]* | *[Sisipkan gambar antarmuka berikutnya]* |
+Tabel 6.2. Spesifikasi Objek Antarmuka I-01
 
-<br>
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-01-OBJ-01 | panel informasi dan gambar | Pasokan bersama, lebih mudah dipantau.; foto ilustrasi | Identitas produk dan ilustrasi dengan kredit; tidak menjalankan autentikasi. |
+| I-01-OBJ-02 | isian email | Email; nadia@example.test | Wajib, format email; diteruskan AuthView.tekanLogin(email,password) ke AkunController.login (Algo-030). |
+| I-01-OBJ-03 | isian kata sandi | Password; contoh-password (ilustrasi) | Kata sandi disamarkan saat diisi, tidak dicatat dalam log, dan tidak ditampilkan ulang setelah kegagalan autentikasi. |
+| I-01-OBJ-04 | tombol | Masuk | Verifikasi kredensial dahulu, lalu status DISETUJUI; dashboardTujuan() menentukan I-03 untuk Warga, I-08 untuk Teknisi, I-13 untuk Pengurus. Tombol dinonaktifkan selama proses; notifikasi keberhasilan hanya ditampilkan setelah respons berhasil. |
+| I-01-OBJ-05 | tautan | Belum memiliki akun? Daftar akun | Menuju I-02 melalui AuthView.bukaRegistrasi(). |
 
----
+**Alur navigasi dan otorisasi:** Dari I-00/I-02 → I-01. Tujuan ditentukan akun server, bukan pilihan peran klien; akun menunggu/ditolak tetap di I-01.
+
+**Kondisi normal dan skenario alternatif:** Pada UC13, sistem memverifikasi kredensial dan status DISETUJUI sebelum mengarahkan pengguna ke dashboard sesuai peran. Pada skenario A1, kredensial benar dengan status MENUNGGU menghasilkan pesan “Akun masih menunggu persetujuan pengurus”. Pada A2, status DITOLAK menghasilkan pesan “Akun tidak memperoleh persetujuan”. Pada A3, kredensial salah menghasilkan pesan “Email atau password salah” tanpa mengungkap keberadaan email. Selama autentikasi, pengiriman formulir dinonaktifkan. Kegagalan jaringan menyediakan pilihan mencoba kembali tanpa membentuk sesi; kata sandi tidak ditampilkan ulang.
+
+<a id="I-02"></a>
+
+## 6.3 Rancangan Antarmuka I-02 — Registrasi akun
+
+**ID Antarmuka:** I-02\
+**Nama Layar:** Registrasi akun\
+**Peran/Aktor:** Calon Pengguna\
+**UC terkait:** UC12\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Mendaftarkan calon anggota dengan peran yang diajukan, tanpa akses otomatis sebelum persetujuan.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-02.png" alt="I-02 — Registrasi akun" width="900"></p>
+<p align="center"><i>Gambar 6.3. I-02 — Registrasi akun</i></p>
+
+Tabel 6.3. Spesifikasi Objek Antarmuka I-02
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-02-OBJ-01 | panel informasi dan gambar | Pasokan bersama, lebih mudah dipantau.; foto ilustrasi | Identitas produk dan konteks komunitas; gambar bukan data akun. |
+| I-02-OBJ-02 | isian teks | Nama lengkap; Nadia Putri | Wajib, trim dan validasi kelengkapan lewat Validasi.validasiRegistrasi (Algo-031). |
+| I-02-OBJ-03 | isian email | Email; nadia@example.test | Wajib, format sah dan unik; email duplikat ditolak tanpa akun baru. |
+| I-02-OBJ-04 | isian kata sandi | Password; contoh-password (ilustrasi) | Wajib diisi dengan minimal 8 karakter sesuai Algo-031. Karakter disamarkan pada antarmuka dan kata sandi disimpan dalam bentuk hash sesuai KNF14. |
+| I-02-OBJ-05 | daftar pilihan | Peran yang diajukan; Warga | Pilihan Warga, Teknisi, atau Pengurus diajukan untuk persetujuan sesuai UC12. Peran yang diajukan tidak memberikan hak akses sebelum akun disetujui. |
+| I-02-OBJ-06 | tombol | Ajukan akun | AuthView.tekanDaftar → AkunController.daftarkan (Algo-029); kelengkapan dan email unik → simpan MENUNGGU PERSETUJUAN; sukses hanya setelah persistensi. |
+| I-02-OBJ-07 | tautan | Sudah memiliki akun? Masuk | Kembali ke I-01; tidak melakukan login otomatis. |
+
+**Alur navigasi dan otorisasi:** I-00/I-01 → I-02; sesudah sukses tetap menampilkan hasil menunggu dan tautan I-01. Pengurus meninjau akun pada I-16.
+
+**Kondisi normal dan skenario alternatif:** Pada UC12, pendaftaran yang valid disimpan dengan status Menunggu Persetujuan dan diikuti notifikasi. Pada A1, email yang telah terdaftar ditolak tanpa membuat akun baru; pengguna diminta menggunakan email lain. Pada A2, isian wajib yang kosong ditandai dan isian nonrahasia lainnya dipertahankan. Selama pemrosesan, pengiriman formulir dinonaktifkan. Kegagalan jaringan atau penyimpanan tidak menghasilkan notifikasi pendaftaran berhasil.
+
+<a id="I-03"></a>
+
+## 6.4 Rancangan Antarmuka I-03 — Dashboard warga
+
+**ID Antarmuka:** I-03\
+**Nama Layar:** Dashboard warga\
+**Peran/Aktor:** Warga\
+**UC terkait:** UC01\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Menyajikan pembacaan terakhir air, baterai dan panel dengan satuan/waktu yang jelas.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-03.png" alt="I-03 — Dashboard warga" width="900"></p>
+<p align="center"><i>Gambar 6.4. I-03 — Dashboard warga</i></p>
+
+Tabel 6.4. Spesifikasi Objek Antarmuka I-03
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-03-OBJ-01 | bilah navigasi samping | Ringkasan; Tagihan; Laporan saya; Lapor gangguan; Keluar ke Masuk | Ringkasan → I-03; Tagihan → I-04; Laporan saya → I-06; Lapor gangguan → I-05. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-03-OBJ-02 | kartu dan label status | Ketersediaan air; 3.600 L dari 5.000 L; 72%; Normal | MonitoringController.ambilStatusInfrastruktur → ModulMonitoring; TangkiAir.statusAir (Algo-009). Volume, kapasitas, dan ambang pada gambar merupakan ilustrasi. |
+| I-03-OBJ-03 | diagram tangki | Penampang; kapasitas contoh 5.000 L | Representasi volume, didampingi angka/label agar tidak hanya mengandalkan warna. |
+| I-03-OBJ-04 | blok timestamp | 28 Okt 2026 · 10.30 WIB; Data simulasi · Tanpa sensor nyata | Waktu pembacaan terakhir harus disajikan bersama nilai, tidak diganti waktu membuka halaman. |
+| I-03-OBJ-05 | indikator nilai | Kapasitas baterai 78%; Daya panel surya 420 W | Menampilkan kapasitas baterai dan daya sesaat; W bukan kWh dan bukan energi kumulatif. |
+| I-03-OBJ-06 | tombol | Lapor gangguan | WargaView.bukaFormLaporan() → I-05. |
+| I-03-OBJ-07 | tombol | Lihat tagihan | Menuju I-04; hanya tagihan final milik sesi. |
+| I-03-OBJ-08 | tombol | Laporan saya | WargaView.bukaRiwayat() → I-06. |
+| I-03-OBJ-09 | tautan | Keterangan kondisi pasokan | Membuka penjelasan label Normal/Rendah/Kritis di I-03; klasifikasi mengikuti ambang yang dikonfigurasi pada perangkat. |
+| I-03-OBJ-10 | header dan footer informasi | Komunitas Cempaka / Warga; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** Login peran Warga → I-03; aksi menuju I-04/I-05/I-06. Akses data mengikuti sesi warga yang disetujui.
+
+**Kondisi normal dan skenario alternatif:** Pada UC01, sistem menampilkan pembacaan terbaru beserta klasifikasi Normal, Rendah, atau Kritis. Pada A1, ketika data baru tidak diterima, sistem menampilkan data terakhir, waktu pembacaan, dan pesan “Data terbaru belum tersedia”. Jika belum terdapat pembacaan, nilai ditampilkan sebagai tanda —, bukan nol. Pemuatan diberi penanda; kegagalan koneksi dibedakan dari kondisi sensor kritis. Pembaruan nilai sensor pada dashboard memiliki batas waktu maksimal 2 detik sesuai KNF11.
+
+<a id="I-04"></a>
+
+## 6.5 Rancangan Antarmuka I-04 — Tagihan iuran final
+
+**ID Antarmuka:** I-04\
+**Nama Layar:** Tagihan iuran final\
+**Peran/Aktor:** Warga\
+**UC terkait:** UC02\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Menampilkan rincian iuran yang telah FINAL untuk warga pemilik pada periode terpilih.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-04.png" alt="I-04 — Tagihan iuran final" width="900"></p>
+<p align="center"><i>Gambar 6.5. I-04 — Tagihan iuran final</i></p>
+
+Tabel 6.5. Spesifikasi Objek Antarmuka I-04
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-04-OBJ-01 | bilah navigasi samping | Ringkasan; Tagihan; Laporan saya; Lapor gangguan; Keluar ke Masuk | Ringkasan → I-03; Tagihan → I-04; Laporan saya → I-06; Lapor gangguan → I-05. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-04-OBJ-02 | daftar pilihan dan label status | Periode; September 2026; FINAL | WargaView.pilihPeriodeTagihan → IuranController.lihatTagihanFinal; idWarga berasal sesi. Pilih periode memeriksa status sebelum nominal ditampilkan. |
+| I-04-OBJ-03 | kartu rincian | Pemilik Nadia Putri · Rumah C-07; Periode September 2026; Pemakaian air 12 m³; Tarif contoh Rp4.000/m³ | Tagihan.rincian() untuk pemilik; bukan data warga lain. Tarif dan rumah hanya ilustrasi. |
+| I-04-OBJ-04 | tabel data | Komponen/Jumlah; Pemakaian air Rp48.000; Total iuran Rp48.000 | Ilustrasi 12 × 4.000 = 48.000. Rincian energi dan biaya tetap ditampilkan apabila tercakup dalam AturanTarif yang berlaku pada periode tersebut, sesuai model M7. |
+| I-04-OBJ-05 | kartu ringkasan | Total tagihan final Rp48.000; FINAL | Hanya tampil setelah Tagihan.sudahFinal() benar. Tidak memuat tombol bayar; mekanisme iuran di luar payment gateway. |
+| I-04-OBJ-06 | header dan footer informasi | Komunitas Cempaka / Warga; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** I-03 → I-04, navbar kembali I-03 atau I-06/I-05; hanya Warga pemilik dengan sesi aktif.
+
+**Kondisi normal dan skenario alternatif:** Pada UC02, pemilihan periode diikuti pemeriksaan status dan penampilan rincian tagihan final milik Warga. Pada A1, periode yang belum final menghasilkan pesan “Tagihan final belum tersedia” tanpa menampilkan nominal DRAFT. Jika belum ada periode, sistem menampilkan keterangan data belum tersedia. Pemuatan dan kegagalan pembacaan data dibedakan dari tagihan bernilai Rp0.
+
+<a id="I-05"></a>
+
+## 6.6 Rancangan Antarmuka I-05 — Buat laporan gangguan
+
+**ID Antarmuka:** I-05\
+**Nama Layar:** Buat laporan gangguan\
+**Peran/Aktor:** Warga\
+**UC terkait:** UC03\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Menerima laporan gangguan warga dan memastikan keanggotaan sah sebelum membuat serta menyimpan laporan.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-05.png" alt="I-05 — Buat laporan gangguan" width="900"></p>
+<p align="center"><i>Gambar 6.6. I-05 — Buat laporan gangguan</i></p>
+
+Tabel 6.6. Spesifikasi Objek Antarmuka I-05
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-05-OBJ-01 | bilah navigasi samping | Ringkasan; Tagihan; Laporan saya; Lapor gangguan; Keluar ke Masuk | Ringkasan → I-03; Tagihan → I-04; Laporan saya → I-06; Lapor gangguan → I-05. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-05-OBJ-02 | daftar pilihan | Jenis gangguan *; Air - Kebocoran pipa | Wajib dan jenis sah komunitas; Validasi.periksaLaporan mengulang validasi server. |
+| I-05-OBJ-03 | area teks | Deskripsi *; Air menetes dari sambungan pipa dekat tangki komunal. Mohon diperiksa. | Wajib, trim, pertahankan isian bila tidak valid/gagal; tidak menerima field idWarga/status dari form. |
+| I-05-OBJ-04 | isian unggahan dan tombol | Foto pendukung opsional; Belum ada foto dipilih; Pilih foto | Memilih foto pendukung opsional. Server memvalidasi otorisasi unggahan, tipe MIME, dan ukuran berdasarkan kebijakan unggahan; URI di luar unggahan terotorisasi ditolak. |
+| I-05-OBJ-05 | tombol | Kirim laporan | WargaView.kirimLaporan → LaporanController.kirimLaporan (Algo-025) → ModulLaporan.kirimLaporan (Algo-034). Memeriksa keanggotaan terkini (Algo-003) sebelum pembuatan laporan, status MENUNGGU, simpan lalu tampil sukses dengan ID. |
+| I-05-OBJ-06 | tombol | Batal | Kembali I-06 tanpa INSERT; sistem meminta konfirmasi apabila terdapat isian yang belum tersimpan. |
+| I-05-OBJ-07 | indikator tahapan | Dari temuan ke penanganan.; Ceritakan kondisinya; Kirim laporan; Ikuti perkembangannya | Menjelaskan alur, konfirmasi tersimpan memberi ID dan status MENUNGGU; perkembangan dipantau I-06 → I-07. Bukan tiga tombol pengubah status. |
+| I-05-OBJ-08 | header dan footer informasi | Komunitas Cempaka / Warga; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** I-03/I-06 → I-05 → sukses dengan ID dan tautan I-07; Batal → I-06. Hanya Warga terdaftar pada komunitas sesi. Penolakan keanggotaan terjadi sebelum objek laporan dibuat.
+
+**Kondisi normal dan skenario alternatif:** Pada UC03, formulir yang valid dari Warga terdaftar menghasilkan laporan berstatus MENUNGGU. Setelah penyimpanan berhasil, sistem menampilkan pesan “Laporan berhasil dikirim” beserta ID laporan. Pada A1, pengirim yang tidak terdaftar ditolak sebelum konstruksi objek maupun INSERT. Isian tidak valid ditandai tanpa penyimpanan. Selama pemrosesan, tombol dinonaktifkan dan laporan belum dinyatakan terkirim. Ketika jaringan terputus, data disimpan sementara sebagai draf berlabel “Belum terkirim”, kemudian dikirim ulang secara otomatis setelah koneksi pulih dan keanggotaan diperiksa ulang sesuai KNF03. Kegagalan penyimpanan mempertahankan isian dan menampilkan pesan kesalahan. Jaminan bebas duplikasi pada pengiriman ulang bergantung pada mekanisme deduplikasi server yang ditentukan pada perancangan transportasi.
+
+<a id="I-06"></a>
+
+## 6.7 Rancangan Antarmuka I-06 — Daftar laporan saya
+
+**ID Antarmuka:** I-06\
+**Nama Layar:** Daftar laporan saya\
+**Peran/Aktor:** Warga\
+**UC terkait:** UC04\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Menelusuri hanya laporan milik warga dari identitas sesi.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-06.png" alt="I-06 — Daftar laporan saya" width="900"></p>
+<p align="center"><i>Gambar 6.7. I-06 — Daftar laporan saya</i></p>
+
+Tabel 6.7. Spesifikasi Objek Antarmuka I-06
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-06-OBJ-01 | bilah navigasi samping | Ringkasan; Tagihan; Laporan saya; Lapor gangguan; Keluar ke Masuk | Ringkasan → I-03; Tagihan → I-04; Laporan saya → I-06; Lapor gangguan → I-05. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-06-OBJ-02 | tombol | Laporan baru | WargaView.bukaFormLaporan() → I-05. |
+| I-06-OBJ-03 | isian pencarian | Cari laporan | Menyaring daftar milik sesi; filter UI tidak menggantikan predikat idWarga server. |
+| I-06-OBJ-04 | daftar pilihan | Status; Semua status | Filter MENUNGGU/SEDANG_DIPERBAIKI/SELESAI pada himpunan pemilik; pilihan lain tidak menambah hak baca. |
+| I-06-OBJ-05 | tabel data dan label status | Laporan milik Anda · 3 laporan; Kebocoran pipa LPG-026 MENUNGGU; Aliran air melemah LPG-024 SEDANG_DIPERBAIKI; Panel tidak menghasilkan daya LPG-019 SELESAI | LaporanController.daftarMilikWarga → ModulLaporan → cariMilikWarga (Tabel 5.48.4), idWarga sesi; tampil status dan waktu diajukan. |
+| I-06-OBJ-06 | tombol per baris | Lihat detail | WargaView.pilihLaporan(idLaporan) → I-07 setelah cariDetailMilik(idWarga sesi,idLaporan). ID asing tidak membuka rincian. |
+| I-06-OBJ-07 | keterangan | Hanya laporan Anda | Menyatakan isolasi pemilik; nama dan tiga entri adalah data simulasi. |
+| I-06-OBJ-08 | header dan footer informasi | Komunitas Cempaka / Warga; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** I-03/I-05 → I-06 → I-07 untuk laporan sendiri; I-05 untuk laporan baru. Daftar terurut waktu_dibuat DESC, id_laporan ASC menurut rincian BAB5.
+
+**Kondisi normal dan skenario alternatif:** Pada UC04, sistem menampilkan daftar laporan milik Warga; pemilihan laporan membuka detail dan riwayat. Pada A1, pencarian yang berhasil tanpa laporan menghasilkan pesan “Belum ada laporan gangguan” dan pilihan menuju I-05. Penyaringan tanpa hasil menghasilkan pesan “Tidak ada laporan sesuai filter”. Kegagalan query atau koneksi menghasilkan pesan “Gagal memuat laporan” serta pilihan mencoba kembali, bukan daftar kosong. Selama pemuatan, hasil lama tidak disajikan sebagai hasil permintaan terbaru.
+
+<a id="I-07"></a>
+
+## 6.8 Rancangan Antarmuka I-07 — Detail dan riwayat laporan
+
+**ID Antarmuka:** I-07\
+**Nama Layar:** Detail dan riwayat laporan\
+**Peran/Aktor:** Warga\
+**UC terkait:** UC04\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Menyajikan detail dan perkembangan bertimestamp milik warga tanpa membocorkan laporan pihak lain.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-07.png" alt="I-07 — Detail dan riwayat laporan" width="900"></p>
+<p align="center"><i>Gambar 6.8. I-07 — Detail dan riwayat laporan</i></p>
+
+Tabel 6.8. Spesifikasi Objek Antarmuka I-07
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-07-OBJ-01 | bilah navigasi samping | Ringkasan; Tagihan; Laporan saya; Lapor gangguan; Keluar ke Masuk | Ringkasan → I-03; Tagihan → I-04; Laporan saya → I-06; Lapor gangguan → I-05. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-07-OBJ-02 | tombol | Laporan saya | Kembali I-06 tanpa mutasi. |
+| I-07-OBJ-03 | kartu dan label status | Kebocoran pipa; MENUNGGU; Nomor laporan LPG-026 | WargaView.pilihLaporan → detailMilikWarga, lalu LaporanGangguan.getDetailLaporan(); hanya hasil query pemilik. |
+| I-07-OBJ-04 | blok informasi | Diajukan 28 Okt 2026 · 08.10 WIB; Jenis gangguan Air; Pemilik Nadia Putri · Akun Anda | Identitas pemilik berasal hasil terotorisasi, tidak dari parameter klien. |
+| I-07-OBJ-05 | teks dan lampiran | Air menetes dari sambungan pipa dekat tangki komunal. Mohon diperiksa.; Tidak ada foto dilampirkan. | Deskripsi/foto hasil laporan sendiri; ketiadaan foto bukan error. |
+| I-07-OBJ-06 | linimasa | Perkembangan · waktu menaik; Laporan diajukan; MENUNGGU · Waktu pengajuan laporan | WargaView.bukaPerkembangan → riwayatMilikWarga; query pemilik pada setiap baca, timestamp ASC lalu id_riwayat ASC. Peristiwa pengajuan awal diambil dari waktuDibuat; perubahan status berikutnya diambil dari RiwayatStatusLaporan. |
+| I-07-OBJ-07 | header dan footer informasi | Komunitas Cempaka / Warga; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** I-06 → I-07 → I-06; idWarga diambil dari sesi pada detail maupun riwayat. Tidak menyediakan perubahan status bagi Warga.
+
+**Kondisi normal dan skenario alternatif:** Pada UC04, sistem menampilkan status terkini dan riwayat menurut urutan waktu menaik. ID laporan milik pihak lain maupun ID yang tidak ditemukan menghasilkan pesan yang sama, yaitu “Laporan tidak tersedia untuk akun ini”, tanpa menampilkan detail. Laporan sah tanpa perubahan status menampilkan pesan “Belum ada perubahan”; peristiwa pengajuan awal tetap ditampilkan. Kegagalan membaca riwayat dibedakan dari riwayat kosong. Pemuatan, pesan kesalahan, dan pilihan mencoba kembali tetap berada pada I-07; akses diperiksa ulang pada setiap permintaan.
+
+<a id="I-08"></a>
+
+## 6.9 Rancangan Antarmuka I-08 — Peringatan perangkat
+
+**ID Antarmuka:** I-08\
+**Nama Layar:** Peringatan perangkat\
+**Peran/Aktor:** Teknisi\
+**UC terkait:** UC05\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Menyajikan peringatan baterai kritis kepada teknisi penanggung jawab perangkat.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-08.png" alt="I-08 — Peringatan perangkat" width="900"></p>
+<p align="center"><i>Gambar 6.9. I-08 — Peringatan perangkat</i></p>
+
+Tabel 6.9. Spesifikasi Objek Antarmuka I-08
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-08-OBJ-01 | bilah navigasi samping | Peringatan; Performa panel; Tugas saya; Pemeliharaan; Keluar ke Masuk | Peringatan → I-08; Performa panel → I-09; Tugas saya → I-10; Pemeliharaan → I-12. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-08-OBJ-02 | peringatan | Baterai perlu diperiksa; kapasitas contoh 18% di bawah ambang contoh 20% | UC05 dipicu ketika kapasitas mencapai atau di bawah ambang aman (≤); nilai ambang operasional mengikuti konfigurasi perangkat. |
+| I-08-OBJ-03 | kartu dan indikator kapasitas | Baterai tangki utama; 18%; Kritis; BAT-01 | TeknisiView.tampilkanNotifikasiKritis menampilkan detail perangkat tanggung jawab sesi. |
+| I-08-OBJ-04 | blok informasi | Tanggung jawab Arif Pratama · Anda; Waktu pembacaan 28 Okt 2026 · 10.20 WIB; Ambang contoh 20% | Penugasan perangkat menentukan penerima; waktu adalah waktu kondisi/pembacaan, bukan waktu membuka notifikasi. |
+| I-08-OBJ-05 | label status | Terkirim; Status pengiriman bukan konfirmasi bahwa pesan telah dibaca. | Status kirim terpisah dari dibaca; tidak menunjukkan bahwa penerima telah membaca pesan. |
+| I-08-OBJ-06 | tombol | Lihat tugas saya | Menuju I-10 untuk daftar penugasan laporan; peringatan tidak otomatis menciptakan tugas laporan. |
+| I-08-OBJ-07 | tombol | Histori panel | Menuju I-09; tidak memberi kendali fisik perangkat. |
+| I-08-OBJ-08 | header dan footer informasi | Komunitas Cempaka / Teknisi; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** Teknisi disetujui → I-08; hanya notifikasi perangkat yang menjadi tanggung jawabnya (PenugasanPerangkat). Aksi → I-10/I-09.
+
+**Kondisi normal dan skenario alternatif:** Pada UC05, kapasitas baterai yang mencapai atau berada di bawah ambang aman memicu penentuan Teknisi penanggung jawab dan pengiriman peringatan. Teknisi membuka detail perangkat, kapasitas, dan waktu kejadian. Pada A1, jaringan terputus menyebabkan peringatan disimpan sementara dengan status “Belum terkirim”; sistem mengirim ulang setelah koneksi pulih dan mengubah status menjadi terkirim hanya setelah pengiriman berhasil. Pemuatan dan kegagalan membaca detail dibedakan dari ketiadaan peringatan aktif. Daftar kosong tidak menyatakan bahwa perangkat pasti sehat. Pengiriman peringatan memiliki batas waktu maksimal 3 detik sesuai KNF05.
+
+<a id="I-09"></a>
+
+## 6.10 Rancangan Antarmuka I-09 — Histori panel surya
+
+**ID Antarmuka:** I-09\
+**Nama Layar:** Histori panel surya\
+**Peran/Aktor:** Teknisi\
+**UC terkait:** UC06\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Memeriksa grafik daya panel dalam rentang waktu yang dipilih.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-09.png" alt="I-09 — Histori panel surya" width="900"></p>
+<p align="center"><i>Gambar 6.10. I-09 — Histori panel surya</i></p>
+
+Tabel 6.10. Spesifikasi Objek Antarmuka I-09
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-09-OBJ-01 | bilah navigasi samping | Peringatan; Performa panel; Tugas saya; Pemeliharaan; Keluar ke Masuk | Peringatan → I-08; Performa panel → I-09; Tugas saya → I-10; Pemeliharaan → I-12. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-09-OBJ-02 | isian tanggal | Tanggal mulai; 10/28/2026 | RentangWaktu.validasi() memastikan mulai ≤ selesai; tanggal valid, simpan sebagai waktu yang konsisten. |
+| I-09-OBJ-03 | isian tanggal | Tanggal akhir; 10/28/2026 | Bersama tanggal mulai menentukan rentang inklusif pembacaan; batas zona waktu mengikuti WIB pada label (spesifikasi desain). |
+| I-09-OBJ-04 | tombol | Tampilkan | TeknisiView.pilihRentangKinerja → MonitoringController.ambilRiwayatPanel; tidak valid tidak mengambil grafik baru. |
+| I-09-OBJ-05 | diagram batang | Daya panel · PNL-01; 28 Okt 2026 · WIB; 06.00 120 W, 08.00 260 W, 10.00 420 W, 12.00 380 W, 14.00 180 W | DataHistorisKinerja dalam rentang; batang adalah sampel diskret, bukan interpolasi energi atau pembacaan kontinu. |
+| I-09-OBJ-06 | indikator nilai | Daya tertinggi contoh 420 W · 10.00 WIB; Pembacaan terakhir 180 W · 14.00 WIB | Ringkasan dari data yang sama; daya dalam W dibedakan dari energi dalam kWh. |
+| I-09-OBJ-07 | keterangan | Data simulasi; Daya sesaat dalam W, bukan energi kumulatif. | Menjelaskan satuan daya sesaat. Sebagai alternatif grafik, sistem menyediakan tabel dengan nilai waktu dan daya yang sama. |
+| I-09-OBJ-08 | header dan footer informasi | Komunitas Cempaka / Teknisi; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** I-08/navbar → I-09 untuk Teknisi; ganti rentang memperbarui I-09 tanpa perubahan data sumber.
+
+**Kondisi normal dan skenario alternatif:** Pada UC06, rentang waktu valid menghasilkan grafik dan tren berdasarkan data historis dalam rentang tersebut. Pada A1, ketiadaan data menghasilkan grafik kosong dan pesan “Data historis belum tersedia”, disertai pilihan mengganti rentang. Rentang tidak valid ditandai tanpa mengambil grafik baru. Pemuatan dan kegagalan pengambilan data dibedakan dari hasil kosong; sistem tidak mengganti data yang tidak tersedia dengan nilai nol. Data riwayat ditampilkan paling lama 5 detik setelah halaman dibuka sesuai KNF04.
+
+<a id="I-10"></a>
+
+## 6.11 Rancangan Antarmuka I-10 — Daftar tugas teknisi
+
+**ID Antarmuka:** I-10\
+**Nama Layar:** Daftar tugas teknisi\
+**Peran/Aktor:** Teknisi\
+**UC terkait:** UC07\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Menyajikan laporan yang ditugaskan kepada teknisi saat ini.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-10.png" alt="I-10 — Daftar tugas teknisi" width="900"></p>
+<p align="center"><i>Gambar 6.11. I-10 — Daftar tugas teknisi</i></p>
+
+Tabel 6.11. Spesifikasi Objek Antarmuka I-10
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-10-OBJ-01 | bilah navigasi samping | Peringatan; Performa panel; Tugas saya; Pemeliharaan; Keluar ke Masuk | Peringatan → I-08; Performa panel → I-09; Tugas saya → I-10; Pemeliharaan → I-12. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-10-OBJ-02 | isian pencarian | Cari laporan | Filter hanya tugas sesi; tidak melakukan pencarian seluruh laporan komunitas. |
+| I-10-OBJ-03 | daftar pilihan | Status; Semua status | Menyaring status pada daftar tugas yang telah diotorisasi. |
+| I-10-OBJ-04 | tabel data dan label status | Penugasan Anda · 1 tugas; Kebocoran pipa; LPG-026 · Ditugaskan kepada Anda; MENUNGGU; 28 Okt 2026 · 08.10 WIB | TeknisiView.bukaPenugasan → daftarPenugasan → cariDaftarTugas(idTeknisi sesi); query EXISTS penugasan. |
+| I-10-OBJ-05 | tombol | Buka tugas | TeknisiView.pilihTugas(idLaporan) → I-11, server memeriksa ulang penugasan. |
+| I-10-OBJ-06 | keterangan | Hanya tugas penugasan Anda | Antrean hanya mencakup penugasan Teknisi yang sedang masuk; pengguna tidak dapat mengambil tugas di luar penugasannya. |
+| I-10-OBJ-07 | header dan footer informasi | Komunitas Cempaka / Teknisi; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** I-08/navbar → I-10 → I-11. Versi mobile ekuivalen I-10-M → I-11-M; pergantian viewport tidak mengubah hak akses.
+
+**Kondisi normal dan skenario alternatif:** Pada UC07, sistem menampilkan daftar penugasan dan membuka detail tugas yang dipilih. Ketika tidak terdapat tugas, sistem menampilkan pesan “Belum ada tugas” tanpa perubahan data. Hasil penyaringan kosong dibedakan dari kegagalan pemuatan. Penugasan yang dicabut sebelum detail dibuka menyebabkan penolakan akses. Kegagalan pemuatan menyediakan pilihan memuat ulang tanpa memperluas pencarian ke tugas Teknisi lain.
+
+<a id="I-11"></a>
+
+## 6.12 Rancangan Antarmuka I-11 — Detail dan status tugas teknisi
+
+**ID Antarmuka:** I-11\
+**Nama Layar:** Detail dan status tugas teknisi\
+**Peran/Aktor:** Teknisi\
+**UC terkait:** UC07\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Memandu teknisi penugasan melakukan hanya langkah status legal dan mencatat waktunya secara atomik.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-11.png" alt="I-11 — Detail dan status tugas teknisi" width="900"></p>
+<p align="center"><i>Gambar 6.12. I-11 — Detail dan status tugas teknisi</i></p>
+
+Tabel 6.12. Spesifikasi Objek Antarmuka I-11
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-11-OBJ-01 | bilah navigasi samping | Peringatan; Performa panel; Tugas saya; Pemeliharaan; Keluar ke Masuk | Peringatan → I-08; Performa panel → I-09; Tugas saya → I-10; Pemeliharaan → I-12. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-11-OBJ-02 | tombol | Tugas saya | Kembali I-10 tanpa mengubah status. |
+| I-11-OBJ-03 | judul dan kartu | LPG-026; Kebocoran pipa | TeknisiView.pilihTugas → detailTugas → cariDetailTugas(idTeknisi sesi,idLaporan); ID tugas bukan bukti kewenangan. |
+| I-11-OBJ-04 | label status dan indikator tahapan | MENUNGGU; Menunggu (Saat ini) → Sedang diperbaiki (Langkah berikutnya) → Selesai (Tahap akhir) | Indikator tahapan menyajikan urutan status, bukan tiga tombol pilihan bebas. statusBerikutnya() hanya mengizinkan SEDANG_DIPERBAIKI dari MENUNGGU. |
+| I-11-OBJ-05 | waktu status | Sejak 28 Okt 2026 · 08.10 WIB | Menampilkan waktu keadaan server, tidak waktu lokal perkiraan. |
+| I-11-OBJ-06 | kartu tindakan | Langkah Anda berikutnya; Teknisi penugasan Arif Pratama · Anda | Tindakan dibatasi penugasan; server memverifikasi ulang pada setiap mutasi. |
+| I-11-OBJ-07 | tombol | Mulai perbaikan | TeknisiView.ubahStatus → LaporanController.perbaruiStatus → ModulLaporan.perbaruiStatus → simpanStatusDanRiwayat (Algo-040) → transaksiStatus (Algo-042). Verifikasi tugas, transisi Algo-017, guard status lama, UPDATE+riwayat atomik; sukses sesudah COMMIT. |
+| I-11-OBJ-08 | blok informasi | Laporan warga; Air menetes dari sambungan pipa dekat tangki komunal. Mohon diperiksa.; Air - Kebocoran pipa; Diajukan 28 Okt 2026 · 08.10 WIB | Hanya detail tugas terotorisasi; tidak mengubah deskripsi warga. |
+| I-11-OBJ-09 | linimasa | Riwayat tugas; Urutan waktu menaik; Laporan diajukan; MENUNGGU | Pengajuan awal bersumber dari waktuDibuat; perubahan status berikutnya bersumber dari C22, terurut berdasarkan timestamp ASC. |
+| I-11-OBJ-10 | header dan footer informasi | Komunitas Cempaka / Teknisi; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** I-10 → I-11 → I-10; ekuivalen I-11-M pada mobile. Teknisi hanya menangani penugasan sesi; UI tidak menerima idTeknisi buatan klien.
+
+**Kondisi normal dan skenario alternatif:** Pada UC07, status MENUNGGU hanya dapat berubah menjadi SEDANG_DIPERBAIKI, kemudian menjadi SELESAI. Status SELESAI tidak menyediakan tindakan pembaruan. Pada A1, Teknisi tanpa penugasan menerima pesan “Teknisi tidak berwenang” tanpa UPDATE atau INSERT. Pada A2, perubahan ke status yang sama, melompati tahap, atau kembali ke tahap sebelumnya ditolak dengan pesan “Perubahan status ditolak. Pilih tahap berikutnya” beserta opsi status yang sah. Selama pemrosesan, tombol dinonaktifkan. Setelah COMMIT berhasil, status dan waktu server ditampilkan. Konflik status lama, perubahan penugasan, atau kegagalan INSERT riwayat membatalkan status dan riwayat melalui ROLLBACK; objek lokal dibuang, pesan kegagalan ditampilkan, dan detail dimuat ulang tanpa penimpaan otomatis.
+
+<a id="I-12"></a>
+
+## 6.13 Rancangan Antarmuka I-12 — Form pemeliharaan
+
+**ID Antarmuka:** I-12\
+**Nama Layar:** Form pemeliharaan\
+**Peran/Aktor:** Teknisi\
+**UC terkait:** UC08\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Mencatat perangkat, waktu, tindakan dan hasil pemeliharaan sebagai riwayat yang bisa ditelusuri.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-12.png" alt="I-12 — Form pemeliharaan" width="900"></p>
+<p align="center"><i>Gambar 6.13. I-12 — Form pemeliharaan</i></p>
+
+Tabel 6.13. Spesifikasi Objek Antarmuka I-12
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-12-OBJ-01 | bilah navigasi samping | Peringatan; Performa panel; Tugas saya; Pemeliharaan; Keluar ke Masuk | Peringatan → I-08; Performa panel → I-09; Tugas saya → I-10; Pemeliharaan → I-12. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-12-OBJ-02 | daftar pilihan | Perangkat; BAT-01 · Baterai tangki utama | Pilih perangkat valid dalam lingkup teknisi; ModulPemeliharaan menerima ID perangkat, bukan label arbitrer. |
+| I-12-OBJ-03 | isian tanggal dan waktu | Waktu pemeliharaan; 10/28/2026, 11:00 AM | Wajib, tanggal/waktu valid; simpan DateTime dengan zona waktu yang jelas (WIB sebagai spesifikasi desain). |
+| I-12-OBJ-04 | isian teks | Tindakan; Membersihkan terminal baterai | Wajib; Validasi.periksaPemeliharaan memeriksa kelengkapan. |
+| I-12-OBJ-05 | area teks | Hasil pemeliharaan; Terminal bersih, sambungan diperiksa. | Wajib, dipertahankan jika gagal validasi/simpan. |
+| I-12-OBJ-06 | tombol | Simpan catatan | TeknisiView.simpanPemeliharaan → PemeliharaanController.simpanCatatan → ModulPemeliharaan.simpanCatatan (Algo-035); identitas teknisi dari sesi. Sukses hanya sesudah simpan. |
+| I-12-OBJ-07 | tombol | Riwayat | Membuka tampilan riwayat perangkat terpilih di I-12, bukan layar baru. Catatan dapat ditelusuri menurut perangkat/waktu (Perangkat.getRiwayatPemeliharaan). |
+| I-12-OBJ-08 | kartu informasi | Jejak perawatan perangkat | Menjelaskan bahwa catatan yang tersimpan dapat ditelusuri kembali berdasarkan perangkat dan waktu sesuai UC08. |
+| I-12-OBJ-09 | header dan footer informasi | Komunitas Cempaka / Teknisi; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** Teknisi lewat navbar → I-12; ekuivalen mobile I-12-M. Simpan tidak otomatis menyelesaikan laporan UC07; perubahan status tetap di I-11.
+
+**Kondisi normal dan skenario alternatif:** Pada UC08, formulir lengkap disimpan dan diikuti pesan “Catatan pemeliharaan berhasil disimpan”. Riwayat dapat ditelusuri menurut perangkat dan waktu. Pada A1, isian wajib yang kosong membatalkan penyimpanan, ditandai untuk dilengkapi, dan tidak menghapus isian lainnya. Selama penyimpanan, pengiriman formulir dinonaktifkan. Kegagalan basis data atau jaringan menghasilkan pesan kesalahan; riwayat kosong dibedakan dari kegagalan pemuatan.
+
+<a id="I-13"></a>
+
+## 6.14 Rancangan Antarmuka I-13 — Analitik komunal
+
+**ID Antarmuka:** I-13\
+**Nama Layar:** Analitik komunal\
+**Peran/Aktor:** Pengurus\
+**UC terkait:** UC09\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Memberi pengurus agregat dan riwayat pemakaian komunal per periode.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-13.png" alt="I-13 — Analitik komunal" width="900"></p>
+<p align="center"><i>Gambar 6.14. I-13 — Analitik komunal</i></p>
+
+Tabel 6.14. Spesifikasi Objek Antarmuka I-13
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-13-OBJ-01 | bilah navigasi samping | Analitik; Kalkulasi iuran; Rekap iuran; Persetujuan; Keluar ke Masuk | Analitik → I-13; Kalkulasi iuran → I-14; Rekap iuran → I-15; Persetujuan → I-16. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-13-OBJ-02 | daftar pilihan | Periode; Oktober 2026 | PengurusView.bukaDashboardAnalitik → IuranController.analisisPemakaian; validasi periode dan kewenangan sebelum mengambil data. |
+| I-13-OBJ-03 | blok informasi | 4 pekan pengamatan; Data simulasi komunal | Menjelaskan pengelompokan empat sampel pekanan, bukan aliran sensor kontinu. |
+| I-13-OBJ-04 | indikator nilai dan diagram batang | Pemakaian air komunal 84 m³; M1 18, M2 24, M3 20, M4 22 | ModulIuran.hitungAgregatKomunal (Algo-036); 18+24+20+22=84, satuan volume m³. |
+| I-13-OBJ-05 | indikator nilai dan diagram batang | Energi komunal 160 kWh; M1 36, M2 42, M3 38, M4 44 | Agregat energi, 36+42+38+44=160; kWh berbeda dari daya W pada I-09. |
+| I-13-OBJ-06 | tabel data | Angka di balik grafik; Pekan, Air (m³), Energi (kWh) | Menyajikan empat baris yang sama dengan grafik agar nilai tidak hanya dikodekan warna. |
+| I-13-OBJ-07 | keterangan | Sumber: pembacaan komunal contoh; Data simulasi, tidak terhubung ke sensor nyata | Pernyataan sumber dan batas data; pengurus tidak menyunting pembacaan dari grafik. |
+| I-13-OBJ-08 | header dan footer informasi | Komunitas Cempaka / Pengurus; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** Login Pengurus → I-13; navbar ke I-14/I-15/I-16. Pemeriksaan Pengurus.verifikasiKewenangan() dilakukan sebelum data diambil.
+
+**Kondisi normal dan skenario alternatif:** Pada UC09, pemilihan periode menghasilkan pengelompokan data pemakaian air dan energi serta penampilan agregat dan riwayat. Pada A1, akses oleh Warga atau Teknisi ditolak sebelum query data komunal dijalankan. Periode tanpa data menampilkan keterangan data belum tersedia, bukan nilai nol hasil pengukuran. Pemuatan, kegagalan, dan pilihan mencoba kembali dibedakan dari kondisi data kosong.
+
+<a id="I-14"></a>
+
+## 6.15 Rancangan Antarmuka I-14 — Kalkulasi dan finalisasi iuran
+
+**ID Antarmuka:** I-14\
+**Nama Layar:** Kalkulasi dan finalisasi iuran\
+**Peran/Aktor:** Pengurus\
+**UC terkait:** UC10\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Menghitung pratinjau iuran dengan aturan tarif satu periode, meninjau, lalu menetapkannya FINAL oleh pengurus berwenang.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-14.png" alt="I-14 — Kalkulasi dan finalisasi iuran" width="900"></p>
+<p align="center"><i>Gambar 6.15. I-14 — Kalkulasi dan finalisasi iuran</i></p>
+
+Tabel 6.15. Spesifikasi Objek Antarmuka I-14
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-14-OBJ-01 | bilah navigasi samping | Analitik; Kalkulasi iuran; Rekap iuran; Persetujuan; Keluar ke Masuk | Analitik → I-13; Kalkulasi iuran → I-14; Rekap iuran → I-15; Persetujuan → I-16. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-14-OBJ-02 | indikator tahapan | 1. Hitung; 2. Tinjau; 3. Tetapkan final | Urutan proses; pratinjau bukan hasil final yang boleh ditagihkan. |
+| I-14-OBJ-03 | daftar pilihan | Periode; September 2026 | Validasi periode dan kelengkapan DataPemakaian sebelum KalkulatorIuran membuat tagihan. |
+| I-14-OBJ-04 | isian angka | Tarif contoh per m³; 4000 | Satu tarif periode dipakai seluruh warga. Nilai pada gambar merupakan ilustrasi; perhitungan menggunakan komponen air, energi, dan biaya tetap pada AturanTarif yang berlaku. Bukan izin mengganti tarif final secara bebas. |
+| I-14-OBJ-05 | keterangan | Data simulasi; 36 m³ × Rp4.000 = Rp144.000 | Contoh aritmetika, tidak menetapkan tagihan nyata. |
+| I-14-OBJ-06 | tombol | Hitung pratinjau | IuranController.hitungPratinjauIuran → KalkulatorIuran.pratinjau; validasi kelengkapan dan satu AturanTarif per periode. Kegagalan validasi menghentikan perhitungan. |
+| I-14-OBJ-07 | tabel data dan ringkasan | Pratinjau iuran · DRAFT; Nadia Putri 12 m³ Rp48.000; Bima Saputra 10 m³ Rp40.000; Sari Wulandari 14 m³ Rp56.000; Total Rp144.000 | Hasil DRAFT ditinjau pengurus; 48.000+40.000+56.000=144.000. Hasil DRAFT belum dapat ditampilkan sebagai tagihan Warga. |
+| I-14-OBJ-08 | tombol | Tinjau & finalisasi | Membuka dialog konfirmasi pada I-14 yang memuat periode, tarif, hasil perhitungan, dan dampak penetapan final. |
+| I-14-OBJ-09 | dialog konfirmasi finalisasi | Tetapkan Final; Batal | Setelah peninjauan, PengurusView.tekanTetapkanFinal → IuranController.tetapkanIuranFinal (Algo-028), cek pengurus ulang → finalisasi; notifikasi FINAL ditampilkan setelah penyimpanan berhasil. Batal kembali pratinjau tanpa mutasi. |
+| I-14-OBJ-10 | header dan footer informasi | Komunitas Cempaka / Pengurus; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** I-13/navbar → I-14; setelah final, Pengurus dapat membuka I-15, warga melihat miliknya di I-04. Hanya Pengurus disetujui dapat menghitung dan memfinalisasi.
+
+**Kondisi normal dan skenario alternatif:** Pada UC10, sistem memeriksa kelengkapan data periode, menghitung iuran, dan menampilkan DRAFT untuk ditinjau. Setelah Pengurus mengonfirmasi Tetapkan Final, sistem memeriksa ulang kewenangan dan menetapkan hasil sebagai FINAL. Pada A1, kewenangan yang tidak sah atau telah dicabut menyebabkan penolakan tanpa perubahan tagihan maupun periode. Pada A2, data pemakaian sebagian Warga yang belum lengkap menghentikan perhitungan sebelum tagihan dibuat dan menghasilkan pemberitahuan untuk melengkapi data. Selama pemrosesan, tindakan berulang dinonaktifkan. Kegagalan penyimpanan tidak menghasilkan status FINAL; sistem memuat ulang kondisi yang tersimpan.
+
+<a id="I-15"></a>
+
+## 6.16 Rancangan Antarmuka I-15 — Rekapitulasi iuran
+
+**ID Antarmuka:** I-15\
+**Nama Layar:** Rekapitulasi iuran\
+**Peran/Aktor:** Pengurus\
+**UC terkait:** UC11\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Menghasilkan rekapitulasi dari pemakaian serta iuran FINAL, lalu mengekspor atau mencetak dokumen.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-15.png" alt="I-15 — Rekapitulasi iuran" width="900"></p>
+<p align="center"><i>Gambar 6.16. I-15 — Rekapitulasi iuran</i></p>
+
+Tabel 6.16. Spesifikasi Objek Antarmuka I-15
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-15-OBJ-01 | bilah navigasi samping | Analitik; Kalkulasi iuran; Rekap iuran; Persetujuan; Keluar ke Masuk | Analitik → I-13; Kalkulasi iuran → I-14; Rekap iuran → I-15; Persetujuan → I-16. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-15-OBJ-02 | daftar pilihan | Periode; September 2026 · FINAL | PengurusView.bukaMenuRekapitulasi; cek peran dan status Periode.isFinal() serta seluruh Tagihan.sudahFinal(). |
+| I-15-OBJ-03 | pratinjau dokumen dan label status | Rekap iuran komunitas; Komunitas Cempaka; September 2026; FINAL | Menampilkan hasil Rekapitulasi.generate(periode) setelah permintaan pembuatan rekapitulasi berhasil diproses. |
+| I-15-OBJ-04 | tabel data dan ringkasan | Warga/Pemakaian/Iuran; Nadia Putri 12 m³ Rp48.000; Bima Saputra 10 m³ Rp40.000; Sari Wulandari 14 m³ Rp56.000; Total 36 m³ Rp144.000 | Hanya periode final, berasal dari himpunan data yang sama. Komponen energi disertakan apabila berlaku pada periode tersebut; gambar menggunakan ilustrasi iuran air. |
+| I-15-OBJ-05 | kartu informasi | Dokumen siap ditinjau; Rekap periode FINAL untuk 3 warga | Menandai rekapitulasi yang siap ditinjau sebelum pengguna memilih ekspor atau cetak. |
+| I-15-OBJ-06 | tombol | PDF | Rekapitulasi.ekspor("PDF") menghasilkan berkas sesudah otorisasi; kegagalan ekspor menampilkan pesan kesalahan dan tidak menghasilkan status unduhan berhasil. |
+| I-15-OBJ-07 | tombol | CSV | Rekapitulasi.ekspor("CSV") untuk periode/himpunan data sama; KNF10. |
+| I-15-OBJ-08 | tombol | Cetak | Rekapitulasi.cetak(); membuka dialog cetak dokumen final agar pengguna dapat memilih pengaturan pencetakan. |
+| I-15-OBJ-09 | tombol pembuatan rekapitulasi | Buat rekapitulasi | Setelah pilih periode final, IuranController.buatRekapitulasi memanggil generate; sukses menampilkan pratinjau yang ada, sebelum ekspor/cetak. |
+| I-15-OBJ-10 | header dan footer informasi | Komunitas Cempaka / Pengurus; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** I-13/I-14/navbar → I-15, khusus Pengurus. Periode dan data final diverifikasi kembali sebelum generate/ekspor, bukan percaya label klien.
+
+**Kondisi normal dan skenario alternatif:** Pada UC11, sistem memeriksa kewenangan dan status final periode sebelum membuat rekapitulasi. Rekapitulasi ditampilkan untuk ditinjau, kemudian dapat diekspor sebagai PDF atau CSV maupun dicetak. Pada A1, periode atau tagihan yang belum final menghalangi pembuatan dan ekspor dengan pesan “Rekapitulasi hanya dapat dibuat menggunakan data final”. Pada A2, akses pengguna selain Pengurus ditolak. Pemuatan pembuatan dokumen dan ekspor ditandai; kegagalan ditampilkan sebagai pesan kesalahan. Ketiadaan data tidak disajikan sebagai rekapitulasi bernilai nol.
+
+<a id="I-16"></a>
+
+## 6.17 Rancangan Antarmuka I-16 — Persetujuan akun
+
+**ID Antarmuka:** I-16\
+**Nama Layar:** Persetujuan akun\
+**Peran/Aktor:** Pengurus\
+**UC terkait:** UC14\
+**Jenis viewport:** Desktop\
+**Konteks/tujuan:** Meninjau identitas dan peran yang diajukan sebelum persetujuan atau penolakan akun.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-16.png" alt="I-16 — Persetujuan akun" width="900"></p>
+<p align="center"><i>Gambar 6.17. I-16 — Persetujuan akun</i></p>
+
+Tabel 6.17. Spesifikasi Objek Antarmuka I-16
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-16-OBJ-01 | bilah navigasi samping | Analitik; Kalkulasi iuran; Rekap iuran; Persetujuan; Keluar ke Masuk | Analitik → I-13; Kalkulasi iuran → I-14; Rekap iuran → I-15; Persetujuan → I-16. Keluar mengakhiri sesi lalu I-01; menu hanya peran aktif, server tetap memeriksa akses. |
+| I-16-OBJ-02 | tabel data | Menunggu persetujuan · 1 akun; Nadia Putri; 28 Okt 2026 · 08.00 WIB; Warga | PengurusView.bukaPersetujuanAkun → AkunController.ambilAkunMenunggu, hanya status MENUNGGU; peran pengurus dicek sebelum baca. |
+| I-16-OBJ-03 | tombol | Tinjau | Memilih pengajuan dan menampilkan detail di panel I-16; tidak langsung mengaktifkan akun. |
+| I-16-OBJ-04 | kartu dan label status | Pengajuan Nadia Putri; MENUNGGU; Nama; Email nadia@example.test; Peran diajukan Warga; Waktu pengajuan | Ringkasan identitas dan peran; password tidak ditampilkan. Pengurus menilai sebelum aksi. |
+| I-16-OBJ-05 | tombol | Setujui akun | PengurusView.prosesPersetujuan(email,true) → AkunController.setujuiAkun; validasi kewenangan dan pengajuan masih menunggu → DISETUJUI, simpan, notifikasi, perbarui daftar. |
+| I-16-OBJ-06 | tombol | Tolak | PengurusView.prosesPersetujuan(email,false) → AkunController.tolakAkun → DITOLAK; sukses hanya setelah tersimpan, daftar diperbarui. |
+| I-16-OBJ-07 | header dan footer informasi | Komunitas Cempaka / Pengurus; tanggal; Data simulasi; identitas akun contoh | Menampilkan konteks komunitas, peran, waktu, dan identitas akun. Data operasional diambil berdasarkan sesi; nama, tanggal, dan angka pada gambar merupakan ilustrasi. |
+
+**Alur navigasi dan otorisasi:** Pengurus lewat navbar → I-16. Akun disetujui dapat login di I-01; proses tinjau tidak login sebagai calon pengguna.
+
+**Kondisi normal dan skenario alternatif:** Pada UC14, Pengurus meninjau pengajuan dan memilih Setujui; sistem menyimpan status DISETUJUI, menampilkan notifikasi, dan memperbarui daftar. Pada A1, pilihan Tolak menghasilkan status DITOLAK, notifikasi, dan pembaruan daftar setelah penyimpanan berhasil. Pada A2, akses Warga atau Teknisi ditolak sebelum pembacaan maupun perubahan data. Daftar kosong menghasilkan pesan “Tidak ada akun menunggu persetujuan” tanpa tindakan persetujuan. Selama pemrosesan, tindakan dinonaktifkan. Konflik perubahan pengajuan atau kegagalan penyimpanan menghasilkan pesan kesalahan dan pemuatan ulang tanpa notifikasi keberhasilan.
+
+<a id="I-10-M"></a>
+
+## 6.18 Rancangan Antarmuka I-10-M — Daftar tugas teknisi (mobile)
+
+**ID Antarmuka:** I-10-M\
+**Nama Layar:** Daftar tugas teknisi (mobile)\
+**Peran/Aktor:** Teknisi\
+**UC terkait:** UC07\
+**Jenis viewport:** Mobile\
+**Konteks/tujuan:** Menyajikan laporan yang ditugaskan kepada teknisi saat ini.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-10-M.png" alt="I-10-M — Daftar tugas teknisi (mobile)" width="390"></p>
+<p align="center"><i>Gambar 6.18. I-10-M — Daftar tugas teknisi (mobile)</i></p>
+
+Tabel 6.18. Spesifikasi Objek Antarmuka I-10-M
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-10-M-OBJ-01 | header | fajar.tech; Teknisi | Identitas produk/peran, tidak menjadi pemilih peran atau bukti penugasan. |
+| I-10-M-OBJ-02 | isian pencarian | Cari laporan | Filter hanya tugas sesi; tidak melakukan pencarian seluruh laporan komunitas. |
+| I-10-M-OBJ-03 | daftar pilihan | Status; Semua status | Menyaring status pada daftar tugas yang telah diotorisasi. |
+| I-10-M-OBJ-04 | kartu tugas dan label status | Penugasan Anda · 1 tugas; Kebocoran pipa; LPG-026 · Ditugaskan kepada Anda; MENUNGGU; 28 Okt 2026 · 08.10 WIB | TeknisiView.bukaPenugasan → daftarPenugasan → cariDaftarTugas(idTeknisi sesi); query EXISTS penugasan. |
+| I-10-M-OBJ-05 | tombol | Buka tugas | TeknisiView.pilihTugas(idLaporan) → I-11-M, server memeriksa ulang penugasan. |
+| I-10-M-OBJ-06 | keterangan | Hanya tugas penugasan Anda | Antrean hanya mencakup penugasan Teknisi yang sedang masuk; pengguna tidak dapat mengambil tugas di luar penugasannya. |
+| I-10-M-OBJ-07 | bilah navigasi bawah | Peringatan; Panel; Tugas saya; Pemeliharaan | Peringatan → I-08; Panel → I-09; Tugas saya → I-10-M; Pemeliharaan → I-12-M. Penanda menu aktif mengikuti layar yang sedang dibuka. |
+
+**Alur navigasi dan otorisasi:** Ekuivalen desktop I-10; bilah navigasi bawah → I-10-M → I-11-M. Hanya penugasan teknisi sesi; pergantian viewport tidak mengubah hak akses.
+
+**Kondisi normal dan skenario alternatif:** Pada UC07, sistem menampilkan daftar penugasan dan membuka detail tugas yang dipilih. Ketika tidak terdapat tugas, sistem menampilkan pesan “Belum ada tugas” tanpa perubahan data. Hasil penyaringan kosong dibedakan dari kegagalan pemuatan. Penugasan yang dicabut sebelum detail dibuka menyebabkan penolakan akses. Kegagalan pemuatan menyediakan pilihan memuat ulang tanpa memperluas pencarian ke tugas Teknisi lain. Tata letak responsif menggunakan satu kolom dengan pengguliran vertikal. Navigasi tidak menutup isi atau fokus, label tetap terbaca, dan target sentuh dirancang berukuran minimal 44 px. Perubahan ukuran layar tidak mereset status atau otorisasi. Bidang pencarian dan pilihan status disusun berdampingan.
+
+<a id="I-11-M"></a>
+
+## 6.19 Rancangan Antarmuka I-11-M — Detail dan status tugas teknisi (mobile)
+
+**ID Antarmuka:** I-11-M\
+**Nama Layar:** Detail dan status tugas teknisi (mobile)\
+**Peran/Aktor:** Teknisi\
+**UC terkait:** UC07\
+**Jenis viewport:** Mobile\
+**Konteks/tujuan:** Memandu teknisi penugasan melakukan hanya langkah status legal dan mencatat waktunya secara atomik.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-11-M.png" alt="I-11-M — Detail dan status tugas teknisi (mobile)" width="390"></p>
+<p align="center"><i>Gambar 6.19. I-11-M — Detail dan status tugas teknisi (mobile)</i></p>
+
+Tabel 6.19. Spesifikasi Objek Antarmuka I-11-M
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-11-M-OBJ-01 | header | fajar.tech; Teknisi | Identitas produk/peran, tidak menjadi pemilih peran atau bukti penugasan. |
+| I-11-M-OBJ-02 | tombol | Tugas saya | Kembali I-10-M tanpa mutasi. |
+| I-11-M-OBJ-03 | judul dan kartu | LPG-026; Kebocoran pipa | TeknisiView.pilihTugas → detailTugas → cariDetailTugas(idTeknisi sesi,idLaporan); ID tugas bukan bukti kewenangan. |
+| I-11-M-OBJ-04 | label status dan indikator tahapan | MENUNGGU; Menunggu (Saat ini) → Sedang diperbaiki (Langkah berikutnya) → Selesai (Tahap akhir) | Indikator tahapan menyajikan urutan status, bukan tiga tombol pilihan bebas. statusBerikutnya() hanya mengizinkan SEDANG_DIPERBAIKI dari MENUNGGU. |
+| I-11-M-OBJ-05 | waktu status | Sejak 28 Okt 2026 · 08.10 WIB | Menampilkan waktu keadaan server, tidak waktu lokal perkiraan. |
+| I-11-M-OBJ-06 | kartu tindakan | Langkah Anda berikutnya; Teknisi penugasan Arif Pratama · Anda | Tindakan dibatasi penugasan; server memverifikasi ulang pada setiap mutasi. |
+| I-11-M-OBJ-07 | tombol | Mulai perbaikan | TeknisiView.ubahStatus → LaporanController.perbaruiStatus → ModulLaporan.perbaruiStatus → simpanStatusDanRiwayat (Algo-040) → transaksiStatus (Algo-042). Verifikasi tugas, transisi Algo-017, guard status lama, UPDATE+riwayat atomik; sukses sesudah COMMIT. |
+| I-11-M-OBJ-08 | blok informasi | Laporan warga; Air menetes dari sambungan pipa dekat tangki komunal. Mohon diperiksa.; Air - Kebocoran pipa; Diajukan 28 Okt 2026 · 08.10 WIB | Hanya detail tugas terotorisasi; tidak mengubah deskripsi warga. |
+| I-11-M-OBJ-09 | linimasa dan tautan bagian | Lihat riwayat tugas; Laporan diajukan; MENUNGGU | Tautan menggulir riwayat pada I-11-M; urutan waktu menaik, pengajuan awal dari waktuDibuat. Tugas harus terotorisasi sebelum isi ditampilkan. |
+| I-11-M-OBJ-10 | menu navigasi Teknisi | Peringatan; Panel; Tugas saya; Pemeliharaan | Komponen navigasi Teknisi menghubungkan Peringatan → I-08, Panel → I-09, Tugas saya → I-10-M, dan Pemeliharaan → I-12-M. Hak akses tetap mengikuti sesi teknisi. |
+
+**Alur navigasi dan otorisasi:** Ekuivalen desktop I-11; I-10-M → I-11-M → I-10-M. Teknisi hanya menangani penugasan sesi; UI tidak menerima idTeknisi buatan klien.
+
+**Kondisi normal dan skenario alternatif:** Pada UC07, status MENUNGGU hanya dapat berubah menjadi SEDANG_DIPERBAIKI, kemudian menjadi SELESAI. Status SELESAI tidak menyediakan tindakan pembaruan. Pada A1, Teknisi tanpa penugasan menerima pesan “Teknisi tidak berwenang” tanpa UPDATE atau INSERT. Pada A2, perubahan ke status yang sama, melompati tahap, atau kembali ke tahap sebelumnya ditolak dengan pesan “Perubahan status ditolak. Pilih tahap berikutnya” beserta opsi status yang sah. Selama pemrosesan, tombol dinonaktifkan. Setelah COMMIT berhasil, status dan waktu server ditampilkan. Konflik status lama, perubahan penugasan, atau kegagalan INSERT riwayat membatalkan status dan riwayat melalui ROLLBACK; objek lokal dibuang, pesan kegagalan ditampilkan, dan detail dimuat ulang tanpa penimpaan otomatis. Tata letak responsif menggunakan satu kolom dengan pengguliran vertikal. Navigasi tidak menutup isi atau fokus, label tetap terbaca, dan target sentuh dirancang berukuran minimal 44 px. Perubahan ukuran layar tidak mereset status atau otorisasi.
+
+<a id="I-12-M"></a>
+
+## 6.20 Rancangan Antarmuka I-12-M — Form pemeliharaan (mobile)
+
+**ID Antarmuka:** I-12-M\
+**Nama Layar:** Form pemeliharaan (mobile)\
+**Peran/Aktor:** Teknisi\
+**UC terkait:** UC08\
+**Jenis viewport:** Mobile\
+**Konteks/tujuan:** Mencatat perangkat, waktu, tindakan dan hasil pemeliharaan sebagai riwayat yang bisa ditelusuri.
+
+<p align="center"><img src="./assets/diagram/figma-final/I-12-M.png" alt="I-12-M — Form pemeliharaan (mobile)" width="390"></p>
+<p align="center"><i>Gambar 6.20. I-12-M — Form pemeliharaan (mobile)</i></p>
+
+Tabel 6.20. Spesifikasi Objek Antarmuka I-12-M
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I-12-M-OBJ-01 | header | fajar.tech; Teknisi | Identitas produk/peran, tidak menjadi pemilih peran atau bukti penugasan. |
+| I-12-M-OBJ-02 | daftar pilihan | Perangkat; BAT-01 · Baterai tangki utama | Pilih perangkat valid dalam lingkup teknisi; ModulPemeliharaan menerima ID perangkat, bukan label arbitrer. |
+| I-12-M-OBJ-03 | isian tanggal dan waktu | Waktu pemeliharaan; 10/28/2026, 11:00 AM | Wajib, tanggal/waktu valid; simpan DateTime dengan zona waktu yang jelas (WIB sebagai spesifikasi desain). |
+| I-12-M-OBJ-04 | isian teks | Tindakan; Membersihkan terminal baterai | Wajib; Validasi.periksaPemeliharaan memeriksa kelengkapan. |
+| I-12-M-OBJ-05 | area teks | Hasil pemeliharaan; Terminal bersih, sambungan diperiksa. | Wajib, dipertahankan jika gagal validasi/simpan. |
+| I-12-M-OBJ-06 | tombol | Simpan catatan | TeknisiView.simpanPemeliharaan → PemeliharaanController.simpanCatatan → ModulPemeliharaan.simpanCatatan (Algo-035); identitas teknisi dari sesi. Sukses hanya sesudah simpan. |
+| I-12-M-OBJ-07 | tombol | Riwayat | Membuka tampilan riwayat perangkat terpilih di I-12-M, bukan layar baru. Catatan dapat ditelusuri menurut perangkat/waktu (Perangkat.getRiwayatPemeliharaan). |
+| I-12-M-OBJ-08 | bilah navigasi bawah | Peringatan; Panel; Tugas saya; Pemeliharaan | Peringatan → I-08; Panel → I-09; Tugas saya → I-10-M; Pemeliharaan → I-12-M. Penanda menu aktif mengikuti layar yang sedang dibuka. |
+
+**Alur navigasi dan otorisasi:** Ekuivalen desktop I-12; bilah navigasi bawah → I-12-M. Simpan tidak otomatis menyelesaikan laporan UC07; perubahan status tetap di I-11-M.
+
+**Kondisi normal dan skenario alternatif:** Pada UC08, formulir lengkap disimpan dan diikuti pesan “Catatan pemeliharaan berhasil disimpan”. Riwayat dapat ditelusuri menurut perangkat dan waktu. Pada A1, isian wajib yang kosong membatalkan penyimpanan, ditandai untuk dilengkapi, dan tidak menghapus isian lainnya. Selama penyimpanan, pengiriman formulir dinonaktifkan. Kegagalan basis data atau jaringan menghasilkan pesan kesalahan; riwayat kosong dibedakan dari kegagalan pemuatan. Tata letak responsif menggunakan satu kolom dengan pengguliran vertikal. Navigasi tidak menutup isi atau fokus, label tetap terbaca, dan target sentuh dirancang berukuran minimal 44 px. Perubahan ukuran layar tidak mereset status atau otorisasi.
+
+## 6.21 Rancangan Antarmuka Keseluruhan
+
+Tabel 6.21 menyajikan seluruh antarmuka menurut identitas layar, aktor, dan use case yang didukung. Tautan pada ID antarmuka mengarah ke spesifikasi objek dan interaksi layar terkait.
+
+Tabel 6.21. Rancangan Antarmuka Keseluruhan
+
+| ID Antarmuka | Nama Layar | Use Case / Aktor | Rancangan Antarmuka |
+| :--- | :--- | :--- | :--- |
+| [I-00](#I-00) | Landing page publik | UC12/UC13 (navigasi publik) / Publik | <img src="./assets/diagram/figma-final/I-00.png" alt="I-00 — Landing page publik" width="360"> |
+| [I-01](#I-01) | Login | UC13 / Warga, Teknisi, Pengurus | <img src="./assets/diagram/figma-final/I-01.png" alt="I-01 — Login" width="360"> |
+| [I-02](#I-02) | Registrasi akun | UC12 / Calon Pengguna | <img src="./assets/diagram/figma-final/I-02.png" alt="I-02 — Registrasi akun" width="360"> |
+| [I-03](#I-03) | Dashboard warga | UC01 / Warga | <img src="./assets/diagram/figma-final/I-03.png" alt="I-03 — Dashboard warga" width="360"> |
+| [I-04](#I-04) | Tagihan iuran final | UC02 / Warga | <img src="./assets/diagram/figma-final/I-04.png" alt="I-04 — Tagihan iuran final" width="360"> |
+| [I-05](#I-05) | Buat laporan gangguan | UC03 / Warga | <img src="./assets/diagram/figma-final/I-05.png" alt="I-05 — Buat laporan gangguan" width="360"> |
+| [I-06](#I-06) | Daftar laporan saya | UC04 / Warga | <img src="./assets/diagram/figma-final/I-06.png" alt="I-06 — Daftar laporan saya" width="360"> |
+| [I-07](#I-07) | Detail dan riwayat laporan | UC04 / Warga | <img src="./assets/diagram/figma-final/I-07.png" alt="I-07 — Detail dan riwayat laporan" width="360"> |
+| [I-08](#I-08) | Peringatan perangkat | UC05 / Teknisi | <img src="./assets/diagram/figma-final/I-08.png" alt="I-08 — Peringatan perangkat" width="360"> |
+| [I-09](#I-09) | Histori panel surya | UC06 / Teknisi | <img src="./assets/diagram/figma-final/I-09.png" alt="I-09 — Histori panel surya" width="360"> |
+| [I-10](#I-10) | Daftar tugas teknisi | UC07 / Teknisi | <img src="./assets/diagram/figma-final/I-10.png" alt="I-10 — Daftar tugas teknisi" width="360"> |
+| [I-11](#I-11) | Detail dan status tugas teknisi | UC07 / Teknisi | <img src="./assets/diagram/figma-final/I-11.png" alt="I-11 — Detail dan status tugas teknisi" width="360"> |
+| [I-12](#I-12) | Form pemeliharaan | UC08 / Teknisi | <img src="./assets/diagram/figma-final/I-12.png" alt="I-12 — Form pemeliharaan" width="360"> |
+| [I-13](#I-13) | Analitik komunal | UC09 / Pengurus | <img src="./assets/diagram/figma-final/I-13.png" alt="I-13 — Analitik komunal" width="360"> |
+| [I-14](#I-14) | Kalkulasi dan finalisasi iuran | UC10 / Pengurus | <img src="./assets/diagram/figma-final/I-14.png" alt="I-14 — Kalkulasi dan finalisasi iuran" width="360"> |
+| [I-15](#I-15) | Rekapitulasi iuran | UC11 / Pengurus | <img src="./assets/diagram/figma-final/I-15.png" alt="I-15 — Rekapitulasi iuran" width="360"> |
+| [I-16](#I-16) | Persetujuan akun | UC14 / Pengurus | <img src="./assets/diagram/figma-final/I-16.png" alt="I-16 — Persetujuan akun" width="360"> |
+| [I-10-M](#I-10-M) | Daftar tugas teknisi (mobile) | UC07 / Teknisi | <img src="./assets/diagram/figma-final/I-10-M.png" alt="I-10-M — Daftar tugas teknisi (mobile)" width="180"> |
+| [I-11-M](#I-11-M) | Detail dan status tugas teknisi (mobile) | UC07 / Teknisi | <img src="./assets/diagram/figma-final/I-11-M.png" alt="I-11-M — Detail dan status tugas teknisi (mobile)" width="180"> |
+| [I-12-M](#I-12-M) | Form pemeliharaan (mobile) | UC08 / Teknisi | <img src="./assets/diagram/figma-final/I-12-M.png" alt="I-12-M — Form pemeliharaan (mobile)" width="180"> |
+
 
 # BAB 7: Matriks Kerunutan
 
