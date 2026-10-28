@@ -28,6 +28,7 @@
 * [Milestone 4](#milestone-4)
 * [Milestone 6](#milestone-6)
 * [Milestone 7](#milestone-7)
+* [Milestone 8](#milestone-8)
 
 ---
 
@@ -118,4 +119,20 @@
 | 21-10-2026 | Muhammad Rafiandhi Suryadinata | Menyusun BAB 5 Matriks Kerunutan (kelas analisis dan kelas perancangan terhadap use case), mengintegrasikan BAB 4, menyiapkan Form Asistensi dan Logbook M7, serta final review konsistensi dokumen DPPL. | 4 | Done | - |
 
 **Catatan/Evaluasi Milestone 7:**
+* (Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim).
+
+---
+
+### Milestone 8
+**Periode:** 22-10-2026 - 28-10-2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 27-10-2026 | Muhammad Faiz Ramadhan | Menyusun Bab 1 hingga Bab 4 dan Spesifikasi UC12, UC13, UC14. | 5 | Done | - |
+| 28-10-2026 | Andro Irsa Syafiq | Quality Assurance (QA) Bab 5, Penyusunan Logbook, dan Spesifikasi UC01, UC06. | 4 | Done | - |
+| 27-10-2026 | Rionaldo Casey Pandhitha | Menyusun Bab 6 (Perancangan Antarmuka) dan Spesifikasi UC03, UC04, UC07. | 6 | Done | - |
+| 27-10-2026 | Raffi Fauzi Hermawan | Menyusun Bab 5 (Perancangan Rinci Kelas) dan Spesifikasi UC09, UC10, UC11. | 6 | Done | - |
+| 28-10-2026 | Muhammad Rafiandhi Suryadinata | Menyusun Bab 7 (Matriks Kerunutan) dan Spesifikasi UC02, UC05, UC08. | 5 | Done | - |
+
+**Catatan/Evaluasi Milestone 8:**
 * (Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim).
