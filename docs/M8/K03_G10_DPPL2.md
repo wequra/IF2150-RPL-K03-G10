@@ -2020,6 +2020,16 @@ FUNCTION hitungTotal(tarif, pemakaian) -> Double
 END FUNCTION
 ```
 
+**Nama Kelas:** *Tagihan*  
+**Nama Operasi:** `+ sudahFinal(): Boolean`  
+**ID Algoritma:** *Algo-052*
+
+```text
+FUNCTION sudahFinal() -> Boolean
+    RETURN this.status = StatusTagihan.FINAL
+END FUNCTION
+```
+
 ---
 
 ## 5.18 Kelas StatusTagihan
@@ -3097,6 +3107,20 @@ FUNCTION hitungAgregatKomunal(idPeriode) -> RingkasanPemakaian
 END FUNCTION
 ```
 
+**Nama Kelas:** *ModulIuran*  
+**Nama Operasi:** `+ ambilTagihanWarga(idWarga: Integer, idPeriode: String): Tagihan?`  
+**ID Algoritma:** *Algo-050*
+
+```text
+FUNCTION ambilTagihanWarga(idWarga, idPeriode) -> Tagihan?
+    periode ← data.ambilPeriode(idPeriode)
+    IF periode = NULL OR NOT periode.isFinal() THEN RETURN NULL
+    tagihan ← data.ambilTagihan(idWarga, idPeriode)
+    IF tagihan = NULL OR NOT tagihan.sudahFinal() THEN RETURN NULL
+    RETURN tagihan
+END FUNCTION
+```
+
 ---
 
 ## 5.45 Kelas ModulNotifikasi
@@ -3136,6 +3160,21 @@ FUNCTION kirimPeringatanDayaKritis(baterai) -> Boolean
         IF NOT notif.kirim() THEN data.simpanNotifikasi(notif) END IF
     END FOR
     RETURN TRUE
+END FUNCTION
+```
+
+**Nama Kelas:** *ModulNotifikasi*  
+**Nama Operasi:** `+ kirimUlangPending(idTeknisi: String): Integer`  
+**ID Algoritma:** *Algo-051*
+
+```text
+FUNCTION kirimUlangPending(idTeknisi) -> Integer
+    daftar ← data.ambilNotifikasiPending(idTeknisi)
+    terkirim ← 0
+    FOR EACH notif IN daftar DO
+        IF notif.kirim() THEN terkirim ← terkirim + 1 END IF
+    END FOR
+    RETURN terkirim
 END FUNCTION
 ```
 
@@ -3234,6 +3273,119 @@ Tabel 5.47.3. Query Operasi ambilHistorisKinerja
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
 | Q-001 | `SELECT * FROM data_historis_kinerja WHERE id_panel = ? AND waktu BETWEEN ? AND ?` | Ambil historis dalam rentang. |
+
+**Nama Kelas:** *DataPerangkatBoundary*  
+**Nama Operasi:** `+ cariPenugasanPerangkat(idPerangkat: String): List<PenugasanPerangkat>`  
+**ID Algoritma:** *Algo-043*
+
+```text
+FUNCTION cariPenugasanPerangkat(idPerangkat) -> List<PenugasanPerangkat>
+    rows ← database.query(
+        "SELECT id_penugasan, id_teknisi, id_perangkat FROM penugasan_perangkat WHERE id_perangkat = ?",
+        {idPerangkat})
+    RETURN mapRowsToPenugasan(rows)
+END FUNCTION
+```
+
+Tabel 5.47.4. Query Operasi cariPenugasanPerangkat
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-001 | `SELECT id_penugasan, id_teknisi, id_perangkat FROM penugasan_perangkat WHERE id_perangkat = ?` | Cari teknisi yang bertanggung jawab atas perangkat (UC05). |
+
+**Nama Kelas:** *DataPerangkatBoundary*  
+**Nama Operasi:** `+ simpanNotifikasi(notif: Notifikasi): Boolean`  
+**ID Algoritma:** *Algo-044*
+
+```text
+FUNCTION simpanNotifikasi(notif) -> Boolean
+    TRY
+        database.execute(
+            "INSERT INTO notifikasi (id_notifikasi, id_teknisi, pesan, level, kapasitas_saat_ini,
+                                     status_pengiriman, status_baca, waktu)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            {notif.idNotifikasi, notif.penerima, notif.pesan, notif.level, notif.kapasitasSaatIni,
+             "PENDING", FALSE, notif.waktu})
+        RETURN TRUE
+    CATCH SQLException
+        RETURN FALSE
+    END TRY
+END FUNCTION
+```
+
+Tabel 5.47.5. Query Operasi simpanNotifikasi
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-001 | `INSERT INTO notifikasi (id_notifikasi, id_teknisi, pesan, level, kapasitas_saat_ini, status_pengiriman, status_baca, waktu) VALUES (?, ?, ?, ?, ?, ?, ?, ?)` | Simpan notifikasi berstatus `PENDING` ketika pengiriman gagal (UC05 Alt 1). |
+
+**Nama Kelas:** *DataPerangkatBoundary*  
+**Nama Operasi:** `+ ambilNotifikasiPending(idTeknisi: String): List<PeringatanDayaKritis>`  
+**ID Algoritma:** *Algo-045*
+
+```text
+FUNCTION ambilNotifikasiPending(idTeknisi) -> List<PeringatanDayaKritis>
+    rows ← database.query(
+        "SELECT id_notifikasi, pesan, level, kapasitas_saat_ini, waktu
+         FROM notifikasi
+         WHERE id_teknisi = ? AND status_pengiriman = 'PENDING'
+         ORDER BY waktu ASC",
+        {idTeknisi})
+    RETURN mapRowsToPeringatan(rows)
+END FUNCTION
+```
+
+Tabel 5.47.6. Query Operasi ambilNotifikasiPending
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-001 | `SELECT id_notifikasi, pesan, level, kapasitas_saat_ini, waktu FROM notifikasi WHERE id_teknisi = ? AND status_pengiriman = 'PENDING' ORDER BY waktu ASC` | Ambil notifikasi yang belum terkirim, urut dari yang terlama (UC05 Alt 1). |
+
+**Nama Kelas:** *DataPerangkatBoundary*  
+**Nama Operasi:** `+ cariPerangkat(idPerangkat: String): Perangkat?`  
+**ID Algoritma:** *Algo-046*
+
+```text
+FUNCTION cariPerangkat(idPerangkat) -> Perangkat?
+    rows ← database.query(
+        "SELECT id_perangkat, jenis_perangkat, lokasi FROM perangkat WHERE id_perangkat = ?",
+        {idPerangkat})
+    IF rows.isEmpty() THEN RETURN NULL
+    RETURN mapRowToPerangkat(rows[0])
+END FUNCTION
+```
+
+Tabel 5.47.7. Query Operasi cariPerangkat
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-001 | `SELECT id_perangkat, jenis_perangkat, lokasi FROM perangkat WHERE id_perangkat = ?` | Pastikan perangkat yang dipelihara terdaftar (UC08). |
+
+**Nama Kelas:** *DataPerangkatBoundary*  
+**Nama Operasi:** `+ simpanCatatan(catatan: CatatanPemeliharaan): Boolean`  
+**ID Algoritma:** *Algo-047*
+
+```text
+FUNCTION simpanCatatan(catatan) -> Boolean
+    TRY
+        database.execute(
+            "INSERT INTO catatan_pemeliharaan (id_catatan, id_teknisi, id_perangkat,
+                                               waktu_pelaksanaan, tindakan, catatan_hasil)
+             VALUES (?, ?, ?, ?, ?, ?)",
+            {catatan.idCatatan, catatan.idTeknisi, catatan.idPerangkat,
+             catatan.waktuPelaksanaan, catatan.tindakan, catatan.catatanHasil})
+        RETURN TRUE
+    CATCH SQLException
+        RETURN FALSE
+    END TRY
+END FUNCTION
+```
+
+Tabel 5.47.8. Query Operasi simpanCatatan
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-001 | `INSERT INTO catatan_pemeliharaan (id_catatan, id_teknisi, id_perangkat, waktu_pelaksanaan, tindakan, catatan_hasil) VALUES (?, ?, ?, ?, ?, ?)` | Simpan catatan pemeliharaan beserta identitas teknisi, perangkat, dan waktu (UC08). |
 
 ---
 
@@ -3339,6 +3491,47 @@ Tabel 5.49.3. Query Operasi ambilPemakaianPeriode
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
 | Q-001 | `SELECT id_warga, volume_air_m3, energi_kwh, waktu_catat FROM data_pemakaian WHERE id_periode = ?` | Ambil pemakaian periode. |
+
+**Nama Kelas:** *DataIuranBoundary*  
+**Nama Operasi:** `+ ambilPeriode(idPeriode: String): Periode?`  
+**ID Algoritma:** *Algo-048*
+
+```text
+FUNCTION ambilPeriode(idPeriode) -> Periode?
+    rows ← database.query(
+        "SELECT id_periode, bulan, tahun, status_final FROM periode WHERE id_periode = ?",
+        {idPeriode})
+    IF rows.isEmpty() THEN RETURN NULL
+    RETURN mapRowToPeriode(rows[0])
+END FUNCTION
+```
+
+Tabel 5.49.4. Query Operasi ambilPeriode
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-001 | `SELECT id_periode, bulan, tahun, status_final FROM periode WHERE id_periode = ?` | Ambil satu periode beserta status finalnya (UC02). |
+
+**Nama Kelas:** *DataIuranBoundary*  
+**Nama Operasi:** `+ ambilTagihan(idWarga: Integer, idPeriode: String): Tagihan?`  
+**ID Algoritma:** *Algo-049*
+
+```text
+FUNCTION ambilTagihan(idWarga, idPeriode) -> Tagihan?
+    rows ← database.query(
+        "SELECT id_tagihan, id_warga, id_periode, jumlah_iuran, data_pemakaian_dasar, status
+         FROM tagihan WHERE id_warga = ? AND id_periode = ?",
+        {idWarga, idPeriode})
+    IF rows.isEmpty() THEN RETURN NULL
+    RETURN mapRowToTagihan(rows[0])
+END FUNCTION
+```
+
+Tabel 5.49.5. Query Operasi ambilTagihan
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-001 | `SELECT id_tagihan, id_warga, id_periode, jumlah_iuran, data_pemakaian_dasar, status FROM tagihan WHERE id_warga = ? AND id_periode = ?` | Ambil tagihan milik warga pada periode terpilih (UC02); filter `id_warga` memastikan warga hanya melihat tagihannya sendiri. |
 
 ---
 
@@ -4065,12 +4258,87 @@ Tabel 6.21. Rancangan Antarmuka Keseluruhan
 
 # BAB 7: Matriks Kerunutan
 
-Petakan kelas perancangan dengan use case yang terkait. Gunakan **BAB 6 Traceability pada dokumen SKPL** sebagai acuan keterkaitan kelas analisis dan use case, lalu sesuaikan dengan realisasi use case dan kelas perancangan pada BAB 3–BAB 5 DPPL.
+Bab ini memetakan kelas perancangan ke use case yang direalisasikannya, dan sebaliknya. Acuan utama adalah **BAB 6 Traceability pada dokumen SKPL** (kelas analisis → use case), disesuaikan dengan realisasi use case pada BAB 3, diagram kelas BAB 4, dan perancangan rinci kelas BAB 5. Komponen perancangan tanpa ID Cxx diturunkan dari Tabel 2.1 dan Tabel 3.1 dokumen APL.
 
-Tabel 7.1. Matriks Kerunutan Kelas terhadap Use Case
+Tabel 7.1. Matriks Kerunutan Kelas Analisis (C01–C28) terhadap Use Case
 
 | Kelas | Use Case Terkait |
 | :--- | :--- |
-| *[ID kelas - Nama kelas]* | *[ID UC - Nama use case; tuliskan seluruh use case terkait]* |
-| *[ID kelas - Nama kelas]* | *[ID UC - Nama use case]* |
-| *...* | *...* |
+| C01 – Akun | UC09 – Menganalisis Pemakaian Komunal; UC12 – Melakukan Registrasi Akun; UC13 – Melakukan Login Akun; UC14 – Mengelola Persetujuan Akun |
+| C02 – Warga | UC01 – Memantau Ketersediaan Air dan Energi; UC02 – Melihat Tagihan Iuran Final; UC03 – Mengirim Laporan Gangguan; UC04 – Menelusuri Status Laporan Gangguan; UC10 – Menghitung dan Menetapkan Iuran Warga; UC12 – Melakukan Registrasi Akun; UC13 – Melakukan Login Akun |
+| C03 – Teknisi | UC05 – Menerima Peringatan Dini Daya Kritis; UC06 – Memantau Riwayat Kinerja Panel Surya; UC07 – Memperbarui Status Penanganan Gangguan; UC08 – Mencatat Kegiatan Pemeliharaan; UC12 – Melakukan Registrasi Akun; UC13 – Melakukan Login Akun |
+| C04 – Pengurus | UC09 – Menganalisis Pemakaian Komunal; UC10 – Menghitung dan Menetapkan Iuran Warga; UC11 – Membuat Rekapitulasi Pemakaian dan Iuran; UC12 – Melakukan Registrasi Akun; UC13 – Melakukan Login Akun; UC14 – Mengelola Persetujuan Akun |
+| C05 – CalonPengguna | UC12 – Melakukan Registrasi Akun |
+| C06 – StatusAkun | UC12 – Melakukan Registrasi Akun; UC13 – Melakukan Login Akun; UC14 – Mengelola Persetujuan Akun |
+| C07 – Perangkat | UC01 – Memantau Ketersediaan Air dan Energi; UC05 – Menerima Peringatan Dini Daya Kritis; UC06 – Memantau Riwayat Kinerja Panel Surya; UC08 – Mencatat Kegiatan Pemeliharaan |
+| C08 – TangkiAir | UC01 – Memantau Ketersediaan Air dan Energi |
+| C09 – Baterai | UC01 – Memantau Ketersediaan Air dan Energi; UC05 – Menerima Peringatan Dini Daya Kritis |
+| C10 – PanelSurya | UC01 – Memantau Ketersediaan Air dan Energi; UC06 – Memantau Riwayat Kinerja Panel Surya |
+| C11 – PembacaanSensor | UC01 – Memantau Ketersediaan Air dan Energi |
+| C12 – DataHistorisKinerja | UC06 – Memantau Riwayat Kinerja Panel Surya |
+| C13 – RentangWaktu | UC06 – Memantau Riwayat Kinerja Panel Surya |
+| C14 – Periode | UC02 – Melihat Tagihan Iuran Final; UC09 – Menganalisis Pemakaian Komunal; UC10 – Menghitung dan Menetapkan Iuran Warga; UC11 – Membuat Rekapitulasi Pemakaian dan Iuran |
+| C15 – DataPemakaian | UC09 – Menganalisis Pemakaian Komunal; UC10 – Menghitung dan Menetapkan Iuran Warga; UC11 – Membuat Rekapitulasi Pemakaian dan Iuran |
+| C16 – AturanTarif | UC10 – Menghitung dan Menetapkan Iuran Warga |
+| C17 – Tagihan | UC02 – Melihat Tagihan Iuran Final; UC10 – Menghitung dan Menetapkan Iuran Warga; UC11 – Membuat Rekapitulasi Pemakaian dan Iuran |
+| C18 – StatusTagihan | UC10 – Menghitung dan Menetapkan Iuran Warga; UC11 – Membuat Rekapitulasi Pemakaian dan Iuran |
+| C19 – KalkulatorIuran | UC10 – Menghitung dan Menetapkan Iuran Warga |
+| C20 – LaporanGangguan | UC03 – Mengirim Laporan Gangguan; UC04 – Menelusuri Status Laporan Gangguan; UC07 – Memperbarui Status Penanganan Gangguan |
+| C21 – StatusLaporan | UC03 – Mengirim Laporan Gangguan; UC04 – Menelusuri Status Laporan Gangguan; UC07 – Memperbarui Status Penanganan Gangguan |
+| C22 – RiwayatStatusLaporan | UC04 – Menelusuri Status Laporan Gangguan; UC07 – Memperbarui Status Penanganan Gangguan |
+| C23 – PenugasanPerangkat | UC05 – Menerima Peringatan Dini Daya Kritis |
+| C24 – PenugasanLaporan | UC07 – Memperbarui Status Penanganan Gangguan |
+| C25 – Notifikasi | UC05 – Menerima Peringatan Dini Daya Kritis |
+| C26 – PeringatanDayaKritis | UC05 – Menerima Peringatan Dini Daya Kritis |
+| C27 – CatatanPemeliharaan | UC08 – Mencatat Kegiatan Pemeliharaan |
+| C28 – Rekapitulasi | UC11 – Membuat Rekapitulasi Pemakaian dan Iuran |
+
+Perbedaan terhadap Tabel 6.1 SKPL: `StatusLaporan` (C21) juga dipakai UC04 karena status terkini laporan ditampilkan pada penelusuran, dan `Akun` (C01) juga dipakai UC09 karena akun dipakai untuk memeriksa kewenangan Pengurus. Keduanya mengikuti Tabel 3.4 dan Tabel 3.9.
+
+Tabel 7.2. Matriks Kerunutan Kelas Perancangan Tambahan terhadap Use Case
+
+| Kelas Perancangan | Jenis | Use Case Terkait |
+| :--- | :--- | :--- |
+| AuthView | View (Presentation) | UC12 – Melakukan Registrasi Akun; UC13 – Melakukan Login Akun |
+| PengurusView | View (Presentation) | UC09 – Menganalisis Pemakaian Komunal; UC10 – Menghitung dan Menetapkan Iuran Warga; UC11 – Membuat Rekapitulasi Pemakaian dan Iuran; UC14 – Mengelola Persetujuan Akun |
+| TeknisiView | View (Presentation) | UC05 – Menerima Peringatan Dini Daya Kritis; UC06 – Memantau Riwayat Kinerja Panel Surya; UC07 – Memperbarui Status Penanganan Gangguan; UC08 – Mencatat Kegiatan Pemeliharaan |
+| WargaView | View (Presentation) | UC01 – Memantau Ketersediaan Air dan Energi; UC02 – Melihat Tagihan Iuran Final; UC03 – Mengirim Laporan Gangguan; UC04 – Menelusuri Status Laporan Gangguan |
+| TelemetriAPI | API (Presentation) | UC01 – Memantau Ketersediaan Air dan Energi; UC05 – Menerima Peringatan Dini Daya Kritis; UC06 – Memantau Riwayat Kinerja Panel Surya |
+| AkunController | Controller (Business) | UC12 – Melakukan Registrasi Akun; UC13 – Melakukan Login Akun; UC14 – Mengelola Persetujuan Akun |
+| IuranController | Controller (Business) | UC02 – Melihat Tagihan Iuran Final; UC09 – Menganalisis Pemakaian Komunal; UC10 – Menghitung dan Menetapkan Iuran Warga; UC11 – Membuat Rekapitulasi Pemakaian dan Iuran |
+| LaporanController | Controller (Business) | UC03 – Mengirim Laporan Gangguan; UC04 – Menelusuri Status Laporan Gangguan; UC07 – Memperbarui Status Penanganan Gangguan |
+| MonitoringController | Controller (Business) | UC01 – Memantau Ketersediaan Air dan Energi; UC05 – Menerima Peringatan Dini Daya Kritis; UC06 – Memantau Riwayat Kinerja Panel Surya |
+| PemeliharaanController | Controller (Business) | UC08 – Mencatat Kegiatan Pemeliharaan |
+| Validasi | Utilitas (Business) | Seluruh use case (UC01–UC14) |
+| ModulAkun | Modul domain (Business) | UC03 – Mengirim Laporan Gangguan; UC12 – Melakukan Registrasi Akun; UC13 – Melakukan Login Akun; UC14 – Mengelola Persetujuan Akun |
+| ModulIuran | Modul domain (Business) | UC02 – Melihat Tagihan Iuran Final; UC09 – Menganalisis Pemakaian Komunal; UC10 – Menghitung dan Menetapkan Iuran Warga; UC11 – Membuat Rekapitulasi Pemakaian dan Iuran |
+| ModulLaporan | Modul domain (Business) | UC03 – Mengirim Laporan Gangguan; UC04 – Menelusuri Status Laporan Gangguan; UC07 – Memperbarui Status Penanganan Gangguan |
+| ModulMonitoring | Modul domain (Business) | UC01 – Memantau Ketersediaan Air dan Energi; UC05 – Menerima Peringatan Dini Daya Kritis; UC06 – Memantau Riwayat Kinerja Panel Surya |
+| ModulNotifikasi | Modul domain (Business) | UC05 – Menerima Peringatan Dini Daya Kritis |
+| ModulPemeliharaan | Modul domain (Business) | UC08 – Mencatat Kegiatan Pemeliharaan |
+| DataAkunBoundary | Data boundary (Data Access) | UC03 – Mengirim Laporan Gangguan; UC12 – Melakukan Registrasi Akun; UC13 – Melakukan Login Akun; UC14 – Mengelola Persetujuan Akun |
+| DataIuranBoundary | Data boundary (Data Access) | UC02 – Melihat Tagihan Iuran Final; UC09 – Menganalisis Pemakaian Komunal; UC10 – Menghitung dan Menetapkan Iuran Warga; UC11 – Membuat Rekapitulasi Pemakaian dan Iuran |
+| DataLaporanBoundary | Data boundary (Data Access) | UC03 – Mengirim Laporan Gangguan; UC04 – Menelusuri Status Laporan Gangguan; UC07 – Memperbarui Status Penanganan Gangguan |
+| DataPerangkatBoundary | Data boundary (Data Access) | UC01 – Memantau Ketersediaan Air dan Energi; UC05 – Menerima Peringatan Dini Daya Kritis; UC06 – Memantau Riwayat Kinerja Panel Surya; UC08 – Mencatat Kegiatan Pemeliharaan |
+| Database | Database | Seluruh use case (UC01–UC14) |
+
+`ModulAkun` dan `DataAkunBoundary` juga dipakai UC03 untuk memverifikasi keanggotaan warga (lihat Tabel 3.3), selain pada UC12–UC14. Semua controller memanggil `Validasi`, dan semua use case mengakses `Database` melalui data boundary terkait.
+
+Tabel 7.3. Matriks Kerunutan Use Case terhadap Kelas
+
+| Use Case | Kelas Analisis | Kelas Perancangan Tambahan |
+| :--- | :--- | :--- |
+| UC01 – Memantau Ketersediaan Air dan Energi | C02, C07, C08, C09, C10, C11 | WargaView, TelemetriAPI, MonitoringController, Validasi, ModulMonitoring, DataPerangkatBoundary, Database |
+| UC02 – Melihat Tagihan Iuran Final | C02, C14, C17 | WargaView, IuranController, Validasi, ModulIuran, DataIuranBoundary, Database |
+| UC03 – Mengirim Laporan Gangguan | C02, C20, C21 | WargaView, LaporanController, Validasi, ModulAkun, ModulLaporan, DataAkunBoundary, DataLaporanBoundary, Database |
+| UC04 – Menelusuri Status Laporan Gangguan | C02, C20, C21, C22 | WargaView, LaporanController, Validasi, ModulLaporan, DataLaporanBoundary, Database |
+| UC05 – Menerima Peringatan Dini Daya Kritis | C03, C07, C09, C23, C25, C26 | TeknisiView, TelemetriAPI, MonitoringController, Validasi, ModulMonitoring, ModulNotifikasi, DataPerangkatBoundary, Database |
+| UC06 – Memantau Riwayat Kinerja Panel Surya | C03, C07, C10, C12, C13 | TeknisiView, TelemetriAPI, MonitoringController, Validasi, ModulMonitoring, DataPerangkatBoundary, Database |
+| UC07 – Memperbarui Status Penanganan Gangguan | C03, C20, C21, C22, C24 | TeknisiView, LaporanController, Validasi, ModulLaporan, DataLaporanBoundary, Database |
+| UC08 – Mencatat Kegiatan Pemeliharaan | C03, C07, C27 | TeknisiView, PemeliharaanController, Validasi, ModulPemeliharaan, DataPerangkatBoundary, Database |
+| UC09 – Menganalisis Pemakaian Komunal | C01, C04, C14, C15 | PengurusView, IuranController, Validasi, ModulIuran, DataIuranBoundary, Database |
+| UC10 – Menghitung dan Menetapkan Iuran Warga | C02, C04, C14, C15, C16, C17, C18, C19 | PengurusView, IuranController, Validasi, ModulIuran, DataIuranBoundary, Database |
+| UC11 – Membuat Rekapitulasi Pemakaian dan Iuran | C04, C14, C15, C17, C18, C28 | PengurusView, IuranController, Validasi, ModulIuran, DataIuranBoundary, Database |
+| UC12 – Melakukan Registrasi Akun | C01, C02, C03, C04, C05, C06 | AuthView, AkunController, Validasi, ModulAkun, DataAkunBoundary, Database |
+| UC13 – Melakukan Login Akun | C01, C02, C03, C04, C06 | AuthView, AkunController, Validasi, ModulAkun, DataAkunBoundary, Database |
+| UC14 – Mengelola Persetujuan Akun | C01, C04, C06 | PengurusView, AkunController, Validasi, ModulAkun, DataAkunBoundary, Database |
