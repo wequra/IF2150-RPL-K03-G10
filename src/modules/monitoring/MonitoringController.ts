@@ -1,4 +1,6 @@
 import { ModulMonitoring, type PeringatanTampil } from './ModulMonitoring';
+import { ModulNotifikasi } from '../notifikasi/ModulNotifikasi';
+import { DataPerangkatBoundary } from './DataPerangkatBoundary';
 import type { 
   StatusInfrastruktur, 
   MasukanTelemetri, 
@@ -38,6 +40,18 @@ export class MonitoringController {
       return { ok: false, kode: 'GAGAL_SIMPAN', pesan: 'Gagal menyimpan data telemetri' };
     } catch (error) {
       return { ok: false, kode: 'GAGAL_INTERNAL', pesan: 'Kesalahan internal server' };
+    }
+  }
+
+  async prosesTelemetriBaterai(idPerangkat: string, kapasitas: number): Promise<void> {
+    const perangkat = await this.dataBoundary.cariBaterai(idPerangkat);
+
+    if (perangkat && perangkat.jenisPerangkat === 'BATERAI') {
+      const ambangBatas = perangkat.ambangBatasAman || 20;
+
+      if (kapasitas < ambangBatas) {
+        await this.modulNotifikasi.kirimPeringatanDayaKritis(idPerangkat, kapasitas);
+      }
     }
   }
 

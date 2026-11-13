@@ -132,16 +132,4 @@ export class DataPerangkatBoundary {
     });
   }
 
-  async ambilHistorisKinerja(idPanel: string, rentang: { waktuMulai: Date; waktuSelesai: Date }) {
-    return prisma.dataHistorisKinerja.findMany({
-      where: {
-        idPanel: idPanel,
-        waktu: {
-          gte: rentang.waktuMulai,
-          lte: rentang.waktuSelesai,
-        },
-      },
-      orderBy: { waktu: 'asc' }, 
-    });
-  }
 }
