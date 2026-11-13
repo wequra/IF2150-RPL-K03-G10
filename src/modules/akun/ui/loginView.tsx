@@ -5,11 +5,13 @@
  * dan meneruskan isiannya ke API. Dasbor tujuan ditentukan server dari akun;
  * parameter `next` hanya dipakai bila lolos penyaringan dan tetap dibatasi
  * peran oleh middleware.
- * Ganti elemen dasar dengan components/ui dari shell bila sudah tersedia.
  */
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
+import AuthShell from '@/components/shell/AuthShell';
+import PageTitle from '@/components/shell/PageTitle';
+import { Alert, Button, Card, Field, Input } from '@/components/ui';
 import { urlTujuanAman } from './tujuan';
 
 export default function LoginView() {
@@ -52,66 +54,51 @@ export default function LoginView() {
   }
 
   return (
-    <main className="mx-auto max-w-md p-6">
-      <h1 className="text-2xl font-semibold">Masuk</h1>
+    <AuthShell>
+      <Card>
+        <PageTitle judul="Masuk" deskripsi="Gunakan akun komunitas yang sudah disetujui Pengurus." />
 
-      <form onSubmit={tekanMasuk} className="mt-4 space-y-4" noValidate>
-        {pesan && (
-          <p role="alert" className="text-red-600">
-            {pesan}
-          </p>
-        )}
-        {berhasil && (
-          <p role="status">Berhasil masuk. Mengalihkan ke dasbor…</p>
-        )}
+        <form onSubmit={tekanMasuk} noValidate>
+          {pesan && <Alert nada="bahaya">{pesan}</Alert>}
+          {berhasil && <Alert>Berhasil masuk. Mengalihkan ke dasbor…</Alert>}
 
-        <div>
-          <label htmlFor="email" className="block font-medium">
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded border p-2"
-          />
-        </div>
+          <Field label="Email *">
+            {(p) => (
+              <Input
+                {...p}
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            )}
+          </Field>
 
-        <div>
-          <label htmlFor="password" className="block font-medium">
-            Kata sandi
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded border p-2"
-          />
-        </div>
+          <Field label="Kata sandi *">
+            {(p) => (
+              <Input
+                {...p}
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            )}
+          </Field>
 
-        <button
-          type="submit"
-          disabled={sedangKirim}
-          className="w-full rounded bg-blue-700 p-2 text-white disabled:opacity-60"
-        >
-          {sedangKirim ? 'Memproses…' : 'Masuk'}
-        </button>
-      </form>
+          <Button type="submit" varian="primary" className="btn-block" disabled={sedangKirim}>
+            {sedangKirim ? 'Memproses…' : 'Masuk'}
+          </Button>
+        </form>
+      </Card>
 
-      <p className="mt-4">
-        Belum punya akun?{' '}
-        <Link href="/registrasi" className="underline">
-          Daftar akun
-        </Link>
+      <p className="auth-foot">
+        Belum punya akun? <Link href="/registrasi">Daftar akun</Link>
       </p>
-    </main>
+    </AuthShell>
   );
 }
