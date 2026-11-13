@@ -258,8 +258,12 @@ Tabel B.4. Kontribusi Anggota
 
 | NIM | Nama | Modul / Fitur yang Dikerjakan | Persentase Kontribusi |
 | :--- | :--- | :--- | :--- |
-| *[NIM 1]* | *[Nama]* | *[Modul/fitur]* | *[%]* |
-| *...* | *...* | *...* | *...* |
+| 13525129 | Andro Irsa Syafiq | Fondasi proyek (dependensi, Docker Compose, `.env.example`); modul monitoring, telemetri, simulator sensor, dan peringatan daya kritis (UC01, UC05, UC06) | *[20%]* |
+| 13525006 | Muhammad Rafiandhi Suryadinata | Skema basis data dan seed; modul pemeliharaan (UC08); profiling; README dan pengujian lintas modul | *[20%]* |
+| 13525078 | Muhammad Faiz Ramadhan | Autentikasi dan akun (UC12, UC13, UC14); lapisan sesi dan middleware; dokumen kelompok | *[20%]* |
+| 13525030 | Rionaldo Casey Pandhitha | Kerangka antarmuka (layout, shell tiga dasbor, komponen UI); modul laporan gangguan (UC03, UC04, UC07) | *[20%]* |
+| 13525054 | Raffi Fauzi Hermawan | Kontrak antarmodul; modul iuran (UC02, UC09, UC10, UC11) dan ekspor rekapitulasi | *[20%]* |
+| | **Total** | | **100%** |
 
 ## B.5 Traceability Kelas Perancangan ke Implementasi
 
