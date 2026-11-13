@@ -7,6 +7,8 @@ import type {
   KondisiAir,
   MasukanTelemetri
 } from '../../contracts/monitoring';
+import { RentangWaktuDomain } from './entities/RentangWaktu';
+import type { TitikKinerja, RentangWaktu } from '../../contracts/monitoring';
 
 export class ModulMonitoring {
   private data: DataPerangkatBoundary;
@@ -87,5 +89,21 @@ export class ModulMonitoring {
 
   async catatPembacaan(bacaan: MasukanTelemetri): Promise<boolean> {
     return await this.data.simpanPembacaan(bacaan);
+  }
+
+  async ambilHistorisPanel(idPanel: string, rentangDto: RentangWaktu): Promise<TitikKinerja[]> {
+    const rentang = new RentangWaktuDomain(rentangDto.waktuMulai, rentangDto.waktuSelesai);
+    
+    if (!rentang.validasi()) {
+      throw new Error("Rentang waktu tidak valid");
+    }
+    
+    const historis = await this.data.ambilHistorisKinerja(idPanel, rentang);
+
+    return historis.map(h => ({
+      waktu: h.waktu.toISOString(),
+      dayaDihasilkan: h.dayaDihasilkan,
+      energi: h.energi,
+    }));
   }
 }

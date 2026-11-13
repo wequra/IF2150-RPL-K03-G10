@@ -7,6 +7,7 @@ import type {
   ResponTelemetri 
 } from '../../contracts/monitoring';
 import type { ApiRespons } from '../../contracts/common';
+import type { RentangWaktu, TitikKinerja } from '../../contracts/monitoring';
 
 export class MonitoringController {
   private modulMonitoring: ModulMonitoring;
@@ -32,7 +33,6 @@ export class MonitoringController {
     try {
       const sukses = await this.modulMonitoring.catatPembacaan(m);
       if (sukses) {
-        // TUGAS 7 NOV: Proses evaluasi peringatan kritis
         await this.prosesTelemetriBaterai(m.idPerangkat, m.nilai);
         return { ok: true, data: { diterima: true } };
       }
@@ -42,17 +42,30 @@ export class MonitoringController {
     }
   }
 
-  // Algo-024: Proses telemetri baterai dan peringatan kritis
   async prosesTelemetriBaterai(idPerangkat: string, kapasitas: number): Promise<void> {
     const perangkat = await this.dataBoundary.cariBaterai(idPerangkat);
     
     if (perangkat && perangkat.jenisPerangkat === 'BATERAI') {
-      const ambangBatas = perangkat.ambangBatasAman || 20; // 20% fallback aman
+      const ambangBatas = perangkat.ambangBatasAman || 20; 
       
-      // Algo-010: Cek kapasitas (diimplementasikan langsung di Controller untuk kesederhanaan Prisma mapping)
       if (kapasitas < ambangBatas) {
         await this.modulNotifikasi.kirimPeringatanDayaKritis(idPerangkat, kapasitas);
       }
+    }
+  }
+
+  async ambilRiwayatPanel(r: RentangWaktu): Promise<ApiRespons<TitikKinerja[]>> {
+    try {
+      const panel = await this.modulMonitoring.evaluasiKetersediaan();
+      const idPanel = "PANEL-01"; 
+
+      const hasil = await this.modulMonitoring.ambilHistorisPanel(idPanel, r);
+      return { ok: true, data: hasil };
+    } catch (error) {
+      if (error instanceof Error && error.message === "Rentang waktu tidak valid") {
+        return { ok: false, kode: 'VALIDASI_GAGAL', pesan: error.message };
+      }
+      return { ok: false, kode: 'GAGAL_INTERNAL', pesan: 'Gagal mengambil riwayat panel' };
     }
   }
 }
