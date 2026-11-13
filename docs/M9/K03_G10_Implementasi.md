@@ -7,34 +7,34 @@ IMPLEMENTASI PERANGKAT LUNAK
 </h1>
 <br>
 
-## *Nama Perangkat Lunak*
-### *[Logo Perangkat Lunak]*
+## *FAJAR TECH*
 
-### Untuk: *[Nama Asisten]*
+<p align="center">
+<img alt="Gambar Logo FAJAR TECH" src="./assets/lOGO.PNG" width="50%">
+</p>
+<p align="center">
+<i>Gambar Logo FAJAR TECH</i>
+</p>
+
+### Untuk: *Tigress / Agatha*
 
 Dipersiapkan oleh:
 | Informasi | Keterangan |
 | --- | --- |
-| Kelas | *\[Kelas\]* |
-| Kelompok | *\[Nomor Kelompok\]*  |
+| Kelas | K-3 |
+| Kelompok | 10 |
 
 | NIM | Nama |
-|---|---|
-| *[NIM 1]* | *[Nama Anggota 1]* |
-| *[NIM 2]* | *[Nama Anggota 2]* |
-| *[NIM 3]* | *[Nama Anggota 3]* |
-| *[NIM 4]* | *[Nama Anggota 4]* |
-| *[NIM 5]* | *[Nama Anggota 5]* |
----
-
-> **Petunjuk pengerjaan:** *[Silahkan hapus bagian ini setelah selesai mengerjakan]*
->
-> Dokumen ini adalah **spesifikasi sekaligus template laporan singkat** Tugas 9. Bagian **Ketentuan Implementasi** (Bagian A) adalah aturan yang harus kalian ikuti, boleh dihapus dari laporan akhir. Bagian **Laporan Implementasi** (Bagian B) adalah yang **wajib kalian isi**. Gunakan nama, ID, kebutuhan, use case, dan kelas yang konsisten dengan SKPL, APL, dan DPPL.
-
+| --- | --- |
+| *13525054* | *Raffi Fauzi Hermawan* |
+| *13525030* | *Rionaldo Casey Pandhitha* |
+| *13525129* | *Andro Irsa Syafiq* |
+| *13525078* | *Muhammad Faiz Ramadhan* |
+| *13525006* | *Muhammad Rafiandhi Suryadinata* |
 ---
 
 **Deadline:** Rabu, 11 November 2026, 21.50 WIB
-**Asistensi akbar:** *[Hari, DD Bulan YYYY, HH.MM WIB, lokasi/link]*
+**Asistensi akbar:** *[Senin, 02 November 2026, 19.00 WIB, Teams meet]*
 
 ---
 
@@ -200,26 +200,28 @@ Tabel B.1. Perubahan dari DPPL
 | 8 | Notifikasi saat status laporan berubah (UC07) | Tidak ada di DPPL. Rencana tim sempat menyebut pengiriman notifikasi. | Tidak diimplementasikan. Perubahan status tercatat di riwayat dan terlihat di I-07 dan I-11. | DPPL hanya mendefinisikan notifikasi untuk peringatan daya kritis (UC05). |
 | 9 | Kelas WargaView, TeknisiView, PengurusView | Tiga kelas view dengan operasi terhubung ke controller. | Komponen React: `components/shell` (sidebar, bottom-nav, judul layar) dan 14 layar `components/layar/LayarI03` sampai `LayarI16`, dipasang di rute `app/dashboard/{warga,teknisi,pengurus}`. | Next.js App Router. Operasi view menjadi handler event yang memanggil route API. |
 | 10 | Layar I-06 dan I-10 (pencarian dan filter) | Mockup menampilkan kolom pencarian dan filter status. | Pencarian dan filter berjalan di klien atas data yang sudah dibatasi server. | Daftar per akun kecil, jadi tidak perlu query tambahan. |
-| 11 | Realisasi UC12-UC14 (BAB 3) | `AkunController` memanggil `DataAkunBoundary` langsung, tanpa `ModulAkun` pada tabel identifikasi kelas. | Semua alur memakai jalur `View -> Controller -> ModulAkun -> DataAkunBoundary`. | Mengikuti pola berlapis pada BAB 2 dan Tabel 2.3 agar konsisten di seluruh use case. |
-| 12 | C01 `Akun.cocokKredensial` | Operasi sinkron yang mengembalikan `Boolean`. | Operasi asinkron (`Promise<boolean>`) yang memakai `verifyPassword` (scrypt). | Fungsi hash scrypt pada Node bersifat asinkron dan tidak boleh memblokir proses server. |
-| 13 | C01 `Akun` (operasi baru) | Tidak ada. | Ditambah `konteksSesi()` yang membentuk `KonteksSesi` untuk akun berstatus `DISETUJUI`. | Pengenal `idWarga`, `idKomunitas`, `idTeknisi`, dan `idPengurus` harus berasal dari server, bukan dari form; DPPL hanya mengembalikan `dashboardTujuan`. |
-| 14 | C02, C03, C04 (operasi lintas modul) | Entity memuat operasi modul lain, misalnya `kirimLaporan`, `lihatTagihan`, `ubahStatusLaporan`, `hitungIuran`, `buatRekapitulasi`. | Entity hanya memuat atribut, pengenal, `validasiKeanggotaan`, `verifikasiKewenangan`, dan `dashboardTujuan`. Operasi lintas modul diwujudkan di controller dan modul masing-masing, misalnya `kirimLaporan` dan `perbaruiStatus` di `LaporanController` dan `ModulLaporan`. | Menghindari kelas entity yang bergantung pada empat modul (God Class dan Mixing Concerns) serta konflik berkas antaranggota. |
-| 15 | C02, C03, C04 (atribut peran) | Atribut `idWarga`, `idKomunitas`, `statusTerdaftar`, `idTeknisi`, `kontak`, `idPengurus` selalu ada. | Atribut dikelompokkan pada objek profil yang boleh kosong; `konteksSesi()` melempar `AkunTidakLengkap` bila profil belum ada. | Akun berstatus `MENUNGGU` belum tentu memiliki profil peran, tetapi tetap harus dapat diautentikasi agar menerima pesan status yang benar. |
-| 16 | C04 `Pengurus.lihatAkunMenunggu`, `setujuiAkun`, `tolakAkun` | Operasi pada entity `Pengurus`. | Diwujudkan sebagai `AkunController.ambilAkunMenunggu`, `setujuiAkun`, `tolakAkun` dan `ModulAkun.daftarAkunMenunggu`, `ubahStatusPersetujuan`. | Konsisten dengan keputusan pada nomor 14. |
-| 17 | C05 `CalonPengguna.daftarkan` | Mengembalikan objek `Akun`. | Mengembalikan data akun (email, nama, hash kata sandi, peran, status `MENUNGGU`) yang disimpan oleh `ModulAkun.registrasiCalon`. | Proses hash asinkron dan penyimpanan membutuhkan data biasa; objek `Akun` dibentuk saat pembacaan lewat `Akun.buatAkun`. |
-| 18 | C06 `StatusAkun.label` | Enumerasi dengan operasi `label()`. | Konstanta `STATUS_AKUN` dan tipe gabungan `StatusAkun`; tidak ada operasi `label()`. | Nilai berupa string dipakai langsung; teks tampilan dikelola di komponen antarmuka. |
-| 19 | `AkunController` (parameter dan hasil) | `ambilAkunMenunggu`, `setujuiAkun`, `tolakAkun` menerima `pengurus: Pengurus`, dan `setujuiAkun`/`tolakAkun` mengembalikan `Boolean`. | Menerima `sesi: KonteksSesi`; kewenangan diperiksa ulang terhadap data terkini sebelum membaca atau mengubah apa pun; hasil berupa `HasilPersetujuan` (`TIDAK_DITEMUKAN`, `SUDAH_DIPROSES`). | Identitas dan peran berasal dari sesi server, dan pengajuan yang sudah diproses pihak lain harus dibedakan dari pengajuan yang tidak ada. |
-| 20 | `ModulAkun.cariEmail` (operasi baru) | Tidak ada; `AkunController.daftarkan` memanggil `DataAkunBoundary.cariEmail` langsung (Algo-029). | Ditambah `ModulAkun.cariEmail` yang diteruskan ke boundary. | Alasan sama dengan nomor 11. |
-| 21 | `ModulAkun.registrasiCalon`, `daftarAkunMenunggu`; `DataAkunBoundary.cariEmail`, `ambilBerdasarkanStatus` | Mengembalikan objek `Akun`. | Mengembalikan `AkunRingkas` (tanpa kata sandi). `ambilAkun` tetap mengembalikan `Akun` lengkap untuk autentikasi. | Hash kata sandi tidak boleh keluar dari lapisan data kecuali untuk autentikasi. |
-| 22 | `DataAkunBoundary.cariWarga` | Mengembalikan `Warga` dari tabel `warga`. | Mengembalikan `Warga` dengan kata sandi kosong yang tidak dapat dipakai untuk autentikasi. Dipakai `ModulLaporan` lewat `ModulAkun.ambilWarga` (lihat nomor 5). | Layanan laporan hanya membutuhkan keanggotaan, bukan kredensial. |
-| 23 | `DataAkunBoundary.perbaruiAkun(akun)` | Menyimpan perubahan akun. | Diganti `perbaruiStatusAkun(email, dari, ke)` berupa pembaruan bersyarat dalam satu perintah. | Dua Pengurus yang memproses pengajuan yang sama tidak boleh saling menimpa; hanya pengajuan yang masih `MENUNGGU` dapat diubah. |
-| 24 | `DataAkunBoundary.simpanAkun` | Mengembalikan `Boolean`. | Melempar `EmailSudahTerdaftar` bila email sudah dipakai (kode unik basis data). | Menangani kondisi balapan antara pengecekan email dan penyimpanan. |
-| 25 | `Validasi` (satu kelas) | Satu kelas memuat validasi laporan, pemeliharaan, periode, rentang waktu, dan registrasi. | Dipecah per modul. Bagian akun berada pada `modules/akun/validasi.ts` (kelas `Validasi`, ditambah `periksaRegistrasi` yang memberi pesan per kolom dan memeriksa peran); validasi laporan berupa fungsi `periksaLaporan` pada `modules/laporan/internal/validasi.ts` (lihat nomor 3 dan 6). | Mencegah satu berkas diedit banyak orang; antarmuka I-02 meminta penandaan per kolom. |
-| 26 | `Validasi.validasiRegistrasi` (Algo-031) | Email valid bila mengandung "@"; kata sandi minimal 8 karakter. | Email harus berformat sah (bagian lokal, "@", domain dengan titik) dan paling banyak 254 karakter; kata sandi 8 sampai 128 karakter. | Antarmuka I-02 meminta "format sah"; batas atas mencegah beban hash berlebihan. |
-| 27 | `Database` (kelas) | Kelas dengan `query`, `execute`, dan `transaksiStatus` atas SQL mentah. | Singleton Prisma Client (`src/lib/prisma.ts`) dengan adapter PostgreSQL; kueri memakai API Prisma. `transaksiStatus` diwujudkan oleh `simpanStatusDanRiwayat` pada `modules/laporan/repository.ts` dengan `$transaction` (lihat nomor 7). | Memakai ORM Prisma yang dipilih kelompok; koneksi diatur lewat `DATABASE_URL`. |
-| 28 | `AuthView` | Satu kelas View yang memegang `AkunController`. | Komponen React `RegistrasiView` dan `LoginView` yang memanggil route handler (`/api/auth/registrasi`, `/api/auth/login`); route handler memanggil `AkunController`. | Pada Next.js komponen klien tidak dapat memanggil controller sisi server secara langsung (lihat juga nomor 9). |
-| 29 | Layar I-16 (Persetujuan akun) | Tabel menampilkan nama, email, waktu pengajuan, dan peran yang diajukan. | Waktu pengajuan belum ditampilkan; tabel menampilkan nama dan peran, dan email pada panel tinjau. Isi layar dibuat sebagai komponen `PersetujuanView` pada kerangka `PengurusView`. | Kueri DPPL (Q-001) tidak memuat kolom waktu pengajuan. |
-| 30 | Lapisan sesi dan pembatasan akses (tambahan) | DPPL hanya menyebut `KonteksSesi` sebagai tipe rekaman. | Ditambah `src/lib/auth/` (token sesi bertanda tangan HMAC-SHA256, hash scrypt, helper `getSesi`, `wajibSesi`, dan `wajibPeran`) dan `src/middleware.ts`. | Membatasi akses rute berdasarkan sesi, peran, dan status akun `DISETUJUI` pada semua modul. |
+| 11 | | Kelas ModulMonitoring (UC06) | Validasi Algo-011 tergabung dalam `RentangWaktu` dan langsung dipanggil di ModulMonitoring. | Entitas dipisahkan ke `src/modules/monitoring/entities/RentangWaktu.ts` menggunakan tipe bawaan `Date`. Validasi dieksekusi di `ModulMonitoring.ambilHistorisPanel` sebelum mengambil data. | Agar logika validasi domain (Algo-011) dapat diuji secara terisolasi dengan Unit Test tanpa memanggil Prisma. |
+| 12 | Kelas ModulMonitoring (UC01) | Evaluasi ketersediaan langsung memakai nilai atribut `Baterai` dan `TangkiAir`. | Entitas dipisahkan ke `src/modules/monitoring/entities/TangkiAir.ts` dan `Baterai.ts.` Logika matematika diekstrak ke dalam class mandiri. | Sama seperti `RentangWaktu`, ekstraksi ke dalam class `entities` memungkinkan eksekusi Unit Test murni untuk Algo-009 dan Algo-010 tanpa dependency database |
+| 13 | Realisasi UC12-UC14 (BAB 3) | `AkunController` memanggil `DataAkunBoundary` langsung, tanpa `ModulAkun` pada tabel identifikasi kelas. | Semua alur memakai jalur `View -> Controller -> ModulAkun -> DataAkunBoundary`. | Mengikuti pola berlapis pada BAB 2 dan Tabel 2.3 agar konsisten di seluruh use case. |
+| 14 | C01 `Akun.cocokKredensial` | Operasi sinkron yang mengembalikan `Boolean`. | Operasi asinkron (`Promise<boolean>`) yang memakai `verifyPassword` (scrypt). | Fungsi hash scrypt pada Node bersifat asinkron dan tidak boleh memblokir proses server. |
+| 15 | C01 `Akun` (operasi baru) | Tidak ada. | Ditambah `konteksSesi()` yang membentuk `KonteksSesi` untuk akun berstatus `DISETUJUI`. | Pengenal `idWarga`, `idKomunitas`, `idTeknisi`, dan `idPengurus` harus berasal dari server, bukan dari form; DPPL hanya mengembalikan `dashboardTujuan`. |
+| 16 | C02, C03, C04 (operasi lintas modul) | Entity memuat operasi modul lain, misalnya `kirimLaporan`, `lihatTagihan`, `ubahStatusLaporan`, `hitungIuran`, `buatRekapitulasi`. | Entity hanya memuat atribut, pengenal, `validasiKeanggotaan`, `verifikasiKewenangan`, dan `dashboardTujuan`. Operasi lintas modul diwujudkan di controller dan modul masing-masing, misalnya `kirimLaporan` dan `perbaruiStatus` di `LaporanController` dan `ModulLaporan`. | Menghindari kelas entity yang bergantung pada empat modul (God Class dan Mixing Concerns) serta konflik berkas antaranggota. |
+| 17 | C02, C03, C04 (atribut peran) | Atribut `idWarga`, `idKomunitas`, `statusTerdaftar`, `idTeknisi`, `kontak`, `idPengurus` selalu ada. | Atribut dikelompokkan pada objek profil yang boleh kosong; `konteksSesi()` melempar `AkunTidakLengkap` bila profil belum ada. | Akun berstatus `MENUNGGU` belum tentu memiliki profil peran, tetapi tetap harus dapat diautentikasi agar menerima pesan status yang benar. |
+| 18 | C04 `Pengurus.lihatAkunMenunggu`, `setujuiAkun`, `tolakAkun` | Operasi pada entity `Pengurus`. | Diwujudkan sebagai `AkunController.ambilAkunMenunggu`, `setujuiAkun`, `tolakAkun` dan `ModulAkun.daftarAkunMenunggu`, `ubahStatusPersetujuan`. | Konsisten dengan keputusan pada nomor 14. |
+| 19 | C05 `CalonPengguna.daftarkan` | Mengembalikan objek `Akun`. | Mengembalikan data akun (email, nama, hash kata sandi, peran, status `MENUNGGU`) yang disimpan oleh `ModulAkun.registrasiCalon`. | Proses hash asinkron dan penyimpanan membutuhkan data biasa; objek `Akun` dibentuk saat pembacaan lewat `Akun.buatAkun`. |
+| 20 | C06 `StatusAkun.label` | Enumerasi dengan operasi `label()`. | Konstanta `STATUS_AKUN` dan tipe gabungan `StatusAkun`; tidak ada operasi `label()`. | Nilai berupa string dipakai langsung; teks tampilan dikelola di komponen antarmuka. |
+| 21 | `AkunController` (parameter dan hasil) | `ambilAkunMenunggu`, `setujuiAkun`, `tolakAkun` menerima `pengurus: Pengurus`, dan `setujuiAkun`/`tolakAkun` mengembalikan `Boolean`. | Menerima `sesi: KonteksSesi`; kewenangan diperiksa ulang terhadap data terkini sebelum membaca atau mengubah apa pun; hasil berupa `HasilPersetujuan` (`TIDAK_DITEMUKAN`, `SUDAH_DIPROSES`). | Identitas dan peran berasal dari sesi server, dan pengajuan yang sudah diproses pihak lain harus dibedakan dari pengajuan yang tidak ada. |
+| 22 | `ModulAkun.cariEmail` (operasi baru) | Tidak ada; `AkunController.daftarkan` memanggil `DataAkunBoundary.cariEmail` langsung (Algo-029). | Ditambah `ModulAkun.cariEmail` yang diteruskan ke boundary. | Alasan sama dengan nomor 11. |
+| 23 | `ModulAkun.registrasiCalon`, `daftarAkunMenunggu`; `DataAkunBoundary.cariEmail`, `ambilBerdasarkanStatus` | Mengembalikan objek `Akun`. | Mengembalikan `AkunRingkas` (tanpa kata sandi). `ambilAkun` tetap mengembalikan `Akun` lengkap untuk autentikasi. | Hash kata sandi tidak boleh keluar dari lapisan data kecuali untuk autentikasi. |
+| 24 | `DataAkunBoundary.cariWarga` | Mengembalikan `Warga` dari tabel `warga`. | Mengembalikan `Warga` dengan kata sandi kosong yang tidak dapat dipakai untuk autentikasi. Dipakai `ModulLaporan` lewat `ModulAkun.ambilWarga` (lihat nomor 5). | Layanan laporan hanya membutuhkan keanggotaan, bukan kredensial. |
+| 25 | `DataAkunBoundary.perbaruiAkun(akun)` | Menyimpan perubahan akun. | Diganti `perbaruiStatusAkun(email, dari, ke)` berupa pembaruan bersyarat dalam satu perintah. | Dua Pengurus yang memproses pengajuan yang sama tidak boleh saling menimpa; hanya pengajuan yang masih `MENUNGGU` dapat diubah. |
+| 26 | `DataAkunBoundary.simpanAkun` | Mengembalikan `Boolean`. | Melempar `EmailSudahTerdaftar` bila email sudah dipakai (kode unik basis data). | Menangani kondisi balapan antara pengecekan email dan penyimpanan. |
+| 27 | `Validasi` (satu kelas) | Satu kelas memuat validasi laporan, pemeliharaan, periode, rentang waktu, dan registrasi. | Dipecah per modul. Bagian akun berada pada `modules/akun/validasi.ts` (kelas `Validasi`, ditambah `periksaRegistrasi` yang memberi pesan per kolom dan memeriksa peran); validasi laporan berupa fungsi `periksaLaporan` pada `modules/laporan/internal/validasi.ts` (lihat nomor 3 dan 6). | Mencegah satu berkas diedit banyak orang; antarmuka I-02 meminta penandaan per kolom. |
+| 28 | `Validasi.validasiRegistrasi` (Algo-031) | Email valid bila mengandung "@"; kata sandi minimal 8 karakter. | Email harus berformat sah (bagian lokal, "@", domain dengan titik) dan paling banyak 254 karakter; kata sandi 8 sampai 128 karakter. | Antarmuka I-02 meminta "format sah"; batas atas mencegah beban hash berlebihan. |
+| 29 | `Database` (kelas) | Kelas dengan `query`, `execute`, dan `transaksiStatus` atas SQL mentah. | Singleton Prisma Client (`src/lib/prisma.ts`) dengan adapter PostgreSQL; kueri memakai API Prisma. `transaksiStatus` diwujudkan oleh `simpanStatusDanRiwayat` pada `modules/laporan/repository.ts` dengan `$transaction` (lihat nomor 7). | Memakai ORM Prisma yang dipilih kelompok; koneksi diatur lewat `DATABASE_URL`. |
+| 30 | `AuthView` | Satu kelas View yang memegang `AkunController`. | Komponen React `RegistrasiView` dan `LoginView` yang memanggil route handler (`/api/auth/registrasi`, `/api/auth/login`); route handler memanggil `AkunController`. | Pada Next.js komponen klien tidak dapat memanggil controller sisi server secara langsung (lihat juga nomor 9). |
+| 31 | Layar I-16 (Persetujuan akun) | Tabel menampilkan nama, email, waktu pengajuan, dan peran yang diajukan. | Waktu pengajuan belum ditampilkan; tabel menampilkan nama dan peran, dan email pada panel tinjau. Isi layar dibuat sebagai komponen `PersetujuanView` pada kerangka `PengurusView`. | Kueri DPPL (Q-001) tidak memuat kolom waktu pengajuan. |
+| 32 | Lapisan sesi dan pembatasan akses (tambahan) | DPPL hanya menyebut `KonteksSesi` sebagai tipe rekaman. | Ditambah `src/lib/auth/` (token sesi bertanda tangan HMAC-SHA256, hash scrypt, helper `getSesi`, `wajibSesi`, dan `wajibPeran`) dan `src/middleware.ts`. | Membatasi akses rute berdasarkan sesi, peran, dan status akun `DISETUJUI` pada semua modul. |
 | *...* | *...* | *...* | *...* | *...* |
 
 ## B.2 Bukti Penerapan Best Practices
@@ -250,7 +252,23 @@ Jika tidak ada perbaikan yang perlu dilakukan, jelaskan hasil profiling dan alas
 
 ## B.3 Kendala dan Catatan Penting
 
-Tuliskan kendala yang ditemui, fitur yang belum sempurna (*known issues*), serta hal yang perlu diketahui asisten saat menjalankan atau menilai aplikasi (misalnya akun uji khusus, urutan menjalankan, atau batasan).
+## B.3 Kendala dan Catatan Penting
+
+Berikut adalah catatan menjalankan dan menguji aplikasi:
+
+**1. Urutan Menjalankan Aplikasi & Akun Uji**
+- Nyalakan container basis data lokal menggunakan Docker (`docker-compose up -d`).
+- Jalankan perintah `npx prisma db push` dan `npx prisma db seed` agar data pengujian (seperti akun *dummy* dan perangkat) masuk ke basis data.
+- [Catatan: Anggota kelompok lain dapat menambahkan daftar email/password akun uji di sini]
+
+**2. Pengujian UC05 (Peringatan Daya Kritis)**
+- Karena ketiadaan perangkat keras IoT sungguhan, pengiriman data sensor harus di- *trigger* secara manual menggunakan skrip simulator.
+- Saat server berjalan, buka terminal baru dan eksekusi skrip: `npx tsx tests/simulator/SensorAdapter.ts`.
+- Skrip ini otomatis menembak *payload* baterai kritis ke API. Asisten dapat melihat hasil evaluasi status peringatan ini (UC05) pada tabel `Notifikasi` di basis data.
+
+**3. Batasan Modul Notifikasi (Known Issue)**
+- Implementasi `NotifikasiGateway` untuk mengirim pesan *push* disimulasikan (*mock*) menggunakan `Math.random()`.
+- Hal ini sengaja dibuat agar asisten dapat melihat pergantian status pengiriman menjadi `PENDING` di basis data secara konsisten tanpa perlu menyiapkan *server* pihak ketiga, sesuai dengan Skenario Alternatif 1 pada DPPL (Network Exception).
 
 ## B.4 Kontribusi Anggota
 
@@ -258,8 +276,12 @@ Tabel B.4. Kontribusi Anggota
 
 | NIM | Nama | Modul / Fitur yang Dikerjakan | Persentase Kontribusi |
 | :--- | :--- | :--- | :--- |
-| *[NIM 1]* | *[Nama]* | *[Modul/fitur]* | *[%]* |
-| *...* | *...* | *...* | *...* |
+| 13525129 | Andro Irsa Syafiq | Fondasi proyek (dependensi, Docker Compose, `.env.example`); modul monitoring, telemetri, simulator sensor, dan peringatan daya kritis (UC01, UC05, UC06) | *[20%]* |
+| 13525006 | Muhammad Rafiandhi Suryadinata | Skema basis data dan seed; modul pemeliharaan (UC08); profiling; README dan pengujian lintas modul | *[20%]* |
+| 13525078 | Muhammad Faiz Ramadhan | Autentikasi dan akun (UC12, UC13, UC14); lapisan sesi dan middleware; dokumen kelompok | *[20%]* |
+| 13525030 | Rionaldo Casey Pandhitha | Kerangka antarmuka (layout, shell tiga dasbor, komponen UI); modul laporan gangguan (UC03, UC04, UC07) | *[20%]* |
+| 13525054 | Raffi Fauzi Hermawan | Kontrak antarmodul; modul iuran (UC02, UC09, UC10, UC11) dan ekspor rekapitulasi | *[20%]* |
+| | **Total** | | **100%** |
 
 ## B.5 Traceability Kelas Perancangan ke Implementasi
 
@@ -285,13 +307,26 @@ Tabel B.5. Traceability Kelas Perancangan ke Implementasi
 | - | LaporanController | Kelas dan route | `src/modules/laporan/service.ts` - `LaporanController`, `src/app/api/laporan/**/route.ts` | Atribut `sesi` dari cookie lewat `getSesi`. Algo-025 di `kirimLaporan`. Semua operasi memeriksa peran, bentuk ID, lalu mendelegasikan ke modul. |
 | - | ModulLaporan | Kelas | `src/modules/laporan/internal/ModulLaporan.ts` - `ModulLaporan` | Algo-034 di `kirimLaporan` dan `perbaruiStatus`. Antarmuka `RepositoriLaporan` dan `AnggotaKomunitas` menjadi atribut `data` dan `akun`. |
 | - | DataLaporanBoundary | Objek repositori | `src/modules/laporan/repository.ts` - `repositoriLaporan` | Prisma dengan parameter terikat. `simpanStatusDanRiwayat` (Algo-040, 042) memakai `$transaction`, `SELECT ... FOR UPDATE`, `updateMany` dengan syarat status lama dan penugasan, lalu `create` riwayat. |
+| C07 | Perangkat | - | - | Class abstrak digabung dan diwakili oleh implementasi `prisma.perangkat` pada Data Access Boundary. |
+| C08 | TangkiAir | Kelas (Domain) | `src/modules/monitoring/entities/TangkiAir.ts` - `TangkiAirDomain` | Murni untuk menampung logika penentuan status (Algo-009) yang dipakai Unit Test dan controller. |
+| C09 | Baterai | Kelas (Domain) | `src/modules/monitoring/entities/Baterai.ts` - `BateraiDomain` | Murni untuk menampung logika batas aman (Algo-010). |
+| C10 | PanelSurya | - | - | Pengambilan daya terkini digabung dan ditangani langsung di `ModulMonitoring.evaluasiKetersediaan`. |
+| C11 | PembacaanSensor | Tipe Kontrak & Database | `src/contracts/monitoring.ts` - `MasukanTelemetri` | Kelas tidak dibuat. Struktur direpresentasikan lewat `MasukanTelemetri` dan disimpan via Prisma. |
+| C12 | DataHistorisKinerja | Fungsi & Tipe | `src/modules/monitoring/DataPerangkatBoundary.ts` - `ambilHistorisKinerja` | Pencarian berdasar rentang (Algo-039) dieksekusi lewat query Prisma. |
+| C13 | RentangWaktu | Kelas (Domain) | `src/modules/monitoring/entities/RentangWaktu.ts` - `RentangWaktuDomain` | Eksekusi validasi rentang awal dan akhir (Algo-011). |
+| - | TelemetriAPI | Route Handler | `src/app/api/telemetri/route.ts` - `POST` | Menerima payload, validasi body, memanggil controller. |
+| - | MonitoringController | Kelas | `src/modules/monitoring/MonitoringController.ts` - `MonitoringController` | Pemrosesan Algo-023 (`terimaTelemetri`) dan endpoint status/historis. |
+| - | ModulMonitoring | Kelas | `src/modules/monitoring/ModulMonitoring.ts` - `ModulMonitoring`| Penerapan Algo-033 (`evaluasiKetersediaan`) dan koordinasi boundary. |
+| - | DataPerangkatBoundary | Kelas | `src/modules/monitoring/DataPerangkatBoundary.ts` - `DataPerangkatBoundary` | Semua kueri `prisma` untuk perangkat, pembacaan, dan historis. |
+| *[C01]* | *[Nama kelas pada DPPL]* | *[mis. Kelas / Fungsi / Komponen / Route / Tabel]* | *[mis. `src/models/user.py` - `User`]* | *[Cara atribut dan operasi kelas diwujudkan; "-" jika tidak ada penjelasan tambahan]* |
+| *[C02]* | *[Nama kelas pada DPPL]* | *[Bentuk implementasi]* | *[mis. `src/components/LoginForm.tsx` - `LoginForm`]* | *[mis. atribut menjadi *state*, operasi menjadi *handler*]* |
+| *[C03]* | *[Nama kelas pada DPPL]* | *[Bentuk implementasi]* | *[mis. `src/routes/auth.js` - `POST /login`]* | *[Keterangan]* |
 | - | `AuthView` | Komponen dan halaman | `src/modules/akun/ui/RegistrasiView.tsx` - `RegistrasiView`, `src/modules/akun/ui/LoginView.tsx` - `LoginView`, `src/app/registrasi/page.tsx`, `src/app/login/page.tsx` | `bukaRegistrasi` dan `bukaLogin` menjadi halaman `/registrasi` dan `/login`. `tekanDaftar` dan `tekanLogin` menjadi penangan kirim formulir (`tekanDaftar`, `tekanMasuk`) yang memanggil `POST /api/auth/registrasi` dan `POST /api/auth/login`. Atribut `akunController` tidak dipegang langsung (B.1 nomor 28). Penyaring tujuan pengalihan: `src/modules/akun/ui/tujuan.ts` - `urlTujuanAman`. |
 | - | `AkunController` | Kelas dan route | `src/modules/akun/controller.ts` - `AkunController`, `src/app/api/auth/registrasi/route.ts`, `src/app/api/auth/login/route.ts`, `src/app/api/auth/logout/route.ts`, `src/app/api/akun/persetujuan/route.ts`, `src/modules/akun/index.ts` | Atribut `modulAkun` dan `validasi` diberikan lewat konstruktor dan dirakit di `index.ts`. `daftarkan` (Algo-029), `login` (Algo-030), `ambilAkunMenunggu`, `setujuiAkun`, `tolakAkun` diwujudkan sebagai metode; route handler menerjemahkan hasilnya menjadi respons HTTP. `PersetujuanView` (isi layar I-16 pada `PengurusView`) memanggil `GET` dan `POST /api/akun/persetujuan`. Parameter dan hasil berubah (B.1 nomor 19). |
 | - | `Validasi` | Kelas dan fungsi | `src/modules/akun/validasi.ts` - `Validasi`, `src/modules/laporan/internal/validasi.ts` - `periksaLaporan` | Bagian akun: `validasiRegistrasi` (Algo-031) dan `periksaRegistrasi`. `periksaLaporan` berupa fungsi pada modul laporan. `periksaPemeliharaan`, `validasiPeriode`, `validasiRentangWaktu` diwujudkan pada berkas validasi di folder modul masing-masing (B.1 nomor 25, 26). |
 | - | `ModulAkun` | Kelas | `src/modules/akun/modul.ts` - `ModulAkun` | Atribut `data` diberikan lewat konstruktor. `ambilWarga`, `registrasiCalon`, `autentikasi` (Algo-032, dengan hash pembanding untuk menyamakan waktu respons saat email tidak ditemukan), `daftarAkunMenunggu`, `ubahStatusPersetujuan` diwujudkan sebagai metode; ditambah `cariEmail` (B.1 nomor 20, 21). |
 | - | `DataAkunBoundary` | Kelas repositori | `src/modules/akun/boundary.ts` - `DataAkunBoundary` | Atribut `database` diwujudkan dengan mengimpor `prisma` dari `src/lib/prisma.ts`. `cariWarga`, `cariEmail`, `ambilAkun`, `simpanAkun`, `ambilBerdasarkanStatus` (Algo-038) diwujudkan sebagai metode; `perbaruiAkun` menjadi `perbaruiStatusAkun` (B.1 nomor 21, 22, 23, 24). |
 | - | `Database` | Modul singleton | `src/lib/prisma.ts` - `prisma`, `src/modules/laporan/repository.ts` - `repositoriLaporan.simpanStatusDanRiwayat` | Atribut `koneksi` diwujudkan lewat adapter PostgreSQL dan `DATABASE_URL`. `query` dan `execute` diwujudkan oleh API Prisma Client (`findUnique`, `findMany`, `create`, `updateMany`). `transaksiStatus` (UC07) diwujudkan oleh `simpanStatusDanRiwayat` dengan `$transaction` pada boundary modul laporan (B.1 nomor 27). |
-| *...* | *...* | *...* | *...* | *...* |
 
 Catatan:
 - Satu kelas perancangan boleh diwujudkan oleh beberapa file/unit, dan satu file/unit boleh mewujudkan beberapa kelas perancangan. Tuliskan semuanya.

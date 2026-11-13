@@ -9,8 +9,6 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
-import AuthShell from '@/components/shell/AuthShell';
-import PageTitle from '@/components/shell/PageTitle';
 import { Alert, Button, Card, Field, Input } from '@/components/ui';
 import { urlTujuanAman } from './tujuan';
 
@@ -54,18 +52,22 @@ export default function LoginView() {
   }
 
   return (
-    <AuthShell>
-      <Card>
-        <PageTitle judul="Masuk" deskripsi="Gunakan akun komunitas yang sudah disetujui Pengurus." />
+    <main className="auth">
+      <Card className="auth-card">
+        <div className="brand">
+          fajar<span>.tech</span>
+        </div>
+        <h1>Masuk</h1>
+        <p className="auth-sub">Pemantauan air dan energi komunitas.</p>
 
         <form onSubmit={tekanMasuk} noValidate>
           {pesan && <Alert nada="bahaya">{pesan}</Alert>}
           {berhasil && <Alert>Berhasil masuk. Mengalihkan ke dasbor…</Alert>}
 
-          <Field label="Email *">
-            {(p) => (
+          <Field label="Email">
+            {(f) => (
               <Input
-                {...p}
+                {...f}
                 name="email"
                 type="email"
                 autoComplete="email"
@@ -76,10 +78,10 @@ export default function LoginView() {
             )}
           </Field>
 
-          <Field label="Kata sandi *">
-            {(p) => (
+          <Field label="Kata sandi">
+            {(f) => (
               <Input
-                {...p}
+                {...f}
                 name="password"
                 type="password"
                 autoComplete="current-password"
@@ -90,15 +92,15 @@ export default function LoginView() {
             )}
           </Field>
 
-          <Button type="submit" varian="primary" className="btn-block" disabled={sedangKirim}>
+          <Button type="submit" varian="primary" className="penuh" disabled={sedangKirim}>
             {sedangKirim ? 'Memproses…' : 'Masuk'}
           </Button>
         </form>
-      </Card>
 
-      <p className="auth-foot">
-        Belum punya akun? <Link href="/registrasi">Daftar akun</Link>
-      </p>
-    </AuthShell>
+        <p className="auth-alt">
+          Belum punya akun? <Link href="/registrasi">Daftar akun</Link>
+        </p>
+      </Card>
+    </main>
   );
 }

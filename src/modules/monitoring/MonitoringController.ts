@@ -10,9 +10,13 @@ import { GalatRentangWaktu } from './galat';
 
 export class MonitoringController {
   private modulMonitoring: ModulMonitoring;
+  private modulNotifikasi: ModulNotifikasi;
+  private dataBoundary: DataPerangkatBoundary;
 
   constructor() {
     this.modulMonitoring = new ModulMonitoring();
+    this.modulNotifikasi = new ModulNotifikasi();
+    this.dataBoundary = new DataPerangkatBoundary();
   }
 
   async ambilStatusInfrastruktur(): Promise<ApiRespons<StatusInfrastruktur>> {
@@ -28,6 +32,7 @@ export class MonitoringController {
     try {
       const sukses = await this.modulMonitoring.catatPembacaan(m);
       if (sukses) {
+        await this.prosesTelemetriBaterai(m.idPerangkat, m.nilai);
         return { ok: true, data: { diterima: true } };
       }
       return { ok: false, kode: 'GAGAL_SIMPAN', pesan: 'Gagal menyimpan data telemetri' };

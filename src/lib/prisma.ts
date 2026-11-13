@@ -9,6 +9,7 @@
  */
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@/generated/prisma/client';
+export { StatusPengiriman } from '@/generated/prisma/client';
 
 function buatClient(): PrismaClient {
   const url = process.env.DATABASE_URL;

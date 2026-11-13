@@ -6,9 +6,7 @@
  */
 import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
-import AuthShell from '@/components/shell/AuthShell';
-import PageTitle from '@/components/shell/PageTitle';
-import { Alert, Badge, Button, Card, Field, Input, Select } from '@/components/ui';
+import { Alert, Button, Card, Field, Input, Select } from '@/components/ui';
 
 type Kolom = 'nama' | 'email' | 'password' | 'peran';
 type Galat = Partial<Record<Kolom, string>>;
@@ -56,92 +54,65 @@ export default function RegistrasiView() {
 
   if (berhasil) {
     return (
-      <AuthShell>
-        <Card>
-          <p style={{ fontSize: 32, color: 'var(--teal)', lineHeight: 1 }} aria-hidden="true">
-            ✓
+      <main className="auth">
+        <Card className="auth-card">
+          <div className="brand">
+            fajar<span>.tech</span>
+          </div>
+          <h1>Pendaftaran diajukan</h1>
+          <Alert>
+            Akun Anda menunggu persetujuan Pengurus. Anda belum bisa masuk sebelum akun disetujui.
+          </Alert>
+          <p className="auth-alt">
+            <Link href="/login">Kembali ke halaman masuk</Link>
           </p>
-          <p style={{ margin: '12px 0' }}>
-            <Badge nada="peringatan">Menunggu persetujuan</Badge>
-          </p>
-          <h1 role="status">Pendaftaran diajukan</h1>
-          <p style={{ margin: '12px 0 22px', color: 'var(--muted)' }}>
-            Akun Anda menunggu persetujuan Pengurus. Anda belum bisa masuk sebelum akun
-            disetujui.
-          </p>
-          <Link className="btn primary btn-block" href="/login">
-            Ke halaman masuk
-          </Link>
         </Card>
-      </AuthShell>
+      </main>
     );
   }
 
   return (
-    <AuthShell>
-      <Card>
-        <PageTitle
-          judul="Registrasi akun"
-          deskripsi="Ajukan akun komunitas. Akses aktif setelah disetujui Pengurus."
-        />
+    <main className="auth">
+      <Card className="auth-card">
+        <div className="brand">
+          fajar<span>.tech</span>
+        </div>
+        <h1>Registrasi akun</h1>
+        <p className="auth-sub">Akun baru perlu disetujui Pengurus sebelum bisa dipakai.</p>
 
         <form onSubmit={tekanDaftar} noValidate>
           {pesan && <Alert nada="bahaya">{pesan}</Alert>}
 
-          <Field label="Nama lengkap *" galat={galat.nama}>
-            {(p) => (
+          <Field label="Nama lengkap" galat={galat.nama}>
+            {(f) => (
+              <Input {...f} name="nama" type="text" autoComplete="name" required value={nama} onChange={(e) => setNama(e.target.value)} />
+            )}
+          </Field>
+
+          <Field label="Email" galat={galat.email}>
+            {(f) => (
+              <Input {...f} name="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+            )}
+          </Field>
+
+          <Field label="Kata sandi (minimal 8 karakter)" galat={galat.password}>
+            {(f) => (
               <Input
-                {...p}
-                name="nama"
-                type="text"
-                autoComplete="name"
+                {...f}
+                name="password"
+                type="password"
+                autoComplete="new-password"
                 required
-                value={nama}
-                onChange={(e) => setNama(e.target.value)}
+                minLength={8}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             )}
           </Field>
 
-          <Field label="Email *" galat={galat.email}>
-            {(p) => (
-              <Input
-                {...p}
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            )}
-          </Field>
-
-          <Field label="Kata sandi *" galat={galat.password}>
-            {(p) => (
-              <>
-                <Input
-                  {...p}
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  minLength={8}
-                  aria-describedby={[`${p.id}-bantuan`, p['aria-describedby']]
-                    .filter(Boolean)
-                    .join(' ')}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <small className="field-help" id={`${p.id}-bantuan`}>
-                  Minimal 8 karakter.
-                </small>
-              </>
-            )}
-          </Field>
-
-          <Field label="Peran yang diajukan *" galat={galat.peran}>
-            {(p) => (
-              <Select {...p} name="peran" value={peran} onChange={(e) => setPeran(e.target.value)}>
+          <Field label="Peran yang diajukan" galat={galat.peran}>
+            {(f) => (
+              <Select {...f} name="peran" value={peran} onChange={(e) => setPeran(e.target.value)}>
                 <option value="WARGA">Warga</option>
                 <option value="TEKNISI">Teknisi</option>
                 <option value="PENGURUS">Pengurus</option>
@@ -149,15 +120,15 @@ export default function RegistrasiView() {
             )}
           </Field>
 
-          <Button type="submit" varian="primary" className="btn-block" disabled={sedangKirim}>
+          <Button type="submit" varian="primary" className="penuh" disabled={sedangKirim}>
             {sedangKirim ? 'Memproses…' : 'Ajukan akun'}
           </Button>
         </form>
-      </Card>
 
-      <p className="auth-foot">
-        Sudah memiliki akun? <Link href="/login">Masuk</Link>
-      </p>
-    </AuthShell>
+        <p className="auth-alt">
+          Sudah memiliki akun? <Link href="/login">Masuk</Link>
+        </p>
+      </Card>
+    </main>
   );
 }

@@ -1,4 +1,4 @@
-import { prisma } from '../../lib/prisma';
+import { prisma, StatusPengiriman } from '../../lib/prisma';
 import type { WaktuISO } from '../../contracts/common';
 import type { MasukanTelemetri } from '../../contracts/monitoring';
 
@@ -85,5 +85,63 @@ export class DataPerangkatBoundary {
       console.error('Gagal simpan pembacaan:', error);
       return false;
     }
+  }
+
+  async cariBaterai(idPerangkat: string) {
+    return prisma.perangkat.findUnique({
+      where: { idPerangkat },
+    });
+  }
+
+  async cariPenugasanPerangkat(idPerangkat: string) {
+    return prisma.penugasanPerangkat.findMany({
+      where: { idPerangkat },
+      select: { idTeknisi: true, idPerangkat: true }
+    });
+  }
+
+  async simpanNotifikasi(notif: any): Promise<boolean> {
+    try {
+      await prisma.notifikasi.create({
+        data: {
+          idNotifikasi: notif.idNotifikasi,
+          idTeknisi: notif.penerima,
+          idPerangkat: notif.idPerangkat,
+          pesan: notif.pesan,
+          level: notif.level,
+          kapasitasSaatIni: notif.kapasitasSaatIni,
+          statusPengiriman: notif.statusPengiriman as StatusPengiriman, // PENDING
+          statusBaca: notif.statusBaca,
+          waktu: notif.waktu,
+        },
+      });
+      return true;
+    } catch (error) {
+      console.error('Gagal menyimpan notifikasi:', error);
+      return false;
+    }
+  }
+
+  async ambilNotifikasiPending(idTeknisi: string) {
+    return prisma.notifikasi.findMany({
+      where: {
+        idTeknisi: idTeknisi,
+        statusPengiriman: StatusPengiriman.PENDING,
+      },
+      orderBy: { waktu: 'asc' },
+    });
+  }
+
+  async ambilHistorisKinerja(idPanel: string, rentang: { waktuMulai: Date; waktuSelesai: Date }) {
+    return prisma.dataHistorisKinerja.findMany({
+      where: {
+        idPanel: idPanel,
+        waktu: {
+          gte: rentang.waktuMulai,
+          lte: rentang.waktuSelesai,
+        },
+      },
+      orderBy: { waktu: 'asc' }, 
+    });
   }
 }

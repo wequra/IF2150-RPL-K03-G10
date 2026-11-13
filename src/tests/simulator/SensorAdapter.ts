@@ -1,10 +1,10 @@
 async function kirimDataTelemetri() {
   const API_URL = 'http://localhost:3000/api/telemetri'; 
 
-  const payload = {
-    idPerangkat: 'TANGKI-01', 
-    nilai: Math.floor(Math.random() * 5000), 
-    satuan: 'Liter',
+const payload = {
+    idPerangkat: 'BAT-01', 
+    nilai: 15, 
+    satuan: '%',
     waktu: new Date().toISOString(),
   };
 
@@ -19,12 +19,12 @@ async function kirimDataTelemetri() {
 
     const result = await response.json();
     if (response.ok && result.ok) {
-      console.log('✅ Berhasil mengirim data simulasi:', payload);
+      console.log('Berhasil mengirim data simulasi:', payload);
     } else {
-      console.error('❌ Gagal mengirim data:', result.pesan);
+      console.error('Gagal mengirim data:', result.pesan);
     }
   } catch (error) {
-    console.error('❌ Error koneksi ke server API:', error);
+    console.error('Error koneksi ke server API:', error);
   }
 }
 
