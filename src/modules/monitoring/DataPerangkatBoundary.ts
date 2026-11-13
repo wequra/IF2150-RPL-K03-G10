@@ -39,6 +39,37 @@ export class DataPerangkatBoundary {
     });
   }
 
+  // UC06: panel yang ditugaskan kepada teknisi sesi.
+  async ambilPanelTeknisi(idTeknisi: string) {
+    return prisma.perangkat.findFirst({
+      where: { jenisPerangkat: 'PANEL_SURYA', penugasan: { some: { idTeknisi } } },
+      orderBy: { idPerangkat: 'asc' },
+    });
+  }
+
+  async ambilHistorisKinerja(idPanel: string, mulai: Date, selesai: Date) {
+    return prisma.dataHistorisKinerja.findMany({
+      where: { idPanel, waktu: { gte: mulai, lte: selesai } },
+      orderBy: { waktu: 'asc' },
+    });
+  }
+
+  async ambilHistorisTerbaru(idPanel: string) {
+    return prisma.dataHistorisKinerja.findFirst({
+      where: { idPanel },
+      orderBy: { waktu: 'desc' },
+    });
+  }
+
+  // UC05: notifikasi yang dialamatkan ke teknisi, lengkap dengan perangkatnya.
+  async ambilNotifikasiTeknisi(idTeknisi: string) {
+    return prisma.notifikasi.findMany({
+      where: { idTeknisi },
+      include: { perangkat: true },
+      orderBy: { waktu: 'desc' },
+    });
+  }
+
   async simpanPembacaan(bacaan: MasukanTelemetri): Promise<boolean> {
     try {
       await prisma.pembacaanSensor.create({

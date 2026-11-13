@@ -81,6 +81,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .badge.neutral { background: #e9eeea; color: #4c6159; }
 .note { border-radius: 10px; background: #edf3ed; border: 1px solid var(--line); padding: 14px 18px; font-size: 13px; color: #405c55; }
 .note.bad { background: #f8e9e5; border-color: #e7c9c2; color: var(--bad); }
+.note.warn { background: #f8ecd5; border-color: #ecd6ae; color: #7d541c; }
 .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
 .field label { font-size: 14px; font-weight: 700; line-height: 1.6; }
 .field input, .field select, .field textarea { width: 100%; min-height: 50px; padding: 10px 13px; border: 1px solid var(--control); border-radius: 6px; background: var(--white); color: var(--ink); font: inherit; font-size: 16px; font-weight: 700; caret-color: var(--teal); transition: border-color .15s, background .15s; }
@@ -130,11 +131,65 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .table td:first-child { flex-basis: 100%; }
 }
 
-/* Halaman masuk dan registrasi (di luar shell dasbor) */
-.auth { min-height: 100dvh; display: grid; place-items: center; padding: 24px; }
-.auth-card { width: 100%; max-width: 440px; padding: 34px; border: 1px solid var(--line); }
-.auth-card h1 { font-size: 30px; margin: 22px 0 6px; }
-.auth-sub { color: var(--muted); margin-bottom: 22px; }
+/* Pemantauan (I-03, I-08, I-09) */
+.pasokan { background: var(--light); border-radius: 6px; padding: 26px; }
+.pasokan-kepala { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.pasokan-isi { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, 320px); gap: 32px; align-items: center; margin-top: 20px; }
+.pasokan-kanan { display: flex; flex-direction: column; gap: 8px; }
+.pasokan-kaki { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--control); margin-top: 22px; padding-top: 14px; }
+.label-muted { font-size: 13px; color: var(--muted); }
+.angka-raksasa { font-size: clamp(44px, 7vw, 82px); font-weight: 800; letter-spacing: -0.045em; line-height: 1; margin: 8px 0 10px; color: var(--deep); }
+.angka-raksasa small { font-size: 22px; font-weight: 700; letter-spacing: 0; margin-left: 6px; color: var(--muted); }
+.angka-sedang { font-size: 44px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; margin: 6px 0 12px; color: var(--deep); }
+.angka-sedang small { font-size: 18px; font-weight: 700; margin-left: 4px; color: var(--muted); letter-spacing: 0; }
+.nilai-kosong { font-size: 15px; font-weight: 600; color: var(--muted); }
+.persen-terisi { display: flex; flex-direction: column; margin: 0; }
+.persen-terisi strong { font-size: 34px; font-weight: 800; line-height: 1; color: var(--teal); letter-spacing: -0.03em; }
+.persen-terisi span { font-size: 13px; color: var(--muted); }
+.tangki { position: relative; height: 170px; border: 2px solid var(--deep); border-radius: 16px 16px 18px 18px; background: var(--white); overflow: hidden; }
+.tangki-isi { position: absolute; inset: auto 0 0 0; background: linear-gradient(180deg, var(--mint), #96c9ad); border-top: 2px solid var(--teal); transition: height .3s; }
+.judul-bagian { margin-bottom: 6px; }
+.energi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 14px; }
+.baris-antara { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.bar { height: 10px; border-radius: 999px; background: #e3ece6; overflow: hidden; margin: 4px 0 12px; }
+.bar span { display: block; height: 100%; border-radius: inherit; background: var(--teal); }
+.bar.kritis span { background: #b4553f; }
+.filter-aksi { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; }
+.filter-aksi .field { margin-bottom: 0; }
+.filter-aksi .btn { min-height: 50px; }
+.chart { margin-top: 22px; }
+.chart-baris { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; }
+.chart-sumbu-y { display: flex; flex-direction: column; justify-content: space-between; height: 240px; font-size: 12px; line-height: 1; color: var(--muted); text-align: right; }
+.chart-bidang { min-width: 0; }
+.chart-plot { display: flex; align-items: flex-end; gap: 12px; height: 240px; padding: 0 12px; border-bottom: 1px solid var(--control); background: repeating-linear-gradient(to top, var(--line) 0 1px, transparent 1px 25%); }
+.chart-kolom { flex: 1 1 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px; height: 100%; min-width: 0; }
+.chart-kolom i { display: block; width: min(46px, 82%); max-height: calc(100% - 24px); background: var(--teal); border-radius: 4px 4px 0 0; }
+.chart-angka { font-size: 12px; font-weight: 700; }
+.chart-label-baris { display: flex; gap: 12px; padding: 8px 12px 0; }
+.chart-label-baris span { flex: 1 1 0; text-align: center; font-size: 12px; color: var(--muted); }
+.legenda { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.legenda i { width: 12px; height: 12px; border-radius: 2px; background: var(--teal); }
+
+@media (max-width: 800px) {
+  .pasokan-isi, .energi-grid, .filter-aksi { grid-template-columns: 1fr; }
+  .pasokan-kaki { flex-direction: column; gap: 4px; }
+  .chart-plot { gap: 6px; padding: 0 4px; }
+  .chart-label-baris { gap: 6px; padding: 8px 4px 0; }
+  .chart-angka, .chart-label-baris span { font-size: 11px; }
+  .filter-aksi .btn { width: 100%; }
+}
+
+/* Halaman tamu (masuk, registrasi) */
+.auth-shell { display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); min-height: 100dvh; }
+.auth-aside { background: var(--deep); color: var(--white); padding: 38px 34px; display: flex; flex-direction: column; justify-content: space-between; gap: 36px; }
+.auth-aside .brand { color: var(--white); }
+.auth-aside .brand span { color: var(--mint); }
+.auth-tagline { font-size: 26px; font-weight: 700; line-height: 1.25; letter-spacing: -0.03em; margin: 0; }
+.auth-main { display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+.auth-card { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 18px; }
+.auth-card .page-title { display: block; margin-bottom: 24px; }
+.auth-card .page-title p { margin-top: 8px; }
+.auth-card h1 { font-size: 30px; }
 .auth-card .note { margin-bottom: 18px; }
 .auth-card .btn.penuh { width: 100%; }
 .auth-alt { margin-top: 20px; font-size: 14px; color: var(--muted); }

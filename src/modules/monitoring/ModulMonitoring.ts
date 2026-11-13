@@ -5,16 +5,29 @@ import type {
   StatusBaterai, 
   StatusPanel,
   KondisiAir,
-  MasukanTelemetri
+  MasukanTelemetri,
+  PeringatanDayaKritisDTO,
+  TitikKinerja,
 } from '../../contracts/monitoring';
-import { RentangWaktuDomain } from './entities/RentangWaktu';
-import type { TitikKinerja, RentangWaktu } from '../../contracts/monitoring';
+import { GalatRentangWaktu } from './galat';
+
+export interface PanelRingkas {
+  idPerangkat: string;
+  nama: string;
+  kapasitas: number | null;
+}
+
+// Peringatan untuk layar teknisi: DTO kontrak ditambah nama perangkat dan ambang aman.
+export type PeringatanTampil = PeringatanDayaKritisDTO & {
+  namaPerangkat: string;
+  ambangBatasAman: number | null;
+};
 
 export class ModulMonitoring {
   private data: DataPerangkatBoundary;
 
-  constructor() {
-    this.data = new DataPerangkatBoundary();
+  constructor(data: DataPerangkatBoundary = new DataPerangkatBoundary()) {
+    this.data = data;
   }
 
   async evaluasiKetersediaan(): Promise<StatusInfrastruktur> {
@@ -91,19 +104,60 @@ export class ModulMonitoring {
     return await this.data.simpanPembacaan(bacaan);
   }
 
-  async ambilHistorisPanel(idPanel: string, rentangDto: RentangWaktu): Promise<TitikKinerja[]> {
-    const rentang = new RentangWaktuDomain(rentangDto.waktuMulai, rentangDto.waktuSelesai);
-    
-    if (!rentang.validasi()) {
-      throw new Error("Rentang waktu tidak valid");
-    }
-    
-    const historis = await this.data.ambilHistorisKinerja(idPanel, rentang);
+  async ambilPanelTeknisi(idTeknisi: string): Promise<PanelRingkas | null> {
+    const panel = await this.data.ambilPanelTeknisi(idTeknisi);
+    if (!panel) return null;
+    return { idPerangkat: panel.idPerangkat, nama: panel.nama, kapasitas: panel.kapasitas };
+  }
 
-    return historis.map(h => ({
-      waktu: h.waktu.toISOString(),
-      dayaDihasilkan: h.dayaDihasilkan,
-      energi: h.energi,
+  // Waktu pembacaan historis terakhir, dipakai layar untuk memilih rentang awal.
+  async ambilWaktuHistorisTerbaru(idPanel: string): Promise<string | null> {
+    const terbaru = await this.data.ambilHistorisTerbaru(idPanel);
+    return terbaru ? terbaru.waktu.toISOString() : null;
+  }
+
+  // UC06, Algo-011: rentang harus valid dan panel dibatasi pada penugasan teknisi.
+  async ambilRiwayatPanel(
+    idTeknisi: string,
+    waktuMulai: string,
+    waktuSelesai: string,
+  ): Promise<TitikKinerja[]> {
+    const mulai = new Date(waktuMulai);
+    const selesai = new Date(waktuSelesai);
+    if (Number.isNaN(mulai.getTime()) || Number.isNaN(selesai.getTime()) || mulai > selesai) {
+      throw new GalatRentangWaktu();
+    }
+
+    const panel = await this.data.ambilPanelTeknisi(idTeknisi);
+    if (!panel) return [];
+
+    const baris = await this.data.ambilHistorisKinerja(panel.idPerangkat, mulai, selesai);
+    return baris.map((b) => ({
+      waktu: b.waktu.toISOString(),
+      dayaDihasilkan: b.dayaDihasilkan,
+      energi: b.energi,
     }));
+  }
+
+  // UC05: hanya peringatan kritis yang punya nilai kapasitas yang bisa ditampilkan.
+  async daftarPeringatanTeknisi(idTeknisi: string): Promise<PeringatanTampil[]> {
+    const baris = await this.data.ambilNotifikasiTeknisi(idTeknisi);
+    const hasil: PeringatanTampil[] = [];
+    for (const n of baris) {
+      if (n.level !== 'KRITIS' || n.kapasitasSaatIni === null) continue;
+      hasil.push({
+        idNotifikasi: n.idNotifikasi,
+        idPerangkat: n.idPerangkat ?? '',
+        pesan: n.pesan,
+        level: 'KRITIS',
+        kapasitasSaatIni: n.kapasitasSaatIni,
+        waktu: n.waktu.toISOString(),
+        statusPengiriman: n.statusPengiriman,
+        statusBaca: n.statusBaca,
+        namaPerangkat: n.perangkat?.nama ?? n.idPerangkat ?? 'Perangkat',
+        ambangBatasAman: n.perangkat?.ambangBatasAman ?? null,
+      });
+    }
+    return hasil;
   }
 }

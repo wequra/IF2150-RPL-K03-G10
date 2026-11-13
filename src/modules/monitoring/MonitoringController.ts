@@ -1,13 +1,12 @@
-import { ModulMonitoring } from './ModulMonitoring';
-import { ModulNotifikasi } from '../notifikasi/ModulNotifikasi';
-import { DataPerangkatBoundary } from './DataPerangkatBoundary';
+import { ModulMonitoring, type PeringatanTampil } from './ModulMonitoring';
 import type { 
   StatusInfrastruktur, 
   MasukanTelemetri, 
-  ResponTelemetri 
+  ResponTelemetri,
+  TitikKinerja,
 } from '../../contracts/monitoring';
 import type { ApiRespons } from '../../contracts/common';
-import type { RentangWaktu, TitikKinerja } from '../../contracts/monitoring';
+import { GalatRentangWaktu } from './galat';
 
 export class MonitoringController {
   private modulMonitoring: ModulMonitoring;
@@ -42,30 +41,28 @@ export class MonitoringController {
     }
   }
 
-  async prosesTelemetriBaterai(idPerangkat: string, kapasitas: number): Promise<void> {
-    const perangkat = await this.dataBoundary.cariBaterai(idPerangkat);
-    
-    if (perangkat && perangkat.jenisPerangkat === 'BATERAI') {
-      const ambangBatas = perangkat.ambangBatasAman || 20; 
-      
-      if (kapasitas < ambangBatas) {
-        await this.modulNotifikasi.kirimPeringatanDayaKritis(idPerangkat, kapasitas);
-      }
-    }
-  }
-
-  async ambilRiwayatPanel(r: RentangWaktu): Promise<ApiRespons<TitikKinerja[]>> {
+  async ambilRiwayatPanel(
+    idTeknisi: string,
+    waktuMulai: string,
+    waktuSelesai: string,
+  ): Promise<ApiRespons<TitikKinerja[]>> {
     try {
-      const panel = await this.modulMonitoring.evaluasiKetersediaan();
-      const idPanel = "PANEL-01"; 
-
-      const hasil = await this.modulMonitoring.ambilHistorisPanel(idPanel, r);
-      return { ok: true, data: hasil };
+      const data = await this.modulMonitoring.ambilRiwayatPanel(idTeknisi, waktuMulai, waktuSelesai);
+      return { ok: true, data };
     } catch (error) {
-      if (error instanceof Error && error.message === "Rentang waktu tidak valid") {
+      if (error instanceof GalatRentangWaktu) {
         return { ok: false, kode: 'VALIDASI_GAGAL', pesan: error.message };
       }
       return { ok: false, kode: 'GAGAL_INTERNAL', pesan: 'Gagal mengambil riwayat panel' };
+    }
+  }
+
+  async daftarPeringatanTeknisi(idTeknisi: string): Promise<ApiRespons<PeringatanTampil[]>> {
+    try {
+      const data = await this.modulMonitoring.daftarPeringatanTeknisi(idTeknisi);
+      return { ok: true, data };
+    } catch (error) {
+      return { ok: false, kode: 'GAGAL_INTERNAL', pesan: 'Gagal mengambil peringatan perangkat' };
     }
   }
 }
