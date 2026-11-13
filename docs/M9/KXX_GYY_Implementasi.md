@@ -200,6 +200,8 @@ Tabel B.1. Perubahan dari DPPL
 | 8 | Notifikasi saat status laporan berubah (UC07) | Tidak ada di DPPL. Rencana tim sempat menyebut pengiriman notifikasi. | Tidak diimplementasikan. Perubahan status tercatat di riwayat dan terlihat di I-07 dan I-11. | DPPL hanya mendefinisikan notifikasi untuk peringatan daya kritis (UC05). |
 | 9 | Kelas WargaView, TeknisiView, PengurusView | Tiga kelas view dengan operasi terhubung ke controller. | Komponen React: `components/shell` (sidebar, bottom-nav, judul layar) dan 14 layar `components/layar/LayarI03` sampai `LayarI16`, dipasang di rute `app/dashboard/{warga,teknisi,pengurus}`. | Next.js App Router. Operasi view menjadi handler event yang memanggil route API. |
 | 10 | Layar I-06 dan I-10 (pencarian dan filter) | Mockup menampilkan kolom pencarian dan filter status. | Pencarian dan filter berjalan di klien atas data yang sudah dibatasi server. | Daftar per akun kecil, jadi tidak perlu query tambahan. |
+| 11 | | Kelas ModulMonitoring (UC06) | Validasi Algo-011 tergabung dalam `RentangWaktu` dan langsung dipanggil di ModulMonitoring. | Entitas dipisahkan ke `src/modules/monitoring/entities/RentangWaktu.ts` menggunakan tipe bawaan `Date`. Validasi dieksekusi di `ModulMonitoring.ambilHistorisPanel` sebelum mengambil data. | Agar logika validasi domain (Algo-011) dapat diuji secara terisolasi dengan Unit Test tanpa memanggil Prisma. |
+| 12 | Kelas ModulMonitoring (UC01) | Evaluasi ketersediaan langsung memakai nilai atribut `Baterai` dan `TangkiAir`. | Entitas dipisahkan ke `src/modules/monitoring/entities/TangkiAir.ts` dan `Baterai.ts.` Logika matematika diekstrak ke dalam class mandiri. | Sama seperti `RentangWaktu`, ekstraksi ke dalam class `entities` memungkinkan eksekusi Unit Test murni untuk Algo-009 dan Algo-010 tanpa dependency database |
 | *...* | *...* | *...* | *...* | *...* |
 
 ## B.2 Bukti Penerapan Best Practices
@@ -259,6 +261,17 @@ Tabel B.5. Traceability Kelas Perancangan ke Implementasi
 | - | LaporanController | Kelas dan route | `src/modules/laporan/service.ts` - `LaporanController`, `src/app/api/laporan/**/route.ts` | Atribut `sesi` dari cookie lewat `getSesi`. Algo-025 di `kirimLaporan`. Semua operasi memeriksa peran, bentuk ID, lalu mendelegasikan ke modul. |
 | - | ModulLaporan | Kelas | `src/modules/laporan/internal/ModulLaporan.ts` - `ModulLaporan` | Algo-034 di `kirimLaporan` dan `perbaruiStatus`. Antarmuka `RepositoriLaporan` dan `AnggotaKomunitas` menjadi atribut `data` dan `akun`. |
 | - | DataLaporanBoundary | Objek repositori | `src/modules/laporan/repository.ts` - `repositoriLaporan` | Prisma dengan parameter terikat. `simpanStatusDanRiwayat` (Algo-040, 042) memakai `$transaction`, `SELECT ... FOR UPDATE`, `updateMany` dengan syarat status lama dan penugasan, lalu `create` riwayat. |
+| C07 | Perangkat | - | - | Class abstrak digabung dan diwakili oleh implementasi `prisma.perangkat` pada Data Access Boundary. |
+| C08 | TangkiAir | Kelas (Domain) | `src/modules/monitoring/entities/TangkiAir.ts` - `TangkiAirDomain` | Murni untuk menampung logika penentuan status (Algo-009) yang dipakai Unit Test dan controller. |
+| C09 | Baterai | Kelas (Domain) | `src/modules/monitoring/entities/Baterai.ts` - `BateraiDomain` | Murni untuk menampung logika batas aman (Algo-010). |
+| C10 | PanelSurya | - | - | Pengambilan daya terkini digabung dan ditangani langsung di `ModulMonitoring.evaluasiKetersediaan`. |
+| C11 | PembacaanSensor | Tipe Kontrak & Database | `src/contracts/monitoring.ts` - `MasukanTelemetri` | Kelas tidak dibuat. Struktur direpresentasikan lewat `MasukanTelemetri` dan disimpan via Prisma. |
+| C12 | DataHistorisKinerja | Fungsi & Tipe | `src/modules/monitoring/DataPerangkatBoundary.ts` - `ambilHistorisKinerja` | Pencarian berdasar rentang (Algo-039) dieksekusi lewat query Prisma. |
+| C13 | RentangWaktu | Kelas (Domain) | `src/modules/monitoring/entities/RentangWaktu.ts` - `RentangWaktuDomain` | Eksekusi validasi rentang awal dan akhir (Algo-011). |
+| - | TelemetriAPI | Route Handler | `src/app/api/telemetri/route.ts` - `POST` | Menerima payload, validasi body, memanggil controller. |
+| - | MonitoringController | Kelas | `src/modules/monitoring/MonitoringController.ts` - `MonitoringController` | Pemrosesan Algo-023 (`terimaTelemetri`) dan endpoint status/historis. |
+| - | ModulMonitoring | Kelas | `src/modules/monitoring/ModulMonitoring.ts` - `ModulMonitoring`| Penerapan Algo-033 (`evaluasiKetersediaan`) dan koordinasi boundary. |
+| - | DataPerangkatBoundary | Kelas | `src/modules/monitoring/DataPerangkatBoundary.ts` - `DataPerangkatBoundary` | Semua kueri `prisma` untuk perangkat, pembacaan, dan historis. |
 | *[C01]* | *[Nama kelas pada DPPL]* | *[mis. Kelas / Fungsi / Komponen / Route / Tabel]* | *[mis. `src/models/user.py` - `User`]* | *[Cara atribut dan operasi kelas diwujudkan; "-" jika tidak ada penjelasan tambahan]* |
 | *[C02]* | *[Nama kelas pada DPPL]* | *[Bentuk implementasi]* | *[mis. `src/components/LoginForm.tsx` - `LoginForm`]* | *[mis. atribut menjadi *state*, operasi menjadi *handler*]* |
 | *[C03]* | *[Nama kelas pada DPPL]* | *[Bentuk implementasi]* | *[mis. `src/routes/auth.js` - `POST /login`]* | *[Keterangan]* |
