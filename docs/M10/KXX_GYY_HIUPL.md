@@ -274,6 +274,16 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 | - | ModulMonitoring  | Mendalam | Memuat logika domain `evaluasiKetersediaan()` (Algo-033), pencatatan pembacaan, dan validasi kueri historis panel | `MM-UT01` s.d. `MM-UT06` (sesuaikan jumlah final) |
 | - | ModulNotifikasi  | Mendalam | Memuat logika bisnis `kirimPeringatanDayaKritis()` (Algo-037) dan `kirimUlangPending()` (Algo-051) | `MN-UT01` s.d. `MN-UT06` |
 | - | DataPerangkatBoundary  | Sedang  | Repositori CRUD standar ke PostgreSQL via Prisma (termasuk Algo-039, 043–045); diuji pada level integrasi basis data nyata | `INT-TCxx` (koordinasi dengan Rafiandhi) |
+| C20 | LaporanGangguan | Mendalam | Memuat pembuatan laporan berstatus awal MENUNGGU dan aturan transisi status `validasiTransisi()` serta `ubahStatus()` (Algo-017) | `C20-UT01` s.d. `C20-UT07` |
+| C21 | StatusLaporan | Mendalam | Memuat urutan status yang diperbolehkan dan pemeriksaan nilai enumerasi (Algo-017) | `C21-UT01` s.d. `C21-UT04` |
+| C22 | RiwayatStatusLaporan | Sedang | Mencatat perubahan status dengan sedikit logika (pembuatan ID dan konversi waktu); alur pencatatannya juga teruji lewat `ModulLaporan` | `C22-UT01` s.d. `C22-UT03` |
+| C24 | PenugasanLaporan | Mendalam | Memuat `verifikasi()` yang menjadi dasar kewenangan teknisi pada UC07 (keamanan) | `C24-UT01` s.d. `C24-UT03` |
+| - | WargaView | Tidak perlu | Kelas view yang hanya menampilkan data dan meneruskan masukan; teruji tidak langsung lewat UC03 dan UC04 | - |
+| - | TeknisiView | Tidak perlu | Kelas view yang hanya menampilkan data dan meneruskan masukan; teruji tidak langsung lewat UC07 | - |
+| - | PengurusView | Tidak perlu | Kelas view tanpa logika; tidak ada layar laporan untuk Pengurus, jadi tidak ada test case laporan | - |
+| - | LaporanController | Sedang | Controller tipis: memeriksa peran dan format ID, lalu meneruskan ke `ModulLaporan` dan memetakan galat ke `ApiRespons` | `LC-UT01` s.d. `LC-UT12` |
+| - | ModulLaporan | Mendalam | Memuat logika `kirimLaporan()` (Algo-003, Algo-025, Algo-034), pembacaan milik warga atau teknisi bertugas, dan `perbaruiStatus()` transaksional (Algo-017, Algo-040, Algo-042) | `ML-UT01` s.d. `ML-UT26` |
+| - | DataLaporanBoundary | Sedang | Repositori Prisma dengan query terparameter dan transaksi `FOR UPDATE` untuk status dan riwayat; diuji pada basis data nyata | `INT-TCxx` (koordinasi dengan Rafiandhi) |
 | *...* | *...* | *...* | *...* | *...* |
 
 ## 4.2 Pengujian Unit Kelas
@@ -332,6 +342,185 @@ Tabel 4.2.4. Ringkasan Cakupan Kelas C28 (`Rekapitulasi`)
 | Operasi yang diuji | `buatRekapitulasi()`, `toCSV()`, `toPDFBuffer()` |
 | ID Algoritma yang tercakup | Algo-022 |
 | Coverage (wajib ≥ 70%) | `[isi 74.89 Stmts / 62.04 Branch dari npx jest src/tests/iuran/iuran.test.ts --coverage; bukti pada Subbab 4.6]` |
+
+### 4.2.5 Kelas LaporanGangguan
+
+**ID Kelas:** C20  
+**Nama Kelas:** `LaporanGangguan`  
+**Tingkat:** Mendalam
+
+Cara menjalankan unit test modul laporan (dari folder `src`): `npx jest tests/laporan --verbose --coverage --collectCoverageFrom='modules/laporan/**/*.ts' --collectCoverageFrom='!modules/laporan/ui/**' --collectCoverageFrom='!modules/laporan/index.ts' --collectCoverageFrom='!modules/laporan/repository.ts'`
+
+Lokasi file test: `src/tests/laporan/` (`status.test.ts`, `entitas.test.ts`, `kirimLaporan.test.ts`, `bacaWarga.test.ts`, `perbaruiStatus.test.ts`). Berkas `repository.ts` (DataLaporanBoundary) tidak dihitung pada coverage unit karena diuji pada basis data nyata di Subbab 4.3.
+
+Tabel 4.2.5. Hasil Pengujian Unit Kelas C20 (`LaporanGangguan`)
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| C20-UT01 | `LaporanGangguan.baru()` | Normal | Buat laporan dari form berisi jenis dan deskripsi yang diapit spasi untuk `idWarga = 1`. | Status `MENUNGGU`; jenis dan deskripsi terpangkas. | Status `MENUNGGU`, jenis dan deskripsi tanpa spasi tepi. | Pass |
+| C20-UT02 | `LaporanGangguan.baru()` | Batas | Buat dua laporan dari form yang sama, lalu ubah array foto pada form setelah laporan pertama dibuat. | ID berformat `LAP-` + 8 karakter heksadesimal dan berbeda tiap laporan; foto laporan tidak ikut berubah. | ID cocok pola, kedua ID berbeda, foto laporan tetap `["a.jpg"]`. | Pass |
+| C20-UT03 | `validasiTransisi()` | Normal / Batas / Negatif | Uji tujuh pasangan status: dua langkah maju sah, lalu lompat, mundur, sama, dan dari status akhir. | Hanya `MENUNGGU` ke `SEDANG_DIPERBAIKI` dan `SEDANG_DIPERBAIKI` ke `SELESAI` bernilai benar. | Dua pasangan maju bernilai benar, lima pasangan lain bernilai salah. | Pass |
+| C20-UT04 | `ubahStatus()`, `statusBerikutnya()` | Normal | Ubah status `MENUNGGU` ke `SEDANG_DIPERBAIKI`, lalu ke `SELESAI`. | Status maju satu langkah tiap panggilan; pada `SELESAI` tidak ada status berikutnya. | Status menjadi `SEDANG_DIPERBAIKI`, lalu `SELESAI`; `statusBerikutnya()` kosong. | Pass |
+| C20-UT05 | `ubahStatus()` | Negatif | Panggil `ubahStatus("SELESAI")` pada laporan `MENUNGGU`. | Melempar galat dan status objek tidak berubah. | Galat dilempar dan status tetap `MENUNGGU`. | Pass |
+| C20-UT06 | `getRingkasan()`, `getDetailLaporan()` | Normal | Buat laporan lalu panggil kedua metode dengan `namaPemilik = "Sari"`. | Ringkasan memuat ID, jenis, status, dan waktu ISO; detail menambah deskripsi, foto, dan nama pemilik. | Kolom ringkasan dan detail sama dengan kontrak, waktu `2026-10-28T01:10:00.000Z`. | Pass |
+| C20-UT07 | `simpan()` | Normal / Negatif | Panggil `simpan()` dengan penyimpan palsu yang mengembalikan `true`, lalu yang mengembalikan `false`. | Data laporan diteruskan ke penyimpan dan hasilnya dikembalikan apa adanya. | Penyimpan menerima data laporan; hasil `true` lalu `false` diteruskan. | Pass |
+
+Tabel 4.2.6. Ringkasan Cakupan Kelas C20 (`LaporanGangguan`)
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `LaporanGangguan()`, `setStatusMenunggu()`, `getDetailLaporan()`, `validasiTransisi()`, `statusBerikutnya()`, `ubahStatus()`, `simpan()` (diwujudkan: `baru()`, `dariData()`, `getRingkasan()`, `getDetailLaporan()`, `validasiTransisi()`, `statusBerikutnya()`, `ubahStatus()`, `simpan()`) |
+| Operasi yang diuji | `baru()`, `validasiTransisi()`, `statusBerikutnya()`, `ubahStatus()`, `getRingkasan()`, `getDetailLaporan()`, `simpan()` |
+| ID Algoritma yang tercakup | Algo-017 |
+| Coverage (wajib ≥ 70%) | 100% line / 100% branch (Jest `--coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.6 Kelas StatusLaporan
+
+**ID Kelas:** C21  
+**Nama Kelas:** `StatusLaporan`  
+**Tingkat:** Mendalam
+
+Tabel 4.2.7. Hasil Pengujian Unit Kelas C21 (`StatusLaporan`)
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| C21-UT01 | `statusBerikutnya()` | Normal / Batas | Minta status berikutnya untuk tiap status. | `MENUNGGU` ke `SEDANG_DIPERBAIKI`, `SEDANG_DIPERBAIKI` ke `SELESAI`, `SELESAI` tanpa lanjutan. | Hasil sesuai harapan, status akhir mengembalikan daftar kosong. | Pass |
+| C21-UT02 | `adalahStatus()` | Negatif | Periksa nilai di luar enumerasi dan bukan string. | Bernilai salah untuk nilai di luar `MENUNGGU`, `SEDANG_DIPERBAIKI`, `SELESAI`. | Semua nilai di luar enumerasi ditolak. | Pass |
+| C21-UT03 | `URUTAN_STATUS` | Normal | Bandingkan urutan konstanta dengan DPPL. | `MENUNGGU`, `SEDANG_DIPERBAIKI`, `SELESAI`. | Urutan sesuai DPPL. | Pass |
+| C21-UT04 | `labelStatus()` | Normal | Minta label untuk tiap status. | `Menunggu`, `Sedang diperbaiki`, `Selesai`. | Ketiga label sesuai harapan. | Pass |
+
+Tabel 4.2.8. Ringkasan Cakupan Kelas C21 (`StatusLaporan`)
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `label()` |
+| Operasi yang diuji | `labelStatus()`, `statusBerikutnya()`, `adalahStatus()`, `URUTAN_STATUS` |
+| ID Algoritma yang tercakup | Algo-017 |
+| Coverage (wajib ≥ 70%) | 100% line / 100% branch (Jest `--coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.7 Kelas RiwayatStatusLaporan
+
+**ID Kelas:** C22  
+**Nama Kelas:** `RiwayatStatusLaporan`  
+**Tingkat:** Sedang
+
+Tabel 4.2.9. Hasil Pengujian Unit Kelas C22 (`RiwayatStatusLaporan`)
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| C22-UT01 | konstruktor `RiwayatStatusLaporan` | Normal | Buat catatan untuk `LAP-1`, status `SELESAI`, pada waktu tetap. | Catatan memuat laporan, status, waktu, dan ID berformat `RWY-` + 8 karakter heksadesimal. | Data sama dengan masukan dan ID cocok pola. | Pass |
+| C22-UT02 | `ringkas()` | Normal | Ringkas catatan berstatus `SEDANG_DIPERBAIKI`. | Berisi status dan waktu dalam teks ISO. | `{ status: "SEDANG_DIPERBAIKI", timestamp: "2026-10-28T01:10:00.000Z" }`. | Pass |
+| C22-UT03 | konstruktor `RiwayatStatusLaporan` | Batas | Buat dua catatan dengan laporan, status, dan waktu yang sama. | ID riwayat berbeda. | Kedua ID berbeda. | Pass |
+
+Tabel 4.2.10. Ringkasan Cakupan Kelas C22 (`RiwayatStatusLaporan`)
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `RiwayatStatusLaporan()`, `catat()`, `getRiwayatPerkembangan()` (diwujudkan: konstruktor dan `ringkas()`; `catat()` dijalankan atomik bersama perubahan status oleh `DataLaporanBoundary`) |
+| Operasi yang diuji | Konstruktor, `ringkas()` |
+| ID Algoritma yang tercakup | Algo-040, Algo-042 (bagian pencatatan) |
+| Coverage (wajib ≥ 70%) | `100% line / 100% branch` (kelas Sedang, tidak diwajibkan) |
+
+### 4.2.8 Kelas PenugasanLaporan
+
+**ID Kelas:** C24  
+**Nama Kelas:** `PenugasanLaporan`  
+**Tingkat:** Mendalam
+
+Tabel 4.2.11. Hasil Pengujian Unit Kelas C24 (`PenugasanLaporan`)
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| C24-UT01 | `verifikasi()` | Normal | Penugasan `TEK-01` pada `LAP-1`; verifikasi `TEK-01` dan `LAP-1`. | Bernilai benar. | Bernilai benar. | Pass |
+| C24-UT02 | `verifikasi()` | Negatif | Verifikasi `TEK-02` pada `LAP-1`. | Bernilai salah. | Bernilai salah. | Pass |
+| C24-UT03 | `verifikasi()` | Batas / Negatif | Verifikasi `TEK-01` pada `LAP-2`, lalu masukan kosong. | Bernilai salah pada keduanya. | Bernilai salah pada keduanya. | Pass |
+
+Tabel 4.2.12. Ringkasan Cakupan Kelas C24 (`PenugasanLaporan`)
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `verifikasi()` |
+| Operasi yang diuji | `verifikasi()` |
+| ID Algoritma yang tercakup | Algo-042 (verifikasi penugasan) |
+| Coverage (wajib ≥ 70%) | 100% line / 100% branch (Jest `--coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.9 Kelas LaporanController
+
+**ID Kelas:** - *(kelas desain tambahan)*  
+**Nama Kelas:** `LaporanController`  
+**Tingkat:** Sedang
+
+Tabel 4.2.13. Hasil Pengujian Unit Kelas `LaporanController`
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| LC-UT01 | `kirimLaporan()` | Negatif | Kirim body berisi `idWarga: 999`, `idKomunitas: "KOM-LAIN"`, dan `status: "SELESAI"` dengan sesi warga ID 7. | Laporan tersimpan atas ID warga sesi dengan status `MENUNGGU`; isian tambahan diabaikan. | Laporan tersimpan dengan `idWarga = 7` dan status `MENUNGGU`. | Pass |
+| LC-UT02 | `kirimLaporan()` | Batas | Kirim body tanpa kolom `fotoPendukung`. | Diterima dan foto menjadi daftar kosong. | `ok: true`, foto `[]`. | Pass |
+| LC-UT03 | `kirimLaporan()` | Negatif | Kirim jenis dan deskripsi kosong. | `VALIDASI_GAGAL`; keanggotaan tidak diperiksa dan tidak ada yang disimpan. | `VALIDASI_GAGAL`, pemeriksaan keanggotaan dan penyimpanan tidak terpanggil. | Pass |
+| LC-UT04 | `kirimLaporan()` | Negatif | Kirim laporan dengan sesi Teknisi. | `TIDAK_BERWENANG` dan tidak ada yang disimpan. | `TIDAK_BERWENANG`, penyimpanan tidak terpanggil. | Pass |
+| LC-UT05 | `kirimLaporan()` | Negatif | Pemeriksaan keanggotaan melempar galat `koneksi putus`. | `GAGAL_INTERNAL`, bukan galat mentah. | `GAGAL_INTERNAL`. | Pass |
+| LC-UT06 | `detailMilikWarga()`, `riwayatMilikWarga()` | Negatif / Batas | Masukkan ID `""`, `../etc/passwd`, `LAP A`, 65 karakter, angka 42, dan `null`. | `VALIDASI_GAGAL` tanpa query ke basis data. | Keenam ID ditolak `VALIDASI_GAGAL` dan query tidak terpanggil. | Pass |
+| LC-UT07 | `daftarMilikWarga()`, `detailMilikWarga()`, `riwayatMilikWarga()` | Negatif | Panggil ketiga operasi dengan sesi Teknisi. | `TIDAK_BERWENANG`, tanpa query. | Ketiganya `TIDAK_BERWENANG`, query tidak terpanggil. | Pass |
+| LC-UT08 | `daftarMilikWarga()` | Negatif | Query daftar melempar galat `koneksi putus`. | `GAGAL_INTERNAL`, bukan daftar kosong. | `GAGAL_INTERNAL`. | Pass |
+| LC-UT09 | `perbaruiStatus()` | Negatif | Warga memanggil `perbaruiStatus("LAP-1", "SEDANG_DIPERBAIKI")`. | `TIDAK_BERWENANG`, penugasan tidak diperiksa. | `TIDAK_BERWENANG`, `cariPenugasan` tidak terpanggil. | Pass |
+| LC-UT10 | `perbaruiStatus()` | Negatif / Batas | Masukkan status `DITOLAK`, `selesai`, `""`, `null`, dan angka 3. | `VALIDASI_GAGAL` tanpa query. | Kelima nilai ditolak `VALIDASI_GAGAL`, query tidak terpanggil. | Pass |
+| LC-UT11 | `perbaruiStatus()` | Negatif | Pemeriksaan penugasan melempar galat `koneksi putus`. | `GAGAL_INTERNAL`. | `GAGAL_INTERNAL`. | Pass |
+| LC-UT12 | `daftarPenugasan()`, `detailTugas()` | Negatif | Panggil dengan sesi Warga. | `TIDAK_BERWENANG`. | Keduanya `TIDAK_BERWENANG`. | Pass |
+
+Tabel 4.2.14. Ringkasan Cakupan Kelas `LaporanController`
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `kirimLaporan()`, `daftarMilikWarga()`, `detailMilikWarga()`, `riwayatMilikWarga()`, `daftarPenugasan()`, `detailTugas()`, `riwayatTugas()`, `perbaruiStatus()` |
+| Operasi yang diuji | Semua operasi publik, masing-masing minimal satu kasus normal (lewat `ML-UTxx`) dan satu kasus gagal (`LC-UTxx`) |
+| ID Algoritma yang tercakup | Algo-025, Algo-034, Algo-040 |
+| Coverage (wajib ≥ 70%) | 100% line / 87.5% branch (Jest `--coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.10 Kelas ModulLaporan
+
+**ID Kelas:** - *(kelas desain tambahan)*  
+**Nama Kelas:** `ModulLaporan`  
+**Tingkat:** Mendalam
+
+Tabel 4.2.15. Hasil Pengujian Unit Kelas `ModulLaporan`
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ML-UT01 | `kirimLaporan()` | Normal | Warga anggota komunitas mengirim form valid dengan deskripsi berspasi. | Sukses; laporan berstatus `MENUNGGU` milik warga sesi tersimpan satu kali; keanggotaan diperiksa dengan `(7, "KOM-1")`. | `ok: true`, status `MENUNGGU`, tersimpan sekali, deskripsi terpangkas. | Pass |
+| ML-UT02 | `kirimLaporan()` | Negatif | Pemeriksaan keanggotaan mengembalikan `false` (Algo-003). | `TIDAK_BERWENANG` dan laporan tidak dibuat. | `TIDAK_BERWENANG`, penyimpanan tidak terpanggil. | Pass |
+| ML-UT03 | `kirimLaporan()` | Negatif | Penyimpanan mengembalikan `false`. | `GAGAL_SIMPAN`, tidak pernah dilaporkan sukses. | `GAGAL_SIMPAN`. | Pass |
+| ML-UT04 | `daftarMilikWarga()` | Normal | Warga ID 7 meminta daftar. | Hanya laporan miliknya, terbaru lebih dulu. | `["LAP-B", "LAP-A"]`; query memakai ID 7. | Pass |
+| ML-UT05 | `daftarMilikWarga()` | Normal | Warga ID 8 meminta daftar. | Hanya laporan milik warga 8. | `["LAP-X"]`. | Pass |
+| ML-UT06 | `daftarMilikWarga()` | Batas | Warga tanpa laporan meminta daftar. | `ok: true` dengan daftar kosong. | `{ ok: true, data: [] }`. | Pass |
+| ML-UT07 | `detailMilikWarga()` | Normal | Warga ID 7 membuka `LAP-A`. | Detail memuat status, deskripsi, dan nama pemilik. | Detail `LAP-A` berstatus `SEDANG_DIPERBAIKI` dengan nama pemilik `Sari Lestari`. | Pass |
+| ML-UT08 | `detailMilikWarga()` | Negatif | Warga membuka `LAP-X` (milik orang lain) dan `LAP-TIDAK-ADA`. | `TIDAK_DITEMUKAN` dengan pesan yang sama, sehingga keberadaan laporan orang lain tidak terbaca. | Keduanya `TIDAK_DITEMUKAN` dan hasilnya identik. | Pass |
+| ML-UT09 | `riwayatMilikWarga()` | Normal | Warga membuka riwayat `LAP-A`. | Riwayat urut waktu naik. | `SEDANG_DIPERBAIKI`, lalu `SELESAI`. | Pass |
+| ML-UT10 | `riwayatMilikWarga()` | Batas | Warga membuka riwayat `LAP-B` yang belum pernah berubah status. | `ok: true` dengan daftar kosong. | `{ ok: true, data: [] }`. | Pass |
+| ML-UT11 | `riwayatMilikWarga()` | Negatif | Warga membuka riwayat `LAP-X` milik orang lain. | `TIDAK_DITEMUKAN` sebelum riwayat dibaca. | `TIDAK_DITEMUKAN`, `cariRiwayatMilik` tidak terpanggil. | Pass |
+| ML-UT12 | `perbaruiStatus()` | Normal | Teknisi bertugas mengubah `LAP-1` dari `MENUNGGU` ke `SEDANG_DIPERBAIKI`. | Status dan satu riwayat disimpan bersama dalam satu pemanggilan transaksi dengan status lama `MENUNGGU`. | Status menjadi `SEDANG_DIPERBAIKI`, satu riwayat tercatat, transaksi dipanggil dengan status lama `MENUNGGU`. | Pass |
+| ML-UT13 | `perbaruiStatus()` | Normal | Teknisi bertugas mengubah `LAP-2` ke `SELESAI`. | Sukses. | `ok: true`, status `SELESAI`. | Pass |
+| ML-UT14 | `perbaruiStatus()` | Normal | Teknisi mengubah `LAP-1` ke `SEDANG_DIPERBAIKI`, lalu ke `SELESAI`. | Dua riwayat berurutan. | Riwayat `SEDANG_DIPERBAIKI` lalu `SELESAI`. | Pass |
+| ML-UT15 | `perbaruiStatus()` | Negatif | Teknisi melompat dari `MENUNGGU` ke `SELESAI` (skenario alternatif 2 UC07). | `VALIDASI_GAGAL` beserta status yang boleh dipilih; tidak ada yang disimpan. | `VALIDASI_GAGAL` dengan opsi `["SEDANG_DIPERBAIKI"]`, status tetap `MENUNGGU`. | Pass |
+| ML-UT16 | `perbaruiStatus()` | Negatif / Batas | Empat percobaan: mundur, sama, mundur dari akhir, dan akhir ke akhir. | Semua `VALIDASI_GAGAL`, status tidak berubah. | Keempatnya `VALIDASI_GAGAL`, status tetap dan transaksi tidak dipanggil. | Pass |
+| ML-UT17 | `perbaruiStatus()` | Batas | Ubah laporan berstatus `SELESAI` ke `SELESAI`. | Opsi status berikutnya kosong. | `opsi.statusBerikutnya` kosong. | Pass |
+| ML-UT18 | `perbaruiStatus()` | Negatif | Teknisi `TEK-02` mengubah `LAP-1` yang ditugaskan ke `TEK-01` (skenario alternatif 1 UC07). | `TIDAK_BERWENANG` sebelum status dibaca atau diubah. | `TIDAK_BERWENANG`; detail tugas dan transaksi tidak terpanggil; status tetap `MENUNGGU`. | Pass |
+| ML-UT19 | `perbaruiStatus()` | Negatif | Teknisi mengubah `LAP-4` yang tidak ditugaskan ke siapa pun. | `TIDAK_BERWENANG`. | `TIDAK_BERWENANG`. | Pass |
+| ML-UT20 | `perbaruiStatus()` | Negatif | Transaksi penyimpanan mengembalikan `false` (status sudah berubah oleh pihak lain). | `KONFLIK`, tidak ada perubahan. | `KONFLIK`, status tetap `MENUNGGU` dan tidak ada riwayat. | Pass |
+| ML-UT21 | `perbaruiStatus()` | Negatif | Penyimpanan riwayat gagal di tengah transaksi. | `KONFLIK` dan status tidak berubah. | `KONFLIK`, status tetap `MENUNGGU`, tidak ada riwayat. | Pass |
+| ML-UT22 | `daftarPenugasan()` | Normal | Teknisi `TEK-01` meminta daftar tugas. | Hanya tugas miliknya, laporan terlama lebih dulu. | `["LAP-3", "LAP-2", "LAP-1"]`. | Pass |
+| ML-UT23 | `daftarPenugasan()` | Batas | Teknisi `TEK-02` tanpa penugasan meminta daftar. | Daftar kosong yang sah. | `{ ok: true, data: [] }`. | Pass |
+| ML-UT24 | `detailTugas()` | Negatif | Teknisi membuka `LAP-4` (tidak ditugaskan) dan `LAP-TIDAK-ADA`. | `TIDAK_DITEMUKAN` dengan hasil yang sama. | Keduanya `TIDAK_DITEMUKAN` dan identik. | Pass |
+| ML-UT25 | `detailTugas()`, `riwayatTugas()` | Normal | Teknisi `TEK-01` membuka detail dan riwayat `LAP-2`. | Detail dan riwayat terbaca. | Status `SEDANG_DIPERBAIKI`, riwayat `["SEDANG_DIPERBAIKI"]`. | Pass |
+| ML-UT26 | `riwayatTugas()` | Negatif | Teknisi `TEK-02` membuka riwayat `LAP-2` milik tugas `TEK-01`. | `TIDAK_DITEMUKAN` sebelum riwayat dibaca. | `TIDAK_DITEMUKAN`, `cariRiwayatTugas` tidak terpanggil. | Pass |
+
+Tabel 4.2.16. Ringkasan Cakupan Kelas `ModulLaporan`
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `kirimLaporan()`, `daftarMilikWarga()`, `detailMilikWarga()`, `riwayatMilikWarga()`, `daftarPenugasan()`, `detailTugas()`, `riwayatTugas()`, `perbaruiStatus()` |
+| Operasi yang diuji | Seluruh operasi publik tersebut |
+| ID Algoritma yang tercakup | Algo-003, Algo-017, Algo-025, Algo-034, Algo-040, Algo-042 |
+| Coverage (wajib ≥ 70%) | 100% line / 95.45% branch (Jest `--coverage`; bukti pada Subbab 4.6) |
 
 <br>
 
