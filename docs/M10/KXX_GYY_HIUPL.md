@@ -94,7 +94,6 @@ Tabel 1.3. Definisi Istilah dan Singkatan
 | *Coverage* | *Persentase baris/cabang kode yang dieksekusi oleh pengujian.* |
 
 ## 1.4 Aturan Penomoran
-Tuliskan aturan penomoran (ID) yang digunakan dalam dokumen ini. Gunakan pola ID yang **sama** dengan yang sudah dipakai pada dokumen-dokumen sebelumnya (SKPL, APL, DPPL), kecuali untuk ID pengujian yang baru diperkenalkan pada dokumen ini.
 
 Tabel 1.4. Aturan Penomoran
 
@@ -379,10 +378,10 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 | - | ModulIuran | Mendalam | Memuat logika `lihatTagihanFinal()`, `analisisPemakaian()`, `hitungPratinjau()`, `tetapkanFinal()`, dan `buatRekapitulasi()` (Algo-013 s.d. Algo-016, Algo-022, Algo-028, Algo-036, Algo-050) beserta pembatasan peran Pengurus | `C19-UT01` s.d. `C19-UT08`, `C28-UT01`, `INT-TC24` s.d. `INT-TC26` |
 | - | DataIuranBoundary | Sedang | Repositori Prisma dengan transaksi untuk pratinjau dan finalisasi; diuji pada basis data nyata | `INT-TC24` s.d. `INT-TC26` |
 | - | AuthView | Tidak perlu | Komponen presentasi (boundary); perilakunya diuji melalui use case UC12–UC13 dan tangkapan layar I-01/I-02 | - |
-| - | AkunController | Mendalam | Mengoordinasikan validasi, registrasi (Algo-029), login (Algo-030), dan persetujuan dengan pemeriksaan kewenangan Pengurus (Algo-006) | `AKC-UT01` s.d. `AKC-UT29` |
-| - | ModulAkun | Mendalam | Fasad modul akun: registrasi calon, autentikasi (Algo-032) dengan penyamaan waktu respons, daftar dan persetujuan akun, serta pengambilan warga terkini | `MA-UT01` s.d. `MA-UT08` |
+| - | AkunController | Mendalam | Mengoordinasikan validasi, registrasi (Algo-029), login (Algo-030), dan persetujuan dengan pemeriksaan kewenangan Pengurus (Algo-006) | `AKC-UT01` s.d. `AKC-UT20` |
+| - | ModulAkun | Mendalam | Fasad modul akun: registrasi calon, autentikasi (Algo-032) dengan penyamaan waktu respons, daftar dan persetujuan akun, serta pengambilan warga terkini | `MA-UT01` s.d. `MA-UT05` |
 | - | DataAkunBoundary | Tidak perlu | Repositori Prisma tanpa logika bisnis; diuji pada level integrasi basis data (Subbab 4.3) | `INT-TC05` s.d. `INT-TC09` |
-| - | Validasi | Mendalam | Memuat seluruh aturan validasi registrasi (Algo-031): format email, panjang kata sandi, kolom wajib, dan pesan per kolom | `VAL-UT01` s.d. `VAL-UT07` |
+| - | Validasi | Mendalam | Memuat seluruh aturan validasi registrasi (Algo-031): format email, panjang kata sandi, kolom wajib, dan pesan per kolom | `VAL-UT01` s.d. `VAL-UT04` |
 | - | Database | Tidak perlu | Skema dan koneksi basis data; tidak berisi logika kelas dan diverifikasi melalui pengujian integrasi (Subbab 4.3) | `INT-TC01` s.d. `INT-TC26` |
 
 ## 4.2 Pengujian Unit Kelas
@@ -851,7 +850,7 @@ Tabel 4.2.32. Ringkasan Cakupan Kelas C01 (`Akun`)
 | Daftar operasi public pada DPPL | `cocokKredensial()`, `sudahDisetujui()`, `ubahStatus()`, `buatAkun()`, `dashboardTujuan()` (abstrak), `konteksSesi()` (abstrak) |
 | Operasi yang diuji | `cocokKredensial()`, `buatAkun()` diuji langsung; `sudahDisetujui()`, `konteksSesi()`, dan `dashboardTujuan()` teruji tidak langsung lewat `AkunController.login` (AKC-UT06 dan AKC-UT09) |
 | ID Algoritma yang tercakup | Algo-001, Algo-002 |
-| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
+| Coverage (wajib ≥ 70%) | `80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
 
 ### 4.2.18 Kelas Warga
 
@@ -874,7 +873,7 @@ Tabel 4.2.34. Ringkasan Cakupan Kelas C02 (`Warga`)
 | Daftar operasi public pada DPPL | `getIdWarga()`, `validasiKeanggotaan()`, `dashboardTujuan()`, `konteksSesi()` |
 | Operasi yang diuji | `validasiKeanggotaan()` diuji langsung; `dashboardTujuan()`, `konteksSesi()`, dan `getIdWarga()` teruji tidak langsung lewat `AkunController.login` (AKC-UT06) |
 | ID Algoritma yang tercakup | Algo-003 |
-| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
+| Coverage (wajib ≥ 70%) | `80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
 
 ### 4.2.19 Kelas Teknisi
 
@@ -896,7 +895,7 @@ Tabel 4.2.36. Ringkasan Cakupan Kelas C03 (`Teknisi`)
 | Daftar operasi public pada DPPL | `getIdTeknisi()`, `dashboardTujuan()` |
 | Operasi yang diuji | Keduanya teruji tidak langsung lewat `AkunController.login` (AKC-UT06 dan AKC-UT11) |
 | ID Algoritma yang tercakup | - |
-| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
+| Coverage (wajib ≥ 70%) | `80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
 
 ### 4.2.20 Kelas Pengurus
 
@@ -918,7 +917,7 @@ Tabel 4.2.38. Ringkasan Cakupan Kelas C04 (`Pengurus`)
 | Daftar operasi public pada DPPL | `getIdPengurus()`, `verifikasiKewenangan()`, `dashboardTujuan()`, `konteksSesi()` |
 | Operasi yang diuji | `verifikasiKewenangan()` diuji langsung; `dashboardTujuan()` dan `konteksSesi()` teruji tidak langsung lewat `AkunController.login` (AKC-UT06) |
 | ID Algoritma yang tercakup | Algo-006 |
-| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
+| Coverage (wajib ≥ 70%) | `80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
 
 ### 4.2.21 Kelas CalonPengguna
 
@@ -939,7 +938,7 @@ Tabel 4.2.40. Ringkasan Cakupan Kelas C05 (`CalonPengguna`)
 | Daftar operasi public pada DPPL | `daftarkan()` |
 | Operasi yang diuji | `daftarkan()` teruji tidak langsung lewat `AkunController.daftarkan` (AKC-UT01) beserta pemeriksaan hash `scrypt$` |
 | ID Algoritma yang tercakup | Algo-008 |
-| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
+| Coverage (wajib ≥ 70%) | `80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
 
 ### 4.2.22 Kelas AkunController
 
@@ -1351,9 +1350,9 @@ Tabel 4.4.12. Hasil Pengujian Use Case UC12
 
 | ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| UC12-TC01 | KF36, KF37, KF38, KF39, KF40 | Normal | Buka I-02, isi nama, email baru, kata sandi ≥ 8 karakter, dan peran Warga, lalu klik "Ajukan akun". | `Nadia Putri` / `nadia@example.test` / `rahasia123` / Warga | Akun tersimpan `MENUNGGU` dengan kata sandi ter-hash dan notifikasi menunggu persetujuan tampil. | *[Isi hasil aktual]* | *Pass/Fail* |
-| UC12-TC02 | KF38 | Alternatif 1: Email Sudah Terdaftar | Buka I-02, isi formulir dengan email milik akun yang sudah ada, lalu klik "Ajukan akun". | `warga@fajar.test`; data lain valid | Pendaftaran ditolak, kolom email ditandai, tidak ada akun baru. | *[Isi hasil aktual]* | *Pass/Fail* |
-| UC12-TC03 | KF37 | Alternatif 2: Data Registrasi Tidak Lengkap | Buka I-02, kosongkan kolom wajib, lalu klik "Ajukan akun". | Kolom wajib kosong dan kata sandi < 8 karakter | Pendaftaran dibatalkan dengan pesan per kolom; tidak ada akun tersimpan. | *[Isi hasil aktual]* | *Pass/Fail* |
+| UC12-TC01 | KF36, KF37, KF38, KF39, KF40 | Normal | Buka I-02, isi nama, email baru, kata sandi ≥ 8 karakter, dan peran Warga, lalu klik "Ajukan akun". | `Nadia Putri` / `nadia@example.test` / `rahasia123` / Warga | Akun tersimpan `MENUNGGU` dengan kata sandi ter-hash dan notifikasi menunggu persetujuan tampil. | Halaman "Pendaftaran diajukan" tampil dengan label "Menunggu persetujuan" dan pesan bahwa akun belum dapat masuk sebelum disetujui; akun tersimpan berstatus `MENUNGGU`. | Pass |
+| UC12-TC02 | KF38 | Alternatif 1: Email Sudah Terdaftar | Buka I-02, isi formulir dengan email milik akun yang sudah ada, lalu klik "Ajukan akun". | `warga@fajar.test`; data lain valid | Pendaftaran ditolak, kolom email ditandai, tidak ada akun baru. | Pendaftaran ditolak: banner "Email sudah terdaftar atau data tidak valid" dan pesan kolom "Email sudah terdaftar. Gunakan email lain."; tidak ada akun baru dibuat. | Pass |
+| UC12-TC03 | KF37 | Alternatif 2: Data Registrasi Tidak Lengkap | Buka I-02, kosongkan kolom wajib, lalu klik "Ajukan akun". | Kolom wajib kosong dan kata sandi < 8 karakter | Pendaftaran dibatalkan dengan pesan per kolom; tidak ada akun tersimpan. | Pendaftaran dibatalkan: kolom Nama lengkap, Email, dan Kata sandi ditandai "wajib diisi" disertai banner kesalahan; tidak ada akun tersimpan. | Pass |
 
 ### 4.4.13 Use Case Melakukan Login Akun
 
@@ -1364,10 +1363,10 @@ Tabel 4.4.13. Hasil Pengujian Use Case UC13
 
 | ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| UC13-TC01 | KF41, KF42, KF43, KF46 | Normal | Buka I-01, masukkan email dan kata sandi akun `DISETUJUI`, klik "Masuk"; ulangi untuk ketiga peran. | `warga@fajar.test`, `teknisi@fajar.test`, `pengurus@fajar.test` / `uji-fajar-123` | Sesi dibuat dan pengguna diarahkan ke `/dashboard/warga`, `/dashboard/teknisi`, `/dashboard/pengurus` sesuai peran di server. | *[Isi hasil aktual]* | *Pass/Fail* |
-| UC13-TC02 | KF43, KF44 | Alternatif 1: Akun Masih Menunggu Persetujuan | Buka I-01 dan masuk dengan akun `MENUNGGU`. | `calon@fajar.test` / `uji-fajar-123` | Akses ditolak dengan pesan menunggu persetujuan pengurus; tidak ada sesi. | *[Isi hasil aktual]* | *Pass/Fail* |
-| UC13-TC03 | KF44 | Alternatif 2: Akun Ditolak | Sebagai Pengurus, tolak satu akun uji pada I-16 (atau set `DITOLAK` lewat basis data), lalu login dengan akun tersebut. | Email akun `DITOLAK` / kata sandi benar | Akses ditolak dengan pesan tidak memperoleh persetujuan; tidak ada sesi. | *[Isi hasil aktual]* | *Pass/Fail* |
-| UC13-TC04 | KF45 | Alternatif 3: Kredensial Salah | Masuk dengan kata sandi salah untuk email terdaftar, lalu dengan email tidak terdaftar. | (a) `warga@fajar.test` + sandi salah<br>(b) `tidak-ada@fajar.test` + sandi apa pun | Pesan "Email atau password salah" dan HTTP 401 yang identik pada kedua percobaan. | *[Isi hasil aktual]* | *Pass/Fail* |
+| UC13-TC01 | KF41, KF42, KF43, KF46 | Normal | Buka I-01, masukkan email dan kata sandi akun `DISETUJUI`, klik "Masuk"; ulangi untuk ketiga peran. | `warga@fajar.test`, `teknisi@fajar.test`, `pengurus@fajar.test` / `uji-fajar-123` | Sesi dibuat dan pengguna diarahkan ke `/dashboard/warga`, `/dashboard/teknisi`, `/dashboard/pengurus` sesuai peran di server. | Warga diarahkan ke `/dashboard/warga` ("Ringkasan air dan energi") dan pengurus ke `/dashboard/pengurus` ("Analitik komunal"); login teknisi lewat API menghasilkan tujuan `/dashboard/teknisi`. | Pass |
+| UC13-TC02 | KF43, KF44 | Alternatif 1: Akun Masih Menunggu Persetujuan | Buka I-01 dan masuk dengan akun `MENUNGGU`. | `calon@fajar.test` / `uji-fajar-123` | Akses ditolak dengan pesan menunggu persetujuan pengurus; tidak ada sesi. | Login ditolak dengan pesan "Akun masih menunggu persetujuan pengurus" (HTTP 403); tidak ada sesi dibuat. | Pass |
+| UC13-TC03 | KF44 | Alternatif 2: Akun Ditolak | Sebagai Pengurus, tolak satu akun uji pada I-16 (atau set `DITOLAK` lewat basis data), lalu login dengan akun tersebut. | Email akun `DITOLAK` / kata sandi benar | Akses ditolak dengan pesan tidak memperoleh persetujuan; tidak ada sesi. | Login dengan akun yang telah ditolak (`kucingimut@imut.imut.com`) ditolak dan menampilkan pesan "Akun tidak memperoleh persetujuan"; tidak ada sesi dibuat. | Pass |
+| UC13-TC04 | KF45 | Alternatif 3: Kredensial Salah | Masuk dengan kata sandi salah untuk email terdaftar, lalu dengan email tidak terdaftar. | (a) `warga@fajar.test` + sandi salah<br>(b) `tidak-ada@fajar.test` + sandi apa pun | Pesan "Email atau password salah" dan HTTP 401 yang identik pada kedua percobaan. | Login `warga@fajar.test` dengan sandi salah menampilkan "Email atau password salah"; percobaan dengan email tidak terdaftar memberi respons identik (HTTP 401, kode `KREDENSIAL_SALAH`). | Pass |
 
 ### 4.4.14 Use Case Mengelola Persetujuan Akun
 
@@ -1378,9 +1377,9 @@ Tabel 4.4.14. Hasil Pengujian Use Case UC14
 
 | ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| UC14-TC01 | KF47, KF49, KF51 | Normal | Login sebagai Pengurus, buka I-16, pilih akun `MENUNGGU`, klik "Setujui", lalu muat ulang daftar. | `pengurus@fajar.test` / target `calon@fajar.test` | Daftar akun `MENUNGGU` tampil, target berubah `DISETUJUI`, notifikasi berhasil, daftar diperbarui. | *[Isi hasil aktual]* | *Pass/Fail* |
-| UC14-TC02 | KF50, KF51 | Alternatif 1: Pengurus Menolak Akun | Login sebagai Pengurus, buka I-16, pilih akun `MENUNGGU`, klik "Tolak". | Satu akun uji `MENUNGGU` | Status berubah `DITOLAK`, notifikasi penolakan tampil, daftar diperbarui. | *[Isi hasil aktual]* | *Pass/Fail* |
-| UC14-TC03 | KF48 | Alternatif 2: Pengguna Bukan Pengurus | Login sebagai Warga atau Teknisi, akses langsung URL I-16 dan kirim `GET /api/akun/persetujuan`. | `warga@fajar.test` atau `teknisi@fajar.test` | HTTP 403 (`GalatAuth`); tidak ada data akun yang tampil. | *[Isi hasil aktual]* | *Pass/Fail* |
+| UC14-TC01 | KF47, KF49, KF51 | Normal | Login sebagai Pengurus, buka I-16, pilih akun `MENUNGGU`, klik "Setujui", lalu muat ulang daftar. | `pengurus@fajar.test` / target `calon@fajar.test` | Daftar akun `MENUNGGU` tampil, target berubah `DISETUJUI`, notifikasi berhasil, daftar diperbarui. | Klik "Setujui" menampilkan notifikasi "Akun berhasil disetujui" dan daftar akun menunggu menjadi kosong setelah daftar dimuat ulang. | Pass |
+| UC14-TC02 | KF50, KF51 | Alternatif 1: Pengurus Menolak Akun | Login sebagai Pengurus, buka I-16, pilih akun `MENUNGGU`, klik "Tolak". | Satu akun uji `MENUNGGU` | Status berubah `DITOLAK`, notifikasi penolakan tampil, daftar diperbarui. | Klik "Tolak" menampilkan notifikasi "Akun berhasil ditolak" dan daftar akun menunggu menjadi kosong. Login akun tersebut kemudian menghasilkan pesan "Akun tidak memperoleh persetujuan". | Pass |
+| UC14-TC03 | KF48 | Alternatif 2: Pengguna Bukan Pengurus | Login sebagai Warga atau Teknisi, akses langsung URL I-16 dan kirim `GET /api/akun/persetujuan`. | `warga@fajar.test` atau `teknisi@fajar.test` | HTTP 403 (`GalatAuth`); tidak ada data akun yang tampil. | Warga membuka `/dashboard/pengurus/persetujuan` dialihkan (HTTP 307) ke `/dashboard/warga`; `GET /api/akun/persetujuan` dijawab HTTP 403 `DILARANG`. Tidak ada data akun yang tampil. | Pass |
 <br>
 
 ## 4.5 Pengujian Kebutuhan Non-Fungsional (KNF)
@@ -1389,8 +1388,8 @@ Tabel 4.5. Hasil Pengujian KNF
 
 | ID Pengujian | ID KNF | Parameter | Target Terukur | Metode dan Alat | Hasil Aktual | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| KNF01-TC01 | KNF01 | Security | Akses fitur/rute dashboard dibatasi 100% sesuai peran pengguna (non-berwenang ditolak HTTP 403/redirect). | *[Tunggu setoran Faiz: uji middleware & rute API per peran]* | *[Tunggu hasil Faiz]* | *[Pass/Fail]* |
-| KNF02-TC01 | KNF02 | Security | Data yang ditampilkan hanya milik/wewenang akun sesi aktif tanpa kebocoran lintas akun. | *[Tunggu setoran Faiz: inspeksi API & isolasi data sesi]* | *[Tunggu hasil Faiz]* | *[Pass/Fail]* |
+| KNF01-TC01 | KNF01 | Security | 100% akses fitur/rute tanpa kewenangan ditolak (HTTP 403 atau redirect). | Login bergantian sebagai Warga, Teknisi, dan Pengurus; akses URL dashboard peran lain serta `GET /api/akun/persetujuan` dan `GET /api/iuran/analitik`; catat status HTTP di Chrome DevTools (Network). Verifikasi juga lewat `AKC-UT15`, `AKC-UT16`, dan `AKC-UT20`. | Akses `GET /api/akun/persetujuan` sebagai Warga dan sebagai Teknisi sama-sama ditolak dengan `403 Forbidden` (DevTools: `Failed to load resource: the server responded with a status of 403 (Forbidden)`); tidak ada data yang terkirim. Akses halaman dasbor peran lain dialihkan `307` ke dasbor peran sendiri (UC14-TC03: Warga membuka `/dashboard/pengurus/persetujuan` diarahkan ke `/dashboard/warga`). Seluruh percobaan tanpa kewenangan ditolak. | Pass |
+| KNF02-TC01 | KNF02 | Security | Data hanya milik atau sesuai kewenangan akun sesi aktif; 0 kebocoran lintas akun. | Login sebagai `warga@fajar.test` dan `warga2@fajar.test`; bandingkan halaman tagihan dan laporan; pastikan respons API tidak memuat data akun lain dan kueri boundary memakai ID dari sesi. | Sesi `warga@fajar.test` menerima `GET /api/iuran/tagihan` dengan `idWarga: 1`, `idTagihan: "TGH-09-1"`, `jumlahIuran: 202500`. Sesi `warga2@fajar.test` menerima `idWarga: 2`, `idTagihan: "TGH-09-2"`, `jumlahIuran: 155000`. Masing-masing sesi hanya menerima tagihannya sendiri (`ok: true`), sehingga 0 kebocoran lintas akun; ID warga diambil server dari sesi, bukan dari parameter permintaan. | Pass |
 | KNF03-TC01 | KNF03 | Reliability | 0 data peringatan hilang saat kegagalan koneksi; notifikasi tersimpan berstatus `PENDING` dan terkirim ulang saat pulih. | Simulasi kegagalan pengiriman pada `ModulNotifikasi` / `PeringatanDayaKritis` terhadap basis data nyata (INT-TC14 dan INT-TC18, Subbab 4.3) dengan gateway dipaksa gagal lalu pulih. | Penyimpanan: pada INT-TC14, baterai `BAT-01` 12% (ambang aman 20%) dengan gateway gagal menghasilkan 1 baris `notifikasi` `KRITIS` berstatus `PENDING` untuk `TEK-01` (0 peringatan hilang). Kirim ulang: pada INT-TC18, `kirimUlangPending()` melaporkan 2 terkirim setelah gateway pulih, tetapi `status_pengiriman` di basis data tetap `PENDING` sehingga peringatan akan dikirim ulang terus-menerus. Penyebab: status `TERKIRIM` hanya diubah pada objek di memori dan tidak ditulis ke basis data. Usulan: tambahkan `tandaiTerkirim(idNotifikasi)` pada `DataPerangkatBoundary` dan panggil saat pengiriman ulang berhasil. | Fail (sebagian: penyimpanan `PENDING` Pass, pembaruan status setelah kirim ulang Fail) |
 | KNF04-TC01 | KNF04 | Reliability | Data riwayat kinerja perangkat tampil $\le 5$ detik setelah halaman riwayat dibuka. | Profiling `EXPLAIN (ANALYZE, BUFFERS)` PostgreSQL lewat `prisma/profiling/uc06-riwayat-panel.sql` (1.051.200 baris riwayat) dan 5 kali pengukuran `GET /api/monitoring/panel` (rentang satu minggu, 2.016 baris) pada tabel berisi 1.051.205 baris, dengan `curl` (`time_total`) pada server `next dev` lokal. | Query riwayat panel satu minggu: 85,9 ms (*Parallel Seq Scan*, tanpa indeks) dan 1,0 ms (*Index Scan* pada indeks `(id_panel, waktu)`, dengan indeks). Respons API ujung ke ujung: 85,5; 56,0; 72,7; 60,1; 43,4 ms, rata-rata 63,5 ms dan maksimum 85,5 ms, jauh di bawah 5.000 ms. Waktu render grafik di peramban tidak diukur terpisah; pengukuran dilakukan lokal tanpa latensi jaringan. | Pass |
 | KNF05-TC01 | KNF05 | Safety | Peringatan daya kritis diproses dan dicatat/dikirim dalam waktu $\le 3$ detik sejak data baterai kritis diterima. | Pengukuran waktu respons `POST /api/telemetri` (5x eksekusi via simulator `SensorAdapter.ts` / logging waktu proses). | *[Isi rata-rata & maks (ms/detik) dari 5x pengukuran]* | *[Pass/Fail]* |
@@ -1402,10 +1401,8 @@ Tabel 4.5. Hasil Pengujian KNF
 | KNF11-TC01 | KNF11 | Response time | Pembaruan nilai input sensor pada dashboard warga (I-03) tampil dalam waktu $\le 2$ detik. | Chrome DevTools (tab Network), 5 kali pengukuran waktu respons API monitoring, ambil rata-rata dan maksimum. | *[Isi rata-rata ... ms, maks ... ms]* | *[Pass/Fail]* |
 | KNF12-TC01 | KNF12 | Response time | Kalkulasi otomatis seluruh iuran komunal selesai dalam waktu $\le 5$ detik. | Chrome DevTools (tab Network) pada proses hitung pratinjau iuran (I-14), 5 kali ukur, ambil rata-rata dan maksimum. | *[Koordinasi dengan Raffi / ukur di DevTools]* | *[Pass/Fail]* |
 | KNF13-TC01 | KNF13 | Memory | Penggunaan memori pembacaan sensor tidak melebihi batas kapasitas memori internal mikrokontroler. | Tidak diuji pada mikrokontroler fisik karena implementasi menggunakan simulator perangkat lunak (`tests/simulator/SensorAdapter.ts`); pemantauan alternatif dilakukan via `process.memoryUsage()` Node.js. | Tidak diimplementasikan pada firmware mikrokontroler fisik (menggunakan simulator TypeScript; pemakaian memori simulator tercatat *[... MB]*). Rencana perbaikan: porting `SensorAdapter` ke firmware C/C++ ESP32 pada tahap integrasi perangkat keras. | Fail *(atau catat sesuai kesepakatan asisten untuk KNF hardware)* |
-| KNF01-TC01 | KNF01 | Security | 100% akses fitur/rute tanpa kewenangan ditolak (HTTP 403 atau redirect). | Login bergantian sebagai Warga, Teknisi, dan Pengurus; akses URL dashboard peran lain serta `GET /api/akun/persetujuan` dan `GET /api/iuran/analitik`; catat status HTTP di Chrome DevTools (Network). Verifikasi juga lewat `AKC-UT15`, `AKC-UT16`, dan `AKC-UT20`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| KNF02-TC01 | KNF02 | Security | Data hanya milik atau sesuai kewenangan akun sesi aktif; 0 kebocoran lintas akun. | Login sebagai `warga@fajar.test` dan `warga2@fajar.test`; bandingkan halaman tagihan dan laporan; pastikan respons API tidak memuat data akun lain dan kueri boundary memakai ID dari sesi. | *[Isi hasil aktual]* | *Pass/Fail* |
-| KNF14-TC01 | KNF14 | Security | 100% kata sandi tersimpan sebagai hash `scrypt`; 0 baris teks biasa. | `psql "$DATABASE_URL" -c "SELECT email, left(password, 7) FROM akun;"` atau Prisma Studio; pastikan setiap nilai berawalan `scrypt$` dan sesuai format `src/lib/auth/password.ts`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| KNF15-TC01 | KNF15 | Security | Pesan dan status respons gagal login identik untuk email tidak terdaftar dan kata sandi salah. | Kirim `POST /api/auth/login` untuk (a) email terdaftar + sandi salah dan (b) email tidak terdaftar; bandingkan status HTTP, body, dan waktu respons (hash palsu diverifikasi pada `ModulAkun.autentikasi()`). Verifikasi juga lewat `AKC-UT08`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| KNF14-TC01 | KNF14 | Security | 100% kata sandi tersimpan sebagai hash `scrypt`; 0 baris teks biasa. | `psql "$DATABASE_URL" -c "SELECT email, left(password, 7) FROM akun;"` atau Prisma Studio; pastikan setiap nilai berawalan `scrypt$` dan sesuai format `src/lib/auth/password.ts`. | Prisma Studio pada tabel `akun` (8 baris, termasuk `calon@fajar.test` dan akun yang ditolak) menunjukkan seluruh kolom `password` berawalan `scrypt$16384$8$1$`; 0 baris berisi kata sandi teks biasa, sesuai format pada `src/lib/auth/password.ts`. | Pass |
+| KNF15-TC01 | KNF15 | Security | Pesan dan status respons gagal login identik untuk email tidak terdaftar dan kata sandi salah. | Kirim `POST /api/auth/login` untuk (a) email terdaftar + sandi salah dan (b) email tidak terdaftar; bandingkan status HTTP, body, dan waktu respons (hash palsu diverifikasi pada `ModulAkun.autentikasi()`). Verifikasi juga lewat `AKC-UT08`. | Dua permintaan `curl` ke `POST /api/auth/login`: (a) `warga@fajar.test` dengan sandi salah dan (b) `tidakada@fajar.test` keduanya menjawab `HTTP/1.1 401 Unauthorized` dengan body identik `{"berhasil":false,"kode":"KREDENSIAL_SALAH","pesan":"Email atau password salah"}`. Tidak ada perbedaan status maupun pesan yang membocorkan keberadaan akun. | Pass |
 
 <br>
 
@@ -1445,17 +1442,17 @@ Tabel 4.6. Bukti Hasil Pengujian
 | UC12-TC01 | ![Screenshot Layar I-02 Registrasi Berhasil](./assets/UC12-TC01.png) |
 | UC12-TC02 | ![Screenshot Layar I-02 Email Sudah Terdaftar](./assets/UC12-TC02.png) |
 | UC12-TC03 | ![Screenshot Layar I-02 Data Registrasi Tidak Lengkap](./assets/UC12-TC03.png) |
-| UC13-TC01 | ![Screenshot Layar I-01 Login Tiga Peran](./assets/UC13-TC01.png) |
+| UC13-TC01 | ![Screenshot Dasbor Warga setelah Login](./assets/UC13-TC01-warga.png) ![Screenshot Dasbor Pengurus setelah Login](./assets/UC13-TC01-pengurus.png) |
 | UC13-TC02 | ![Screenshot Layar I-01 Akun Menunggu Persetujuan](./assets/UC13-TC02.png) |
-| UC13-TC03 | ![Screenshot Layar I-01 Akun Ditolak](./assets/UC13-TC03.png) |
+| UC13-TC03 | ![Screenshot Login Akun Ditolak](./assets/UC13-TC03.png) |
 | UC13-TC04 | ![Screenshot Layar I-01 Kredensial Salah](./assets/UC13-TC04.png) |
 | UC14-TC01 | ![Screenshot Layar I-16 Setujui Akun](./assets/UC14-TC01.png) |
 | UC14-TC02 | ![Screenshot Layar I-16 Tolak Akun](./assets/UC14-TC02.png) |
-| UC14-TC03 | ![Screenshot Layar I-16 Akses Bukan Pengurus](./assets/UC14-TC03.png) |
-| KNF01-TC01 | ![Uji Akses Rute per Peran](./assets/KNF01-TC01.png) |
-| KNF02-TC01 | ![Uji Isolasi Data Antarsesi](./assets/KNF02-TC01.png) |
+| UC14-TC03 | ![Screenshot Warga Dialihkan dari Halaman Persetujuan](./assets/UC14-TC03-halaman.png) |
+| KNF01-TC01 | ![Uji Akses Rute per Peran oleh Warga](./assets/KNF01-TC01-warga.png) ![Uji Akses Rute per Peran oleh Teknisi](./assets/KNF01-TC01-teknisi.png) |
+| KNF02-TC01 | ![Uji Isolasi Data Tagihan (warga@fajar.test)](./assets/KNF02-TC01-warga1.png) ![Uji Isolasi Data Tagihan (warga2@fajar.test)](./assets/KNF02-TC01-warga2.png) |
 | KNF14-TC01 | ![Inspeksi Hash Kata Sandi](./assets/KNF14-TC01.png) |
-| KNF15-TC01 | ![Uji Pesan Login Seragam](./assets/KNF15-TC01.png) |
+| KNF15-TC01 | ![Uji Pesan Login Seragam (Sandi Salah)](./assets/KNF15-TC01-password-salah.png) ![Uji Pesan Login Seragam (Email Tidak Terdaftar)](./assets/KNF15-TC01-email-tidakada.png) |
 
 
 <br>
