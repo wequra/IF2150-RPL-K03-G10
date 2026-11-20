@@ -21,12 +21,12 @@ function buatRepo() {
   };
 }
 
-describe("periksaPemeliharaan", () => {
-  it("menerima formulir lengkap", () => {
+describe("Validasi.periksaPemeliharaan", () => {
+  it("VAL-PM-UT01 menerima formulir lengkap", () => {
     expect(periksaPemeliharaan(FORM)).toEqual({ valid: true, galat: [] });
   });
 
-  it("menandai setiap kolom wajib yang kosong", () => {
+  it("VAL-PM-UT02 menandai setiap kolom wajib yang kosong", () => {
     const hasil = periksaPemeliharaan({ idPerangkat: " ", waktuPelaksanaan: "", tindakan: "", catatanHasil: "" });
     expect(hasil.valid).toBe(false);
     expect(hasil.galat.map((g) => g.kolom).sort()).toEqual([
@@ -37,11 +37,11 @@ describe("periksaPemeliharaan", () => {
     ]);
   });
 
-  it.each([null, "teks", 42, []])("menolak body bukan objek: %j", (body) => {
+  it.each([null, "teks", 42, []])("VAL-PM-UT03 menolak body bukan objek: %j", (body) => {
     expect(periksaPemeliharaan(body).valid).toBe(false);
   });
 
-  it("menolak kolom bertipe bukan teks", () => {
+  it("VAL-PM-UT04 menolak kolom bertipe bukan teks", () => {
     const hasil = periksaPemeliharaan({ ...FORM, tindakan: 123 });
     expect(hasil.galat).toEqual([{ kolom: "tindakan", pesan: "Isi tindakan" }]);
   });
@@ -52,27 +52,27 @@ describe("periksaPemeliharaan", () => {
     "28/10/2026 11:00",
     "2026-02-31T11:00:00+07:00", // tanggal mustahil
     "2026-13-01T11:00:00Z",
-  ])("menolak waktu %s", (waktuPelaksanaan) => {
+  ])("VAL-PM-UT05 menolak waktu %s", (waktuPelaksanaan) => {
     const hasil = periksaPemeliharaan({ ...FORM, waktuPelaksanaan });
     expect(hasil.galat.map((g) => g.kolom)).toEqual(["waktuPelaksanaan"]);
   });
 
   it.each(["2026-10-28T11:00:00+07:00", "2026-10-28T04:00:00.000Z", "2024-02-29T11:00+07:00"])(
-    "menerima waktu %s",
+    "VAL-PM-UT06 menerima waktu %s",
     (waktuPelaksanaan) => {
       expect(periksaPemeliharaan({ ...FORM, waktuPelaksanaan }).valid).toBe(true);
     },
   );
 });
 
-describe("PemeliharaanService.simpanCatatan", () => {
+describe("PemeliharaanController.simpanCatatan", () => {
   let repo: ReturnType<typeof buatRepo>;
   beforeEach(() => {
     repo = buatRepo();
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
 
-  it("menyimpan catatan yang terikat teknisi, perangkat, dan waktu", async () => {
+  it("PC-UT01 menyimpan catatan yang terikat teknisi, perangkat, dan waktu", async () => {
     const hasil = await buatPemeliharaanService("TEK-01", repo).simpanCatatan(FORM);
 
     expect(hasil.ok).toBe(true);
@@ -88,7 +88,7 @@ describe("PemeliharaanService.simpanCatatan", () => {
     if (hasil.ok) expect(hasil.data.idCatatan).toBe(baris.idCatatan);
   });
 
-  it("mengabaikan idTeknisi dan idCatatan dari body", async () => {
+  it("PC-UT02 mengabaikan idTeknisi dan idCatatan dari body", async () => {
     const palsu = { ...FORM, idTeknisi: "TEK-LAIN", idCatatan: "CTT-PALSU" };
     await buatPemeliharaanService("TEK-01", repo).simpanCatatan(palsu);
 
@@ -97,7 +97,7 @@ describe("PemeliharaanService.simpanCatatan", () => {
     expect(baris.idCatatan).not.toBe("CTT-PALSU");
   });
 
-  it("UC08 Alt 1: formulir tidak lengkap batal tanpa akses data", async () => {
+  it("PC-UT03 UC08 Alt 1: formulir tidak lengkap batal tanpa akses data", async () => {
     const hasil = await buatPemeliharaanService("TEK-01", repo).simpanCatatan({ ...FORM, catatanHasil: " " });
 
     expect(hasil).toEqual({
@@ -110,7 +110,7 @@ describe("PemeliharaanService.simpanCatatan", () => {
     expect(repo.simpanCatatan).not.toHaveBeenCalled();
   });
 
-  it("menolak perangkat di luar lingkup teknisi tanpa menyimpan", async () => {
+  it("PC-UT04 menolak perangkat di luar lingkup teknisi tanpa menyimpan", async () => {
     repo.cariPerangkatTeknisi.mockResolvedValue(null);
     const hasil = await buatPemeliharaanService("TEK-01", repo).simpanCatatan(FORM);
 
@@ -118,14 +118,14 @@ describe("PemeliharaanService.simpanCatatan", () => {
     expect(repo.simpanCatatan).not.toHaveBeenCalled();
   });
 
-  it("melaporkan GAGAL_SIMPAN saat INSERT gagal", async () => {
+  it("PC-UT05 melaporkan GAGAL_SIMPAN saat INSERT gagal", async () => {
     repo.simpanCatatan.mockResolvedValue(false);
     const hasil = await buatPemeliharaanService("TEK-01", repo).simpanCatatan(FORM);
 
     expect(hasil).toEqual({ ok: false, kode: "GAGAL_SIMPAN", pesan: "Penyimpanan gagal" });
   });
 
-  it("melaporkan GAGAL_INTERNAL tanpa membocorkan galat database", async () => {
+  it("PC-UT06 melaporkan GAGAL_INTERNAL tanpa membocorkan galat database", async () => {
     repo.cariPerangkatTeknisi.mockRejectedValue(new Error("SELECT rahasia gagal"));
     const hasil = await buatPemeliharaanService("TEK-01", repo).simpanCatatan(FORM);
 

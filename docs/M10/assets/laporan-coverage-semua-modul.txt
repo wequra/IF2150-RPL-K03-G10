@@ -1,0 +1,327 @@
+PASS tests/laporan/validasi.test.ts
+  periksaLaporan
+    ✓ menerima formulir lengkap dari daftar jenis komunitas (39 ms)
+    ✓ menandai kolom wajib yang kosong atau hanya spasi (7 ms)
+    ✓ menolak jenis di luar daftar (5 ms)
+    ✓ menolak deskripsi lebih dari 1000 karakter (5 ms)
+    ✓ menolak URI foto dari klien (5 ms)
+    ✓ menolak body bukan objek: null (5 ms)
+    ✓ menolak body bukan objek: "teks" (5 ms)
+    ✓ menolak body bukan objek: 42 (5 ms)
+    ✓ menolak body bukan objek: [] (4 ms)
+
+PASS tests/laporan/perbaruiStatus.test.ts
+  UC07: perbaruiStatus (Algo-017, 040, 042)
+    ✓ ML-UT12 MENUNGGU ke SEDANG_DIPERBAIKI menyimpan status dan satu riwayat bersama (45 ms)
+    ✓ ML-UT13 SEDANG_DIPERBAIKI ke SELESAI sah (8 ms)
+    ✓ ML-UT14 alur penuh MENUNGGU, SEDANG_DIPERBAIKI, SELESAI mencatat dua riwayat berurutan (7 ms)
+    ✓ ML-UT15 lompat MENUNGGU ke SELESAI ditolak dengan opsi sah, tanpa menyimpan (6 ms)
+    ✓ ML-UT16 LAP-2 ke MENUNGGU ditolak (6 ms)
+    ✓ ML-UT16 LAP-2 ke SEDANG_DIPERBAIKI ditolak (7 ms)
+    ✓ ML-UT16 LAP-3 ke SEDANG_DIPERBAIKI ditolak (5 ms)
+    ✓ ML-UT16 LAP-3 ke SELESAI ditolak (6 ms)
+    ✓ ML-UT17 status akhir tidak punya langkah berikutnya (6 ms)
+    ✓ ML-UT18 teknisi yang tidak ditugaskan ditolak sebelum status dibaca atau diubah (5 ms)
+    ✓ ML-UT19 laporan yang tidak ditugaskan ke siapa pun juga ditolak (2 ms)
+    ✓ LC-UT09 warga tidak boleh mengubah status (3 ms)
+    ✓ LC-UT10 status di luar enumerasi "DITOLAK" ditolak tanpa query (3 ms)
+    ✓ LC-UT10 status di luar enumerasi "selesai" ditolak tanpa query (2 ms)
+    ✓ LC-UT10 status di luar enumerasi "" ditolak tanpa query (4 ms)
+    ✓ LC-UT10 status di luar enumerasi null ditolak tanpa query (3 ms)
+    ✓ LC-UT10 status di luar enumerasi 3 ditolak tanpa query (5 ms)
+    ✓ ML-UT20 konflik atau kegagalan transaksi dilaporkan sebagai KONFLIK dan tidak mengubah apa pun (5 ms)
+    ✓ ML-UT21 riwayat gagal tersimpan membatalkan perubahan status (5 ms)
+    ✓ LC-UT11 galat tak terduga menjadi GAGAL_INTERNAL (5 ms)
+  UC07: daftar tugas dan detail tugas
+    ✓ ML-UT22 daftar hanya tugas milik teknisi sesi, laporan terlama dulu (4 ms)
+    ✓ ML-UT23 teknisi lain tidak melihat tugas teknisi pertama (3 ms)
+    ✓ ML-UT24 detail tugas yang tidak ditugaskan sama dengan ID yang tidak ada (4 ms)
+    ✓ ML-UT25 detail dan riwayat tugas sendiri terbaca (9 ms)
+    ✓ ML-UT26 riwayat tugas milik orang lain ditolak sebelum riwayat dibaca (4 ms)
+    ✓ LC-UT12 warga tidak boleh membaca tugas teknisi (4 ms)
+
+PASS tests/monitoring/baterai.test.ts
+  Algo-010: Baterai.cekKapasitas
+    ✓ harus mengembalikan true (kritis) jika kapasitas < batas aman (6 ms)
+    ✓ harus mengembalikan false (aman) jika kapasitas >= batas aman (3 ms)
+
+PASS tests/laporan/kirimLaporan.test.ts
+  LaporanController.kirimLaporan (Algo-025, Algo-034)
+    ✓ ML-UT01 menyimpan laporan berstatus MENUNGGU milik warga sesi (45 ms)
+    ✓ LC-UT01 mengabaikan idWarga yang disusupkan di body (5 ms)
+    ✓ LC-UT02 menerima formulir tanpa kolom fotoPendukung (19 ms)
+    ✓ LC-UT03 menolak formulir tidak valid tanpa memeriksa keanggotaan atau menyimpan (15 ms)
+    ✓ ML-UT02 menolak non-anggota komunitas sebelum laporan dibuat (Algo-003) (16 ms)
+    ✓ LC-UT04 menolak peran selain warga (16 ms)
+    ✓ ML-UT03 gagal simpan tidak pernah dilaporkan sebagai sukses (15 ms)
+    ✓ LC-UT05 galat tak terduga menjadi GAGAL_INTERNAL (14 ms)
+
+PASS tests/laporan/status.test.ts
+  transisi status (Algo-017)
+    ✓ C21-UT01 hanya mengizinkan satu langkah maju (28 ms)
+    ✓ C20-UT03 MENUNGGU ke SEDANG_DIPERBAIKI: true (4 ms)
+    ✓ C20-UT03 SEDANG_DIPERBAIKI ke SELESAI: true (3 ms)
+    ✓ C20-UT03 MENUNGGU ke SELESAI: false (4 ms)
+    ✓ C20-UT03 SEDANG_DIPERBAIKI ke MENUNGGU: false (4 ms)
+    ✓ C20-UT03 SELESAI ke SEDANG_DIPERBAIKI: false (2 ms)
+    ✓ C20-UT03 MENUNGGU ke MENUNGGU: false (2 ms)
+    ✓ C20-UT03 SELESAI ke SELESAI: false (5 ms)
+    ✓ C21-UT02 menolak nilai di luar enumerasi (14 ms)
+    ✓ C20-UT05 ubahStatus yang tidak sah melempar galat dan tidak mengubah objek (14 ms)
+    ✓ C20-UT01 laporan baru berstatus MENUNGGU dan memangkas spasi (9 ms)
+    ✓ C21-UT03 urutan status sesuai DPPL (2 ms)
+
+PASS tests/monitoring/tangki.test.ts
+  Algo-009: TangkiAir.statusAir
+    ✓ harus mengembalikan "Kritis" jika volume <= ambang kritis (6 ms)
+    ✓ harus mengembalikan "Rendah" jika volume <= ambang rendah tapi di atas kritis (4 ms)
+    ✓ harus mengembalikan "Normal" jika volume > ambang rendah (2 ms)
+
+PASS tests/akun/persetujuan.test.ts
+  AkunController.ambilAkunMenunggu (UC14)
+    ✓ Pengurus hanya melihat akun berstatus MENUNGGU (21 ms)
+    ✓ daftar kosong bila tidak ada pengajuan (4 ms)
+    ✓ warga dan teknisi ditolak sebelum data apa pun dibaca (A2) (6 ms)
+    ✓ Pengurus yang statusnya sudah berubah di basis data tidak lagi berwenang (4 ms)
+    ✓ sesi Pengurus yang akunnya tidak ada lagi ditolak (3 ms)
+  AkunController.setujuiAkun dan tolakAkun (UC14)
+    ✓ menyetujui pengajuan: status menjadi DISETUJUI (8 ms)
+    ✓ menolak pengajuan: status menjadi DITOLAK (A1) (6 ms)
+    ✓ pengajuan yang sudah diproses tidak bisa diproses lagi dan statusnya tidak berubah (4 ms)
+    ✓ akun yang sudah DISETUJUI sejak awal tidak bisa diubah lewat persetujuan (4 ms)
+    ✓ email yang tidak ada atau kosong menghasilkan TIDAK_DITEMUKAN (6 ms)
+    ✓ non-Pengurus ditolak dan tidak ada status yang berubah (4 ms)
+    ✓ kegagalan penyimpanan tidak dilaporkan berhasil (4 ms)
+  ModulAkun.ambilWarga (UC03)
+    ✓ mengembalikan warga terkini beserta keanggotaannya (4 ms)
+    ✓ mengembalikan null bila warga tidak ada (2 ms)
+
+PASS tests/monitoring/monitoring.test.ts
+  evaluasiKetersediaan (UC01, Algo-009, Algo-010)
+    ✓ menghitung volume, persen, dan kondisi air Normal (36 ms)
+    ✓ menandai Rendah dan Kritis pada batas ambang (5 ms)
+    ✓ menandai baterai kritis saat kapasitas di bawah ambang aman (4 ms)
+    ✓ nilai kosong berarti belum ada pembacaan, bukan nol (UC01 Alt 1) (11 ms)
+    ✓ dataUsang hanya benar bila semua perangkat tidak punya pembacaan (4 ms)
+  ambilRiwayatPanel (UC06, Algo-011)
+    ✓ mengambil historis panel yang ditugaskan dan mengubahnya ke bentuk grafik (11 ms)
+    ✓ menolak rentang terbalik dan tanggal tidak sah (10 ms)
+    ✓ mengembalikan daftar kosong bila teknisi tidak punya panel (UC06 Alt 1) (6 ms)
+  daftarPeringatanTeknisi (UC05)
+    ✓ hanya meneruskan peringatan KRITIS beserta nama perangkat dan ambang aman (8 ms)
+    ✓ mengembalikan daftar kosong bila tidak ada notifikasi (4 ms)
+  MonitoringController
+    ✓ rentang tidak valid dibalas VALIDASI_GAGAL tanpa menyentuh basis data (3 ms)
+
+PASS tests/laporan/entitas.test.ts
+  C20 LaporanGangguan (entitas)
+    ✓ C20-UT02 baru memberi ID unik dan menyalin foto sehingga body asli tidak ikut berubah (64 ms)
+    ✓ C20-UT04 ubahStatus sah memajukan status satu langkah (25 ms)
+    ✓ C20-UT06 getRingkasan dan getDetailLaporan memuat kolom sesuai kontrak (43 ms)
+    ✓ C20-UT07 simpan meneruskan data ke penyimpan dan menyampaikan hasilnya (44 ms)
+  C21 StatusLaporan (label)
+    ✓ C21-UT04 labelStatus mengubah kode status menjadi teks tampilan (15 ms)
+  C22 RiwayatStatusLaporan
+    ✓ C22-UT01 mencatat laporan, status, dan waktu dengan ID riwayat baru (28 ms)
+    ✓ C22-UT02 ringkas mengubah waktu menjadi teks ISO (10 ms)
+    ✓ C22-UT03 dua catatan untuk laporan dan status yang sama tetap punya ID berbeda (9 ms)
+  C24 PenugasanLaporan
+    ✓ C24-UT01 verifikasi benar untuk teknisi dan laporan yang ditugaskan (8 ms)
+    ✓ C24-UT02 verifikasi salah untuk teknisi lain pada laporan yang sama (5 ms)
+    ✓ C24-UT03 verifikasi salah untuk laporan lain dan untuk masukan kosong (5 ms)
+
+PASS tests/pemeliharaan/modulPemeliharaan.test.ts
+  ModulPemeliharaan.simpanCatatan
+    ✓ MP-UT01 mengembalikan idCatatan yang sama dengan baris yang disimpan (normal) (11 ms)
+    ✓ MP-UT02 formulir tidak lengkap menghasilkan VALIDASI_GAGAL tanpa menyentuh data (5 ms)
+    ✓ MP-UT03 perangkat di luar lingkup teknisi menghasilkan TIDAK_DITEMUKAN (4 ms)
+    ✓ MP-UT04 kegagalan penyimpanan menghasilkan GAGAL_SIMPAN (2 ms)
+    ✓ MP-UT05 idTeknisi parameter dipakai untuk cek lingkup dan untuk baris tersimpan (keamanan) (3 ms)
+    ✓ MP-UT06 galat basis data dari pencarian perangkat diteruskan ke pemanggil (15 ms)
+
+PASS tests/monitoring/rentangWaktu.test.ts
+  Algo-011: RentangWaktu.validasi
+    ✓ harus mengembalikan true jika waktu mulai SEBELUM waktu selesai (7 ms)
+    ✓ harus mengembalikan true jika waktu mulai SAMA DENGAN waktu selesai (2 ms)
+    ✓ harus mengembalikan false jika waktu mulai SESUDAH waktu selesai (2 ms)
+
+PASS tests/iuran/iuran.test.ts
+  ModulIuran - UC02, UC09, UC10, UC11
+    UC02 - lihatTagihanFinal (Algo-050)
+      ✓ mengembalikan TIDAK_DITEMUKAN bila periode belum FINAL (tanpa query tagihan warga) (27 ms)
+      ✓ mengembalikan tagihan bila periode dan tagihan berstatus FINAL (6 ms)
+    UC09 - analisisPemakaian (Algo-036)
+      ✓ menolak non-Pengurus SEBELUM melakukan query ke database (7 ms)
+      ✓ menghitung agregat pemakaian komunal beserta rincian pekanan M1..M4 (16 ms)
+    UC10 - hitungPratinjau & tetapkanFinal (Algo-013..016, 028)
+      ✓ menghitung pratinjau DRAFT dan menyimpannya ke repository (9 ms)
+      ✓ menolak tetapkanFinal jika pemanggil bukan Pengurus (5 ms)
+      ✓ menolak tetapkanFinal dengan DATA_BELUM_LENGKAP jika ada data warga yang null (4 ms)
+      ✓ berhasil menetapkan periode dan tagihan menjadi FINAL bila data lengkap (4 ms)
+    UC11 - buatRekapitulasi & ekspor (Algo-022)
+      ✓ menghasilkan RekapitulasiDTO serta mendukung ekspor CSV dan PDF (63 ms)
+
+PASS tests/pemeliharaan/catatan.test.ts
+  C27 CatatanPemeliharaan
+    ✓ C27-UT01 konstruktor membuat ID unik pada setiap instans (61 ms)
+    ✓ C27-UT02 konstruktor memangkas spasi dan memakai idTeknisi dari sesi, bukan dari body (6 ms)
+    ✓ C27-UT03 validasiFormulir menerima isian lengkap (6 ms)
+    ✓ C27-UT04 validasiFormulir menolak kolom idPerangkat yang hanya berisi spasi (batas) (3 ms)
+    ✓ C27-UT04 validasiFormulir menolak kolom tindakan yang hanya berisi spasi (batas) (3 ms)
+    ✓ C27-UT04 validasiFormulir menolak kolom catatanHasil yang hanya berisi spasi (batas) (6 ms)
+    ✓ C27-UT05 validasiFormulir menolak waktu tidak valid ("2026-10-28T11:00:00") (2 ms)
+    ✓ C27-UT05 validasiFormulir menolak waktu tidak valid ("2026-02-31T11:00:00+07:00") (1 ms)
+    ✓ C27-UT05 validasiFormulir menolak waktu tidak valid ("") (2 ms)
+    ✓ C27-UT06 simpan meneruskan baris dengan waktu bertipe Date ke penyimpan (11 ms)
+    ✓ C27-UT07 simpan mengembalikan false bila penyimpan gagal (2 ms)
+
+PASS tests/pemeliharaan/simpanCatatan.test.ts
+  Validasi.periksaPemeliharaan
+    ✓ VAL-PM-UT01 menerima formulir lengkap (5 ms)
+    ✓ VAL-PM-UT02 menandai setiap kolom wajib yang kosong (3 ms)
+    ✓ VAL-PM-UT03 menolak body bukan objek: null (1 ms)
+    ✓ VAL-PM-UT03 menolak body bukan objek: "teks" (2 ms)
+    ✓ VAL-PM-UT03 menolak body bukan objek: 42 (1 ms)
+    ✓ VAL-PM-UT03 menolak body bukan objek: [] (2 ms)
+    ✓ VAL-PM-UT04 menolak kolom bertipe bukan teks (2 ms)
+    ✓ VAL-PM-UT05 menolak waktu 2026-10-28T11:00:00 (2 ms)
+    ✓ VAL-PM-UT05 menolak waktu 2026-10-28 (1 ms)
+    ✓ VAL-PM-UT05 menolak waktu 28/10/2026 11:00 (2 ms)
+    ✓ VAL-PM-UT05 menolak waktu 2026-02-31T11:00:00+07:00 (3 ms)
+    ✓ VAL-PM-UT05 menolak waktu 2026-13-01T11:00:00Z (2 ms)
+    ✓ VAL-PM-UT06 menerima waktu 2026-10-28T11:00:00+07:00 (19 ms)
+    ✓ VAL-PM-UT06 menerima waktu 2026-10-28T04:00:00.000Z (1 ms)
+    ✓ VAL-PM-UT06 menerima waktu 2024-02-29T11:00+07:00 (1 ms)
+  PemeliharaanController.simpanCatatan
+    ✓ PC-UT01 menyimpan catatan yang terikat teknisi, perangkat, dan waktu (13 ms)
+    ✓ PC-UT02 mengabaikan idTeknisi dan idCatatan dari body (3 ms)
+    ✓ PC-UT03 UC08 Alt 1: formulir tidak lengkap batal tanpa akses data (3 ms)
+    ✓ PC-UT04 menolak perangkat di luar lingkup teknisi tanpa menyimpan (2 ms)
+    ✓ PC-UT05 melaporkan GAGAL_SIMPAN saat INSERT gagal (2 ms)
+    ✓ PC-UT06 melaporkan GAGAL_INTERNAL tanpa membocorkan galat database (2 ms)
+
+PASS tests/laporan/bacaWarga.test.ts (5.081 s)
+  UC04: pembacaan laporan milik warga sesi
+    ✓ ML-UT04 daftar hanya berisi laporan milik sesi, terbaru lebih dulu (34 ms)
+    ✓ ML-UT05 warga lain melihat laporannya sendiri, bukan milik warga pertama (4 ms)
+    ✓ ML-UT06 daftar kosong adalah hasil sah, bukan galat (4 ms)
+    ✓ ML-UT07 detail laporan sendiri memuat deskripsi dan nama pemilik (11 ms)
+    ✓ ML-UT08 laporan milik warga lain dan ID yang tidak ada menghasilkan pesan yang sama (4 ms)
+    ✓ ML-UT09 riwayat laporan sendiri urut waktu naik (4 ms)
+    ✓ ML-UT10 laporan tanpa perubahan status memberi riwayat kosong yang sah (3 ms)
+    ✓ ML-UT11 riwayat laporan milik warga lain ditolak sebelum riwayat dibaca (4 ms)
+    ✓ LC-UT06 ID tidak valid "" ditolak tanpa query (4 ms)
+    ✓ LC-UT06 ID tidak valid "../etc/passwd" ditolak tanpa query (5 ms)
+    ✓ LC-UT06 ID tidak valid "LAP A" ditolak tanpa query (4 ms)
+    ✓ LC-UT06 ID tidak valid "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" ditolak tanpa query (4 ms)
+    ✓ LC-UT06 ID tidak valid 42 ditolak tanpa query (4 ms)
+    ✓ LC-UT06 ID tidak valid null ditolak tanpa query (3 ms)
+    ✓ LC-UT07 teknisi tidak boleh memakai operasi warga (5 ms)
+    ✓ LC-UT08 galat basis data diteruskan sebagai galat, bukan daftar kosong (3 ms)
+
+PASS tests/akun/registrasi.test.ts (5.258 s)
+  Validasi.validasiRegistrasi (Algo-031)
+    ✓ menerima data lengkap dengan email baru (18 ms)
+    ✓ menolak nama kosong atau hanya spasi (3 ms)
+    ✓ menolak email tanpa format sah (4 ms)
+    ✓ menolak kata sandi di bawah 8 karakter, menerima tepat 8 (3 ms)
+    ✓ menolak kata sandi lebih panjang dari batas hash (2 ms)
+    ✓ menolak email yang sudah terdaftar (2 ms)
+  AkunController.daftarkan (UC12, Algo-029)
+    ✓ menyimpan akun MENUNGGU dengan kata sandi ter-hash dan email dinormalisasi (161 ms)
+    ✓ menolak email yang sudah terdaftar tanpa menyimpan akun baru (5 ms)
+    ✓ menangani balapan: penyimpanan menolak email unik yang baru dipakai (169 ms)
+    ✓ tidak melaporkan berhasil bila penyimpanan gagal karena galat lain (155 ms)
+    ✓ menolak peran yang tidak dikenal (2 ms)
+    ✓ menandai kolom wajib yang kosong dan tidak menyimpan (1 ms)
+    ✓ menolak body bertipe salah tanpa melempar galat
+
+PASS tests/pemeliharaan/FormPemeliharaan.test.tsx
+  FormPemeliharaan
+    ✓ I-12-UT01 mengirim isian dengan waktu WIB lalu mengosongkan formulir setelah sukses (285 ms)
+    ✓ I-12-UT02 UC08 Alt 1: menandai kolom kosong dan mempertahankan isian lain (91 ms)
+    ✓ I-12-UT03 menonaktifkan tombol selama penyimpanan (93 ms)
+    ✓ I-12-UT04 mempertahankan isian saat jaringan gagal (63 ms)
+
+PASS tests/akun/login.test.ts (6.523 s)
+  AkunController.login (UC13, Algo-030)
+    ✓ warga DISETUJUI masuk ke dasbor warga dengan sesi yang benar (681 ms)
+    ✓ teknisi dan pengurus diarahkan ke dasbor masing-masing (316 ms)
+    ✓ email dinormalisasi (spasi dan huruf besar) (135 ms)
+    ✓ kata sandi salah dan email tidak ada memberi hasil yang sama (294 ms)
+    ✓ akun MENUNGGU dengan kata sandi benar diberi tahu masih menunggu (112 ms)
+    ✓ status akun tidak bocor bila kata sandi salah (109 ms)
+    ✓ akun DITOLAK mendapat pesan tidak disetujui (116 ms)
+    ✓ akun DISETUJUI tanpa profil peran tidak membuat sesi (105 ms)
+    ✓ input kosong atau bukan string ditolak tanpa menyentuh boundary (2 ms)
+    ✓ sesi tidak memuat hash kata sandi (88 ms)
+  Entity akun
+    ✓ buatAkun menolak peran yang tidak dikenal (Algo-002) (1 ms)
+    ✓ buatAkun menerima peran tanpa memandang huruf besar-kecil (1 ms)
+    ✓ validasiKeanggotaan hanya benar untuk warga terdaftar di komunitas yang sama (Algo-003) (1 ms)
+    ✓ verifikasiKewenangan hanya benar untuk pengurus DISETUJUI (Algo-006) (1 ms)
+    ✓ cocokKredensial menolak email berbeda walau kata sandi benar (Algo-001) (175 ms)
+  urlTujuanAman
+    ✓ menerima jalur internal (1 ms)
+    ✓ menolak jalur ke situs lain dan bentuk berbahaya (1 ms)
+    ✓ menolak kosong, halaman auth, dan API (3 ms)
+
+---------------------------|---------|----------|---------|---------|------------------------------------------------------------------------------------------------------
+File                       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                                                                    
+---------------------------|---------|----------|---------|---------|------------------------------------------------------------------------------------------------------
+All files                  |   64.63 |    63.96 |    64.1 |   65.57 |                                                                                                      
+ akun                      |   75.52 |    72.26 |   79.62 |   79.53 |                                                                                                      
+  boundary.ts              |       0 |        0 |       0 |       0 | 14-176                                                                                               
+  controller.ts            |   98.48 |    97.43 |     100 |   98.38 | 147                                                                                                  
+  entity.ts                |    80.3 |    66.66 |   86.95 |   89.28 | 81,155,164-165,195-196                                                                               
+  galat.ts                 |     100 |      100 |     100 |     100 |                                                                                                      
+  index.ts                 |       0 |      100 |     100 |       0 | 6-11                                                                                                 
+  modul.ts                 |     100 |    83.33 |     100 |     100 | 15                                                                                                   
+  validasi.ts              |   93.75 |    96.42 |     100 |   96.77 | 33                                                                                                   
+ iuran                     |   32.43 |     6.52 |   15.38 |   34.28 |                                                                                                      
+  ekspor.ts                |   88.88 |       50 |     100 |   90.56 | 56-58,68-69                                                                                          
+  repository.ts            |       0 |        0 |       0 |       0 | 3-255                                                                                                
+  service.ts               |       0 |      100 |       0 |       0 | 17-90                                                                                                
+ iuran/internal            |   73.56 |     65.6 |   83.87 |   74.21 |                                                                                                      
+  KalkulatorIuran.ts       |   86.95 |    70.58 |     100 |    87.5 | 54,61,94,100,140                                                                                     
+  ModulIuran.ts            |   65.21 |    65.82 |      80 |   64.44 | 40-41,52,55,69,90,95,112,115,120,123,132,140,155,180,185,188,212,217,231,234,239,242,251,261,275-284 
+  Rekapitulasi.ts          |   89.47 |     62.5 |     100 |    87.5 | 20,25                                                                                                
+  format.ts                |    64.7 |       25 |      40 |   84.61 | 20,40                                                                                                
+ laporan                   |   52.75 |    52.83 |   54.54 |   51.54 |                                                                                                      
+  index.ts                 |       0 |        0 |       0 |       0 | 3-19                                                                                                 
+  repository.ts            |       0 |        0 |       0 |       0 | 2-134                                                                                                
+  service.ts               |   94.36 |     87.5 |     100 |     100 | 82-89,96                                                                                             
+ laporan/internal          |   99.04 |    98.21 |     100 |     100 |                                                                                                      
+  LaporanGangguan.ts       |     100 |      100 |     100 |     100 |                                                                                                      
+  ModulLaporan.ts          |   98.03 |    95.45 |     100 |     100 | 115                                                                                                  
+  PenugasanLaporan.ts      |     100 |      100 |     100 |     100 |                                                                                                      
+  RiwayatStatusLaporan.ts  |     100 |      100 |     100 |     100 |                                                                                                      
+  StatusLaporan.ts         |     100 |      100 |     100 |     100 |                                                                                                      
+  validasi.ts              |     100 |      100 |     100 |     100 |                                                                                                      
+ monitoring                |   58.53 |     62.9 |   36.66 |   57.52 |                                                                                                      
+  DataPerangkatBoundary.ts |    9.09 |      100 |       0 |    9.09 | 7-126                                                                                                
+  ModulMonitoring.ts       |   85.93 |       76 |   72.72 |   88.88 | 104-116                                                                                              
+  MonitoringController.ts  |   35.29 |     8.33 |   33.33 |   35.29 | 25-53,65,70-79                                                                                       
+  galat.ts                 |     100 |      100 |     100 |     100 |                                                                                                      
+ monitoring/entities       |     100 |      100 |     100 |     100 |                                                                                                      
+  Baterai.ts               |     100 |      100 |     100 |     100 |                                                                                                      
+  RentangWaktu.ts          |     100 |      100 |     100 |     100 |                                                                                                      
+  TangkiAir.ts             |     100 |      100 |     100 |     100 |                                                                                                      
+ notifikasi                |      16 |        0 |   33.33 |      16 |                                                                                                      
+  ModulNotifikasi.ts       |      16 |        0 |   33.33 |      16 | 12-49                                                                                                
+ notifikasi/entities       |   14.81 |        0 |       0 |   14.81 |                                                                                                      
+  Notifikasi.ts            |      25 |      100 |       0 |      25 | 10-21                                                                                                
+  PeringatanDayaKritis.ts  |   10.52 |        0 |       0 |   10.52 | 4-40                                                                                                 
+ pemeliharaan              |   54.54 |      100 |      40 |   57.14 |                                                                                                      
+  repository.ts            |       0 |      100 |       0 |       0 | 2-28                                                                                                 
+  service.ts               |     100 |      100 |     100 |     100 |                                                                                                      
+ pemeliharaan/internal     |   97.72 |      100 |     100 |   97.56 |                                                                                                      
+  CatatanPemeliharaan.ts   |     100 |      100 |     100 |     100 |                                                                                                      
+  ModulPemeliharaan.ts     |     100 |      100 |     100 |     100 |                                                                                                      
+  validasi.ts              |   95.23 |      100 |     100 |   94.44 | 18                                                                                                   
+---------------------------|---------|----------|---------|---------|------------------------------------------------------------------------------------------------------
+Test Suites: 18 passed, 18 total
+Tests:       197 passed, 197 total
+Snapshots:   0 total
+Time:        11.617 s
+Ran all test suites.

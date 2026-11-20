@@ -27,7 +27,7 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe("FormPemeliharaan", () => {
-  it("mengirim isian dengan waktu WIB lalu mengosongkan formulir setelah sukses", async () => {
+  it("I-12-UT01 mengirim isian dengan waktu WIB lalu mengosongkan formulir setelah sukses", async () => {
     fetchTiruan.mockResolvedValue(balasan({ ok: true, data: { idCatatan: "CTT-1" } }));
     render(<FormPemeliharaan perangkat={PERANGKAT} />);
 
@@ -49,7 +49,7 @@ describe("FormPemeliharaan", () => {
     expect(screen.getByLabelText("Tindakan")).toHaveValue("");
   });
 
-  it("UC08 Alt 1: menandai kolom kosong dan mempertahankan isian lain", async () => {
+  it("I-12-UT02 UC08 Alt 1: menandai kolom kosong dan mempertahankan isian lain", async () => {
     fetchTiruan.mockResolvedValue(
       balasan({
         ok: false,
@@ -68,7 +68,7 @@ describe("FormPemeliharaan", () => {
     expect(screen.getByLabelText("Tindakan")).toHaveValue("Membersihkan panel");
   });
 
-  it("menonaktifkan tombol selama penyimpanan", async () => {
+  it("I-12-UT03 menonaktifkan tombol selama penyimpanan", async () => {
     let selesai!: (r: Response) => void;
     fetchTiruan.mockReturnValue(new Promise((r) => (selesai = r)));
     render(<FormPemeliharaan perangkat={PERANGKAT} />);
@@ -81,7 +81,7 @@ describe("FormPemeliharaan", () => {
     await waitFor(() => expect(screen.getByRole("button", { name: "Simpan catatan" })).toBeEnabled());
   });
 
-  it("mempertahankan isian saat jaringan gagal", async () => {
+  it("I-12-UT04 mempertahankan isian saat jaringan gagal", async () => {
     fetchTiruan.mockRejectedValue(new TypeError("Failed to fetch"));
     render(<FormPemeliharaan perangkat={PERANGKAT} />);
 

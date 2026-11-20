@@ -220,7 +220,7 @@ Tabel 3.2. Implementasi Modul
 | 24 | C24 | `PenugasanLaporan` | `src/modules/laporan/internal/PenugasanLaporan.ts` | - |
 | 25 | C25 | `Notifikasi` | `src/modules/notifikasi/entities/Notifikasi.ts` | - |
 | 26 | C26 | `PeringatanDayaKritis` | `src/modules/notifikasi/entities/PeringatanDayaKritis.ts` | - |
-| 27 | C27 | `CatatanPemeliharaan` | *[Lengkapi path dari `src/modules/pemeliharaan/` — Rafiandhi]* | - |
+| 27 | C27 | `CatatanPemeliharaan` | `src/modules/pemeliharaan/internal/CatatanPemeliharaan.ts` | - |
 | 28 | C28 | `Rekapitulasi` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
 | 29 | - | `WargaView` | `src/components/shell/*`, `src/app/dashboard/warga/**`, `src/components/layar/LayarI03.tsx` s.d. `LayarI07.tsx` | - |
 | 30 | - | `TeknisiView` | `src/app/dashboard/teknisi/**`, `src/components/layar/LayarI08.tsx` s.d. `LayarI12.tsx` | - |
@@ -229,18 +229,18 @@ Tabel 3.2. Implementasi Modul
 | 33 | - | `TelemetriAPI` | `src/app/api/telemetri/route.ts` | - |
 | 34 | - | `MonitoringController` | `src/modules/monitoring/MonitoringController.ts` | - |
 | 35 | - | `LaporanController` | `src/modules/laporan/service.ts`, `src/app/api/laporan/**/route.ts` | - |
-| 36 | - | `PemeliharaanController` | *[Lengkapi path dari `src/modules/pemeliharaan/` — Rafiandhi]* | - |
+| 36 | - | `PemeliharaanController` | `src/modules/pemeliharaan/service.ts` (`buatPemeliharaanService`), `src/app/api/pemeliharaan/route.ts` | - |
 | 37 | - | `IuranController` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
 | 38 | - | `AkunController` | `src/modules/akun/controller.ts`, `src/app/api/auth/*/route.ts`, `src/app/api/akun/persetujuan/route.ts` | - |
-| 39 | - | `Validasi` | `src/modules/akun/validasi.ts`, `src/modules/laporan/internal/validasi.ts` | - |
+| 39 | - | `Validasi` | `src/modules/akun/validasi.ts`, `src/modules/laporan/internal/validasi.ts`, `src/modules/pemeliharaan/internal/validasi.ts` | - |
 | 40 | - | `ModulAkun` | `src/modules/akun/modul.ts` | - |
 | 41 | - | `ModulMonitoring` | `src/modules/monitoring/ModulMonitoring.ts` | - |
 | 42 | - | `ModulLaporan` | `src/modules/laporan/internal/ModulLaporan.ts` | - |
-| 43 | - | `ModulPemeliharaan` | *[Lengkapi path dari `src/modules/pemeliharaan/` — Rafiandhi]* | - |
+| 43 | - | `ModulPemeliharaan` | `src/modules/pemeliharaan/internal/ModulPemeliharaan.ts` | - |
 | 44 | - | `ModulIuran` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
 | 45 | - | `ModulNotifikasi` | `src/modules/notifikasi/ModulNotifikasi.ts` | - |
 | 46 | - | `DataAkunBoundary` | `src/modules/akun/boundary.ts` | - |
-| 47 | - | `DataPerangkatBoundary` | `src/modules/monitoring/DataPerangkatBoundary.ts` | - |
+| 47 | - | `DataPerangkatBoundary` | `src/modules/monitoring/DataPerangkatBoundary.ts`, `src/modules/pemeliharaan/repository.ts` (bagian UC08: Algo-046 dan Algo-047) | - |
 | 48 | - | `DataLaporanBoundary` | `src/modules/laporan/repository.ts` | - |
 | 49 | - | `DataIuranBoundary` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
 | 50 | - | `Database` | `src/lib/prisma.ts`, `src/modules/laporan/repository.ts` | - |
@@ -283,8 +283,40 @@ Tabel 3.4. File Lain
 
 | No | Nama File | Keterangan |
 | :--- | :--- | :--- |
-| 1 | *[Nama file]* | *[Fungsi file]* |
-| ... | *...* | *...* |
+| 1 | `src/prisma/schema.prisma` | Skema basis data Prisma: 6 enumerasi (`Peran`, `StatusAkun`, `JenisPerangkat`, `StatusPengiriman`, `StatusLaporan`, `StatusTagihan`) dan 18 model yang dipetakan ke tabel snake_case DPPL lewat `@map`/`@@map`. Berisi kunci asing, batas unik (`email`, `[bulan, tahun]`, `[idWarga, idPeriode]`), dan indeks untuk query UC05 s.d. UC08. Diperlakukan beku setelah Fase 0; perubahan lewat Issue. Klien Prisma dihasilkan ke `src/generated/prisma` (tidak di-*commit*) |
+| 2 | `src/prisma/migrations/20261105170000_init/migration.sql`, `src/prisma/migrations/migration_lock.toml` | Migrasi awal yang membuat seluruh tipe enum, tabel, kunci, dan indeks pada PostgreSQL. Dipasang dengan `npx prisma migrate deploy` |
+| 3 | `src/prisma.config.ts` | Konfigurasi Prisma 7: lokasi skema, perintah seed (`tsx prisma/seed.ts`), dan URL koneksi dari `DATABASE_URL` |
+| 4 | `src/prisma/seed.ts` | Data seed fiktif (5 akun uji, 3 perangkat, pembacaan, riwayat panel, 3 laporan, 1 peringatan, 1 catatan pemeliharaan, 2 periode iuran beserta tarif, pemakaian, dan tagihan). Idempoten lewat `upsert` dengan kunci tetap. Kata sandi uji dari `SEED_PASSWORD` atau bawaan seed |
+| 5 | `src/prisma/seed-panel.ts` | Seed data historis panel surya dalam jumlah besar untuk uji tampilan dan kinerja UC06 |
+| 6 | `src/prisma/profiling/uc06-riwayat-panel.sql` | Skrip profiling `EXPLAIN (ANALYZE, BUFFERS)` untuk query riwayat panel (Algo-039) dengan dan tanpa indeks `(id_panel, waktu)` pada 1.051.200 baris; data profiling dihapus kembali di akhir skrip. Hasilnya dipakai pada KNF04-TC01 |
+| 7 | `src/lib/prisma.ts` | Singleton `PrismaClient` dengan *driver adapter* PostgreSQL (`@prisma/adapter-pg`); menolak berjalan bila `DATABASE_URL` kosong. Juga mengekspor enum `StatusPengiriman` |
+| 8 | `src/lib/auth/konteks.ts` | Tipe `KonteksSesi`, konstanta peran, cookie dan tujuan dasbor, serta `GalatAuth`. Satu-satunya sumber `idWarga`, `idKomunitas`, `idTeknisi`, dan `idPengurus` (tidak pernah dari body atau query) |
+| 9 | `src/lib/auth/session.ts` | Penerbitan dan pembacaan token sesi bertanda tangan HMAC-SHA256 (Web Crypto) dengan masa berlaku 8 jam; membutuhkan `SESSION_SECRET` minimal 32 karakter. Aman untuk Edge |
+| 10 | `src/lib/auth/password.ts` | Hash dan verifikasi kata sandi dengan `scrypt` bawaan Node (format `scrypt$N$r$p$garam$hash`) dan pembanding waktu-konstan |
+| 11 | `src/lib/auth/akses.ts` | Fungsi murni yang memutuskan izinkan, tolak (401/403), atau alihkan untuk tiap rute berdasarkan sesi dan peran. Dipakai `middleware.ts` |
+| 12 | `src/lib/auth/server.ts` | Pembantu sesi sisi server (`wajibPeran`, dan sejenisnya) untuk *route handler* dan komponen server |
+| 13 | `src/middleware.ts` | Pembatas sesi, peran, dan status akun `DISETUJUI` pada setiap permintaan; membersihkan cookie rusak atau kedaluwarsa dan gagal tertutup bila `SESSION_SECRET` belum diatur |
+| 14 | `src/contracts/common.ts`, `akun.ts`, `monitoring.ts`, `laporan.ts`, `pemeliharaan.ts`, `iuran.ts`, `index.ts` | Kontrak tipe lintas modul (DTO, `ApiRespons`, `KodeGalat`, enumerasi). Modul hanya saling mengimpor lewat `contracts`, tidak lewat `modules/<x>/internal` |
+| 15 | `src/contracts/API_Convention.md`, `src/contracts/SchemaReview.md` | Dokumen konvensi rute API (struktur, kode status, format galat) dan daftar cek review skema terhadap DPPL |
+| 16 | `src/app/api/iuran/_utils.ts`, `src/app/api/laporan/_utils.ts`, `src/app/api/monitoring/_utils.ts` | Pembantu *route handler* per modul: pembacaan sesi per peran, pemetaan `KodeGalat` ke status HTTP, dan pembungkus respons |
+| 17 | `src/modules/akun/galat.ts`, `src/modules/monitoring/galat.ts` | Kelas galat domain (`EmailSudahTerdaftar`, `PeranTidakValid`, `AkunTidakLengkap`, `GalatRentangWaktu`) |
+| 18 | `src/modules/akun/index.ts`, `src/modules/laporan/index.ts` | Titik rakit modul: merangkai controller, modul, dan boundary untuk dipakai route dan layar |
+| 19 | `src/modules/iuran/ekspor.ts`, `src/modules/iuran/internal/format.ts`, `src/modules/iuran/types/papaparse.d.ts` | Pembuat berkas ekspor rekapitulasi (CSV dengan `papaparse`, PDF dengan `jspdf`), pemformat angka dan tanggal, dan deklarasi tipe `papaparse` |
+| 20 | `src/modules/akun/ui/tujuan.ts`, `src/modules/laporan/ui/format.ts`, `src/modules/laporan/ui/sesi.ts`, `src/modules/monitoring/ui/format.ts`, `src/modules/monitoring/ui/sesi.ts`, `src/modules/iuran/ui/api.ts` | Utilitas sisi tampilan: penentuan tujuan pengalihan, pemformatan tanggal dan angka, pembacaan sesi di komponen server, dan klien `fetch` ke API |
+| 21 | `src/components/ui/*.tsx` (`Alert`, `Badge`, `Button`, `Card`, `EmptyState`, `Field`, `Input`, `Table`, `index.ts`) | Pustaka komponen UI dasar yang dipakai seluruh layar |
+| 22 | `src/components/shell/*` (`AuthShell`, `DashboardShell`, `Sidebar`, `BottomNav`, `PageTitle`, `Tanggal`, `TombolKeluar`, `menu.ts`) | Kerangka tampilan: bilah samping, navigasi bawah ponsel, judul halaman, dan konfigurasi menu per peran |
+| 23 | `src/components/layar/LayarStub.tsx` | Kerangka layar sementara untuk layar yang belum selesai |
+| 24 | `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/globals.css`, `src/app/fonts/*` | Layout akar, pengalihan beranda ke `/login`, gaya global (termasuk *media query* ponsel di bawah 800 px), dan berkas huruf Plus Jakarta Sans beserta lisensinya |
+| 25 | `src/jest.config.mjs`, `src/tests/setup.ts` | Konfigurasi Jest (`next/jest`, pencocokan `tests/**/*.test.{ts,tsx}`, alias `@/`) dan pemasangan `jest-dom` |
+| 26 | `src/tests/akun/*.test.ts` (3 berkas), `src/tests/iuran/iuran.test.ts`, `src/tests/laporan/*.test.ts` (6 berkas), `src/tests/monitoring/*.test.ts` (4 berkas), `src/tests/pemeliharaan/*.test.ts(x)` (4 berkas) | Berkas uji unit Jest per modul: 18 *suite*, 197 test case pada uji terakhir |
+| 27 | `src/tests/laporan/palsu.ts` | Pengganti data (*test double*) repositori dan sesi untuk uji unit modul laporan |
+| 28 | `src/tests/laporan/transaksiStatus.db.ts` | Uji atomisitas status dan riwayat laporan terhadap PostgreSQL nyata (dijalankan dengan `tsx` karena Jest tidak dapat memuat Prisma Client yang berbentuk ESM) |
+| 29 | `src/tests/integrasi/integrasi.db.ts` | Harness pengujian integrasi Subbab 4.3: 26 test case `INT-TC01` s.d. `INT-TC26` pada 9 antarmuka antarkomponen terhadap PostgreSQL nyata tanpa *mock*; membuat data berawalan `ITG-` dan menghapusnya di akhir. Dijalankan dengan `npx tsx tests/integrasi/integrasi.db.ts` |
+| 30 | `src/tests/simulator/SensorAdapter.ts` | Simulator perangkat lapangan yang mengirim telemetri ke `POST /api/telemetri` (pengganti firmware mikrokontroler) |
+| 31 | `docker-compose.yml`, `src/.env.example` | Layanan PostgreSQL 15 untuk pengembangan lokal dan contoh variabel lingkungan (`POSTGRES_*`, `DATABASE_URL`, `SESSION_SECRET`). Berkas `.env` asli tidak di-*commit* |
+| 32 | `src/package.json`, `src/package-lock.json`, `src/tsconfig.json`, `src/.gitignore` | Daftar dependensi dan skrip (`dev`, `build`, `start`, `test`, `test:coverage`, `test:integrasi`), konfigurasi TypeScript, dan daftar berkas yang tidak di-*commit* (`node_modules`, `.env`, `.next`, `generated`) |
+| 33 | `README.md`, `src/README.md` | Panduan proyek dan panduan menjalankan aplikasi |
+| 34 | `src/test.zip` | Arsip salinan sebagian kode `app/` bertanggal 11 November yang ikut ter-*commit*; bukan bagian aplikasi dan tidak dipakai oleh *build* maupun pengujian (usulan: dihapus dari repositori) |
 
 <br>
 
@@ -302,11 +334,11 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 
 | ID Kelas | Nama Kelas | Tingkat | Alasan | Test Case Terkait |
 | :--- | :--- | :--- | :--- | :--- |
-| C01 | Akun | Mendalam | Kelas abstrak yang memuat logika kredensial `cocokKredensial()` (Algo-001), aturan status `sudahDisetujui()` dan `ubahStatus()`, pembuatan objek peran `buatAkun()` (Algo-002), serta kontrak `dashboardTujuan()` dan `konteksSesi()` | `C01-UT01` s.d. `C01-UT07` |
-| C02 | Warga | Mendalam | Memuat aturan keanggotaan komunitas `validasiKeanggotaan()` (Algo-003), pengambilan ID warga, dan pembentukan sesi warga | `C02-UT01` s.d. `C02-UT06` |
-| C03 | Teknisi | Sedang | Hanya mengoordinasikan profil teknisi dan tujuan dashboard; tidak memuat logika bisnis mandiri | `C03-UT01` s.d. `C03-UT03` |
-| C04 | Pengurus | Mendalam | Memuat verifikasi kewenangan pengurus `verifikasiKewenangan()` (Algo-006) dan pembentukan sesi pengurus | `C04-UT01` s.d. `C04-UT04` |
-| C05 | CalonPengguna | Sedang | Mengoordinasikan pembentukan data akun calon berstatus MENUNGGU (Algo-008) dan mendelegasikan hash kata sandi | `C05-UT01` s.d. `C05-UT02` |
+| C01 | Akun | Mendalam | Kelas abstrak yang memuat logika kredensial `cocokKredensial()` (Algo-001), aturan status `sudahDisetujui()` dan `ubahStatus()`, pembuatan objek peran `buatAkun()` (Algo-002), serta kontrak `dashboardTujuan()` dan `konteksSesi()` | `C01-UT01` s.d. `C01-UT03` |
+| C02 | Warga | Mendalam | Memuat aturan keanggotaan komunitas `validasiKeanggotaan()` (Algo-003), pengambilan ID warga, dan pembentukan sesi warga | `C02-UT01` s.d. `C02-UT03` |
+| C03 | Teknisi | Sedang | Hanya mengoordinasikan profil teknisi dan tujuan dashboard; tidak memuat logika bisnis mandiri | `C03-UT01` s.d. `C03-UT02` |
+| C04 | Pengurus | Mendalam | Memuat verifikasi kewenangan pengurus `verifikasiKewenangan()` (Algo-006) dan pembentukan sesi pengurus | `C04-UT01` s.d. `C04-UT02` |
+| C05 | CalonPengguna | Sedang | Mengoordinasikan pembentukan data akun calon berstatus MENUNGGU (Algo-008) dan mendelegasikan hash kata sandi | `C05-UT01` |
 | C06 | StatusAkun | Tidak perlu | Enumerasi status tanpa logika; diverifikasi tidak langsung melalui `UC12–UC14` | - |
 | C07 | Perangkat | Tidak perlu | Kelas abstrak tanpa implementasi mandiri; diwakili model `prisma.perangkat` pada boundary | - |
 | C08 | TangkiAir | Mendalam | Memuat logika bisnis klasifikasi status air `statusAir()` (Algo-009) dengan ambang kritis dan rendah | `C08-UT01` s.d. `C08-UT05` |
@@ -315,6 +347,12 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 | C11 | PembacaanSensor | Tidak perlu | Direpresentasikan sebagai tipe kontrak DTO `MasukanTelemetri` tanpa logika bisnis | - |
 | C12 | DataHistorisKinerja | Tidak perlu | Struktur data/DTO hasil kueri historis tanpa logika internal | - |
 | C13 | RentangWaktu | Mendalam | Memuat validasi batas tanggal `validasi()` (Algo-011) | `C13-UT01` s.d. `C13-UT03` |
+| C14 | Periode | Tidak perlu | Struktur data periode (`bulan`, `tahun`, `statusFinal`) yang diwakili model `prisma.periode` dan `PeriodeDTO`; tidak berisi logika | - |
+| C15 | DataPemakaian | Mendalam | Memuat pemeriksaan kelengkapan data pemakaian warga `isPemakaianLengkap()` (Algo-012) yang menjadi syarat finalisasi iuran; diuji bersama C19 | `C19-UT07`, `INT-TC25` |
+| C16 | AturanTarif | Tidak perlu | Struktur data tarif (`tarifAirPerM3`, `tarifEnergiPerKWh`, `biayaTetap`) berupa `AturanTarifDTO` dan model `prisma.aturanTarif` tanpa logika | - |
+| C17 | Tagihan | Tidak perlu | Struktur data tagihan (`TagihanDTO`) hasil perhitungan `KalkulatorIuran`; tanpa logika internal | - |
+| C18 | StatusTagihan | Tidak perlu | Enumerasi `DRAFT` dan `FINAL` tanpa logika; diverifikasi tidak langsung melalui UC02, UC10 | - |
+| C19 | KalkulatorIuran | Mendalam | Memuat perhitungan iuran satu warga dan kolektif (Algo-013, Algo-014, Algo-015) dan agregat pemakaian komunal (Algo-036); diuji melalui `ModulIuran` (Subbab 4.2.1) | `C19-UT01` s.d. `C19-UT08` |
 | C20 | LaporanGangguan | Mendalam | Memuat pembuatan laporan berstatus awal MENUNGGU dan aturan transisi status `validasiTransisi()` serta `ubahStatus()` (Algo-017) | `C20-UT01` s.d. `C20-UT07` |
 | C21 | StatusLaporan | Mendalam | Memuat urutan status yang diperbolehkan dan pemeriksaan nilai enumerasi (Algo-017) | `C21-UT01` s.d. `C21-UT04` |
 | C22 | RiwayatStatusLaporan | Sedang | Mencatat perubahan status dengan sedikit logika (pembuatan ID dan konversi waktu); alur pencatatannya juga teruji lewat `ModulLaporan` | `C22-UT01` s.d. `C22-UT03` |
@@ -322,24 +360,30 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 | C24 | PenugasanLaporan | Mendalam | Memuat `verifikasi()` yang menjadi dasar kewenangan teknisi pada UC07 (keamanan) | `C24-UT01` s.d. `C24-UT03` |
 | C25 | Notifikasi | Sedang | Kelas dasar notifikasi dengan delegasi pengiriman dan pembaruan status baca `tandaiDibaca()` | `C25-UT01` s.d. `C25-UT02` |
 | C26 | PeringatanDayaKritis | Mendalam | Memuat algoritma pengiriman peringatan daya kritis `kirim()` beserta *fallback* `simpanPending()` (Algo-020) | `C26-UT01` s.d. `C26-UT04` |
-| - | TelemetriAPI | Sedang | Route handler `POST /api/telemetri` yang meneruskan payload telemetri ke `MonitoringController` (Algo-023) | `INT-TCxx` *(sesuaikan nomor 4.3)* |
-| - | MonitoringController | Sedang | Controller yang mengoordinasikan permintaan pemantauan, telemetri baterai (Algo-024), dan riwayat panel | `MC-UT01` s.d. `MC-UT13`, `INT-TCxx`*(sesuaikan nomor 4.3)* |
+| C27 | CatatanPemeliharaan | Mendalam | Memuat pembentukan catatan (ID unik, pemangkasan isian, `idTeknisi` dari sesi bukan dari body), `validasiFormulir()` (Algo-021), dan `simpan()` yang menentukan hasil penyimpanan riwayat pemeliharaan (KF20, KF21) | `C27-UT01` s.d. `C27-UT07` |
+| C28 | Rekapitulasi | Mendalam | Memuat pembuatan rekapitulasi dari tagihan FINAL dan ekspor CSV serta PDF (Algo-022) | `C28-UT01` |
+| - | TelemetriAPI | Sedang | Route handler `POST /api/telemetri` yang meneruskan payload telemetri ke `MonitoringController` (Algo-023) | `INT-TC14` s.d. `INT-TC17` |
+| - | MonitoringController | Sedang | Controller yang mengoordinasikan permintaan pemantauan, telemetri baterai (Algo-024), dan riwayat panel | `MC-UT01` s.d. `MC-UT13`, `INT-TC14`, `INT-TC15` |
 | - | ModulMonitoring | Mendalam | Memuat logika domain `evaluasiKetersediaan()` (Algo-033), pencatatan pembacaan, peringatan teknisi, dan kueri historis panel | `MM-UT01` s.d. `MM-UT10` |
 | - | ModulNotifikasi | Mendalam | Memuat logika bisnis `kirimPeringatanDayaKritis()` (Algo-037) dan `kirimUlangPending()` (Algo-051) | `MN-UT01` s.d. `MN-UT06` |
-| - | DataPerangkatBoundary | Sedang | Repositori CRUD standar ke PostgreSQL via Prisma (Algo-039, 043–045); diuji pada level integrasi basis data nyata | `INT-TCxx` *(sesuaikan nomor 4.3)* |
+| - | DataPerangkatBoundary | Sedang | Repositori CRUD standar ke PostgreSQL via Prisma (Algo-039, 043–045); diuji pada level integrasi basis data nyata | `INT-TC01` s.d. `INT-TC04`, `INT-TC10` s.d. `INT-TC14`, `INT-TC18` |
 | - | WargaView | Tidak perlu | Kelas view yang hanya menampilkan data dan meneruskan masukan; teruji tidak langsung lewat UC03 dan UC04 | - |
 | - | TeknisiView | Tidak perlu | Kelas view yang hanya menampilkan data dan meneruskan masukan; teruji tidak langsung lewat UC07 | - |
 | - | PengurusView | Tidak perlu | Kelas view tanpa logika; tidak ada layar laporan untuk Pengurus, jadi tidak ada test case laporan | - |
 | - | LaporanController | Sedang | Controller tipis: memeriksa peran dan format ID, lalu meneruskan ke `ModulLaporan` dan memetakan galat ke `ApiRespons` | `LC-UT01` s.d. `LC-UT12` |
 | - | ModulLaporan | Mendalam | Memuat logika `kirimLaporan()` (Algo-003, Algo-025, Algo-034), pembacaan milik warga atau teknisi bertugas, dan `perbaruiStatus()` transaksional (Algo-017, Algo-040, Algo-042) | `ML-UT01` s.d. `ML-UT26` |
-| - | DataLaporanBoundary | Sedang | Repositori Prisma dengan query terparameter dan transaksi `FOR UPDATE` untuk status dan riwayat; diuji pada basis data nyata | `INT-TCxx` (koordinasi dengan Rafiandhi) |
-| *...* | *...* | *...* | *...* | *...* |
+| - | DataLaporanBoundary | Sedang | Repositori Prisma dengan query terparameter dan transaksi `FOR UPDATE` untuk status dan riwayat; diuji pada basis data nyata | `INT-TC19` s.d. `INT-TC23` |
+| - | PemeliharaanController | Sedang | Controller tipis: memvalidasi formulir lewat `periksaPemeliharaan`, meneruskan ke `ModulPemeliharaan` dengan `idTeknisi` dari sesi, dan memetakan galat tak terduga ke `GAGAL_INTERNAL` tanpa membocorkan pesan basis data | `PC-UT01` s.d. `PC-UT06`, `INT-TC01`, `INT-TC02` |
+| - | ModulPemeliharaan | Mendalam | Memuat logika `simpanCatatan()` (Algo-035): validasi formulir, pembatasan perangkat pada lingkup penugasan teknisi (keamanan), dan pelaporan `GAGAL_SIMPAN` | `MP-UT01` s.d. `MP-UT06`, `INT-TC01`, `INT-TC02` |
+| - | IuranController | Sedang | Controller tipis yang membungkus `ModulIuran` dan memetakan galat tak terduga ke `GAGAL_INTERNAL`; belum memiliki unit test langsung dan teruji tidak langsung melalui UC02, UC09, UC10, UC11 (Subbab 4.4) | `UC02-TC01` s.d. `UC11-TC03` |
+| - | ModulIuran | Mendalam | Memuat logika `lihatTagihanFinal()`, `analisisPemakaian()`, `hitungPratinjau()`, `tetapkanFinal()`, dan `buatRekapitulasi()` (Algo-013 s.d. Algo-016, Algo-022, Algo-028, Algo-036, Algo-050) beserta pembatasan peran Pengurus | `C19-UT01` s.d. `C19-UT08`, `C28-UT01`, `INT-TC24` s.d. `INT-TC26` |
+| - | DataIuranBoundary | Sedang | Repositori Prisma dengan transaksi untuk pratinjau dan finalisasi; diuji pada basis data nyata | `INT-TC24` s.d. `INT-TC26` |
 | - | AuthView | Tidak perlu | Komponen presentasi (boundary); perilakunya diuji melalui use case UC12–UC13 dan tangkapan layar I-01/I-02 | - |
 | - | AkunController | Mendalam | Mengoordinasikan validasi, registrasi (Algo-029), login (Algo-030), dan persetujuan dengan pemeriksaan kewenangan Pengurus (Algo-006) | `AKC-UT01` s.d. `AKC-UT29` |
 | - | ModulAkun | Mendalam | Fasad modul akun: registrasi calon, autentikasi (Algo-032) dengan penyamaan waktu respons, daftar dan persetujuan akun, serta pengambilan warga terkini | `MA-UT01` s.d. `MA-UT08` |
-| - | DataAkunBoundary | Tidak perlu | Repositori Prisma tanpa logika bisnis; diuji pada level integrasi basis data (Subbab 4.3) | - |
+| - | DataAkunBoundary | Tidak perlu | Repositori Prisma tanpa logika bisnis; diuji pada level integrasi basis data (Subbab 4.3) | `INT-TC05` s.d. `INT-TC09` |
 | - | Validasi | Mendalam | Memuat seluruh aturan validasi registrasi (Algo-031): format email, panjang kata sandi, kolom wajib, dan pesan per kolom | `VAL-UT01` s.d. `VAL-UT07` |
-| - | Database | Tidak perlu | Skema dan koneksi basis data; tidak berisi logika kelas dan diverifikasi melalui pengujian integrasi | - |
+| - | Database | Tidak perlu | Skema dan koneksi basis data; tidak berisi logika kelas dan diverifikasi melalui pengujian integrasi (Subbab 4.3) | `INT-TC01` s.d. `INT-TC26` |
 
 ## 4.2 Pengujian Unit Kelas
 
@@ -352,6 +396,8 @@ Lokasi file test: `src/tests/iuran/iuran.test.ts`
 Cara menjalankan unit test modul monitoring dan notifikasi: `npx jest tests/monitoring --coverage` (dijalankan di dalam folder `src/`).
 
 Lokasi file test: `src/tests/monitoring/` (`tangki.test.ts`, `baterai.test.ts`, `rentangWaktu.test.ts`, `notifikasi.test.ts`, `monitoring.test.ts`, `controller.test.ts`).
+
+Cara menjalankan unit test modul akun: `npx jest tests/akun --verbose --coverage --collectCoverageFrom='modules/akun/entity.ts' --collectCoverageFrom='modules/akun/controller.ts' --collectCoverageFrom='modules/akun/modul.ts' --collectCoverageFrom='modules/akun/validasi.ts'`
 
 ### 4.2.1 Kelas KalkulatorIuran / ModulIuran
 
@@ -794,9 +840,9 @@ Tabel 4.2.31. Hasil Pengujian Unit Kelas C01 (`Akun`)
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| C01-UT01 | `cocokKredensial(email, password)` | Normal / Negatif | Akun Warga `DISETUJUI` ber-hash `rahasia123`: panggil dengan email dan kata sandi benar, lalu email lain, lalu kata sandi salah. | `true` untuk kredensial benar; `false` pada dua percobaan lainnya. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C01-UT02 | `buatAkun(peran, dasar, profil)` | Normal | Panggil dengan peran `'Warga'` (huruf besar-kecil tidak berpengaruh). | Mengembalikan instance `Warga`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C01-UT03 | `buatAkun(peran, dasar, profil)` | Negatif | Panggil dengan peran `'ADMIN'`. | Melempar `PeranTidakValid`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| C01-UT01 | `cocokKredensial(email, password)` | Normal / Negatif | Akun Warga `DISETUJUI` ber-hash `rahasia123`: panggil dengan email dan kata sandi benar, lalu email lain, lalu kata sandi salah. | `true` untuk kredensial benar; `false` pada dua percobaan lainnya. | ✓ cocokKredensial menolak email berbeda walau kata sandi benar (Algo-001) | Pass |
+| C01-UT02 | `buatAkun(peran, dasar, profil)` | Normal | Panggil dengan peran `'Warga'` (huruf besar-kecil tidak berpengaruh). | Mengembalikan instance `Warga`. | ✓ buatAkun menerima peran tanpa memandang huruf besar-kecil | Pass |
+| C01-UT03 | `buatAkun(peran, dasar, profil)` | Negatif | Panggil dengan peran `'ADMIN'`. | Melempar `PeranTidakValid`. | ✓ buatAkun menolak peran yang tidak dikenal (Algo-002) | Pass |
 
 Tabel 4.2.32. Ringkasan Cakupan Kelas C01 (`Akun`)
 
@@ -805,7 +851,7 @@ Tabel 4.2.32. Ringkasan Cakupan Kelas C01 (`Akun`)
 | Daftar operasi public pada DPPL | `cocokKredensial()`, `sudahDisetujui()`, `ubahStatus()`, `buatAkun()`, `dashboardTujuan()` (abstrak), `konteksSesi()` (abstrak) |
 | Operasi yang diuji | `cocokKredensial()`, `buatAkun()` diuji langsung; `sudahDisetujui()`, `konteksSesi()`, dan `dashboardTujuan()` teruji tidak langsung lewat `AkunController.login` (AKC-UT06 dan AKC-UT09) |
 | ID Algoritma yang tercakup | Algo-001, Algo-002 |
-| Coverage (wajib ≥ 70%) | `[isi % Stmts / % Branch dari perintah pada awal Subbab 4.2; bukti pada Subbab 4.6]` |
+| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
 
 ### 4.2.18 Kelas Warga
 
@@ -817,9 +863,9 @@ Tabel 4.2.33. Hasil Pengujian Unit Kelas C02 (`Warga`)
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| C02-UT01 | `validasiKeanggotaan(idKomunitas)` | Normal / Negatif | Panggil `'K1'` pada warga terdaftar di `'K1'`, lalu `'K2'`. | `true` untuk komunitas sendiri; `false` untuk komunitas lain. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C02-UT02 | `validasiKeanggotaan(idKomunitas)` | Batas / Negatif | Panggil pada warga `statusTerdaftar: false`, lalu pada warga tanpa profil (`null`). | `false` pada kedua kasus. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C02-UT03 | `dashboardTujuan()`, `konteksSesi()` | Normal | Login Warga `DISETUJUI` dengan profil `{ idWarga: 7, idKomunitas: 'K1', statusTerdaftar: true }` (dijalankan lewat `AkunController.login`). | Tujuan `/dashboard/warga`; sesi berperan `WARGA` dengan `idWarga = 7` dan `idKomunitas = 'K1'`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| C02-UT01 | `validasiKeanggotaan(idKomunitas)` | Normal / Negatif | Panggil `'K1'` pada warga terdaftar di `'K1'`, lalu `'K2'`. | `true` untuk komunitas sendiri; `false` untuk komunitas lain. | ✓ validasiKeanggotaan hanya benar untuk warga terdaftar di komunitas yang sama (Algo-003) | Pass |
+| C02-UT02 | `validasiKeanggotaan(idKomunitas)` | Batas / Negatif | Panggil pada warga `statusTerdaftar: false`, lalu pada warga tanpa profil (`null`). | `false` pada kedua kasus. | ✓ validasiKeanggotaan hanya benar untuk warga terdaftar di komunitas yang sama (Algo-003) — bagian `statusTerdaftar: false` dan profil `null` | Pass |
+| C02-UT03 | `dashboardTujuan()`, `konteksSesi()` | Normal | Login Warga `DISETUJUI` dengan profil `{ idWarga: 7, idKomunitas: 'K1', statusTerdaftar: true }` (dijalankan lewat `AkunController.login`). | Tujuan `/dashboard/warga`; sesi berperan `WARGA` dengan `idWarga = 7` dan `idKomunitas = 'K1'`. | ✓ warga DISETUJUI masuk ke dasbor warga dengan sesi yang benar | Pass |
 
 Tabel 4.2.34. Ringkasan Cakupan Kelas C02 (`Warga`)
 
@@ -828,7 +874,7 @@ Tabel 4.2.34. Ringkasan Cakupan Kelas C02 (`Warga`)
 | Daftar operasi public pada DPPL | `getIdWarga()`, `validasiKeanggotaan()`, `dashboardTujuan()`, `konteksSesi()` |
 | Operasi yang diuji | `validasiKeanggotaan()` diuji langsung; `dashboardTujuan()`, `konteksSesi()`, dan `getIdWarga()` teruji tidak langsung lewat `AkunController.login` (AKC-UT06) |
 | ID Algoritma yang tercakup | Algo-003 |
-| Coverage (wajib ≥ 70%) | `[isi % Stmts / % Branch dari perintah pada awal Subbab 4.2; bukti pada Subbab 4.6]` |
+| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
 
 ### 4.2.19 Kelas Teknisi
 
@@ -840,8 +886,8 @@ Tabel 4.2.35. Hasil Pengujian Unit Kelas C03 (`Teknisi`)
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| C03-UT01 | `dashboardTujuan()`, `konteksSesi()` | Normal | Login Teknisi `DISETUJUI` dengan profil `{ idTeknisi: 'T1', kontak: '08' }` lewat `AkunController.login`. | Tujuan `/dashboard/teknisi` dan sesi dibuat. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C03-UT02 | `getIdTeknisi()` | Negatif | Login Teknisi `DISETUJUI` tanpa profil peran lewat `AkunController.login`. | Login gagal dengan `kode: 'AKUN_TIDAK_LENGKAP'`; tidak ada sesi dibuat. | *[Isi hasil aktual]* | *Pass/Fail* |
+| C03-UT01 | `dashboardTujuan()`, `konteksSesi()` | Normal | Login Teknisi `DISETUJUI` dengan profil `{ idTeknisi: 'T1', kontak: '08' }` lewat `AkunController.login`. | Tujuan `/dashboard/teknisi` dan sesi dibuat. | ✓ teknisi dan pengurus diarahkan ke dasbor masing-masing | Pass |
+| C03-UT02 | `getIdTeknisi()` | Negatif | Login Teknisi `DISETUJUI` tanpa profil peran lewat `AkunController.login`. | Login gagal dengan `kode: 'AKUN_TIDAK_LENGKAP'`; tidak ada sesi dibuat. | ✓ akun DISETUJUI tanpa profil peran tidak membuat sesi | Pass |
 
 Tabel 4.2.36. Ringkasan Cakupan Kelas C03 (`Teknisi`)
 
@@ -850,7 +896,7 @@ Tabel 4.2.36. Ringkasan Cakupan Kelas C03 (`Teknisi`)
 | Daftar operasi public pada DPPL | `getIdTeknisi()`, `dashboardTujuan()` |
 | Operasi yang diuji | Keduanya teruji tidak langsung lewat `AkunController.login` (AKC-UT06 dan AKC-UT11) |
 | ID Algoritma yang tercakup | - |
-| Coverage (wajib ≥ 70%) | `[isi % Stmts / % Branch dari perintah pada awal Subbab 4.2; bukti pada Subbab 4.6]` |
+| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
 
 ### 4.2.20 Kelas Pengurus
 
@@ -862,8 +908,8 @@ Tabel 4.2.37. Hasil Pengujian Unit Kelas C04 (`Pengurus`)
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| C04-UT01 | `verifikasiKewenangan()`, `dashboardTujuan()` | Normal | Panggil `verifikasiKewenangan()` pada Pengurus `DISETUJUI`, lalu login lewat `AkunController.login` dengan profil `{ idPengurus: 'P1' }`. | Kewenangan `true`; tujuan `/dashboard/pengurus`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C04-UT02 | `verifikasiKewenangan()` | Negatif | Panggil pada Pengurus berstatus `MENUNGGU`. | Mengembalikan `false`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| C04-UT01 | `verifikasiKewenangan()`, `dashboardTujuan()` | Normal | Panggil `verifikasiKewenangan()` pada Pengurus `DISETUJUI`, lalu login lewat `AkunController.login` dengan profil `{ idPengurus: 'P1' }`. | Kewenangan `true`; tujuan `/dashboard/pengurus`. | ✓ verifikasiKewenangan hanya benar untuk pengurus DISETUJUI (Algo-006); ✓ teknisi dan pengurus diarahkan ke dasbor masing-masing | Pass |
+| C04-UT02 | `verifikasiKewenangan()` | Negatif | Panggil pada Pengurus berstatus `MENUNGGU`. | Mengembalikan `false`. | ✓ verifikasiKewenangan hanya benar untuk pengurus DISETUJUI (Algo-006) | Pass |
 
 Tabel 4.2.38. Ringkasan Cakupan Kelas C04 (`Pengurus`)
 
@@ -872,7 +918,7 @@ Tabel 4.2.38. Ringkasan Cakupan Kelas C04 (`Pengurus`)
 | Daftar operasi public pada DPPL | `getIdPengurus()`, `verifikasiKewenangan()`, `dashboardTujuan()`, `konteksSesi()` |
 | Operasi yang diuji | `verifikasiKewenangan()` diuji langsung; `dashboardTujuan()` dan `konteksSesi()` teruji tidak langsung lewat `AkunController.login` (AKC-UT06) |
 | ID Algoritma yang tercakup | Algo-006 |
-| Coverage (wajib ≥ 70%) | `[isi % Stmts / % Branch dari perintah pada awal Subbab 4.2; bukti pada Subbab 4.6]` |
+| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
 
 ### 4.2.21 Kelas CalonPengguna
 
@@ -884,7 +930,7 @@ Tabel 4.2.39. Hasil Pengujian Unit Kelas C05 (`CalonPengguna`)
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| C05-UT01 | `daftarkan()` | Normal | Daftarkan `'  Nadia Putri '` / `' Nadia@Example.TEST '` / `'rahasia123'` / `'Warga'` lewat `AkunController.daftarkan`. | Akun tersimpan `MENUNGGU` dengan peran `WARGA`, nama ter-trim, email huruf kecil; `password` bukan teks asli dan berawalan `scrypt$`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| C05-UT01 | `daftarkan()` | Normal | Daftarkan `'  Nadia Putri '` / `' Nadia@Example.TEST '` / `'rahasia123'` / `'Warga'` lewat `AkunController.daftarkan`. | Akun tersimpan `MENUNGGU` dengan peran `WARGA`, nama ter-trim, email huruf kecil; `password` bukan teks asli dan berawalan `scrypt$`. | ✓ menyimpan akun MENUNGGU dengan kata sandi ter-hash dan email dinormalisasi | Pass |
 
 Tabel 4.2.40. Ringkasan Cakupan Kelas C05 (`CalonPengguna`)
 
@@ -893,7 +939,7 @@ Tabel 4.2.40. Ringkasan Cakupan Kelas C05 (`CalonPengguna`)
 | Daftar operasi public pada DPPL | `daftarkan()` |
 | Operasi yang diuji | `daftarkan()` teruji tidak langsung lewat `AkunController.daftarkan` (AKC-UT01) beserta pemeriksaan hash `scrypt$` |
 | ID Algoritma yang tercakup | Algo-008 |
-| Coverage (wajib ≥ 70%) | `[isi % Stmts / % Branch dari perintah pada awal Subbab 4.2; bukti pada Subbab 4.6]` |
+| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
 
 ### 4.2.22 Kelas AkunController
 
@@ -905,51 +951,253 @@ Tabel 4.2.41. Hasil Pengujian Unit Kelas `AkunController`
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| AKC-UT01 | `daftarkan(nama, email, password, peran)` | Normal | Panggil dengan `('Nadia', 'nadia@example.test', 'rahasia123', 'WARGA')`, lalu dengan `'  Nadia Putri '`, `' Nadia@Example.TEST '`, peran `'Warga'`. | `{ berhasil: true, email: 'nadia@example.test' }`; nama ter-trim, email huruf kecil, peran `WARGA`, status `MENUNGGU`, hash `scrypt$`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT02 | `daftarkan(nama, email, password, peran)` | Negatif | Gunakan email yang sudah ada pada boundary. | `kode: 'EMAIL_TERDAFTAR'` dengan `galat.email` terisi; tidak ada penyimpanan. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT03 | `daftarkan(nama, email, password, peran)` | Negatif | Boundary melempar `EmailSudahTerdaftar` saat menyimpan (kondisi balapan). | `kode: 'EMAIL_TERDAFTAR'`; tidak ada akun tersimpan. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT04 | `daftarkan(nama, email, password, peran)` | Negatif | Boundary melempar `Error('db mati')`. | Promise ditolak dengan pesan `db mati`; tidak dilaporkan berhasil. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT05 | `daftarkan(nama, email, password, peran)` | Negatif | Gunakan peran `'ADMIN'`; kosongkan nama, email, dan kata sandi; masukan bukan string (`undefined`, `123`, `null`, `{}`). | `DATA_TIDAK_VALID` dengan kolom galat terisi; masukan bukan string mengembalikan `berhasil: false` tanpa lemparan; tidak ada penyimpanan. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT06 | `login(email, password)` | Normal | Login Warga, Teknisi, dan Pengurus `DISETUJUI` dengan kata sandi benar. | Tujuan `/dashboard/warga`, `/dashboard/teknisi`, `/dashboard/pengurus`; sesi warga memuat `idWarga` dan `idKomunitas`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT07 | `login(email, password)` | Normal | Login dengan email `'  W@B.ID '`. | Berhasil karena email dinormalisasi menjadi huruf kecil dan di-trim. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT08 | `login(email, password)` | Negatif | Kata sandi salah pada akun `DISETUJUI` dan `MENUNGGU`, lalu email tidak terdaftar. | Hasil identik: `kode: 'KREDENSIAL_SALAH'`, pesan `Email atau password salah`; status akun tidak bocor. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT09 | `login(email, password)` | Negatif | Akun `MENUNGGU` dengan kata sandi benar. | `kode: 'MENUNGGU_PERSETUJUAN'` dengan pesan status menunggu. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT10 | `login(email, password)` | Negatif | Akun `DITOLAK` dengan kata sandi benar. | `kode: 'DITOLAK'` dengan pesan tidak memperoleh persetujuan. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT11 | `login(email, password)` | Negatif | Akun `DISETUJUI` tanpa profil peran. | `kode: 'AKUN_TIDAK_LENGKAP'`; tidak ada sesi dibuat. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT12 | `login(email, password)` | Batas / Negatif | Email kosong, password bukan string, dan password sepanjang 500 karakter. | Semua `KREDENSIAL_SALAH`; `ambilAkun` pada boundary tidak dipanggil. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT13 | `login(email, password)` | Normal (keamanan) | Login Warga berhasil, lalu periksa seluruh isi `hasil.sesi`. | Sesi tidak memuat field `password` maupun string `scrypt`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT14 | `ambilAkunMenunggu(sesi)` | Normal / Batas | Sesi Pengurus; boundary berisi dua akun `MENUNGGU` dan dua status lain, lalu boundary tanpa akun `MENUNGGU`. | Hanya dua akun `MENUNGGU`; array kosong bila tidak ada pengajuan. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT15 | `ambilAkunMenunggu(sesi)` | Negatif | Sesi Warga, lalu sesi Teknisi. | Melempar `GalatAuth` status 403; boundary tidak dipanggil. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT16 | `ambilAkunMenunggu(sesi)` | Negatif | Sesi Pengurus, tetapi status akun di basis data sudah `DITOLAK`; lalu email Pengurus tidak ada lagi. | Melempar `GalatAuth` karena kewenangan diperiksa ulang dari data terkini. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT17 | `setujuiAkun(sesi, email)`, `tolakAkun(sesi, email)` | Normal | Pengurus menyetujui akun `MENUNGGU`, lalu menolak akun lain dengan email `'T@B.id '`. | `{ berhasil: true, status: 'DISETUJUI' }` lalu `{ berhasil: true, email: 't@b.id', status: 'DITOLAK' }`; akun lain tidak berubah. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT18 | `setujuiAkun`, `tolakAkun` | Batas / Negatif | Proses akun yang sama dua kali; coba ubah akun yang sudah `DISETUJUI` sejak awal. | `kode: 'SUDAH_DIPROSES'`; status tidak berubah. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT19 | `setujuiAkun(sesi, email)` | Negatif | Email tidak ada, email kosong, dan email bukan string (`42`). | Ketiganya `kode: 'TIDAK_DITEMUKAN'`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT20 | `setujuiAkun`, `tolakAkun` | Negatif | Sesi Warga dan Teknisi; boundary melempar `Error('db mati')` saat memperbarui status. | Kewenangan ditolak dengan `GalatAuth` tanpa perubahan status; kegagalan simpan menolak promise dan status tetap `MENUNGGU`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| AKC-UT01 | `daftarkan(nama, email, password, peran)` | Normal | Panggil dengan `('Nadia', 'nadia@example.test', 'rahasia123', 'WARGA')`, lalu dengan `'  Nadia Putri '`, `' Nadia@Example.TEST '`, peran `'Warga'`. | `{ berhasil: true, email: 'nadia@example.test' }`; nama ter-trim, email huruf kecil, peran `WARGA`, status `MENUNGGU`, hash `scrypt$`. | ✓ menyimpan akun MENUNGGU dengan kata sandi ter-hash dan email dinormalisasi | Pass |
+| AKC-UT02 | `daftarkan(nama, email, password, peran)` | Negatif | Gunakan email yang sudah ada pada boundary. | `kode: 'EMAIL_TERDAFTAR'` dengan `galat.email` terisi; tidak ada penyimpanan. | ✓ menolak email yang sudah terdaftar tanpa menyimpan akun baru | Pass |
+| AKC-UT03 | `daftarkan(nama, email, password, peran)` | Negatif | Boundary melempar `EmailSudahTerdaftar` saat menyimpan (kondisi balapan). | `kode: 'EMAIL_TERDAFTAR'`; tidak ada akun tersimpan. | ✓ menangani balapan: penyimpanan menolak email unik yang baru dipakai | Pass |
+| AKC-UT04 | `daftarkan(nama, email, password, peran)` | Negatif | Boundary melempar `Error('db mati')`. | Promise ditolak dengan pesan `db mati`; tidak dilaporkan berhasil. | ✓ tidak melaporkan berhasil bila penyimpanan gagal karena galat lain | Pass |
+| AKC-UT05 | `daftarkan(nama, email, password, peran)` | Negatif | Gunakan peran `'ADMIN'`; kosongkan nama, email, dan kata sandi; masukan bukan string (`undefined`, `123`, `null`, `{}`). | `DATA_TIDAK_VALID` dengan kolom galat terisi; masukan bukan string mengembalikan `berhasil: false` tanpa lemparan; tidak ada penyimpanan. | ✓ menolak peran yang tidak dikenal; ✓ menandai kolom wajib yang kosong dan tidak menyimpan; ✓ menolak body bertipe salah tanpa melempar galat | Pass |
+| AKC-UT06 | `login(email, password)` | Normal | Login Warga, Teknisi, dan Pengurus `DISETUJUI` dengan kata sandi benar. | Tujuan `/dashboard/warga`, `/dashboard/teknisi`, `/dashboard/pengurus`; sesi warga memuat `idWarga` dan `idKomunitas`. | ✓ warga DISETUJUI masuk ke dasbor warga dengan sesi yang benar; ✓ teknisi dan pengurus diarahkan ke dasbor masing-masing | Pass |
+| AKC-UT07 | `login(email, password)` | Normal | Login dengan email `'  W@B.ID '`. | Berhasil karena email dinormalisasi menjadi huruf kecil dan di-trim. | ✓ email dinormalisasi (spasi dan huruf besar) | Pass |
+| AKC-UT08 | `login(email, password)` | Negatif | Kata sandi salah pada akun `DISETUJUI` dan `MENUNGGU`, lalu email tidak terdaftar. | Hasil identik: `kode: 'KREDENSIAL_SALAH'`, pesan `Email atau password salah`; status akun tidak bocor. | ✓ kata sandi salah dan email tidak ada memberi hasil yang sama; ✓ status akun tidak bocor bila kata sandi salah | Pass |
+| AKC-UT09 | `login(email, password)` | Negatif | Akun `MENUNGGU` dengan kata sandi benar. | `kode: 'MENUNGGU_PERSETUJUAN'` dengan pesan status menunggu. | ✓ akun MENUNGGU dengan kata sandi benar diberi tahu masih menunggu | Pass |
+| AKC-UT10 | `login(email, password)` | Negatif | Akun `DITOLAK` dengan kata sandi benar. | `kode: 'DITOLAK'` dengan pesan tidak memperoleh persetujuan. | ✓ akun DITOLAK mendapat pesan tidak disetujui | Pass |
+| AKC-UT11 | `login(email, password)` | Negatif | Akun `DISETUJUI` tanpa profil peran. | `kode: 'AKUN_TIDAK_LENGKAP'`; tidak ada sesi dibuat. | ✓ akun DISETUJUI tanpa profil peran tidak membuat sesi | Pass |
+| AKC-UT12 | `login(email, password)` | Batas / Negatif | Email kosong, password bukan string, dan password sepanjang 500 karakter. | Semua `KREDENSIAL_SALAH`; `ambilAkun` pada boundary tidak dipanggil. | ✓ input kosong atau bukan string ditolak tanpa menyentuh boundary | Pass |
+| AKC-UT13 | `login(email, password)` | Normal (keamanan) | Login Warga berhasil, lalu periksa seluruh isi `hasil.sesi`. | Sesi tidak memuat field `password` maupun string `scrypt`. | ✓ sesi tidak memuat hash kata sandi | Pass |
+| AKC-UT14 | `ambilAkunMenunggu(sesi)` | Normal / Batas | Sesi Pengurus; boundary berisi dua akun `MENUNGGU` dan dua status lain, lalu boundary tanpa akun `MENUNGGU`. | Hanya dua akun `MENUNGGU`; array kosong bila tidak ada pengajuan. | ✓ Pengurus hanya melihat akun berstatus MENUNGGU; ✓ daftar kosong bila tidak ada pengajuan | Pass |
+| AKC-UT15 | `ambilAkunMenunggu(sesi)` | Negatif | Sesi Warga, lalu sesi Teknisi. | Melempar `GalatAuth` status 403; boundary tidak dipanggil. | ✓ warga dan teknisi ditolak sebelum data apa pun dibaca (A2) | Pass |
+| AKC-UT16 | `ambilAkunMenunggu(sesi)` | Negatif | Sesi Pengurus, tetapi status akun di basis data sudah `DITOLAK`; lalu email Pengurus tidak ada lagi. | Melempar `GalatAuth` karena kewenangan diperiksa ulang dari data terkini. | ✓ Pengurus yang statusnya sudah berubah di basis data tidak lagi berwenang; ✓ sesi Pengurus yang akunnya tidak ada lagi ditolak | Pass |
+| AKC-UT17 | `setujuiAkun(sesi, email)`, `tolakAkun(sesi, email)` | Normal | Pengurus menyetujui akun `MENUNGGU`, lalu menolak akun lain dengan email `'T@B.id '`. | `{ berhasil: true, status: 'DISETUJUI' }` lalu `{ berhasil: true, email: 't@b.id', status: 'DITOLAK' }`; akun lain tidak berubah. | ✓ menyetujui pengajuan: status menjadi DISETUJUI; ✓ menolak pengajuan: status menjadi DITOLAK (A1) | Pass |
+| AKC-UT18 | `setujuiAkun`, `tolakAkun` | Batas / Negatif | Proses akun yang sama dua kali; coba ubah akun yang sudah `DISETUJUI` sejak awal. | `kode: 'SUDAH_DIPROSES'`; status tidak berubah. | ✓ pengajuan yang sudah diproses tidak bisa diproses lagi dan statusnya tidak berubah; ✓ akun yang sudah DISETUJUI sejak awal tidak bisa diubah lewat persetujuan | Pass |
+| AKC-UT19 | `setujuiAkun(sesi, email)` | Negatif | Email tidak ada, email kosong, dan email bukan string (`42`). | Ketiganya `kode: 'TIDAK_DITEMUKAN'`. | ✓ email yang tidak ada atau kosong menghasilkan TIDAK_DITEMUKAN | Pass |
+| AKC-UT20 | `setujuiAkun`, `tolakAkun` | Negatif | Sesi Warga dan Teknisi; boundary melempar `Error('db mati')` saat memperbarui status. | Kewenangan ditolak dengan `GalatAuth` tanpa perubahan status; kegagalan simpan menolak promise dan status tetap `MENUNGGU`. | ✓ non-Pengurus ditolak dan tidak ada status yang berubah; ✓ kegagalan penyimpanan tidak dilaporkan berhasil | Pass |
+
+Tabel 4.2.42. Ringkasan Cakupan Kelas `AkunController`
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | Kelas controller di luar penomoran C; operasi mengikuti Algo-029, Algo-030, dan Algo-006: `daftarkan()`, `login()`, `ambilAkunMenunggu()`, `setujuiAkun()`, `tolakAkun()` |
+| Operasi yang diuji | Seluruh operasi public di atas |
+| ID Algoritma yang tercakup | Algo-006, Algo-029, Algo-030 |
+| Coverage (wajib ≥ 70%) | `98.48% Stmts / 97.43% Branch` pada `modules/akun/controller.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.23 Kelas ModulAkun
+
+**ID Kelas:** - *(kelas desain tambahan tanpa padanan Cxx)*  
+**Nama Kelas:** `ModulAkun`  
+**Tingkat:** Mendalam
+
+Tabel 4.2.43. Hasil Pengujian Unit Kelas `ModulAkun`
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| MA-UT01 | `ambilWarga(idWarga)` | Normal / Batas | Panggil dengan `idWarga = 3` yang terdaftar di `'K1'`, lalu dengan ID yang tidak ada. | Warga terkini lolos `validasiKeanggotaan('K1')` dan gagal untuk `'K2'`; `null` untuk ID yang tidak ada. | ✓ mengembalikan warga terkini beserta keanggotaannya; ✓ mengembalikan null bila warga tidak ada | Pass |
+| MA-UT02 | `cariEmail()`, `registrasiCalon()` | Normal / Negatif | Lewat `AkunController.daftarkan`: daftarkan email baru, lalu email yang sudah ada; lalu boundary melempar `EmailSudahTerdaftar`. | Email baru tersimpan `MENUNGGU` ber-hash `scrypt$`; email lama menghasilkan `EMAIL_TERDAFTAR`; galat balapan diteruskan. | ✓ menyimpan akun MENUNGGU dengan kata sandi ter-hash dan email dinormalisasi; ✓ menolak email yang sudah terdaftar tanpa menyimpan akun baru; ✓ menangani balapan: penyimpanan menolak email unik yang baru dipakai | Pass |
+| MA-UT03 | `autentikasi()` | Normal / Negatif | Lewat `AkunController.login`: kredensial benar, kata sandi salah, dan email tidak terdaftar. | Objek `Akun` pada kredensial benar; `null` tanpa lemparan pada dua kasus lain. | ✓ warga DISETUJUI masuk ke dasbor warga dengan sesi yang benar; ✓ kata sandi salah dan email tidak ada memberi hasil yang sama | Pass |
+| MA-UT04 | `daftarAkunMenunggu()` | Normal | Lewat `AkunController.ambilAkunMenunggu` dengan boundary berisi campuran status akun. | Hanya akun `MENUNGGU` yang dikembalikan. | ✓ Pengurus hanya melihat akun berstatus MENUNGGU | Pass |
+| MA-UT05 | `ubahStatusPersetujuan()` | Batas / Negatif | Lewat `setujuiAkun`/`tolakAkun`: ubah akun `MENUNGGU`, lalu akun yang sudah diproses dan email yang tidak ada. | `true` hanya untuk akun `MENUNGGU`; `false` untuk akun yang sudah diproses atau tidak ada. | ✓ menyetujui pengajuan: status menjadi DISETUJUI; ✓ pengajuan yang sudah diproses tidak bisa diproses lagi dan statusnya tidak berubah; ✓ email yang tidak ada atau kosong menghasilkan TIDAK_DITEMUKAN | Pass |
+
+Tabel 4.2.44. Ringkasan Cakupan Kelas `ModulAkun`
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `cariEmail()`, `registrasiCalon()`, `autentikasi()`, `ambilWarga()`, `daftarAkunMenunggu()`, `ubahStatusPersetujuan()` |
+| Operasi yang diuji | `ambilWarga()` diuji langsung; sisanya teruji tidak langsung lewat `AkunController` (AKC-UT01–AKC-UT20) |
+| ID Algoritma yang tercakup | Algo-001, Algo-008, Algo-032 |
+| Coverage (wajib ≥ 70%) | `100% Stmts / 83.33% Branch` pada `modules/akun/modul.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.24 Kelas Validasi
+
+**ID Kelas:** - *(kelas desain tambahan tanpa padanan Cxx)*  
+**Nama Kelas:** `Validasi`  
+**Tingkat:** Mendalam
+
+Tabel 4.2.45. Hasil Pengujian Unit Kelas `Validasi`
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| VAL-UT01 | `validasiRegistrasi(nama, email, password, existing)` | Normal | Panggil dengan `('Nadia Putri', 'nadia@example.test', 'rahasia123', null)`. | Mengembalikan `true`. | ✓ menerima data lengkap dengan email baru | Pass |
+| VAL-UT02 | `validasiRegistrasi(...)` | Negatif | Nama kosong dan berisi spasi saja; email `'tanpa-at'`, `'a@b'`, dan string kosong. | Mengembalikan `false` pada seluruh kasus. | ✓ menolak nama kosong atau hanya spasi; ✓ menolak email tanpa format sah | Pass |
+| VAL-UT03 | `validasiRegistrasi(...)` | Batas | Kata sandi 7, 8, dan 129 karakter. | `false` untuk 7 karakter; `true` untuk 8 karakter; `false` untuk 129 karakter (melebihi batas hash). | ✓ menolak kata sandi di bawah 8 karakter, menerima tepat 8; ✓ menolak kata sandi lebih panjang dari batas hash | Pass |
+| VAL-UT04 | `validasiRegistrasi(...)` | Negatif | Email valid dengan `existing` berisi akun lain. | Mengembalikan `false`. | ✓ menolak email yang sudah terdaftar | Pass |
+
+Tabel 4.2.46. Ringkasan Cakupan Kelas `Validasi`
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `validasiRegistrasi()`, ditambah `periksaRegistrasi()` yang memberi pesan per kolom serta memeriksa peran |
+| Operasi yang diuji | `validasiRegistrasi()` diuji langsung; `periksaRegistrasi()` teruji tidak langsung lewat `AkunController.daftarkan` (AKC-UT05) |
+| ID Algoritma yang tercakup | Algo-031 |
+| Coverage (wajib ≥ 70%) | `93.75% Stmts / 96.42% Branch` pada `modules/akun/validasi.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.23 Kelas CatatanPemeliharaan
+
+**ID Kelas:** C27  
+**Nama Kelas:** `CatatanPemeliharaan`  
+**Tingkat:** Mendalam
+
+Cara menjalankan: `npx jest tests/pemeliharaan --coverage` (lokasi file test: `src/tests/pemeliharaan/catatan.test.ts`)
+
+Tabel 4.2.42. Hasil Pengujian Unit Kelas C27 (`CatatanPemeliharaan`)
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| C27-UT01 | konstruktor `CatatanPemeliharaan(data, idTeknisi)` | Normal | Buat dua objek dari formulir yang sama dengan `idTeknisi = "TEK-01"`. | Setiap objek memiliki `idCatatan` berformat UUID dan kedua ID berbeda. | `idCatatan` berformat UUID 36 karakter pada kedua objek dan nilainya berbeda. | Pass |
+| C27-UT02 | konstruktor | Normal / Keamanan | Formulir berisi `idPerangkat = "  BAT-01 "`, `tindakan` dan `catatanHasil` berspasi di tepi, serta kolom tambahan `idTeknisi: "TEK-LAIN"` pada body; `idTeknisi` sesi `"TEK-01"`. | Spasi tepi dipangkas; `idTeknisi = "TEK-01"` (sesi), kolom `idTeknisi` pada body diabaikan; `waktuPelaksanaan` tidak berubah. | `idPerangkat = "BAT-01"`, `tindakan = "Membersihkan terminal"`, `catatanHasil = "Terminal bersih."`, `idTeknisi = "TEK-01"`. | Pass |
+| C27-UT03 | `validasiFormulir()` | Normal | Isian lengkap dengan waktu `2026-10-28T11:00:00+07:00`. | Mengembalikan `true`. | Mengembalikan `true`. | Pass |
+| C27-UT04 | `validasiFormulir()` | Batas / Negatif | Tiga kali uji: `idPerangkat`, `tindakan`, atau `catatanHasil` berisi tiga spasi, kolom lain terisi. | Mengembalikan `false` pada ketiganya (kolom hanya spasi dianggap kosong). | Mengembalikan `false` pada ketiga kolom. | Pass |
+| C27-UT05 | `validasiFormulir()` | Batas / Negatif | Tiga kali uji pada `waktuPelaksanaan`: `"2026-10-28T11:00:00"` (tanpa zona waktu), `"2026-02-31T11:00:00+07:00"` (tanggal mustahil), dan `""`. | Mengembalikan `false` pada ketiganya. | Mengembalikan `false` pada ketiganya. | Pass |
+| C27-UT06 | `simpan(penyimpan)` | Normal | Panggil `simpan` dengan penyimpan yang mengembalikan `true`. | Mengembalikan `true`; penyimpan menerima baris dengan `idCatatan` objek, `idTeknisi = "TEK-01"`, `idPerangkat = "BAT-01"`, `waktuPelaksanaan` bertipe `Date` (`2026-10-28T04:00:00.000Z`), serta `tindakan` dan `catatanHasil` yang sudah dipangkas. | Mengembalikan `true`; baris yang diterima penyimpan sama persis dengan yang diharapkan. | Pass |
+| C27-UT07 | `simpan(penyimpan)` | Negatif | Panggil `simpan` dengan penyimpan yang mengembalikan `false`. | Mengembalikan `false`. | Mengembalikan `false`. | Pass |
+
+Tabel 4.2.43. Ringkasan Cakupan Kelas C27 (`CatatanPemeliharaan`)
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `CatatanPemeliharaan(data, idTeknisi)`, `validasiFormulir()`, `simpan()` |
+| Operasi yang diuji | `CatatanPemeliharaan(data, idTeknisi)`, `validasiFormulir()`, `simpan()` |
+| ID Algoritma yang tercakup | Algo-021 |
+| Coverage (wajib ≥ 70%) | `CatatanPemeliharaan.ts`: 100% Stmts, 100% Branch, 100% Funcs, 100% Lines (`npx jest tests/pemeliharaan --coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.24 Kelas ModulPemeliharaan
+
+**ID Kelas:** - (kelas desain tambahan, tanpa padanan Cxx)  
+**Nama Kelas:** `ModulPemeliharaan`  
+**Tingkat:** Mendalam
+
+Cara menjalankan: `npx jest tests/pemeliharaan --coverage` (lokasi file test: `src/tests/pemeliharaan/modulPemeliharaan.test.ts`)
+
+Tabel 4.2.44. Hasil Pengujian Unit Kelas `ModulPemeliharaan`
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| MP-UT01 | `simpanCatatan(idTeknisi, form)` | Normal | Panggil `simpanCatatan("TEK-01", form)` dengan formulir lengkap untuk `PNL-01`; repositori mengembalikan perangkat dan `simpanCatatan` bernilai `true`. | Mengembalikan `ok: true` dengan `idCatatan` yang sama dengan `idCatatan` pada baris yang diserahkan ke repositori. | Mengembalikan `ok: true`; `data.idCatatan` sama dengan `idCatatan` baris tersimpan. | Pass |
+| MP-UT02 | `simpanCatatan` | Negatif | Panggil dengan `tindakan = ""`. | Mengembalikan `{ ok: false, kode: "VALIDASI_GAGAL", pesan: "Formulir tidak lengkap" }`; `cariPerangkatTeknisi` dan `simpanCatatan` tidak dipanggil. | Hasil sama dengan harapan dan kedua operasi repositori tidak terpanggil. | Pass |
+| MP-UT03 | `simpanCatatan` | Negatif / Keamanan | `cariPerangkatTeknisi` mengembalikan `null` (perangkat bukan lingkup teknisi). | Mengembalikan `{ ok: false, kode: "TIDAK_DITEMUKAN", pesan: "Perangkat tidak ditemukan" }` dan tidak ada penyimpanan. | Hasil sama dengan harapan; `simpanCatatan` repositori tidak terpanggil. | Pass |
+| MP-UT04 | `simpanCatatan` | Negatif | Repositori `simpanCatatan` mengembalikan `false`. | Mengembalikan `{ ok: false, kode: "GAGAL_SIMPAN", pesan: "Penyimpanan gagal" }`. | Hasil sama dengan harapan. | Pass |
+| MP-UT05 | `simpanCatatan` | Keamanan | Panggil `simpanCatatan("TEK-07", form)`. | `cariPerangkatTeknisi` dipanggil dengan (`"TEK-07"`, `"PNL-01"`) dan baris tersimpan memuat `idTeknisi = "TEK-07"`. | Argumen pencarian dan `idTeknisi` baris tersimpan sesuai harapan. | Pass |
+| MP-UT06 | `simpanCatatan` | Negatif | `cariPerangkatTeknisi` melempar `Error("db mati")`. | Promise ditolak dengan galat yang sama (ditangkap oleh controller) dan tidak ada penyimpanan. | Promise ditolak dengan `db mati`; `simpanCatatan` repositori tidak terpanggil. | Pass |
+
+Tabel 4.2.45. Ringkasan Cakupan Kelas `ModulPemeliharaan`
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `simpanCatatan(idTeknisi, data)` |
+| Operasi yang diuji | `simpanCatatan(idTeknisi, data)` |
+| ID Algoritma yang tercakup | Algo-035 |
+| Coverage (wajib ≥ 70%) | `ModulPemeliharaan.ts`: 100% Stmts, 100% Branch, 100% Funcs, 100% Lines (`npx jest tests/pemeliharaan --coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.25 Kelas PemeliharaanController
+
+**ID Kelas:** - (kelas desain tambahan, tanpa padanan Cxx)  
+**Nama Kelas:** `PemeliharaanController` (diwujudkan oleh `buatPemeliharaanService`)  
+**Tingkat:** Sedang
+
+Cara menjalankan: `npx jest tests/pemeliharaan --coverage` (lokasi file test: `src/tests/pemeliharaan/simpanCatatan.test.ts`)
+
+Tabel 4.2.46. Hasil Pengujian Unit Kelas `PemeliharaanController`
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| PC-UT01 | `simpanCatatan(form)` | Normal | Bangun layanan untuk `"TEK-01"`, kirim formulir `BAT-01`, waktu `2026-10-28T11:00:00+07:00`, `tindakan` berspasi tepi. | `ok: true`; baris tersimpan memuat `idTeknisi = "TEK-01"`, `idPerangkat = "BAT-01"`, `tindakan` terpangkas, dan waktu `2026-10-28T04:00:00.000Z`. | `ok: true`; baris tersimpan sesuai harapan dan `idCatatan` hasil sama dengan baris. | Pass |
+| PC-UT02 | `simpanCatatan(form)` | Keamanan | Body memuat `idTeknisi: "TEK-LAIN"` dan `idCatatan: "CTT-PALSU"`. | Baris tersimpan memakai `idTeknisi = "TEK-01"` dari sesi dan `idCatatan` buatan server. | `idTeknisi = "TEK-01"` dan `idCatatan` bukan `CTT-PALSU`. | Pass |
+| PC-UT03 | `simpanCatatan(form)` | Negatif | UC08 Alt 1: `catatanHasil = " "`. | `{ ok: false, kode: "VALIDASI_GAGAL", pesan: "Isian belum lengkap", galat: [{ kolom: "catatanHasil", pesan: "Isi hasil pemeliharaan" }] }` tanpa akses data. | Hasil sama dengan harapan; repositori tidak dipanggil. | Pass |
+| PC-UT04 | `simpanCatatan(form)` | Negatif / Keamanan | Perangkat di luar lingkup teknisi (`cariPerangkatTeknisi` mengembalikan `null`). | `ok: false`, `kode: "TIDAK_DITEMUKAN"`, tidak ada penyimpanan. | `kode: "TIDAK_DITEMUKAN"`; tidak ada penyimpanan. | Pass |
+| PC-UT05 | `simpanCatatan(form)` | Negatif | Penyimpanan basis data gagal (`simpanCatatan` repositori `false`). | `{ ok: false, kode: "GAGAL_SIMPAN", pesan: "Penyimpanan gagal" }`. | Hasil sama dengan harapan. | Pass |
+| PC-UT06 | `simpanCatatan(form)` | Negatif | `cariPerangkatTeknisi` melempar `Error("SELECT rahasia gagal")`. | `{ ok: false, kode: "GAGAL_INTERNAL", pesan: "Terjadi kesalahan. Coba lagi." }` tanpa membocorkan pesan basis data. | Hasil sama dengan harapan; pesan galat basis data tidak ikut diteruskan. | Pass |
+
+Tabel 4.2.47. Ringkasan Cakupan Kelas `PemeliharaanController`
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `simpanCatatan(data)` |
+| Operasi yang diuji | `simpanCatatan(data)` |
+| ID Algoritma yang tercakup | Algo-026 |
+| Coverage | `service.ts`: 100% Stmts, 100% Branch, 100% Funcs, 100% Lines (kelas Sedang; bukti pada Subbab 4.6) |
+
+### 4.2.26 Operasi Validasi.periksaPemeliharaan
+
+Fungsi `periksaPemeliharaan` adalah bagian UC08 dari kelas `Validasi` (Tabel 5.39.1 DPPL; `src/modules/pemeliharaan/internal/validasi.ts`). Kelas `Validasi` bertingkat Mendalam (Tabel 4.1.1); ID `VAL-PM-UTYY` dipakai agar tidak bertabrakan dengan `VAL-UTYY` untuk validasi registrasi. Lokasi file test: `src/tests/pemeliharaan/simpanCatatan.test.ts`.
+
+Tabel 4.2.48. Hasil Pengujian Unit `Validasi.periksaPemeliharaan`
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| VAL-PM-UT01 | `periksaPemeliharaan(data)` | Normal | Formulir lengkap dengan waktu `2026-10-28T11:00:00+07:00`. | `{ valid: true, galat: [] }`. | `{ valid: true, galat: [] }`. | Pass |
+| VAL-PM-UT02 | `periksaPemeliharaan(data)` | Negatif | `idPerangkat = " "`, `waktuPelaksanaan`, `tindakan`, dan `catatanHasil` kosong. | `valid: false`; galat memuat keempat kolom (`catatanHasil`, `idPerangkat`, `tindakan`, `waktuPelaksanaan`). | Keempat kolom ditandai galat. | Pass |
+| VAL-PM-UT03 | `periksaPemeliharaan(data)` | Negatif | Empat kali uji dengan body bukan objek: `null`, `"teks"`, `42`, `[]`. | `valid: false` pada keempatnya. | `valid: false` pada keempatnya. | Pass |
+| VAL-PM-UT04 | `periksaPemeliharaan(data)` | Negatif | `tindakan = 123` (bukan teks). | Galat `[{ kolom: "tindakan", pesan: "Isi tindakan" }]`. | Galat sesuai harapan. | Pass |
+| VAL-PM-UT05 | `periksaPemeliharaan(data)` | Batas / Negatif | Lima kali uji waktu: `2026-10-28T11:00:00` (tanpa zona), `2026-10-28`, `28/10/2026 11:00`, `2026-02-31T11:00:00+07:00` (tanggal mustahil), `2026-13-01T11:00:00Z` (bulan 13). | Hanya kolom `waktuPelaksanaan` yang ditandai galat pada kelimanya. | Kelimanya menghasilkan galat tunggal pada `waktuPelaksanaan`. | Pass |
+| VAL-PM-UT06 | `periksaPemeliharaan(data)` | Batas / Normal | Tiga kali uji waktu valid: `2026-10-28T11:00:00+07:00`, `2026-10-28T04:00:00.000Z`, `2024-02-29T11:00+07:00` (tahun kabisat). | `valid: true` pada ketiganya. | `valid: true` pada ketiganya. | Pass |
+
+Ringkasan: `validasi.ts` mencapai 95,23% Stmts, 100% Branch, 100% Funcs, 94,44% Lines (`npx jest tests/pemeliharaan --coverage`).
 
 <br>
 
 ## 4.3 Pengujian Integrasi
 
-Pengujian integrasi memeriksa interaksi antarkomponen yang melewati batas, yaitu *Controller* ke *Model*, aplikasi ke basis data, dan aplikasi ke sistem eksternal. Daftar antarmuka mengacu pada dokumen DPPL, dengan minimal satu test case untuk setiap antarmuka. Pengujian memakai komponen nyata, bukan *mock*. Apabila ada antarmuka tambahan yang belum didaftarkan pada dokumen DPPL, cantumkan juga.
+Pengujian integrasi memeriksa interaksi antarkomponen yang melewati batas, yaitu *Controller* ke *Model*, aplikasi ke basis data, dan aplikasi ke sistem eksternal. Daftar antarmuka mengacu pada dokumen DPPL, dengan minimal satu test case untuk setiap antarmuka. Pengujian memakai komponen nyata, bukan *mock*. Antarmuka yang tidak terdaftar pada DPPL dicantumkan juga.
+
+ID antarmuka antarkomponen memakai awalan `IA-` agar tidak tertukar dengan ID antarmuka layar `I-XX` pada Tabel 3.3.
+
+**Lingkungan.** PostgreSQL 15 nyata yang dijalankan lokal lewat Docker (migrasi `npx prisma migrate deploy` dan seed `npx tsx prisma/seed.ts` dipasang sebelum uji). Komponen yang diuji adalah kode produksi apa adanya: `route.ts`, controller, modul, dan *boundary* Prisma. Tidak ada *mock* repositori. Satu-satunya pengganti adalah gateway notifikasi, karena `PeringatanDayaKritis.kirim()` memakai `Math.random() > 0.2` sebagai simulasi gateway; pada INT-TC14 dan INT-TC18 nilai acak itu dipaksa (0,1 untuk gateway gagal dan 0,9 untuk gateway pulih) agar hasilnya deterministik.
+
+**Cara menjalankan.** Jest tidak dapat memuat Prisma Client yang berbentuk ESM, sehingga uji integrasi dijalankan dengan `tsx` (pola yang sama dengan `tests/laporan/transaksiStatus.db.ts`):
+
+```bash
+DATABASE_URL=postgresql://... SESSION_SECRET=... npm run test:integrasi
+```
+
+Seluruh data uji berawalan `ITG-` dan dihapus di akhir proses; data seed tidak diubah. Lokasi file: `src/tests/integrasi/integrasi.db.ts`. Keluaran uji terakhir: 26 test case, 25 lulus dan 1 gagal (INT-TC18).
 
 Tabel 4.3.1. Daftar Antarmuka Antarkomponen
 
 | ID Antarmuka | Komponen Asal | Komponen Tujuan | Jenis Batas | Test Case |
 | :--- | :--- | :--- | :--- | :--- |
-| *I-01* | *KeranjangController* | *Keranjang (Model)* | *Controller - Model* | *INT-TC01, INT-TC02* |
-| *I-02* | *Pesanan (Model)* | *Database* | *Aplikasi - Basis data* | *INT-TC03* |
-| *I-03* | *PaymentGatewayAdapter* | *Payment Gateway (dummy)* | *Aplikasi - Sistem eksternal* | *INT-TC04, INT-TC05* |
-| *[I-XX]* | *[Komponen asal]* | *[Komponen tujuan]* | *[Jenis batas]* | *[ID test case]* |
-| *...* | *...* | *...* | *...* | *...* |
+| IA-01 | `PemeliharaanController` (`buatPemeliharaanService`) | `ModulPemeliharaan` dan `DataPerangkatBoundary` (bagian UC08) | Controller - Modul - Boundary | INT-TC01, INT-TC02 |
+| IA-02 | `DataPerangkatBoundary` (`repositoriPemeliharaan`) | Database (`perangkat`, `penugasan_perangkat`, `catatan_pemeliharaan`) | Aplikasi - Basis data | INT-TC03, INT-TC04 |
+| IA-03 | `DataAkunBoundary` | Database (`akun`) | Aplikasi - Basis data | INT-TC05, INT-TC06, INT-TC07 |
+| IA-04 | `ModulAkun` | `DataAkunBoundary` | Modul - Boundary | INT-TC08, INT-TC09 |
+| IA-05 | `DataPerangkatBoundary` (monitoring) | Database (`pembacaan_sensor`, `data_historis_kinerja`, `penugasan_perangkat`) | Aplikasi - Basis data | INT-TC10, INT-TC11, INT-TC12, INT-TC13 |
+| IA-06 | `TelemetriAPI` | `MonitoringController`, `ModulMonitoring`, `ModulNotifikasi`, `DataPerangkatBoundary`, Database | API - Controller - Modul - Boundary | INT-TC14, INT-TC15, INT-TC16, INT-TC17 |
+| IA-07 | `ModulNotifikasi` | `DataPerangkatBoundary` dan Database (`notifikasi`) | Modul - Boundary - Basis data | INT-TC18 |
+| IA-08 | `LaporanController` | `ModulLaporan`, `ModulAkun`, `DataLaporanBoundary`, Database | Controller - Modul - Boundary | INT-TC19, INT-TC20, INT-TC21, INT-TC22, INT-TC23 |
+| IA-09 | `ModulIuran` | `DataIuranBoundary` dan Database (`periode`, `tagihan`, `rekapitulasi`) | Modul - Boundary - Basis data | INT-TC24, INT-TC25, INT-TC26 |
+
+Antarmuka ke sistem eksternal (gateway notifikasi dan perangkat lapangan) tidak memiliki sistem nyata pada tahap ini. Gateway disimulasikan di dalam `PeringatanDayaKritis` dan perangkat lapangan oleh `SensorAdapter.ts`; keduanya diuji pada IA-06 dan IA-07 sebatas batas yang tersedia.
 
 Tabel 4.3.2. Hasil Pengujian Integrasi
 
 | ID Pengujian | ID Antarmuka | Skenario | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *INT-TC01* | *I-01* | *Normal: tambah item ke keranjang* | *Panggil `tambahItem()` melalui KeranjangController dengan produk valid* | *Item tersimpan pada Keranjang dan tampil pada daftar item* | *[Hasil aktual]* | *Pass/Fail* |
-| *INT-TC03* | *I-02* | *Normal: simpan pesanan* | *Buat pesanan, lalu baca ulang langsung dari basis data* | *Baris pesanan ada dengan nilai total dan status yang sama* | *[...]* | *Pass/Fail* |
-| *INT-TC05* | *I-03* | *Gagal: gateway mengembalikan status gagal* | *Kirim otorisasi dengan saldo dummy tidak cukup* | *Status pesanan tidak berubah menjadi "Lunas", pesan gagal diteruskan ke pengguna* | *[...]* | *Pass/Fail* |
-| *...* | *...* | *...* | *...* | *...* | *...* | *...* |
+| INT-TC01 | IA-01 | Normal: catatan pemeliharaan tersimpan dan terbaca ulang | `buatPemeliharaanService("TEK-01", repositoriPemeliharaan).simpanCatatan` dengan `PNL-01`, waktu `2026-10-28T11:00:00+07:00`; baca baris dengan `idCatatan` hasil langsung dari tabel `catatan_pemeliharaan`. | `ok: true`; baris ada dengan `id_teknisi = TEK-01`, `id_perangkat = PNL-01`, waktu `2026-10-28T04:00:00.000Z`, dan `catatan_hasil` sama. | Semua nilai baris sesuai harapan. | Pass |
+| INT-TC02 | IA-01 | Gagal: perangkat nyata tetapi tidak ditugaskan ke teknisi | Buat perangkat `ITG-...-perangkat-lain` tanpa penugasan; simpan catatan untuk perangkat itu sebagai `TEK-01`. | `ok: false`, `kode: TIDAK_DITEMUKAN`; 0 baris pada `catatan_pemeliharaan` untuk perangkat itu. | `kode: TIDAK_DITEMUKAN` dan 0 baris tersimpan. | Pass |
+| INT-TC03 | IA-02 | Normal: daftar perangkat teknisi | `daftarPerangkatTeknisi("TEK-01")` dan `daftarPerangkatTeknisi("TEK-TIDAK-ADA")`. | Perangkat `BAT-01`, `PNL-01`, `TNK-01` ada dan terurut menurut ID; teknisi tak dikenal menghasilkan daftar kosong. | Daftar terurut memuat ketiga perangkat; teknisi tak dikenal menghasilkan `[]`. | Pass |
+| INT-TC04 | IA-02 | Gagal: INSERT melanggar kunci asing | `simpanCatatan` dengan `idTeknisi = "TEK-TIDAK-ADA"` pada boundary. | Mengembalikan `false` (Algo-047) tanpa melempar; tidak ada baris tersimpan. | Mengembalikan `false`; 0 baris dengan `idCatatan` itu; galat kunci asing `catatan_pemeliharaan_id_teknisi_fkey` dicatat di log. | Pass |
+| INT-TC05 | IA-03 | Normal: akun disimpan dan dibaca ulang | `simpanAkun` untuk email baru berstatus `MENUNGGU`, lalu `cariEmail` dan `ambilAkun`. | `simpanAkun` bernilai `true`; `cariEmail` mengembalikan email, nama, peran, dan status `MENUNGGU` yang sama; `ambilAkun` mengembalikan akun yang sama. | Nilai terbaca sama dengan yang disimpan. | Pass |
+| INT-TC06 | IA-03 | Gagal: email duplikat | `simpanAkun` dua kali dengan email yang sama. | Panggilan kedua melempar `EmailSudahTerdaftar`; hanya 1 baris untuk email itu. | Panggilan kedua melempar `EmailSudahTerdaftar`; 1 baris tersimpan. | Pass |
+| INT-TC07 | IA-03 | Konkurensi: dua Pengurus memutuskan akun yang sama | `Promise.all` dua `perbaruiStatusAkun(email, "MENUNGGU", ...)` ke `DISETUJUI` dan `DITOLAK`. | Tepat satu bernilai `true`; status akhir bukan `MENUNGGU`. | Tepat satu `true`; status akhir berubah dari `MENUNGGU`. | Pass |
+| INT-TC08 | IA-04 | Normal: registrasi menyimpan hash, bukan kata sandi asli | `registrasiCalon(new CalonPengguna("Uji Reg", email, "sandi-rahasia-1", "TEKNISI"))` lalu baca baris `akun`. | Status `MENUNGGU`; kolom `password` berawalan `scrypt$` dan tidak memuat kata sandi asli. | Status `MENUNGGU`; `password` berawalan `scrypt$` dan tidak memuat `sandi-rahasia-1`. | Pass |
+| INT-TC09 | IA-04 | Normal dan negatif: autentikasi terhadap akun seed | `autentikasi` untuk `warga@fajar.test` dengan sandi benar, sandi salah, dan untuk email tak terdaftar. | Sandi benar mengembalikan akun; dua lainnya mengembalikan `null`. | Akun `warga@fajar.test` dikembalikan untuk sandi benar; `null` pada dua kasus lain. | Pass |
+| INT-TC10 | IA-05 | Normal: pembacaan sensor tersimpan | `simpanPembacaan({ idPerangkat: "TNK-01", nilai: 4321, satuan, waktu: "2026-11-01T03:00:00.000Z" })` lalu baca baris. | `true`; baris memuat perangkat, nilai, dan waktu yang sama. | `true`; `TNK-01`, `4321`, dan `2026-11-01T03:00:00.000Z`. | Pass |
+| INT-TC11 | IA-05 | Gagal: perangkat tak terdaftar | `simpanPembacaan` untuk `idPerangkat = "TIDAK-ADA"`. | `false` tanpa melempar; 0 baris tersimpan. | `false`; 0 baris; galat `pembacaan_sensor_id_perangkat_fkey` dicatat di log. | Pass |
+| INT-TC12 | IA-05 | Batas: riwayat panel pada rentang waktu | `ambilHistorisKinerja("PNL-01", ...)` untuk 28 Okt 2026 WIB: 09:00-13:00, 10:00-14:00 (batas tepat pada data), dan 17:00-18:00. | Rentang pertama `KNR-2`, `KNR-3`; rentang kedua `KNR-2`, `KNR-3`, `KNR-4` (batas awal dan akhir ikut terhitung); rentang ketiga kosong. | Hasil ketiga rentang sama dengan harapan dan terurut menaik menurut waktu. | Pass |
+| INT-TC13 | IA-05 | Normal: penanggung jawab perangkat | `cariPenugasanPerangkat("BAT-01")` dan `("TIDAK-ADA")`. | `BAT-01` dipegang `TEK-01`; perangkat tak dikenal menghasilkan daftar kosong. | `[{ idTeknisi: "TEK-01", idPerangkat: "BAT-01" }]` dan `[]`. | Pass |
+| INT-TC14 | IA-06 | Normal: baterai di bawah ambang saat gateway gagal | `POST /api/telemetri` (memanggil `route.ts` dengan `Request` nyata): `BAT-01`, nilai `12`, ambang aman `20`; gateway dipaksa gagal. | Status HTTP 201; 1 baris `pembacaan_sensor`; 1 baris `notifikasi` untuk `TEK-01` berlevel `KRITIS`, kapasitas `12`, status pengiriman `PENDING`. | HTTP 201; pembacaan tersimpan; notifikasi `TEK-01`/`KRITIS`/`PENDING` tersimpan. | Pass |
+| INT-TC15 | IA-06 | Normal: baterai di atas ambang | `POST /api/telemetri` dengan `BAT-01`, nilai `55`. | HTTP 201; pembacaan tersimpan; jumlah baris `notifikasi` tidak bertambah. | HTTP 201; pembacaan tersimpan; jumlah notifikasi tetap. | Pass |
+| INT-TC16 | IA-06 | Gagal: payload tidak lengkap | `POST /api/telemetri` tanpa `satuan`. | HTTP 400 dengan `kode: VALIDASI_GAGAL`. | HTTP 400 dengan `kode: VALIDASI_GAGAL`. | Pass |
+| INT-TC17 | IA-06 | Gagal: perangkat tak terdaftar | `POST /api/telemetri` dengan `idPerangkat = "TIDAK-ADA"`. | HTTP 500 dengan `kode: GAGAL_SIMPAN`; 0 baris tersimpan. | HTTP 500 dengan `kode: GAGAL_SIMPAN`; 0 baris tersimpan. | Pass |
+| INT-TC18 | IA-07 | Normal: kirim ulang peringatan PENDING setelah gateway pulih | Setelah INT-TC14, gateway dipaksa berhasil; panggil `ModulNotifikasi.kirimUlangPending("TEK-01")`; baca ulang baris notifikasi dari INT-TC14. | Modul melaporkan jumlah terkirim >= 1 dan `status_pengiriman` baris itu menjadi `TERKIRIM` di basis data. | Modul melaporkan 2 terkirim (peringatan dari INT-TC14 dan `NTF-01` pada seed), tetapi `status_pengiriman` di basis data tetap `PENDING`. **Penyebab:** `kirimUlangPending()` hanya memanggil `notif.kirim()` dan menghitung hasilnya; status baru hanya berubah pada objek di memori dan tidak ditulis kembali lewat `DataPerangkatBoundary`. Akibatnya peringatan yang sama dikirim ulang pada setiap pemanggilan. **Usulan perbaikan:** tambahkan operasi `tandaiTerkirim(idNotifikasi)` pada `DataPerangkatBoundary` (`UPDATE notifikasi SET status_pengiriman = 'TERKIRIM'`) dan panggil saat `kirim()` berhasil. | Fail |
+| INT-TC19 | IA-08 | Normal: Warga terdaftar mengirim laporan | `buatLaporanController(sesiWarga).kirimLaporan({ jenisGangguan: "Kebocoran pipa", deskripsi })`, lalu `daftarMilikWarga()`. | `ok: true`; baris `laporan_gangguan` berstatus `MENUNGGU` dengan `id_warga` sesi; laporan muncul pada daftar milik warga. | Baris tersimpan `MENUNGGU` dengan `id_warga` benar dan muncul pada daftar. | Pass |
+| INT-TC20 | IA-08 | Keamanan: Warga lain membaca laporan | Warga kedua memanggil `detailMilikWarga(idLaporan)` untuk laporan INT-TC19. | `ok: false`, `kode: TIDAK_DITEMUKAN` (ID pada URL bukan bukti kewenangan). | `kode: TIDAK_DITEMUKAN`. | Pass |
+| INT-TC21 | IA-08 | Gagal: Warga belum terdaftar | Buat akun dan warga dengan `status_terdaftar = false`; panggil `kirimLaporan`. | `ok: false`, `kode: TIDAK_BERWENANG`; 0 baris laporan untuk warga itu. | `kode: TIDAK_BERWENANG`; 0 baris tersimpan. | Pass |
+| INT-TC22 | IA-08 | Normal dan negatif: teknisi bertugas mengubah status | Tugaskan laporan INT-TC19 ke `TEK-01`; `perbaruiStatus(id, "SELESAI")` (melompat), lalu `perbaruiStatus(id, "SEDANG_DIPERBAIKI")`. | Lompat ditolak tanpa riwayat baru; perubahan sah menyimpan status `SEDANG_DIPERBAIKI` dan tepat 1 baris riwayat. | Lompat ditolak dengan 0 riwayat; perubahan sah menyimpan status dan 1 riwayat. | Pass |
+| INT-TC23 | IA-08 | Atomisitas: kegagalan riwayat membatalkan status | `simpanStatusDanRiwayat` dengan `idRiwayat` yang sudah dipakai (melanggar kunci utama setelah UPDATE). | Mengembalikan `false`; status laporan tetap `MENUNGGU` (*rollback*). | `false`; status tetap `MENUNGGU`. | Pass |
+| INT-TC24 | IA-09 | Normal: tagihan FINAL periode seed | `lihatTagihanFinal(sesiWarga1, "PRD-2026-09")` (12,5 m³, 80 kWh; tarif 5.000, 1.500, tetap 20.000). | `ok: true`, `jumlahIuran = 202500`, `status = FINAL`. | `jumlahIuran = 202500`, `status = FINAL`. | Pass |
+| INT-TC25 | IA-09 | Gagal: pemakaian tidak lengkap | `hitungPratinjau(sesiPengurus, "PRD-2026-10")` (pemakaian warga 2 tidak lengkap pada seed). | `ok: false`, `kode: DATA_BELUM_LENGKAP`; 0 baris `tagihan` untuk periode itu. | `kode: DATA_BELUM_LENGKAP`; 0 baris tagihan. | Pass |
+| INT-TC26 | IA-09 | Normal: pratinjau, finalisasi, dan rekapitulasi | Periode baru dengan tarif 5.000, 1.500, tetap 20.000 dan pemakaian 10 m³/20 kWh dan 4 m³/10 kWh; `hitungPratinjau`, `tetapkanFinal`, lalu `buatRekapitulasi`. | Dua tagihan `DRAFT` bernilai 100000 dan 55000; setelah finalisasi periode `status_final = true` dan kedua tagihan `FINAL`; rekap tersimpan dengan total iuran 155000, air 14, energi 30. | Nilai tagihan, status, dan rekapitulasi sama dengan harapan. | Pass |
+
+Catatan: `DataAkunBoundary.simpanAkun` melempar `EmailSudahTerdaftar` (bukan mengembalikan `false`) pada email duplikat, dan INT-TC06 menguji perilaku itu sesuai kode.
 
 <br>
 
@@ -1042,6 +1290,20 @@ Tabel 4.4.7. Hasil Pengujian Use Case UC07
 | UC07-TC02 | KF18 | Alternatif 1: Teknisi Tidak Berwenang | 1. Login sebagai Teknisi.<br>2. Buka laporan yang tidak ditugaskan kepadanya, yaitu LAP-03 (Layar I-11).<br>3. Kirim permintaan ubah status ke `PATCH /api/laporan/tugas/LAP-03/status`. | Akun: `teknisi@fajar.test` (TEK-01)<br>Laporan: `LAP-03` (tidak ditugaskan)<br>Body: `{"status":"SEDANG_DIPERBAIKI"}` | Sistem memverifikasi penugasan, menolak perubahan, dan menampilkan pesan bahwa teknisi tidak berwenang atas laporan tersebut. | Halaman menampilkan "Teknisi tidak berwenang atas laporan ini" tanpa data laporan. Permintaan PATCH dijawab HTTP 403 dengan kode `TIDAK_BERWENANG` dan pesan "Teknisi tidak berwenang". Status LAP-03 tetap MENUNGGU. | Pass |
 | UC07-TC03 | KF12, KF19 | Alternatif 2: Perubahan Status Tidak Valid | 1. Login sebagai Teknisi yang ditugaskan.<br>2. Buka LAP-01 yang berstatus `MENUNGGU` (Layar I-11).<br>3. Kirim permintaan ubah status langsung ke `SELESAI` (melompat) lewat `PATCH /api/laporan/tugas/LAP-01/status`. | Akun: `teknisi@fajar.test` (TEK-01)<br>Laporan: `LAP-01` berstatus `MENUNGGU`<br>Body: `{"status":"SELESAI"}` | Sistem memeriksa urutan status, menolak perubahan, dan menampilkan status yang dapat dipilih sesuai kondisi laporan saat ini. | Permintaan dijawab HTTP 400 dengan kode `VALIDASI_GAGAL`, pesan "Transisi status tidak valid", dan `opsi.statusBerikutnya = ["SEDANG_DIPERBAIKI"]`. Status LAP-01 tetap MENUNGGU. Layar I-11 hanya menawarkan satu tombol sah, yaitu Mulai perbaikan, sehingga status yang melompat hanya dapat dikirim lewat permintaan langsung seperti pada uji ini. | Pass |
 
+### 4.4.8 Use Case Mencatat Kegiatan Pemeliharaan
+
+**ID Use Case:** UC08  
+**Nama Use Case:** Mencatat Kegiatan Pemeliharaan
+
+Tabel 4.4.8. Hasil Pengujian Use Case UC08
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| UC08-TC01 | KF20, KF21 | Normal | 1. Login sebagai Teknisi.<br>2. Buka menu Pemeliharaan (Layar I-12).<br>3. Pilih perangkat, isi waktu pemeliharaan, tindakan, dan hasil pemeliharaan, lalu klik "Simpan catatan". | Akun: `teknisi@fajar.test` (TEK-01)<br>Perangkat: `PNL-01`<br>Waktu: `2026-11-20 10:00` WIB<br>Tindakan: "Membersihkan permukaan panel surya"<br>Hasil: "Debu dan kotoran hilang, daya keluaran kembali normal." | Sistem menampilkan formulir (perangkat, waktu, tindakan, hasil), memvalidasi kelengkapan isian, menyimpan catatan sebagai riwayat perangkat, lalu menampilkan notifikasi bahwa catatan berhasil disimpan. | Formulir I-12 menampilkan pilihan perangkat milik teknisi (`BAT-01`, `PNL-01`, `TNK-01`). Setelah klik, muncul pesan "Catatan pemeliharaan berhasil disimpan" dan seluruh kolom dikosongkan. Pada basis data, tabel `catatan_pemeliharaan` bertambah satu baris: `id_teknisi = TEK-01`, `id_perangkat = PNL-01`, `waktu_pelaksanaan = 2026-11-20 03:00:00+00` (10:00 WIB), `tindakan` dan `catatan_hasil` sama dengan isian. Baris dapat ditelusuri menurut perangkat dan waktu lewat indeks `(id_perangkat, waktu_pelaksanaan)`. | Pass |
+| UC08-TC02 | KF20 | Alternatif 1: Formulir Tidak Lengkap | 1. Login sebagai Teknisi.<br>2. Buka menu Pemeliharaan (Layar I-12).<br>3. Biarkan waktu, tindakan, dan hasil pemeliharaan kosong, lalu klik "Simpan catatan". | Akun: `teknisi@fajar.test` (TEK-01)<br>Perangkat: `BAT-01` (pilihan awal)<br>Waktu, tindakan, hasil: kosong | Sistem membatalkan penyimpanan dan menandai kolom yang harus dilengkapi. | Kolom waktu, tindakan, dan hasil pemeliharaan diberi tanda galat dengan pesan "Isi waktu pemeliharaan yang valid", "Isi tindakan", dan "Isi hasil pemeliharaan", ditambah pesan "Isian belum lengkap". Jumlah baris `catatan_pemeliharaan` tetap 1 (data seed `CTT-01`), jadi tidak ada penyimpanan. | Pass |
+
+Catatan UC08: penelusuran riwayat per perangkat dan waktu baru berupa penyimpanan data berindeks. Layar maupun API pembaca riwayat (`GET /api/pemeliharaan`, `riwayatPerangkat`) belum diimplementasikan; kode `service.ts` dan `route.ts` menandainya sebagai tugas lanjutan. Pengujian KF21 sebatas pada penyimpanan ke riwayat (UC08-TC01) dan belum mencakup penampilan riwayat. Skenario keamanan yang melengkapi UC08 (perangkat di luar lingkup teknisi, galat basis data) diuji pada PC-UT04, PC-UT06, INT-TC02, dan INT-TC04.
+
 ### 4.4.9 Use Case Menganalisis Pemakaian Komunal
 
 **ID Use Case:** UC09  
@@ -1129,8 +1391,8 @@ Tabel 4.5. Hasil Pengujian KNF
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | KNF01-TC01 | KNF01 | Security | Akses fitur/rute dashboard dibatasi 100% sesuai peran pengguna (non-berwenang ditolak HTTP 403/redirect). | *[Tunggu setoran Faiz: uji middleware & rute API per peran]* | *[Tunggu hasil Faiz]* | *[Pass/Fail]* |
 | KNF02-TC01 | KNF02 | Security | Data yang ditampilkan hanya milik/wewenang akun sesi aktif tanpa kebocoran lintas akun. | *[Tunggu setoran Faiz: inspeksi API & isolasi data sesi]* | *[Tunggu hasil Faiz]* | *[Pass/Fail]* |
-| KNF03-TC01 | KNF03 | Reliability | 0 data peringatan hilang saat kegagalan koneksi; notifikasi tersimpan berstatus `PENDING` dan terkirim ulang saat pulih. | Simulasi kegagalan pengiriman pada `ModulNotifikasi` / `PeringatanDayaKritis` (Jest & inspeksi tabel `Notifikasi`). | *[Isi setelah tes notifikasi dijalankan: 100% notifikasi gagal tersimpan `PENDING` dan berhasil dikirim ulang.]* | Pass |
-| KNF04-TC01 | KNF04 | Reliability | Data riwayat kinerja perangkat tampil $\le 5$ detik setelah halaman riwayat dibuka. | Pengukuran waktu eksekusi kueri `EXPLAIN ANALYZE` PostgreSQL (data besar dari `seed-panel.ts`) & Chrome DevTools Network (5x ukur, ambil rata-rata). | *[Tunggu angka profiling UC06 dari Rafiandhi / ukur di Chrome DevTools]* | *[Pass/Fail]* |
+| KNF03-TC01 | KNF03 | Reliability | 0 data peringatan hilang saat kegagalan koneksi; notifikasi tersimpan berstatus `PENDING` dan terkirim ulang saat pulih. | Simulasi kegagalan pengiriman pada `ModulNotifikasi` / `PeringatanDayaKritis` terhadap basis data nyata (INT-TC14 dan INT-TC18, Subbab 4.3) dengan gateway dipaksa gagal lalu pulih. | Penyimpanan: pada INT-TC14, baterai `BAT-01` 12% (ambang aman 20%) dengan gateway gagal menghasilkan 1 baris `notifikasi` `KRITIS` berstatus `PENDING` untuk `TEK-01` (0 peringatan hilang). Kirim ulang: pada INT-TC18, `kirimUlangPending()` melaporkan 2 terkirim setelah gateway pulih, tetapi `status_pengiriman` di basis data tetap `PENDING` sehingga peringatan akan dikirim ulang terus-menerus. Penyebab: status `TERKIRIM` hanya diubah pada objek di memori dan tidak ditulis ke basis data. Usulan: tambahkan `tandaiTerkirim(idNotifikasi)` pada `DataPerangkatBoundary` dan panggil saat pengiriman ulang berhasil. | Fail (sebagian: penyimpanan `PENDING` Pass, pembaruan status setelah kirim ulang Fail) |
+| KNF04-TC01 | KNF04 | Reliability | Data riwayat kinerja perangkat tampil $\le 5$ detik setelah halaman riwayat dibuka. | Profiling `EXPLAIN (ANALYZE, BUFFERS)` PostgreSQL lewat `prisma/profiling/uc06-riwayat-panel.sql` (1.051.200 baris riwayat) dan 5 kali pengukuran `GET /api/monitoring/panel` (rentang satu minggu, 2.016 baris) pada tabel berisi 1.051.205 baris, dengan `curl` (`time_total`) pada server `next dev` lokal. | Query riwayat panel satu minggu: 85,9 ms (*Parallel Seq Scan*, tanpa indeks) dan 1,0 ms (*Index Scan* pada indeks `(id_panel, waktu)`, dengan indeks). Respons API ujung ke ujung: 85,5; 56,0; 72,7; 60,1; 43,4 ms, rata-rata 63,5 ms dan maksimum 85,5 ms, jauh di bawah 5.000 ms. Waktu render grafik di peramban tidak diukur terpisah; pengukuran dilakukan lokal tanpa latensi jaringan. | Pass |
 | KNF05-TC01 | KNF05 | Safety | Peringatan daya kritis diproses dan dicatat/dikirim dalam waktu $\le 3$ detik sejak data baterai kritis diterima. | Pengukuran waktu respons `POST /api/telemetri` (5x eksekusi via simulator `SensorAdapter.ts` / logging waktu proses). | *[Isi rata-rata & maks (ms/detik) dari 5x pengukuran]* | *[Pass/Fail]* |
 | KNF06-TC01 | KNF06 | Availability | Ketersediaan akses (uptime) $\ge 99\%$ selama jam operasional pengujian. | Pemantauan respons HTTP 200 endpoint aplikasi selama sesi pengujian integrasi/lokal (catat keterbatasan lingkungan non-produksi). | *[Catat hasil uji stabilitas server lokal, atau jelaskan bahwa pengukuran bulanan penuh membutuhkan deployment produksi.]* | *[Pass/Fail]* |
 | KNF07-TC01 | KNF07 | Ergonomy | Antarmuka mudah dioperasikan warga tanpa pelatihan khusus (seluruh alur utama warga dapat diselesaikan tanpa kesalahan navigasi). | Uji kegunaan (*usability testing*) manual pada layar I-03 s.d. I-07 / kuesioner SUS singkat. | *[Isi hasil observasi/skor uji usability]* | *[Pass/Fail]* |
@@ -1140,8 +1402,6 @@ Tabel 4.5. Hasil Pengujian KNF
 | KNF11-TC01 | KNF11 | Response time | Pembaruan nilai input sensor pada dashboard warga (I-03) tampil dalam waktu $\le 2$ detik. | Chrome DevTools (tab Network), 5 kali pengukuran waktu respons API monitoring, ambil rata-rata dan maksimum. | *[Isi rata-rata ... ms, maks ... ms]* | *[Pass/Fail]* |
 | KNF12-TC01 | KNF12 | Response time | Kalkulasi otomatis seluruh iuran komunal selesai dalam waktu $\le 5$ detik. | Chrome DevTools (tab Network) pada proses hitung pratinjau iuran (I-14), 5 kali ukur, ambil rata-rata dan maksimum. | *[Koordinasi dengan Raffi / ukur di DevTools]* | *[Pass/Fail]* |
 | KNF13-TC01 | KNF13 | Memory | Penggunaan memori pembacaan sensor tidak melebihi batas kapasitas memori internal mikrokontroler. | Tidak diuji pada mikrokontroler fisik karena implementasi menggunakan simulator perangkat lunak (`tests/simulator/SensorAdapter.ts`); pemantauan alternatif dilakukan via `process.memoryUsage()` Node.js. | Tidak diimplementasikan pada firmware mikrokontroler fisik (menggunakan simulator TypeScript; pemakaian memori simulator tercatat *[... MB]*). Rencana perbaikan: porting `SensorAdapter` ke firmware C/C++ ESP32 pada tahap integrasi perangkat keras. | Fail *(atau catat sesuai kesepakatan asisten untuk KNF hardware)* |
-| KNF14-TC01 | KNF14 | Security | Password tersimpan sebagai hash (`scrypt`), bukan plain-text. | *[Tunggu setoran Faiz: inspeksi kolom password di tabel `akun` PostgreSQL]* | *[Tunggu hasil Faiz]* | *[Pass/Fail]* |
-| KNF15-TC01 | KNF15 | Security | Pesan galat login tidak membedakan antara email tidak terdaftar dan password salah. | *[Tunggu setoran Faiz: uji login email acak vs password salah pada I-01]* | *[Tunggu hasil Faiz]* | *[Pass/Fail]* |
 | KNF01-TC01 | KNF01 | Security | 100% akses fitur/rute tanpa kewenangan ditolak (HTTP 403 atau redirect). | Login bergantian sebagai Warga, Teknisi, dan Pengurus; akses URL dashboard peran lain serta `GET /api/akun/persetujuan` dan `GET /api/iuran/analitik`; catat status HTTP di Chrome DevTools (Network). Verifikasi juga lewat `AKC-UT15`, `AKC-UT16`, dan `AKC-UT20`. | *[Isi hasil aktual]* | *Pass/Fail* |
 | KNF02-TC01 | KNF02 | Security | Data hanya milik atau sesuai kewenangan akun sesi aktif; 0 kebocoran lintas akun. | Login sebagai `warga@fajar.test` dan `warga2@fajar.test`; bandingkan halaman tagihan dan laporan; pastikan respons API tidak memuat data akun lain dan kueri boundary memakai ID dari sesi. | *[Isi hasil aktual]* | *Pass/Fail* |
 | KNF14-TC01 | KNF14 | Security | 100% kata sandi tersimpan sebagai hash `scrypt`; 0 baris teks biasa. | `psql "$DATABASE_URL" -c "SELECT email, left(password, 7) FROM akun;"` atau Prisma Studio; pastikan setiap nilai berawalan `scrypt$` dan sesuai format `src/lib/auth/password.ts`. | *[Isi hasil aktual]* | *Pass/Fail* |
@@ -1157,8 +1417,9 @@ Tabel 4.6. Bukti Hasil Pengujian
 
 | ID Pengujian | Bukti Hasil Pengujian |
 | :--- | :--- |
-| C01–C05, `AkunController`, `ModulAkun`, `Validasi` | ![Output Jest Modul Akun](./assets/jest-akun.png) |
-| C01, C02, C04, `AkunController`, `ModulAkun`, `Validasi` (Coverage) | ![Laporan Coverage Modul Akun](./assets/coverage-akun.png) |
+| C01–C05 dan `AkunController` (login.test.ts) | ![Output Jest login.test.ts](./assets/jest-akun-login.png) |
+| `Validasi`, `ModulAkun.ambilWarga`, dan `AkunController` registrasi/persetujuan (registrasi.test.ts dan persetujuan.test.ts) | ![Output Jest registrasi.test.ts dan persetujuan.test.ts](./assets/jest-akun-registrasi-persetujuan.png) |
+| C01–C05 (`modules/akun/entity.ts`), `AkunController`, `ModulAkun`, `Validasi` (Coverage) | ![Laporan Coverage Modul Akun](./assets/coverage-akun.png) |
 | C19-UT01 – C19-UT08, C28-UT01 | ![Output Jest Modul Iuran](./assets/jest-iuran.png) |
 | C19 & C28 (coverage) | ![Laporan Coverage Modul Iuran](./assets/coverage-iuran.png) |
 | C20-UT01 – C20-UT07, C21-UT01 – C21-UT04, C22-UT01 – C22-UT03, C24-UT01 – C24-UT03, LC-UT01 – LC-UT12, ML-UT01 – ML-UT26 | ![Output Jest Modul Laporan](./assets/jest-laporan.png) |
@@ -1171,6 +1432,13 @@ Tabel 4.6. Bukti Hasil Pengujian
 | UC07-TC01 | ![Screenshot Layar I-10 dan I-11 Perbarui Status](./assets/UC07-TC01.png) |
 | UC07-TC02 | ![Screenshot Layar I-11 Teknisi Tidak Berwenang](./assets/UC07-TC02.png) |
 | UC07-TC03 | ![Screenshot Layar I-11 Perubahan Status Tidak Valid](./assets/UC07-TC03.png) |
+| C27-UT01 – C27-UT07, MP-UT01 – MP-UT06, PC-UT01 – PC-UT06, VAL-PM-UT01 – VAL-PM-UT06, I-12-UT01 – I-12-UT04 | ![Output Jest Modul Pemeliharaan](./assets/jest-pemeliharaan.png) |
+| C27, `ModulPemeliharaan`, `PemeliharaanController`, `Validasi.periksaPemeliharaan` (coverage) | ![Laporan Coverage Modul Pemeliharaan](./assets/coverage-pemeliharaan.png) |
+| INT-TC01 – INT-TC26 | ![Output Uji Integrasi Basis Data](./assets/integrasi-basis-data.png) |
+| Coverage seluruh modul (`npx jest --coverage`: 18 *suite*, 197 test case lulus) | ![Laporan Coverage Seluruh Modul](./assets/coverage-semua-modul.png) — berkas teks lengkap: [laporan-coverage-semua-modul.txt](./assets/laporan-coverage-semua-modul.txt) |
+| UC08-TC01 | ![Screenshot Layar I-12 Catatan Pemeliharaan Tersimpan](./assets/UC08-TC01.png) |
+| UC08-TC02 | ![Screenshot Layar I-12 Formulir Tidak Lengkap](./assets/UC08-TC02.png) |
+| KNF04-TC01 | ![Profiling Query dan Waktu Respons Riwayat Panel](./assets/knf04-profiling.png) |
 | UC09-TC01, UC09-TC02 | ![Screenshot Layar I-13 Analitik Pemakaian Komunal](./assets/uc09-analitik.png) |
 | UC10-TC01 – UC10-TC03 | ![Screenshot Layar I-14 Pratinjau & Finalisasi Iuran](./assets/uc10-iuran.png) |
 | UC11-TC01 – UC11-TC03 | ![Screenshot Layar I-15 Rekapitulasi & Hasil Ekspor CSV/PDF](./assets/uc11-rekapitulasi.png) |
