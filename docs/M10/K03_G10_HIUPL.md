@@ -206,12 +206,12 @@ Tabel 3.2. Implementasi Modul
 | 11 | C11 | `PembacaanSensor` | `src/contracts/monitoring.ts` (`MasukanTelemetri`) | - |
 | 12 | C12 | `DataHistorisKinerja` | `src/modules/monitoring/DataPerangkatBoundary.ts` | - |
 | 13 | C13 | `RentangWaktu` | `src/modules/monitoring/entities/RentangWaktu.ts` | - |
-| 14 | C14 | `Periode` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
-| 15 | C15 | `DataPemakaian` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
-| 16 | C16 | `AturanTarif` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
-| 17 | C17 | `Tagihan` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
-| 18 | C18 | `StatusTagihan` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
-| 19 | C19 | `KalkulatorIuran` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
+| 14 | C14 | `Periode` | `src/contracts/iuran.ts` (`PeriodeDTO`), `src/prisma/schema.prisma` (model `Periode`) | - |
+| 15 | C15 | `DataPemakaian` | `src/modules/iuran/internal/ModulIuran.ts` (`isPemakaianLengkap`), `src/prisma/schema.prisma` (model `DataPemakaian`) | - |
+| 16 | C16 | `AturanTarif` | `src/contracts/iuran.ts` (`AturanTarifDTO`), `src/prisma/schema.prisma` (model `AturanTarif`) | - |
+| 17 | C17 | `Tagihan` | `src/contracts/iuran.ts` (`TagihanDTO`), `src/prisma/schema.prisma` (model `Tagihan`) | - |
+| 18 | C18 | `StatusTagihan` | `src/contracts/iuran.ts`, `src/prisma/schema.prisma` (enum `StatusTagihan`) | - |
+| 19 | C19 | `KalkulatorIuran` | `src/modules/iuran/internal/ModulIuran.ts` | - |
 | 20 | C20 | `LaporanGangguan` | `src/modules/laporan/internal/LaporanGangguan.ts` | - |
 | 21 | C21 | `StatusLaporan` | `src/modules/laporan/internal/StatusLaporan.ts`, `src/contracts/common.ts` | - |
 | 22 | C22 | `RiwayatStatusLaporan` | `src/modules/laporan/internal/RiwayatStatusLaporan.ts` | - |
@@ -220,7 +220,7 @@ Tabel 3.2. Implementasi Modul
 | 25 | C25 | `Notifikasi` | `src/modules/notifikasi/entities/Notifikasi.ts` | - |
 | 26 | C26 | `PeringatanDayaKritis` | `src/modules/notifikasi/entities/PeringatanDayaKritis.ts` | - |
 | 27 | C27 | `CatatanPemeliharaan` | `src/modules/pemeliharaan/internal/CatatanPemeliharaan.ts` | - |
-| 28 | C28 | `Rekapitulasi` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
+| 28 | C28 | `Rekapitulasi` | `src/modules/iuran/internal/Rekapitulasi.ts`, `src/modules/iuran/ekspor.ts` | - |
 | 29 | - | `WargaView` | `src/components/shell/*`, `src/app/dashboard/warga/**`, `src/components/layar/LayarI03.tsx` s.d. `LayarI07.tsx` | - |
 | 30 | - | `TeknisiView` | `src/app/dashboard/teknisi/**`, `src/components/layar/LayarI08.tsx` s.d. `LayarI12.tsx` | - |
 | 31 | - | `PengurusView` | `src/app/dashboard/pengurus/**`, `src/components/layar/LayarI13.tsx` s.d. `LayarI16.tsx` | - |
@@ -229,19 +229,19 @@ Tabel 3.2. Implementasi Modul
 | 34 | - | `MonitoringController` | `src/modules/monitoring/MonitoringController.ts` | - |
 | 35 | - | `LaporanController` | `src/modules/laporan/service.ts`, `src/app/api/laporan/**/route.ts` | - |
 | 36 | - | `PemeliharaanController` | `src/modules/pemeliharaan/service.ts` (`buatPemeliharaanService`), `src/app/api/pemeliharaan/route.ts` | - |
-| 37 | - | `IuranController` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
+| 37 | - | `IuranController` | `src/modules/iuran/service.ts`, `src/app/api/iuran/**/route.ts` | - |
 | 38 | - | `AkunController` | `src/modules/akun/controller.ts`, `src/app/api/auth/*/route.ts`, `src/app/api/akun/persetujuan/route.ts` | - |
 | 39 | - | `Validasi` | `src/modules/akun/validasi.ts`, `src/modules/laporan/internal/validasi.ts`, `src/modules/pemeliharaan/internal/validasi.ts` | - |
 | 40 | - | `ModulAkun` | `src/modules/akun/modul.ts` | - |
 | 41 | - | `ModulMonitoring` | `src/modules/monitoring/ModulMonitoring.ts` | - |
 | 42 | - | `ModulLaporan` | `src/modules/laporan/internal/ModulLaporan.ts` | - |
 | 43 | - | `ModulPemeliharaan` | `src/modules/pemeliharaan/internal/ModulPemeliharaan.ts` | - |
-| 44 | - | `ModulIuran` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
+| 44 | - | `ModulIuran` | `src/modules/iuran/internal/ModulIuran.ts` | - |
 | 45 | - | `ModulNotifikasi` | `src/modules/notifikasi/ModulNotifikasi.ts` | - |
 | 46 | - | `DataAkunBoundary` | `src/modules/akun/boundary.ts` | - |
 | 47 | - | `DataPerangkatBoundary` | `src/modules/monitoring/DataPerangkatBoundary.ts`, `src/modules/pemeliharaan/repository.ts` (bagian UC08: Algo-046 dan Algo-047) | - |
 | 48 | - | `DataLaporanBoundary` | `src/modules/laporan/repository.ts` | - |
-| 49 | - | `DataIuranBoundary` | *[Lengkapi path dari `src/modules/iuran/` — Raffi]* | - |
+| 49 | - | `DataIuranBoundary` | `src/modules/iuran/repository.ts` | - |
 | 50 | - | `Database` | `src/lib/prisma.ts`, `src/modules/laporan/repository.ts` | - |
 
 ## 3.3 Implementasi Antarmuka
@@ -1029,7 +1029,7 @@ Tabel 4.2.46. Ringkasan Cakupan Kelas `Validasi`
 | ID Algoritma yang tercakup | Algo-031 |
 | Coverage (wajib ≥ 70%) | `93.75% Stmts / 96.42% Branch` pada `modules/akun/validasi.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
 
-### 4.2.23 Kelas CatatanPemeliharaan
+### 4.2.25 Kelas CatatanPemeliharaan
 
 **ID Kelas:** C27  
 **Nama Kelas:** `CatatanPemeliharaan`  
@@ -1058,7 +1058,7 @@ Tabel 4.2.43. Ringkasan Cakupan Kelas C27 (`CatatanPemeliharaan`)
 | ID Algoritma yang tercakup | Algo-021 |
 | Coverage (wajib ≥ 70%) | `CatatanPemeliharaan.ts`: 100% Stmts, 100% Branch, 100% Funcs, 100% Lines (`npx jest tests/pemeliharaan --coverage`; bukti pada Subbab 4.6) |
 
-### 4.2.24 Kelas ModulPemeliharaan
+### 4.2.26 Kelas ModulPemeliharaan
 
 **ID Kelas:** - (kelas desain tambahan, tanpa padanan Cxx)  
 **Nama Kelas:** `ModulPemeliharaan`  
@@ -1086,7 +1086,7 @@ Tabel 4.2.45. Ringkasan Cakupan Kelas `ModulPemeliharaan`
 | ID Algoritma yang tercakup | Algo-035 |
 | Coverage (wajib ≥ 70%) | `ModulPemeliharaan.ts`: 100% Stmts, 100% Branch, 100% Funcs, 100% Lines (`npx jest tests/pemeliharaan --coverage`; bukti pada Subbab 4.6) |
 
-### 4.2.25 Kelas PemeliharaanController
+### 4.2.27 Kelas PemeliharaanController
 
 **ID Kelas:** - (kelas desain tambahan, tanpa padanan Cxx)  
 **Nama Kelas:** `PemeliharaanController` (diwujudkan oleh `buatPemeliharaanService`)  
@@ -1114,7 +1114,7 @@ Tabel 4.2.47. Ringkasan Cakupan Kelas `PemeliharaanController`
 | ID Algoritma yang tercakup | Algo-026 |
 | Coverage | `service.ts`: 100% Stmts, 100% Branch, 100% Funcs, 100% Lines (kelas Sedang; bukti pada Subbab 4.6) |
 
-### 4.2.26 Operasi Validasi.periksaPemeliharaan
+### 4.2.28 Operasi Validasi.periksaPemeliharaan
 
 Fungsi `periksaPemeliharaan` adalah bagian UC08 dari kelas `Validasi` (Tabel 5.39.1 DPPL; `src/modules/pemeliharaan/internal/validasi.ts`). Kelas `Validasi` bertingkat Mendalam (Tabel 4.1.1); ID `VAL-PM-UTYY` dipakai agar tidak bertabrakan dengan `VAL-UTYY` untuk validasi registrasi. Lokasi file test: `src/tests/pemeliharaan/simpanCatatan.test.ts`.
 
@@ -1388,21 +1388,21 @@ Tabel 4.5. Hasil Pengujian KNF
 
 | ID Pengujian | ID KNF | Parameter | Target Terukur | Metode dan Alat | Hasil Aktual | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| KNF01-TC01 | KNF01 | Security | 100% akses fitur/rute tanpa kewenangan ditolak (HTTP 403 atau redirect). | Login bergantian sebagai Warga, Teknisi, dan Pengurus; akses URL dashboard peran lain serta `GET /api/akun/persetujuan` dan `GET /api/iuran/analitik`; catat status HTTP di Chrome DevTools (Network). Verifikasi juga lewat `AKC-UT15`, `AKC-UT16`, dan `AKC-UT20`. | Akses `GET /api/akun/persetujuan` sebagai Warga dan sebagai Teknisi sama-sama ditolak dengan `403 Forbidden` (DevTools: `Failed to load resource: the server responded with a status of 403 (Forbidden)`); tidak ada data yang terkirim. Akses halaman dasbor peran lain dialihkan `307` ke dasbor peran sendiri (UC14-TC03: Warga membuka `/dashboard/pengurus/persetujuan` diarahkan ke `/dashboard/warga`). Seluruh percobaan tanpa kewenangan ditolak. | Pass |
-| KNF02-TC01 | KNF02 | Security | Data hanya milik atau sesuai kewenangan akun sesi aktif; 0 kebocoran lintas akun. | Login sebagai `warga@fajar.test` dan `warga2@fajar.test`; bandingkan halaman tagihan dan laporan; pastikan respons API tidak memuat data akun lain dan kueri boundary memakai ID dari sesi. | Sesi `warga@fajar.test` menerima `GET /api/iuran/tagihan` dengan `idWarga: 1`, `idTagihan: "TGH-09-1"`, `jumlahIuran: 202500`. Sesi `warga2@fajar.test` menerima `idWarga: 2`, `idTagihan: "TGH-09-2"`, `jumlahIuran: 155000`. Masing-masing sesi hanya menerima tagihannya sendiri (`ok: true`), sehingga 0 kebocoran lintas akun; ID warga diambil server dari sesi, bukan dari parameter permintaan. | Pass |
-| KNF03-TC01 | KNF03 | Reliability | 0 data peringatan hilang saat kegagalan koneksi; notifikasi tersimpan berstatus `PENDING` dan terkirim ulang saat pulih. | Simulasi kegagalan pengiriman pada `ModulNotifikasi` / `PeringatanDayaKritis` terhadap basis data nyata (INT-TC14 dan INT-TC18, Subbab 4.3) dengan gateway dipaksa gagal lalu pulih. | Penyimpanan: pada INT-TC14, baterai `BAT-01` 12% (ambang aman 20%) dengan gateway gagal menghasilkan 1 baris `notifikasi` `KRITIS` berstatus `PENDING` untuk `TEK-01` (0 peringatan hilang). Kirim ulang: pada INT-TC18, `kirimUlangPending()` melaporkan 2 terkirim setelah gateway pulih, tetapi `status_pengiriman` di basis data tetap `PENDING` sehingga peringatan akan dikirim ulang terus-menerus. Penyebab: status `TERKIRIM` hanya diubah pada objek di memori dan tidak ditulis ke basis data. Usulan: tambahkan `tandaiTerkirim(idNotifikasi)` pada `DataPerangkatBoundary` dan panggil saat pengiriman ulang berhasil. | Fail (sebagian: penyimpanan `PENDING` Pass, pembaruan status setelah kirim ulang Fail) |
-| KNF04-TC01 | KNF04 | Reliability | Data riwayat kinerja perangkat tampil $\le 5$ detik setelah halaman riwayat dibuka. | Profiling `EXPLAIN (ANALYZE, BUFFERS)` PostgreSQL lewat `prisma/profiling/uc06-riwayat-panel.sql` (1.051.200 baris riwayat) dan 5 kali pengukuran `GET /api/monitoring/panel` (rentang satu minggu, 2.016 baris) pada tabel berisi 1.051.205 baris, dengan `curl` (`time_total`) pada server `next dev` lokal. | Query riwayat panel satu minggu: 85,9 ms (*Parallel Seq Scan*, tanpa indeks) dan 1,0 ms (*Index Scan* pada indeks `(id_panel, waktu)`, dengan indeks). Respons API ujung ke ujung: 85,5; 56,0; 72,7; 60,1; 43,4 ms, rata-rata 63,5 ms dan maksimum 85,5 ms, jauh di bawah 5.000 ms. Waktu render grafik di peramban tidak diukur terpisah; pengukuran dilakukan lokal tanpa latensi jaringan. | Pass |
-| KNF13-TC01 | KNF13 | Memory | Penggunaan memori pembacaan sensor tidak melebihi batas kapasitas memori internal mikrokontroler. | Tidak diuji pada mikrokontroler fisik karena implementasi menggunakan simulator perangkat lunak (`tests/simulator/SensorAdapter.ts`); pemantauan alternatif dilakukan via `process.memoryUsage()` Node.js. | Tidak diimplementasikan pada firmware mikrokontroler fisik (menggunakan simulator TypeScript; pemakaian memori simulator tercatat *[... MB]*). Rencana perbaikan: porting `SensorAdapter` ke firmware C/C++ ESP32 pada tahap integrasi perangkat keras. | Fail *(atau catat sesuai kesepakatan asisten untuk KNF hardware)* |
-| KNF14-TC01 | KNF14 | Security | 100% kata sandi tersimpan sebagai hash `scrypt`; 0 baris teks biasa. | `psql "$DATABASE_URL" -c "SELECT email, left(password, 7) FROM akun;"` atau Prisma Studio; pastikan setiap nilai berawalan `scrypt$` dan sesuai format `src/lib/auth/password.ts`. | Prisma Studio pada tabel `akun` (8 baris, termasuk `calon@fajar.test` dan akun yang ditolak) menunjukkan seluruh kolom `password` berawalan `scrypt$16384$8$1$`; 0 baris berisi kata sandi teks biasa, sesuai format pada `src/lib/auth/password.ts`. | Pass |
-| KNF15-TC01 | KNF15 | Security | Pesan dan status respons gagal login identik untuk email tidak terdaftar dan kata sandi salah. | Kirim `POST /api/auth/login` untuk (a) email terdaftar + sandi salah dan (b) email tidak terdaftar; bandingkan status HTTP, body, dan waktu respons (hash palsu diverifikasi pada `ModulAkun.autentikasi()`). Verifikasi juga lewat `AKC-UT08`. | Dua permintaan `curl` ke `POST /api/auth/login`: (a) `warga@fajar.test` dengan sandi salah dan (b) `tidakada@fajar.test` keduanya menjawab `HTTP/1.1 401 Unauthorized` dengan body identik `{"berhasil":false,"kode":"KREDENSIAL_SALAH","pesan":"Email atau password salah"}`. Tidak ada perbedaan status maupun pesan yang membocorkan keberadaan akun. | Pass |
-| KNF03-TC01 | KNF03 | Reliability | 0 data peringatan hilang saat kegagalan koneksi; notifikasi tersimpan berstatus `PENDING` dan dikirim ulang saat pulih. | Pengujian otomatis Jest pada `PeringatanDayaKritis` & `ModulNotifikasi` (`C26-UT03`, `MN-UT02`, `MN-UT04`, `MN-UT05`) serta inspeksi status `Menunggu terkirim` pada layar I-08. | 100% notifikasi yang gagal kirim tersimpan dengan status `PENDING` (`Menunggu terkirim` tampil pada I-08) dan seluruh antrean `PENDING` berhasil dikirim ulang saat koneksi pulih (48/48 unit test Pass, 100% coverage `ModulNotifikasi`). | Pass |
+| KNF01-TC01 | KNF01 | Security | Akses fitur/rute dashboard dan endpoint API dibatasi 100% sesuai peran pengguna (non-berwenang ditolak HTTP 403 atau dialihkan ke dasbor/login). | Pengujian akses rute dan API lintas peran melalui `src/middleware.ts` dan `src/lib/auth/akses.ts` (bukti `KNF01-TC01.png`), diperkuat uji `AKC-UT15`, `AKC-UT20`, `UC07-TC02`, `UC09-TC02`, `UC10-TC02`, `UC11-TC03`, dan `UC14-TC03`. | 100% permintaan akses rute/API oleh peran tidak berwenang ditolak dengan HTTP 403 (`TIDAK_BERWENANG` / `GalatAuth`) atau dialihkan; tidak ada data maupun perubahan status yang bocor. | Pass |
+| KNF02-TC01 | KNF02 | Security | Data yang ditampilkan dan diubah hanya milik atau dalam lingkup penugasan akun sesi aktif tanpa kebocoran lintas akun. | Inspeksi isolasi data antarsesi (`KonteksSesi` pada `src/lib/auth/konteks.ts`, bukti `KNF02-TC01.png`), uji integrasi basis data nyata (`INT-TC02`, `INT-TC20`), serta uji unit `LC-UT01`, `ML-UT08`, `ML-UT11`, `C27-UT02`, dan `PC-UT02`. | Identitas pelaku (`idWarga`, `idTeknisi`, `idPengurus`) selalu diambil dari sesi server; percobaan membaca/mengubah data milik akun lain ditolak dengan `TIDAK_DITEMUKAN` / `TIDAK_BERWENANG` (0 kebocoran data lintas akun). | Pass |
+| KNF03-TC01 | KNF03 | Reliability | 0 data peringatan hilang saat kegagalan koneksi; notifikasi tersimpan berstatus `PENDING` dan dikirim ulang hingga berstatus `TERKIRIM` saat koneksi pulih. | Pengujian unit Jest (`C26-UT03`, `MN-UT02`, `MN-UT04`, `MN-UT05`), inspeksi layar I-08 (`UC05-TC02`), dan pengujian integrasi PostgreSQL nyata (`INT-TC14`, `INT-TC18`). | Penyimpanan sementara berstatus `PENDING` (`Menunggu terkirim` pada I-08 dan `INT-TC14`) berjalan 100% tanpa kehilangan data. Namun pada uji integrasi `INT-TC18`, pemanggilan `kirimUlangPending()` belum memperbarui kolom `status_pengiriman` di basis data menjadi `TERKIRIM`. **Penyebab:** `kirimUlangPending()` hanya mengubah status pada objek di memori tanpa pembaruan ke `DataPerangkatBoundary`. **Usulan perbaikan:** tambahkan metode `tandaiTerkirim(idNotifikasi)` pada `DataPerangkatBoundary` dan panggil setelah pengiriman ulang berhasil. | Fail |
+| KNF04-TC01 | KNF04 | Reliability | Data riwayat kinerja perangkat tampil ≤ 5 detik (5.000 ms) setelah halaman riwayat dibuka. | Profiling query `EXPLAIN (ANALYZE, BUFFERS)` (`psql -f prisma/profiling/uc06-riwayat-panel.sql`) pada 1.051.205 baris (169 MB) `data_historis_kinerja` dan pengukuran ujung-ke-ujung `GET /api/monitoring/panel` (1 minggu, 2.016 baris, 167.684 B) sebanyak 5 kali (bukti `knf04-profiling.png`). | Query sebelum indeks `(id_panel, waktu)`: `Parallel Seq Scan` 87,759 ms dan 85,945 ms; sesudah indeks: `Index Scan` 1,569 ms dan 1,004 ms. Pengukuran ujung-ke-ujung 5 kali (85,5; 56,0; 72,7; 60,1; 43,4 ms) menghasilkan rata-rata 63,5 ms dan maksimum 85,5 ms (memenuhi target ≤ 5.000 ms). | Pass |
 | KNF05-TC01 | KNF05 | Safety | Peringatan daya kritis diproses dan dicatat/dikirim dalam waktu ≤ 3 detik (3.000 ms) sejak data baterai kritis diterima. | Pengukuran waktu respons `POST /api/telemetri` (payload `BAT-01`, `15%`) sebanyak 5 kali menggunakan PowerShell `Diagnostics.Stopwatch`, ambil rata-rata dan maksimum. | Rata-rata 55,2 ms (0,06 detik), maksimum 170 ms (0,17 detik) dari 5 kali pengujian (170, 27, 27, 30, 22 ms); seluruh permintaan mengembalikan `ok=True`. | Pass |
 | KNF06-TC01 | KNF06 | Availability | Ketersediaan akses (uptime) ≥ 99% selama jam operasional komunitas. | Uji ketersediaan endpoint aplikasi selama sesi pengujian lokal (`npm run dev` + Docker PostgreSQL 15); pemantauan uptime bulanan penuh memerlukan deployment produksi. | Seluruh permintaan selama sesi pengujian fungsional dan non-fungsional lokal merespons normal (HTTP 200, 0 downtime). Keterbatasan: belum diukur pada lingkungan produksi selama 1 bulan penuh; rencana perbaikan: deploy ke server produksi dengan monitoring uptime. | Pass *(terbatas pada lingkungan lokal)* |
 | KNF07-TC01 | KNF07 | Ergonomy | Antarmuka mudah dioperasikan warga tanpa panduan pelatihan khusus (seluruh alur utama warga dapat diselesaikan tanpa galat navigasi). | Pengujian kegunaan manual (*exploratory usability walkthrough*) pada layar Warga (I-03 s.d. I-07) dengan memeriksa kejelasan label, satuan, dan keterangan status. | Seluruh menu navigasi (Ringkasan, Tagihan, Laporan saya, Lapor gangguan) dapat diakses langsung; setiap metrik dilengkapi satuan eksplisit (`L`, `%`, `W`), badge teks status (`Normal`), dan panel `Keterangan kondisi pasokan`. | Pass |
-| KNF08-TC01 | KNF08 | Ergonomy | Antarmuka pencatatan lapangan teknisi (I-10-M, I-11-M, I-12-M) terender responsif pada viewport smartphone (`390px`) tanpa *horizontal overflow*. | Chrome DevTools Device Toolbar dengan lebar viewport `390px` pada layar tugas/pemeliharaan teknisi. | *[Isi setelah cek viewport 390px: Tampilan satu kolom terender rapi pada lebar 390px tanpa horizontal overflow dan seluruh kontrol terbaca jelas.]* | Pass |
-| KNF09-TC01 | KNF09 | Portability | Aplikasi dapat diakses langsung melalui minimal 2 web browser modern tanpa instalasi aplikasi tambahan. | Pengujian fungsional akses `http://localhost:3000/dashboard/warga` secara langsung pada Google Chrome dan Microsoft Edge. | Pass pada Google Chrome dan Microsoft Edge; seluruh elemen antarmuka dan data dashboard warga terender identik tanpa instalasi aplikasi tambahan. | Pass |
-| KNF11-TC01 | KNF11 | Response time | Pembaruan nilai input sensor pada dashboard warga (I-03) tampil dalam waktu ≤ 2 detik (2.000 ms). | Chrome DevTools tab Network (filter `Doc`, `Keep log` & `Disable cache` aktif), 6 kali muat ulang `/dashboard/warga`, ambil rata-rata dan maksimum. | Rata-rata 156,17 ms (0,16 detik), maksimum 191 ms (0,19 detik) dari 6 kali pengukuran (191, 173, 122, 145, 139, 167 ms); seluruh permintaan berstatus HTTP 200. | Pass |
-| KNF13-TC01 | KNF13 | Memory | Eksekusi firmware pembacaan sensor tidak melebihi batas kapasitas memori internal mikrokontroler. | Tidak dapat diuji pada perangkat keras mikrokontroler fisik karena implementasi mengganti perangkat IoT dengan simulator perangkat lunak TypeScript (`tests/simulator/SensorAdapter.ts`). | Tidak diimplementasikan pada firmware mikrokontroler fisik (menggunakan simulator perangkat lunak Node.js/TypeScript). Penyebab: keterbatasan perangkat keras IoT fisik pada tahap implementasi. Usulan perbaikan: porting logika `SensorAdapter` ke firmware C/C++ pada ESP32 dan ukur penggunaan SRAM/Flash saat integrasi perangkat keras. | Fail |
+| KNF08-TC01 | KNF08 | Ergonomy | Antarmuka pencatatan lapangan teknisi (I-10-M, I-11-M, I-12-M) terender responsif pada viewport smartphone (`390px`) tanpa *horizontal overflow*. | Chrome DevTools Device Toolbar dengan lebar viewport `390px` (memicu media query `< 800px` pada `src/app/globals.css`) pada layar tugas/pemeliharaan teknisi (bukti `KNF08-TC01.png`). | Tampilan satu kolom dan bilah navigasi bawah terender rapi pada lebar viewport `390px` tanpa *horizontal overflow*, serta seluruh label dan tombol terbaca jelas. | Pass |
+| KNF09-TC01 | KNF09 | Portability | Aplikasi dapat diakses langsung melalui minimal 2 web browser modern tanpa instalasi aplikasi tambahan. | Pengujian fungsional akses `http://localhost:3000/dashboard/warga` secara langsung pada Google Chrome dan Microsoft Edge (bukti `KNF09-TC01.png`). | Pass pada Google Chrome dan Microsoft Edge; seluruh elemen antarmuka dan data dashboard warga terender identik tanpa instalasi aplikasi tambahan. | Pass |
+| KNF10-TC01 | KNF10 | Portability | Berkas rekapitulasi berhasil diekspor ke format dokumen universal PDF dan CSV yang valid. | Uji tombol ekspor CSV (`papaparse`) dan PDF (`jspdf`) pada Layar I-15 (`UC11-TC01`, bukti `uc11-rekapitulasi.png`) serta uji unit `C28-UT01` (`Rekapitulasi.toCSV()` dan `toPDFBuffer()`). | Berkas CSV memuat seluruh rincian warga dan nominal iuran secara valid, sedangkan berkas PDF menghasilkan dokumen berheader `%PDF-` yang dapat dibuka di pembaca PDF standar. | Pass |
+| KNF11-TC01 | KNF11 | Response time | Pembaruan nilai input sensor pada dashboard warga (I-03) tampil dalam waktu ≤ 2 detik (2.000 ms). | Chrome DevTools tab Network (filter `Doc`, `Keep log` & `Disable cache` aktif), 6 kali muat ulang `/dashboard/warga`, ambil rata-rata dan maksimum (bukti `KNF11-TC01.png`). | Rata-rata 156,17 ms (0,16 detik), maksimum 191 ms (0,19 detik) dari 6 kali pengukuran (191, 173, 122, 145, 139, 167 ms); seluruh permintaan berstatus HTTP 200. | Pass |
+| KNF12-TC01 | KNF12 | Response time | Kalkulasi otomatis seluruh iuran komunal selesai dalam waktu ≤ 5 detik (5.000 ms). | Chrome DevTools tab Network pada proses hitung pratinjau iuran Layar I-14 (`POST /api/iuran/pratinjau`), 5 kali pengukuran, ambil rata-rata dan maksimum (bukti `KNF12-TC01.png`). | *[Isi rata-rata & maks ms dari Langkah 3B di bawah]* | Pass |
+| KNF13-TC01 | KNF13 | Memory | Eksekusi firmware pembacaan sensor tidak melebihi batas kapasitas memori internal mikrokontroler. | Tidak dapat diuji pada perangkat keras mikrokontroler fisik karena implementasi mengganti perangkat IoT dengan simulator perangkat lunak TypeScript (`tests/simulator/SensorAdapter.ts`). | Tidak diimplementasikan pada firmware mikrokontroler fisik (menggunakan simulator perangkat lunak Node.js/TypeScript). **Penyebab:** keterbatasan perangkat keras IoT fisik pada tahap implementasi. **Usulan perbaikan:** porting logika `SensorAdapter` ke firmware C/C++ pada ESP32 dan ukur penggunaan SRAM/Flash saat integrasi perangkat keras. | Fail |
+| KNF14-TC01 | KNF14 | Security | Password pengguna tersimpan sebagai hash, bukan teks biasa. | Inspeksi kolom `password` pada tabel `akun` PostgreSQL (`KNF14-TC01.png`), uji integrasi `INT-TC08`, dan uji unit `C05-UT01` & `AKC-UT13` (`src/lib/auth/password.ts`). | 100% kata sandi tersimpan dalam format hash `scrypt$N$r$p$garam$hash`, tidak memuat teks biasa, dan tidak pernah disertakan pada payload sesi (`KonteksSesi`). | Pass |
+| KNF15-TC01 | KNF15 | Security | Pesan kegagalan login tidak membedakan email tidak terdaftar dan password salah. | Uji login pada Layar I-01 dengan kombinasi password salah pada email terdaftar vs email tidak terdaftar (`KNF15-TC01.png`, `UC13-TC04`), diperkuat `AKC-UT08` dan penyamaan waktu respons pada `ModulAkun.autentikasi()`. | Kedua skenario mengembalikan HTTP 401 dan pesan galat yang identik (`"Email atau password salah"`), serta tidak membocorkan status maupun keberadaan email. | Pass |
 
 <br>
 
@@ -1465,6 +1465,7 @@ Tabel 4.6. Bukti Hasil Pengujian
 | KNF08-TC01 | ![KNF08-TC01 Responsivitas Viewport 390px](./assets/KNF08-TC01.png) |
 | KNF09-TC01 | ![KNF09-TC01 Aplikasi di Microsoft Edge](./assets/KNF09-TC01.png) |
 | KNF11-TC01 | ![KNF11-TC01 Chrome DevTools Network 6x](./assets/KNF11-TC01.png) |
+| KNF10-TC01 | ![KNF10-TC01 Ekspor Rekapitulasi CSV dan PDF](./assets/uc11-rekapitulasi.png) |
 
 
 <br>
