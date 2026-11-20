@@ -158,7 +158,7 @@ Tabel 3.1. Lingkungan Implementasi
 | Bahasa Pemrograman | TypeScript `^6.0.3` (JavaScript/ECMAScript) pada runtime Node.js `v26.13.0` |
 | Framework/Library | Next.js `^16.4.5`, React `^19.3.1`, React DOM `^19.3.1`, Prisma ORM & `@prisma/client` `^7.10.1`, `@prisma/adapter-pg` `^7.10.1`, `pg` `^8.23.1`, `jspdf` `^4.2.1`, `papaparse` `^5.7.0`, `tsx` `^4.23.15` |
 | DBMS | PostgreSQL 15 (dijalankan lokal melalui Docker Compose) |
-| Development Tools | Visual Studio Code, Git & GitHub, Docker Desktop, Prisma CLI `^7.10.1`, Figma, draw.io |
+| Development Tools | Visual Studio Code, Git & GitHub, Docker Desktop, Prisma CLI `^7.10.1`, Figma |
 | Testing Tools | Jest `^30.5.2` (unit test & `--coverage` berbasis Istanbul), `jest-environment-jsdom` `^30.5.2`, `@testing-library/react` `^16.3.3`, `@testing-library/jest-dom` `^7.0.1`, PostgreSQL `EXPLAIN` (query profiling), Chrome DevTools (response time & responsive viewport) |
 
 ## 3.2 Implementasi Modul
@@ -260,20 +260,20 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 | ID Kelas | Nama Kelas | Tingkat | Alasan | Test Case Terkait |
 | :--- | :--- | :--- | :--- | :--- |
 | C07 | Perangkat | Tidak perlu | Kelas abstrak tanpa implementasi mandiri; diwakili model `prisma.perangkat` pada boundary | - |
-| C08 | TangkiAir | Mendalam | Memuat logika bisnis klasifikasi status air `statusAir()` (Algo-009) dengan ambang batas kritis dan rendah | `C08-UT01` s.d. `C08-UT05` (sesuaikan jumlah final) |
-| C09 | Baterai  | Mendalam  | Memuat logika pengecekan ambang batas aman daya `cekKapasitas()` (Algo-010) | `C09-UT01` s.d. `C09-UT04` (sesuaikan jumlah final) |
+| C08 | TangkiAir | Mendalam | Memuat logika bisnis klasifikasi status air `statusAir()` (Algo-009) dengan ambang kritis dan rendah | C08-UT01 s.d. C08-UT05 |
+| C09 | Baterai | Mendalam | Memuat logika evaluasi ambang batas aman kapasitas daya `cekKapasitas()` (Algo-010) | C09-UT01 s.d. C09-UT04 |
 | C10 | PanelSurya | Tidak perlu | Tidak dibuat kelas mandiri; pengambilan daya terkini digabung di `ModulMonitoring.evaluasiKetersediaan()` | - |
-| C11 | PembacaanSensor  | Tidak perlu  | Direpresentasikan sebagai tipe kontrak DTO `MasukanTelemetri` tanpa logika bisnis | - |
+| C11 | PembacaanSensor | Tidak perlu | Direpresentasikan sebagai tipe kontrak DTO `MasukanTelemetri` tanpa logika bisnis | - |
 | C12 | DataHistorisKinerja | Tidak perlu | Struktur data/DTO hasil kueri historis tanpa logika internal | - |
-| C13 | RentangWaktu  | Mendalam | Memuat validasi batas tanggal `validasi()` (Algo-011) | `C13-UT01` s.d. `C13-UT04` (sesuaikan jumlah final) |
-| C23 | PenugasanPerangkat  | Tidak perlu  | Direpresentasikan langsung sebagai relasi tabel basis data via Prisma tanpa logika kelas terpisah | - |
-| C25 | Notifikasi  | Sedang  | Kelas dasar notifikasi dengan delegasi pengiriman dan pembaruan status baca (`tandaiDibaca()`). | `C25-UT01` s.d. `C25-UT02` |
-| C26 | PeringatanDayaKritis | Mendalam | Memuat algoritma pengiriman peringatan kritis `kirim()` beserta fallback `simpanPending()` saat gagal jaringan (Algo-020) | `C26-UT01` s.d. `C26-UT03` |
-| - | TelemetriAPI  | Sedang  | Route handler `POST /api/telemetri` yang meneruskan payload telemetri ke `MonitoringController` (Algo-023) | `INT-TCxx` (koordinasi dengan Rafiandhi) |
-| - | MonitoringController  | Sedang  | Controller yang mengoordinasikan permintaan pemantauan, telemetri baterai (Algo-024), dan riwayat panel | `MC-UT01` s.d.` MC-UT04`, `INT-TCxx` |
-| - | ModulMonitoring  | Mendalam | Memuat logika domain `evaluasiKetersediaan()` (Algo-033), pencatatan pembacaan, dan validasi kueri historis panel | `MM-UT01` s.d. `MM-UT06` (sesuaikan jumlah final) |
-| - | ModulNotifikasi  | Mendalam | Memuat logika bisnis `kirimPeringatanDayaKritis()` (Algo-037) dan `kirimUlangPending()` (Algo-051) | `MN-UT01` s.d. `MN-UT06` |
-| - | DataPerangkatBoundary  | Sedang  | Repositori CRUD standar ke PostgreSQL via Prisma (termasuk Algo-039, 043–045); diuji pada level integrasi basis data nyata | `INT-TCxx` (koordinasi dengan Rafiandhi) |
+| C13 | RentangWaktu | Mendalam | Memuat validasi batas tanggal `validasi()` (Algo-011) | C13-UT01 s.d. C13-UT03 |
+| C23 | PenugasanPerangkat | Tidak perlu | Direpresentasikan langsung sebagai relasi tabel basis data via Prisma tanpa logika kelas terpisah | - |
+| C25 | Notifikasi | Sedang | Kelas dasar notifikasi dengan delegasi pengiriman dan pembaruan status baca `tandaiDibaca()` | C25-UT01 s.d. C25-UT02 |
+| C26 | PeringatanDayaKritis | Mendalam | Memuat algoritma pengiriman peringatan daya kritis `kirim()` beserta *fallback* `simpanPending()` (Algo-020) | C26-UT01 s.d. C26-UT04 |
+| - | TelemetriAPI | Sedang | Route handler `POST /api/telemetri` yang meneruskan payload telemetri ke `MonitoringController` (Algo-023) | INT-TCxx *(sesuaikan nomor 4.3 Rafiandhi)* |
+| - | MonitoringController | Sedang | Controller yang mengoordinasikan permintaan pemantauan, telemetri baterai (Algo-024), dan riwayat panel | MC-UT01 s.d. MC-UT13, INT-TCxx |
+| - | ModulMonitoring | Mendalam | Memuat logika domain `evaluasiKetersediaan()` (Algo-033), pencatatan pembacaan, peringatan teknisi, dan kueri historis panel | MM-UT01 s.d. MM-UT10 |
+| - | ModulNotifikasi | Mendalam | Memuat logika bisnis `kirimPeringatanDayaKritis()` (Algo-037) dan `kirimUlangPending()` (Algo-051) | MN-UT01 s.d. MN-UT06 |
+| - | DataPerangkatBoundary | Sedang | Repositori CRUD standar ke PostgreSQL via Prisma (Algo-039, 043–045); diuji pada level integrasi basis data nyata | INT-TCxx *(sesuaikan nomor 4.3 Rafiandhi)* |
 | *...* | *...* | *...* | *...* | *...* |
 
 ## 4.2 Pengujian Unit Kelas
@@ -283,6 +283,10 @@ Pengujian unit dilakukan pada kelas bertingkat Mendalam dan Sedang. Kelas Mendal
 Cara menjalankan unit test modul iuran: `npx jest src/tests/iuran/iuran.test.ts --verbose --coverage`
 
 Lokasi file test: `src/tests/iuran/iuran.test.ts`
+
+Cara menjalankan unit test modul monitoring dan notifikasi: `npx jest tests/monitoring --coverage` (dijalankan di dalam folder `src/`).
+
+Lokasi file test: `src/tests/monitoring/` (`tangki.test.ts`, `baterai.test.ts`, `rentangWaktu.test.ts`, `notifikasi.test.ts`, `monitoring.test.ts`, `controller.test.ts`).
 
 ### 4.2.1 Kelas KalkulatorIuran / ModulIuran
 
@@ -332,6 +336,209 @@ Tabel 4.2.4. Ringkasan Cakupan Kelas C28 (`Rekapitulasi`)
 | Operasi yang diuji | `buatRekapitulasi()`, `toCSV()`, `toPDFBuffer()` |
 | ID Algoritma yang tercakup | Algo-022 |
 | Coverage (wajib ≥ 70%) | `[isi 74.89 Stmts / 62.04 Branch dari npx jest src/tests/iuran/iuran.test.ts --coverage; bukti pada Subbab 4.6]` |
+
+### 4.2.3 Kelas TangkiAir
+
+**ID Kelas:** C08  
+**Nama Kelas:** TangkiAir (`TangkiAirDomain`)  
+**Tingkat:** Mendalam
+
+Tabel 4.2.5. Hasil Pengujian Unit Kelas C08 (TangkiAir)
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| C08-UT01 | `statusAir(): String` | Normal | Inisialisasi `TangkiAirDomain(3000, 2000, 500)` lalu panggil `statusAir()` | Mengembalikan `"Normal"` | Mengembalikan `"Normal"` | Pass |
+| C08-UT02 | `statusAir(): String` | Normal | Inisialisasi `TangkiAirDomain(1500, 2000, 500)` lalu panggil `statusAir()` | Mengembalikan `"Rendah"` | Mengembalikan `"Rendah"` | Pass |
+| C08-UT03 | `statusAir(): String` | Batas | Inisialisasi `TangkiAirDomain(2000, 2000, 500)` (volume tepat sama dengan ambang rendah) lalu panggil `statusAir()` | Mengembalikan `"Rendah"` | Mengembalikan `"Rendah"` | Pass |
+| C08-UT04 | `statusAir(): String` | Batas | Inisialisasi `TangkiAirDomain(500, 2000, 500)` (volume tepat sama dengan ambang kritis) lalu panggil `statusAir()` | Mengembalikan `"Kritis"` | Mengembalikan `"Kritis"` | Pass |
+| C08-UT05 | `statusAir(): String` | Negatif | Inisialisasi `TangkiAirDomain(-10, 2000, 500)` (nilai negatif/anomali sensor) lalu panggil `statusAir()` | Mengembalikan `"Kritis"` | Mengembalikan `"Kritis"` | Pass |
+
+Tabel 4.2.6. Ringkasan Cakupan Kelas C08 (TangkiAir)
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `statusAir()`, `statusTerbaru()` |
+| Operasi yang diuji | `statusAir()` (1 dari 1 operasi public terimplementasi pada `TangkiAirDomain`; `statusTerbaru()` digabung di `ModulMonitoring.evaluasiKetersediaan()`) |
+| ID Algoritma yang tercakup | Algo-009 (klasifikasi status ketersediaan air) |
+| Coverage (wajib ≥ 70%) | 100% line / 100% branch, tool: Jest `--coverage` (Istanbul), bukti pada Subbab 4.6 |
+
+---
+
+### 4.2.4 Kelas Baterai
+
+**ID Kelas:** C09  
+**Nama Kelas:** Baterai (`BateraiDomain`)  
+**Tingkat:** Mendalam
+
+Tabel 4.2.7. Hasil Pengujian Unit Kelas C09 (Baterai)
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| C09-UT01 | `cekKapasitas(): Boolean` | Normal | Inisialisasi `BateraiDomain(25, 20)` lalu panggil `cekKapasitas()` | Mengembalikan `false` (kapasitas aman) | Mengembalikan `false` | Pass |
+| C09-UT02 | `cekKapasitas(): Boolean` | Normal | Inisialisasi `BateraiDomain(15, 20)` lalu panggil `cekKapasitas()` | Mengembalikan `true` (kapasitas kritis) | Mengembalikan `true` | Pass |
+| C09-UT03 | `cekKapasitas(): Boolean` | Batas | Inisialisasi `BateraiDomain(20, 20)` (tepat pada ambang batas aman) lalu panggil `cekKapasitas()` | Mengembalikan `false` (kapasitas aman) | Mengembalikan `false` | Pass |
+| C09-UT04 | `cekKapasitas(): Boolean` | Negatif | Inisialisasi `BateraiDomain(-5, 20)` (nilai negatif/anomali sensor) lalu panggil `cekKapasitas()` | Mengembalikan `true` (kapasitas kritis) | Mengembalikan `true` | Pass |
+
+Tabel 4.2.8. Ringkasan Cakupan Kelas C09 (Baterai)
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `cekKapasitas()`, `kapasitas()`, `statusTerbaru()` |
+| Operasi yang diuji | `cekKapasitas()` (1 dari 1 operasi public terimplementasi pada `BateraiDomain`; `kapasitas()` dan `statusTerbaru()` digabung di `ModulMonitoring`) |
+| ID Algoritma yang tercakup | Algo-010 (pengecekan kapasitas daya baterai) |
+| Coverage (wajib ≥ 70%) | 100% line / 100% branch, tool: Jest `--coverage` (Istanbul), bukti pada Subbab 4.6 |
+
+---
+
+### 4.2.5 Kelas RentangWaktu
+
+**ID Kelas:** C13  
+**Nama Kelas:** RentangWaktu (`RentangWaktuDomain`)  
+**Tingkat:** Mendalam
+
+Tabel 4.2.9. Hasil Pengujian Unit Kelas C13 (RentangWaktu)
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| C13-UT01 | `validasi(): Boolean` | Normal | Inisialisasi `RentangWaktuDomain('2026-11-01T00:00:00Z', '2026-11-02T00:00:00Z')` lalu panggil `validasi()` | Mengembalikan `true` | Mengembalikan `true` | Pass |
+| C13-UT02 | `validasi(): Boolean` | Batas | Inisialisasi `RentangWaktuDomain('2026-11-01T12:00:00Z', '2026-11-01T12:00:00Z')` (waktu mulai sama dengan waktu selesai) lalu panggil `validasi()` | Mengembalikan `true` | Mengembalikan `true` | Pass |
+| C13-UT03 | `validasi(): Boolean` | Negatif | Inisialisasi `RentangWaktuDomain('2026-11-03T00:00:00Z', '2026-11-01T00:00:00Z')` (waktu mulai melewati waktu selesai) lalu panggil `validasi()` | Mengembalikan `false` | Mengembalikan `false` | Pass |
+
+Tabel 4.2.10. Ringkasan Cakupan Kelas C13 (RentangWaktu)
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `validasi()` |
+| Operasi yang diuji | `validasi()` (1 dari 1 operasi public) |
+| ID Algoritma yang tercakup | Algo-011 (validasi rentang waktu) |
+| Coverage (wajib ≥ 70%) | 100% line / 100% branch, tool: Jest `--coverage` (Istanbul), bukti pada Subbab 4.6 |
+
+---
+
+### 4.2.6 Kelas Notifikasi
+
+**ID Kelas:** C25  
+**Nama Kelas:** Notifikasi  
+**Tingkat:** Sedang
+
+Tabel 4.2.11. Hasil Pengujian Unit Kelas C25 (Notifikasi)
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| C25-UT01 | `tandaiDibaca(): Void` | Normal | Buat `new Notifikasi('Informasi perangkat')`, periksa `statusBaca` awal (`false`) dan `idNotifikasi`, lalu panggil `tandaiDibaca()` | `idNotifikasi` terisi UUID dan `statusBaca` berubah menjadi `true` | `idNotifikasi` terisi dan `statusBaca` berubah dari `false` menjadi `true` | Pass |
+| C25-UT02 | `kirim(): Promise<Boolean>` | Negatif | Buat `new Notifikasi('Pesan dasar')` lalu panggil metode dasar `kirim()` sebelum di-override | Mengembalikan `false` | Mengembalikan `false` | Pass |
+
+---
+
+### 4.2.7 Kelas PeringatanDayaKritis
+
+**ID Kelas:** C26  
+**Nama Kelas:** PeringatanDayaKritis  
+**Tingkat:** Mendalam
+
+Tabel 4.2.12. Hasil Pengujian Unit Kelas C26 (PeringatanDayaKritis)
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| C26-UT01 | `kirim(): Promise<Boolean>` | Normal | Buat `PeringatanDayaKritis` (kapasitas 15%, `TEK-01`, `BAT-01`) dengan respons gateway sukses (`Math.random() = 0.8`), panggil `kirim()` | Mengembalikan `true` dan `statusPengiriman` menjadi `TERKIRIM` | Mengembalikan `true` dan `statusPengiriman = TERKIRIM` | Pass |
+| C26-UT02 | `kirim(): Promise<Boolean>` | Batas | Panggil `kirim()` tepat pada ambang probabilitas gagal gateway (`Math.random() = 0.2`) | Mengembalikan `false` dan `statusPengiriman` tetap `PENDING` | Mengembalikan `false` dan `statusPengiriman = PENDING` | Pass |
+| C26-UT03 | `kirim(): Promise<Boolean>` | Negatif | Simulasikan `pushToGateway` melempar `Error('NetworkException')`, panggil `kirim()` | Mengembalikan `false`, memanggil `simpanPending()` 1 kali, dan `statusPengiriman` menjadi `PENDING` | Mengembalikan `false`, `simpanPending()` terpanggil 1 kali, status `PENDING` | Pass |
+| C26-UT04 | `simpanPending(): Void` | Normal | Setel `statusPengiriman = TERKIRIM` lalu panggil `simpanPending()` | `statusPengiriman` berubah menjadi `PENDING` | `statusPengiriman` berubah menjadi `PENDING` | Pass |
+
+Tabel 4.2.13. Ringkasan Cakupan Kelas C26 (PeringatanDayaKritis)
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `kirim()`, `simpanPending()` |
+| Operasi yang diuji | `kirim()`, `simpanPending()` (2 dari 2 operasi public) |
+| ID Algoritma yang tercakup | Algo-020 (pengiriman peringatan daya kritis dan fallback pending) |
+| Coverage (wajib ≥ 70%) | 100% line / 100% branch, tool: Jest `--coverage` (Istanbul), bukti pada Subbab 4.6 |
+
+---
+
+### 4.2.8 Kelas ModulMonitoring
+
+**ID Kelas:** -  
+**Nama Kelas:** ModulMonitoring  
+**Tingkat:** Mendalam
+
+Tabel 4.2.14. Hasil Pengujian Unit Kelas ModulMonitoring
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| MM-UT01 | `evaluasiKetersediaan()` | Normal | Boundary palsu berisi tangki 8000 L (kapasitas 10000 L), baterai 78%, panel 420 W | `volumeLiter = 8000`, `persen = 80`, `kondisi = "Normal"`, `baterai.kritis = false`, `dayaWatt = 420`, `dataUsang = false` | Seluruh metrik dan status sesuai nilai yang diharapkan | Pass |
+| MM-UT02 | `evaluasiKetersediaan()` | Batas | Boundary palsu dengan volume tepat pada ambang rendah (`3000 L`) dan ambang kritis (`1000 L`) | Volume `3000 L` berstatus `"Rendah"`, volume `1000 L` berstatus `"Kritis"` | Status tangki `"Rendah"` pada 3000 L dan `"Kritis"` pada 1000 L | Pass |
+| MM-UT03 | `evaluasiKetersediaan()` | Batas | Boundary palsu dengan baterai `15%` (< ambang 20%) dan `25%` (> ambang 20%) | Baterai 15% mengembalikan `kritis = true`, baterai 25% mengembalikan `kritis = false` | `kritis = true` untuk 15% dan `kritis = false` untuk 25% | Pass |
+| MM-UT04 | `evaluasiKetersediaan()` | Negatif | Seluruh perangkat tanpa data pembacaan (`pembacaan = []`) | Seluruh nilai pembacaan `null` (bukan 0) dan `dataUsang = true` | Seluruh nilai pembacaan `null` dan `dataUsang = true` | Pass |
+| MM-UT05 | `evaluasiKetersediaan()` | Batas | Hanya tangki yang memiliki pembacaan (`8000 L`), sementara baterai kosong dan panel `null` | `dataUsang = false` (usang hanya jika seluruh perangkat kosong) | Mengembalikan `dataUsang = false` | Pass |
+| MM-UT06 | `ambilRiwayatPanel()` | Normal | Teknisi `TEK-01` dengan panel `PNL-01`, rentang valid 28 Okt 2026 berisi 2 titik kinerja | Mengembalikan array 2 objek `{ waktu, dayaDihasilkan, energi }` dalam format ISO | Mengembalikan 2 titik kinerja dengan format dan rentang sesuai | Pass |
+| MM-UT07 | `ambilRiwayatPanel()` | Negatif | Masukan rentang terbalik (`29 Okt` s.d. `28 Okt`) dan string bukan tanggal (`"bukan-tanggal"`) | Melempar `GalatRentangWaktu` untuk kedua kasus | Melempar `GalatRentangWaktu` pada kedua pemanggilan | Pass |
+| MM-UT08 | `ambilRiwayatPanel()` | Batas | Teknisi `TEK-01` tidak memiliki panel yang ditugaskan (`panelTeknisi = null`) | Mengembalikan daftar kosong `[]` | Mengembalikan `[]` | Pass |
+| MM-UT09 | `daftarPeringatanTeknisi()` | Normal | Boundary berisi 3 notifikasi (1 `KRITIS` valid, 1 `KRITIS` dengan kapasitas `null`, 1 `INFO`) | Hanya meneruskan 1 notifikasi `KRITIS` valid beserta `namaPerangkat` dan `ambangBatasAman` | Mengembalikan 1 item (`NTF-01`) dengan atribut lengkap | Pass |
+| MM-UT10 | `daftarPeringatanTeknisi()` | Batas | Boundary tidak memiliki notifikasi untuk `TEK-01` | Mengembalikan daftar kosong `[]` | Mengembalikan `[]` | Pass |
+
+Tabel 4.2.15. Ringkasan Cakupan Kelas ModulMonitoring
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `evaluasiKetersediaan()`, `catatPembacaan()`, `ambilHistorisPanel()` (diimplementasikan sebagai `ambilRiwayatPanel()` ditambah `daftarPeringatanTeknisi()`) |
+| Operasi yang diuji | `evaluasiKetersediaan()`, `ambilRiwayatPanel()`, `daftarPeringatanTeknisi()` (3 dari 4 operasi public; `catatPembacaan()` merupakan delegasi langsung ke boundary dan diuji pada lapisan integrasi/controller) |
+| ID Algoritma yang tercakup | Algo-033 (evaluasi ketersediaan air & energi), Algo-009, Algo-010, Algo-011 |
+| Coverage (wajib ≥ 70%) | 88.88% line / 76% branch, tool: Jest `--coverage` (Istanbul), bukti pada Subbab 4.6 |
+
+---
+
+### 4.2.9 Kelas ModulNotifikasi
+
+**ID Kelas:** -  
+**Nama Kelas:** ModulNotifikasi  
+**Tingkat:** Mendalam
+
+Tabel 4.2.16. Hasil Pengujian Unit Kelas ModulNotifikasi
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| MN-UT01 | `kirimPeringatanDayaKritis()` | Normal | `BAT-01` (kapasitas 15%) memiliki penugasan `TEK-01` dan `notif.kirim()` mengembalikan `true` | Mengembalikan `true` dan `simpanNotifikasi` tidak dipanggil | Mengembalikan `true`, `simpanNotifikasi` tidak dipanggil | Pass |
+| MN-UT02 | `kirimPeringatanDayaKritis()` | Batas | `BAT-01` (kapasitas 12%) memiliki penugasan `TEK-01`, namun `notif.kirim()` mengembalikan `false` | Mengembalikan `false` dan memanggil `simpanNotifikasi` 1 kali sebagai fallback `PENDING` | Mengembalikan `false` dan `simpanNotifikasi` terpanggil 1 kali | Pass |
+| MN-UT03 | `kirimPeringatanDayaKritis()` | Negatif | `BAT-99` (kapasitas 10%) tidak memiliki penugasan teknisi (`[]`) | Mengembalikan `false` tanpa mengirim notifikasi | Mengembalikan `false` | Pass |
+| MN-UT04 | `kirimUlangPending()` | Normal | `TEK-01` memiliki 2 notifikasi `PENDING` dan seluruh `notif.kirim()` mengembalikan `true` | Mengembalikan jumlah terkirim `2` | Mengembalikan `2` | Pass |
+| MN-UT05 | `kirimUlangPending()` | Batas | `TEK-01` memiliki 2 notifikasi `PENDING` (salah satunya field opsional `null`); 1 berhasil, 1 gagal | Mengembalikan jumlah terkirim `1` | Mengembalikan `1` | Pass |
+| MN-UT06 | `kirimUlangPending()` | Negatif | `TEK-02` tidak memiliki notifikasi `PENDING` (`[]`) | Mengembalikan `0` | Mengembalikan `0` | Pass |
+
+Tabel 4.2.17. Ringkasan Cakupan Kelas ModulNotifikasi
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `kirimPeringatanDayaKritis()`, `kirimUlangPending()` |
+| Operasi yang diuji | `kirimPeringatanDayaKritis()`, `kirimUlangPending()` (2 dari 2 operasi public) |
+| ID Algoritma yang tercakup | Algo-037 (pengiriman peringatan daya kritis), Algo-051 (pengiriman ulang notifikasi pending) |
+| Coverage (wajib ≥ 70%) | 100% line / 100% branch, tool: Jest `--coverage` (Istanbul), bukti pada Subbab 4.6 |
+
+---
+
+### 4.2.10 Kelas MonitoringController
+
+**ID Kelas:** -  
+**Nama Kelas:** MonitoringController  
+**Tingkat:** Sedang
+
+Tabel 4.2.18. Hasil Pengujian Unit Kelas MonitoringController
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| MC-UT01 | `ambilStatusInfrastruktur()` | Normal | `evaluasiKetersediaan()` mengembalikan data status valid | Mengembalikan `{ ok: true, data }` | Mengembalikan `{ ok: true, data }` | Pass |
+| MC-UT02 | `ambilStatusInfrastruktur()` | Negatif | `evaluasiKetersediaan()` melempar galat basis data | Mengembalikan `{ ok: false, kode: 'GAGAL_INTERNAL' }` | Mengembalikan `ok: false`, `kode: 'GAGAL_INTERNAL'` | Pass |
+| MC-UT03 | `terimaTelemetri()` | Normal | Payload valid `BAT-01` (`nilai: 15`, `satuan: '%'`), `catatPembacaan()` mengembalikan `true` | Mengembalikan `{ ok: true, data: { diterima: true } }` dan memanggil `prosesTelemetriBaterai('BAT-01', 15)` | Mengembalikan `ok: true` dan `prosesTelemetriBaterai` terpanggil dengan argumen benar | Pass |
+| MC-UT04 | `terimaTelemetri()` | Negatif | `catatPembacaan()` mengembalikan `false` | Mengembalikan `{ ok: false, kode: 'GAGAL_SIMPAN' }` | Mengembalikan `ok: false`, `kode: 'GAGAL_SIMPAN'` | Pass |
+| MC-UT05 | `terimaTelemetri()` | Negatif | `catatPembacaan()` melempar `Error('Timeout')` | Mengembalikan `{ ok: false, kode: 'GAGAL_INTERNAL' }` | Mengembalikan `ok: false`, `kode: 'GAGAL_INTERNAL'` | Pass |
+| MC-UT06 | `prosesTelemetriBaterai()` | Normal | Perangkat `BAT-01` (`BATERAI`, ambang 20) menerima kapasitas `15` | Memanggil `kirimPeringatanDayaKritis('BAT-01', 15)` | `kirimPeringatanDayaKritis('BAT-01', 15)` terpanggil | Pass |
+| MC-UT07 | `prosesTelemetriBaterai()` | Batas | Perangkat `BAT-01` (`ambangBatasAman: null`, default 20) menerima kapasitas tepat `20` | Tidak memanggil `kirimPeringatanDayaKritis` | `kirimPeringatanDayaKritis` tidak dipanggil | Pass |
+| MC-UT08 | `prosesTelemetriBaterai()` | Negatif | Perangkat `TNK-01` bukan baterai (`cariBaterai` mengembalikan `null`) | Tidak memanggil `kirimPeringatanDayaKritis` | `kirimPeringatanDayaKritis` tidak dipanggil | Pass |
+| MC-UT09 | `ambilRiwayatPanel()` | Normal | Rentang valid `2026-10-28` dengan data 1 titik kinerja | Mengembalikan `{ ok: true, data }` | Mengembalikan `{ ok: true, data }` | Pass |
+| MC-UT10 | `ambilRiwayatPanel()` | Negatif | Rentang terbalik sehingga modul melempar `GalatRentangWaktu` *(teruji juga pada `monitoring.test.ts`)* | Mengembalikan `{ ok: false, kode: 'VALIDASI_GAGAL' }` | Mengembalikan `ok: false`, `kode: 'VALIDASI_GAGAL'` | Pass |
+| MC-UT11 | `ambilRiwayatPanel()` | Negatif | Modul melempar galat umum (`Error('DB fail')`) | Mengembalikan `{ ok: false, kode: 'GAGAL_INTERNAL' }` | Mengembalikan `ok: false`, `kode: 'GAGAL_INTERNAL'` | Pass |
+| MC-UT12 | `daftarPeringatanTeknisi()` | Normal | `daftarPeringatanTeknisi('TEK-01')` mengembalikan daftar peringatan | Mengembalikan `{ ok: true, data: [] }` | Mengembalikan `{ ok: true, data: [] }` | Pass |
+| MC-UT13 | `daftarPeringatanTeknisi()` | Negatif | Modul melempar galat (`Error('DB fail')`) | Mengembalikan `{ ok: false, kode: 'GAGAL_INTERNAL' }` | Mengembalikan `ok: false`, `kode: 'GAGAL_INTERNAL'` | Pass |
 
 <br>
 
