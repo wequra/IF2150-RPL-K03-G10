@@ -126,15 +126,40 @@ Dokumen ini diawali pendahuluan dan deskripsi umum perangkat lunak yang mengacu 
 
 # BAB 2: Deskripsi Umum Perangkat Lunak
 
-Bagian ini diisi dengan *System Overview*, dalam bentuk gambar dan narasi yang memberikan gambaran tentang aplikasi dan konteksnya. **Batasan dan keterkaitan** antara sistem yang dibangun dengan sistem lain di luarnya harus jelas. Deskripsi umum sistem perlu dilengkapi dengan pemodelan kasus yang dihadapi, seperti *use case diagram*. Berikan narasi yang jelas untuk setiap gambar yang ditampilkan.
+Bab ini menggambarkan Fajar Tech dan konteksnya: siapa yang memakai, apa yang ada di dalam sistem, dan apa yang berada di luarnya. Isinya diringkas dari SKPL dan DPPL.
 
-Bagian ini dapat menyalin atau meringkas dari dokumen SKPL atau DPPL.
+## 2.1 System Overview
+
+Fajar Tech adalah aplikasi web tunggal untuk mengelola air dan energi komunal di Komunitas Cempaka. Warga, Teknisi, dan Pengurus memakainya lewat browser di komputer atau ponsel. Setelah login, cookie sesi bertanda tangan menentukan dasbor yang dibuka, sehingga tiap peran hanya melihat menu dan data yang menjadi haknya.
 
 <p align="center">
-<img alt="System Overview / Use Case Diagram" src="./assets/contoh-uc-diagram.webp" width="90%">
+<img alt="System Overview Fajar Tech" src="./assets/system-overview.png" width="90%">
 </p>
 <p align="center">
-<i>Gambar 2.1. Use Case Diagram [Nama P/L]</i>
+<i>Gambar 2.1. System Overview Fajar Tech</i>
+</p>
+
+Gambar 2.1 menunjukkan batas sistem sebagai kotak besar bertajuk Sistem Fajar Tech. Di dalamnya permintaan melewati empat lapisan sesuai DPPL: View, Controller, Modul, dan Boundary data. Lapisan terakhir mengakses basis data lewat Prisma.
+
+Tiga hal berada di luar batas sistem:
+
+1. Perangkat lapangan (sensor tangki, baterai, dan panel surya). Pada tahap ini perangkat fisik diganti simulator `SensorAdapter.ts` yang mengirim telemetri ke `POST /api/telemetri`.
+2. Gateway notifikasi untuk perangkat teknisi. Pengirimannya disimulasikan. Bila pengiriman gagal, peringatan disimpan berstatus `PENDING` lalu dikirim ulang.
+3. PostgreSQL, tempat semua data akun, laporan, perangkat, dan iuran disimpan. Selama pengembangan basis data ini berjalan lokal lewat Docker.
+
+Fajar Tech tidak memakai layanan pembayaran pihak ketiga. Tarif iuran ditetapkan Pengurus di dalam sistem.
+
+## 2.2 Pemodelan Kasus
+
+Gambar 2.2 memuat 14 use case (UC01 sampai UC14) dan tiga aktor. Warga memakai UC01 sampai UC04. Teknisi memakai UC05 sampai UC08. Pengurus memakai UC09 sampai UC11 dan UC14. Registrasi (UC12) dan login (UC13) tersedia bagi semua pengguna. Relasi *extend* pada diagram melengkapi pasangan UC07 dan UC03, UC02 dan UC10, serta UC12 dan UC14, sesuai SKPL.
+
+Untuk laporan gangguan, Warga mengirim laporan (UC03) dan menelusuri statusnya (UC04). Teknisi yang ditugaskan pada laporan itu memperbarui statusnya (UC07), dan setiap perubahan tercatat pada riwayat yang dapat dibaca Warga.
+
+<p align="center">
+<img alt="Use Case Diagram Fajar Tech" src="./assets/use-case-diagram.png" width="60%">
+</p>
+<p align="center">
+<i>Gambar 2.2. Use Case Diagram Fajar Tech</i>
 </p>
 
 <br>
