@@ -253,9 +253,27 @@ Tabel 3.3. Implementasi Antarmuka
 
 | No | ID Antarmuka | Nama Antarmuka | Nama File Fisik | Nama File Executable |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | *[I-01]* | *[Nama layar]* | *[path/ke/file]* | *[Nama file executable, atau - jika tidak ada]* |
-| 2 | *[I-02]* | *[Nama layar]* | *[path/ke/file]* | *[...]* |
-| ... | *...* | *...* | *...* | *...* |
+| 1 | I-01 | Login | `src/modules/akun/ui/loginView.tsx`, `src/app/login/page.tsx` | - |
+| 2 | I-02 | Registrasi akun | `src/modules/akun/ui/registrasiView.tsx`, `src/app/registrasi/page.tsx` | - |
+| 3 | I-03 | Dashboard warga | `src/components/layar/LayarI03.tsx`, `src/modules/monitoring/ui/RingkasanPasokan.tsx`, `src/app/dashboard/warga/page.tsx` | - |
+| 4 | I-04 | Tagihan iuran final | `src/components/layar/LayarI04.tsx`, `src/modules/iuran/ui/TagihanWarga.tsx`, `src/app/dashboard/warga/tagihan/page.tsx` | - |
+| 5 | I-05 | Buat laporan gangguan | `src/components/layar/LayarI05.tsx`, `src/modules/laporan/ui/FormLaporan.tsx`, `src/app/dashboard/warga/laporan/baru/page.tsx` | - |
+| 6 | I-06 | Daftar laporan saya | `src/components/layar/LayarI06.tsx`, `src/modules/laporan/ui/DaftarLaporan.tsx`, `src/app/dashboard/warga/laporan/page.tsx` | - |
+| 7 | I-07 | Detail dan riwayat laporan | `src/components/layar/LayarI07.tsx`, `src/modules/laporan/ui/RiwayatStatus.tsx`, `src/app/dashboard/warga/laporan/[id]/page.tsx` | - |
+| 8 | I-08 | Peringatan perangkat | `src/components/layar/LayarI08.tsx`, `src/modules/monitoring/ui/DaftarPeringatan.tsx`, `src/app/dashboard/teknisi/page.tsx` | - |
+| 9 | I-09 | Histori panel surya | `src/components/layar/LayarI09.tsx`, `src/modules/monitoring/ui/HistoriPanel.tsx`, `src/app/dashboard/teknisi/panel/page.tsx` | - |
+| 10 | I-10 | Daftar tugas teknisi | `src/components/layar/LayarI10.tsx`, `src/modules/laporan/ui/DaftarLaporan.tsx`, `src/app/dashboard/teknisi/tugas/page.tsx` | - |
+| 11 | I-11 | Detail dan status tugas teknisi | `src/components/layar/LayarI11.tsx`, `src/modules/laporan/ui/UbahStatus.tsx`, `src/app/dashboard/teknisi/tugas/[id]/page.tsx` | - |
+| 12 | I-12 | Form pemeliharaan | `src/components/layar/LayarI12.tsx`, `src/components/layar/FormPemeliharaan.tsx`, `src/app/dashboard/teknisi/pemeliharaan/page.tsx` | - |
+| 13 | I-13 | Analitik komunal | `src/components/layar/LayarI13.tsx`, `src/modules/iuran/ui/AnalitikKomunal.tsx`, `src/app/dashboard/pengurus/page.tsx` | - |
+| 14 | I-14 | Kalkulasi dan finalisasi iuran | `src/components/layar/LayarI14.tsx`, `src/modules/iuran/ui/KalkulasiIuran.tsx`, `src/app/dashboard/pengurus/iuran/page.tsx` | - |
+| 15 | I-15 | Rekapitulasi iuran | `src/components/layar/LayarI15.tsx`, `src/modules/iuran/ui/RekapIuran.tsx`, `src/app/dashboard/pengurus/rekap/page.tsx` | - |
+| 16 | I-16 | Persetujuan akun | `src/modules/akun/ui/persetujuanView.tsx`, `src/app/dashboard/pengurus/persetujuan/page.tsx` | - |
+
+Catatan:
+- I-00 (landing page publik) belum diimplementasikan. Rute `/` langsung mengalihkan tamu ke `/login` (`src/app/page.tsx`).
+- I-10-M, I-11-M, dan I-12-M (versi ponsel) memakai berkas yang sama dengan I-10, I-11, dan I-12. Tampilannya menyesuaikan lewat media query pada `src/app/globals.css` untuk lebar di bawah 800 px.
+- `src/components/layar/LayarI16.tsx` masih berisi kerangka kosong dan tidak dipakai. Layar I-16 diwujudkan oleh `persetujuanView.tsx`.
 
 ## 3.4 File Lain
 
