@@ -302,11 +302,11 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 
 | ID Kelas | Nama Kelas | Tingkat | Alasan | Test Case Terkait |
 | :--- | :--- | :--- | :--- | :--- |
-| C01 | Akun | Mendalam | Kelas abstrak yang memuat logika kredensial `cocokKredensial()` (Algo-001), aturan status `sudahDisetujui()` dan `ubahStatus()`, pembuatan objek peran `buatAkun()` (Algo-002), serta kontrak `dashboardTujuan()` dan `konteksSesi()` | `C01-UT01` s.d. `C01-UT07` |
-| C02 | Warga | Mendalam | Memuat aturan keanggotaan komunitas `validasiKeanggotaan()` (Algo-003), pengambilan ID warga, dan pembentukan sesi warga | `C02-UT01` s.d. `C02-UT06` |
-| C03 | Teknisi | Sedang | Hanya mengoordinasikan profil teknisi dan tujuan dashboard; tidak memuat logika bisnis mandiri | `C03-UT01` s.d. `C03-UT03` |
-| C04 | Pengurus | Mendalam | Memuat verifikasi kewenangan pengurus `verifikasiKewenangan()` (Algo-006) dan pembentukan sesi pengurus | `C04-UT01` s.d. `C04-UT04` |
-| C05 | CalonPengguna | Sedang | Mengoordinasikan pembentukan data akun calon berstatus MENUNGGU (Algo-008) dan mendelegasikan hash kata sandi | `C05-UT01` s.d. `C05-UT02` |
+| C01 | Akun | Mendalam | Kelas abstrak yang memuat logika kredensial `cocokKredensial()` (Algo-001), aturan status `sudahDisetujui()` dan `ubahStatus()`, pembuatan objek peran `buatAkun()` (Algo-002), serta kontrak `dashboardTujuan()` dan `konteksSesi()` | `C01-UT01` s.d. `C01-UT03` |
+| C02 | Warga | Mendalam | Memuat aturan keanggotaan komunitas `validasiKeanggotaan()` (Algo-003), pengambilan ID warga, dan pembentukan sesi warga | `C02-UT01` s.d. `C02-UT03` |
+| C03 | Teknisi | Sedang | Hanya mengoordinasikan profil teknisi dan tujuan dashboard; tidak memuat logika bisnis mandiri | `C03-UT01` s.d. `C03-UT02` |
+| C04 | Pengurus | Mendalam | Memuat verifikasi kewenangan pengurus `verifikasiKewenangan()` (Algo-006) dan pembentukan sesi pengurus | `C04-UT01` s.d. `C04-UT02` |
+| C05 | CalonPengguna | Sedang | Mengoordinasikan pembentukan data akun calon berstatus MENUNGGU (Algo-008) dan mendelegasikan hash kata sandi | `C05-UT01` |
 | C06 | StatusAkun | Tidak perlu | Enumerasi status tanpa logika; diverifikasi tidak langsung melalui `UC12–UC14` | - |
 | C07 | Perangkat | Tidak perlu | Kelas abstrak tanpa implementasi mandiri; diwakili model `prisma.perangkat` pada boundary | - |
 | C08 | TangkiAir | Mendalam | Memuat logika bisnis klasifikasi status air `statusAir()` (Algo-009) dengan ambang kritis dan rendah | `C08-UT01` s.d. `C08-UT05` |
@@ -335,10 +335,10 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 | - | DataLaporanBoundary | Sedang | Repositori Prisma dengan query terparameter dan transaksi `FOR UPDATE` untuk status dan riwayat; diuji pada basis data nyata | `INT-TCxx` (koordinasi dengan Rafiandhi) |
 | *...* | *...* | *...* | *...* | *...* |
 | - | AuthView | Tidak perlu | Komponen presentasi (boundary); perilakunya diuji melalui use case UC12–UC13 dan tangkapan layar I-01/I-02 | - |
-| - | AkunController | Mendalam | Mengoordinasikan validasi, registrasi (Algo-029), login (Algo-030), dan persetujuan dengan pemeriksaan kewenangan Pengurus (Algo-006) | `AKC-UT01` s.d. `AKC-UT29` |
-| - | ModulAkun | Mendalam | Fasad modul akun: registrasi calon, autentikasi (Algo-032) dengan penyamaan waktu respons, daftar dan persetujuan akun, serta pengambilan warga terkini | `MA-UT01` s.d. `MA-UT08` |
+| - | AkunController | Mendalam | Mengoordinasikan validasi, registrasi (Algo-029), login (Algo-030), dan persetujuan dengan pemeriksaan kewenangan Pengurus (Algo-006) | `AKC-UT01` s.d. `AKC-UT20` |
+| - | ModulAkun | Mendalam | Fasad modul akun: registrasi calon, autentikasi (Algo-032) dengan penyamaan waktu respons, daftar dan persetujuan akun, serta pengambilan warga terkini | `MA-UT01` s.d. `MA-UT05` |
 | - | DataAkunBoundary | Tidak perlu | Repositori Prisma tanpa logika bisnis; diuji pada level integrasi basis data (Subbab 4.3) | - |
-| - | Validasi | Mendalam | Memuat seluruh aturan validasi registrasi (Algo-031): format email, panjang kata sandi, kolom wajib, dan pesan per kolom | `VAL-UT01` s.d. `VAL-UT07` |
+| - | Validasi | Mendalam | Memuat seluruh aturan validasi registrasi (Algo-031): format email, panjang kata sandi, kolom wajib, dan pesan per kolom | `VAL-UT01` s.d. `VAL-UT04` |
 | - | Database | Tidak perlu | Skema dan koneksi basis data; tidak berisi logika kelas dan diverifikasi melalui pengujian integrasi | - |
 
 ## 4.2 Pengujian Unit Kelas
@@ -352,6 +352,8 @@ Lokasi file test: `src/tests/iuran/iuran.test.ts`
 Cara menjalankan unit test modul monitoring dan notifikasi: `npx jest tests/monitoring --coverage` (dijalankan di dalam folder `src/`).
 
 Lokasi file test: `src/tests/monitoring/` (`tangki.test.ts`, `baterai.test.ts`, `rentangWaktu.test.ts`, `notifikasi.test.ts`, `monitoring.test.ts`, `controller.test.ts`).
+
+Cara menjalankan unit test modul akun: `npx jest tests/akun --verbose --coverage --collectCoverageFrom='modules/akun/entity.ts' --collectCoverageFrom='modules/akun/controller.ts' --collectCoverageFrom='modules/akun/modul.ts' --collectCoverageFrom='modules/akun/validasi.ts'`
 
 ### 4.2.1 Kelas KalkulatorIuran / ModulIuran
 
@@ -794,9 +796,9 @@ Tabel 4.2.31. Hasil Pengujian Unit Kelas C01 (`Akun`)
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| C01-UT01 | `cocokKredensial(email, password)` | Normal / Negatif | Akun Warga `DISETUJUI` ber-hash `rahasia123`: panggil dengan email dan kata sandi benar, lalu email lain, lalu kata sandi salah. | `true` untuk kredensial benar; `false` pada dua percobaan lainnya. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C01-UT02 | `buatAkun(peran, dasar, profil)` | Normal | Panggil dengan peran `'Warga'` (huruf besar-kecil tidak berpengaruh). | Mengembalikan instance `Warga`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C01-UT03 | `buatAkun(peran, dasar, profil)` | Negatif | Panggil dengan peran `'ADMIN'`. | Melempar `PeranTidakValid`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| C01-UT01 | `cocokKredensial(email, password)` | Normal / Negatif | Akun Warga `DISETUJUI` ber-hash `rahasia123`: panggil dengan email dan kata sandi benar, lalu email lain, lalu kata sandi salah. | `true` untuk kredensial benar; `false` pada dua percobaan lainnya. | ✓ cocokKredensial menolak email berbeda walau kata sandi benar (Algo-001) | Pass |
+| C01-UT02 | `buatAkun(peran, dasar, profil)` | Normal | Panggil dengan peran `'Warga'` (huruf besar-kecil tidak berpengaruh). | Mengembalikan instance `Warga`. | ✓ buatAkun menerima peran tanpa memandang huruf besar-kecil | Pass |
+| C01-UT03 | `buatAkun(peran, dasar, profil)` | Negatif | Panggil dengan peran `'ADMIN'`. | Melempar `PeranTidakValid`. | ✓ buatAkun menolak peran yang tidak dikenal (Algo-002) | Pass |
 
 Tabel 4.2.32. Ringkasan Cakupan Kelas C01 (`Akun`)
 
@@ -805,7 +807,7 @@ Tabel 4.2.32. Ringkasan Cakupan Kelas C01 (`Akun`)
 | Daftar operasi public pada DPPL | `cocokKredensial()`, `sudahDisetujui()`, `ubahStatus()`, `buatAkun()`, `dashboardTujuan()` (abstrak), `konteksSesi()` (abstrak) |
 | Operasi yang diuji | `cocokKredensial()`, `buatAkun()` diuji langsung; `sudahDisetujui()`, `konteksSesi()`, dan `dashboardTujuan()` teruji tidak langsung lewat `AkunController.login` (AKC-UT06 dan AKC-UT09) |
 | ID Algoritma yang tercakup | Algo-001, Algo-002 |
-| Coverage (wajib ≥ 70%) | `[isi % Stmts / % Branch dari perintah pada awal Subbab 4.2; bukti pada Subbab 4.6]` |
+| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
 
 ### 4.2.18 Kelas Warga
 
@@ -817,9 +819,9 @@ Tabel 4.2.33. Hasil Pengujian Unit Kelas C02 (`Warga`)
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| C02-UT01 | `validasiKeanggotaan(idKomunitas)` | Normal / Negatif | Panggil `'K1'` pada warga terdaftar di `'K1'`, lalu `'K2'`. | `true` untuk komunitas sendiri; `false` untuk komunitas lain. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C02-UT02 | `validasiKeanggotaan(idKomunitas)` | Batas / Negatif | Panggil pada warga `statusTerdaftar: false`, lalu pada warga tanpa profil (`null`). | `false` pada kedua kasus. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C02-UT03 | `dashboardTujuan()`, `konteksSesi()` | Normal | Login Warga `DISETUJUI` dengan profil `{ idWarga: 7, idKomunitas: 'K1', statusTerdaftar: true }` (dijalankan lewat `AkunController.login`). | Tujuan `/dashboard/warga`; sesi berperan `WARGA` dengan `idWarga = 7` dan `idKomunitas = 'K1'`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| C02-UT01 | `validasiKeanggotaan(idKomunitas)` | Normal / Negatif | Panggil `'K1'` pada warga terdaftar di `'K1'`, lalu `'K2'`. | `true` untuk komunitas sendiri; `false` untuk komunitas lain. | ✓ validasiKeanggotaan hanya benar untuk warga terdaftar di komunitas yang sama (Algo-003) | Pass |
+| C02-UT02 | `validasiKeanggotaan(idKomunitas)` | Batas / Negatif | Panggil pada warga `statusTerdaftar: false`, lalu pada warga tanpa profil (`null`). | `false` pada kedua kasus. | ✓ validasiKeanggotaan hanya benar untuk warga terdaftar di komunitas yang sama (Algo-003) — bagian `statusTerdaftar: false` dan profil `null` | Pass |
+| C02-UT03 | `dashboardTujuan()`, `konteksSesi()` | Normal | Login Warga `DISETUJUI` dengan profil `{ idWarga: 7, idKomunitas: 'K1', statusTerdaftar: true }` (dijalankan lewat `AkunController.login`). | Tujuan `/dashboard/warga`; sesi berperan `WARGA` dengan `idWarga = 7` dan `idKomunitas = 'K1'`. | ✓ warga DISETUJUI masuk ke dasbor warga dengan sesi yang benar | Pass |
 
 Tabel 4.2.34. Ringkasan Cakupan Kelas C02 (`Warga`)
 
@@ -828,7 +830,7 @@ Tabel 4.2.34. Ringkasan Cakupan Kelas C02 (`Warga`)
 | Daftar operasi public pada DPPL | `getIdWarga()`, `validasiKeanggotaan()`, `dashboardTujuan()`, `konteksSesi()` |
 | Operasi yang diuji | `validasiKeanggotaan()` diuji langsung; `dashboardTujuan()`, `konteksSesi()`, dan `getIdWarga()` teruji tidak langsung lewat `AkunController.login` (AKC-UT06) |
 | ID Algoritma yang tercakup | Algo-003 |
-| Coverage (wajib ≥ 70%) | `[isi % Stmts / % Branch dari perintah pada awal Subbab 4.2; bukti pada Subbab 4.6]` |
+| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
 
 ### 4.2.19 Kelas Teknisi
 
@@ -840,8 +842,8 @@ Tabel 4.2.35. Hasil Pengujian Unit Kelas C03 (`Teknisi`)
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| C03-UT01 | `dashboardTujuan()`, `konteksSesi()` | Normal | Login Teknisi `DISETUJUI` dengan profil `{ idTeknisi: 'T1', kontak: '08' }` lewat `AkunController.login`. | Tujuan `/dashboard/teknisi` dan sesi dibuat. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C03-UT02 | `getIdTeknisi()` | Negatif | Login Teknisi `DISETUJUI` tanpa profil peran lewat `AkunController.login`. | Login gagal dengan `kode: 'AKUN_TIDAK_LENGKAP'`; tidak ada sesi dibuat. | *[Isi hasil aktual]* | *Pass/Fail* |
+| C03-UT01 | `dashboardTujuan()`, `konteksSesi()` | Normal | Login Teknisi `DISETUJUI` dengan profil `{ idTeknisi: 'T1', kontak: '08' }` lewat `AkunController.login`. | Tujuan `/dashboard/teknisi` dan sesi dibuat. | ✓ teknisi dan pengurus diarahkan ke dasbor masing-masing | Pass |
+| C03-UT02 | `getIdTeknisi()` | Negatif | Login Teknisi `DISETUJUI` tanpa profil peran lewat `AkunController.login`. | Login gagal dengan `kode: 'AKUN_TIDAK_LENGKAP'`; tidak ada sesi dibuat. | ✓ akun DISETUJUI tanpa profil peran tidak membuat sesi | Pass |
 
 Tabel 4.2.36. Ringkasan Cakupan Kelas C03 (`Teknisi`)
 
@@ -850,7 +852,7 @@ Tabel 4.2.36. Ringkasan Cakupan Kelas C03 (`Teknisi`)
 | Daftar operasi public pada DPPL | `getIdTeknisi()`, `dashboardTujuan()` |
 | Operasi yang diuji | Keduanya teruji tidak langsung lewat `AkunController.login` (AKC-UT06 dan AKC-UT11) |
 | ID Algoritma yang tercakup | - |
-| Coverage (wajib ≥ 70%) | `[isi % Stmts / % Branch dari perintah pada awal Subbab 4.2; bukti pada Subbab 4.6]` |
+| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
 
 ### 4.2.20 Kelas Pengurus
 
@@ -862,8 +864,8 @@ Tabel 4.2.37. Hasil Pengujian Unit Kelas C04 (`Pengurus`)
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| C04-UT01 | `verifikasiKewenangan()`, `dashboardTujuan()` | Normal | Panggil `verifikasiKewenangan()` pada Pengurus `DISETUJUI`, lalu login lewat `AkunController.login` dengan profil `{ idPengurus: 'P1' }`. | Kewenangan `true`; tujuan `/dashboard/pengurus`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| C04-UT02 | `verifikasiKewenangan()` | Negatif | Panggil pada Pengurus berstatus `MENUNGGU`. | Mengembalikan `false`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| C04-UT01 | `verifikasiKewenangan()`, `dashboardTujuan()` | Normal | Panggil `verifikasiKewenangan()` pada Pengurus `DISETUJUI`, lalu login lewat `AkunController.login` dengan profil `{ idPengurus: 'P1' }`. | Kewenangan `true`; tujuan `/dashboard/pengurus`. | ✓ verifikasiKewenangan hanya benar untuk pengurus DISETUJUI (Algo-006); ✓ teknisi dan pengurus diarahkan ke dasbor masing-masing | Pass |
+| C04-UT02 | `verifikasiKewenangan()` | Negatif | Panggil pada Pengurus berstatus `MENUNGGU`. | Mengembalikan `false`. | ✓ verifikasiKewenangan hanya benar untuk pengurus DISETUJUI (Algo-006) | Pass |
 
 Tabel 4.2.38. Ringkasan Cakupan Kelas C04 (`Pengurus`)
 
@@ -872,7 +874,7 @@ Tabel 4.2.38. Ringkasan Cakupan Kelas C04 (`Pengurus`)
 | Daftar operasi public pada DPPL | `getIdPengurus()`, `verifikasiKewenangan()`, `dashboardTujuan()`, `konteksSesi()` |
 | Operasi yang diuji | `verifikasiKewenangan()` diuji langsung; `dashboardTujuan()` dan `konteksSesi()` teruji tidak langsung lewat `AkunController.login` (AKC-UT06) |
 | ID Algoritma yang tercakup | Algo-006 |
-| Coverage (wajib ≥ 70%) | `[isi % Stmts / % Branch dari perintah pada awal Subbab 4.2; bukti pada Subbab 4.6]` |
+| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
 
 ### 4.2.21 Kelas CalonPengguna
 
@@ -884,7 +886,7 @@ Tabel 4.2.39. Hasil Pengujian Unit Kelas C05 (`CalonPengguna`)
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| C05-UT01 | `daftarkan()` | Normal | Daftarkan `'  Nadia Putri '` / `' Nadia@Example.TEST '` / `'rahasia123'` / `'Warga'` lewat `AkunController.daftarkan`. | Akun tersimpan `MENUNGGU` dengan peran `WARGA`, nama ter-trim, email huruf kecil; `password` bukan teks asli dan berawalan `scrypt$`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| C05-UT01 | `daftarkan()` | Normal | Daftarkan `'  Nadia Putri '` / `' Nadia@Example.TEST '` / `'rahasia123'` / `'Warga'` lewat `AkunController.daftarkan`. | Akun tersimpan `MENUNGGU` dengan peran `WARGA`, nama ter-trim, email huruf kecil; `password` bukan teks asli dan berawalan `scrypt$`. | ✓ menyimpan akun MENUNGGU dengan kata sandi ter-hash dan email dinormalisasi | Pass |
 
 Tabel 4.2.40. Ringkasan Cakupan Kelas C05 (`CalonPengguna`)
 
@@ -893,7 +895,7 @@ Tabel 4.2.40. Ringkasan Cakupan Kelas C05 (`CalonPengguna`)
 | Daftar operasi public pada DPPL | `daftarkan()` |
 | Operasi yang diuji | `daftarkan()` teruji tidak langsung lewat `AkunController.daftarkan` (AKC-UT01) beserta pemeriksaan hash `scrypt$` |
 | ID Algoritma yang tercakup | Algo-008 |
-| Coverage (wajib ≥ 70%) | `[isi % Stmts / % Branch dari perintah pada awal Subbab 4.2; bukti pada Subbab 4.6]` |
+| Coverage (wajib ≥ 70%) | ``80.3% Stmts / 66.66% Branch` pada `modules/akun/entity.ts` (Jest `--coverage`; bukti pada Subbab 4.6)` |
 
 ### 4.2.22 Kelas AkunController
 
@@ -905,26 +907,84 @@ Tabel 4.2.41. Hasil Pengujian Unit Kelas `AkunController`
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| AKC-UT01 | `daftarkan(nama, email, password, peran)` | Normal | Panggil dengan `('Nadia', 'nadia@example.test', 'rahasia123', 'WARGA')`, lalu dengan `'  Nadia Putri '`, `' Nadia@Example.TEST '`, peran `'Warga'`. | `{ berhasil: true, email: 'nadia@example.test' }`; nama ter-trim, email huruf kecil, peran `WARGA`, status `MENUNGGU`, hash `scrypt$`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT02 | `daftarkan(nama, email, password, peran)` | Negatif | Gunakan email yang sudah ada pada boundary. | `kode: 'EMAIL_TERDAFTAR'` dengan `galat.email` terisi; tidak ada penyimpanan. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT03 | `daftarkan(nama, email, password, peran)` | Negatif | Boundary melempar `EmailSudahTerdaftar` saat menyimpan (kondisi balapan). | `kode: 'EMAIL_TERDAFTAR'`; tidak ada akun tersimpan. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT04 | `daftarkan(nama, email, password, peran)` | Negatif | Boundary melempar `Error('db mati')`. | Promise ditolak dengan pesan `db mati`; tidak dilaporkan berhasil. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT05 | `daftarkan(nama, email, password, peran)` | Negatif | Gunakan peran `'ADMIN'`; kosongkan nama, email, dan kata sandi; masukan bukan string (`undefined`, `123`, `null`, `{}`). | `DATA_TIDAK_VALID` dengan kolom galat terisi; masukan bukan string mengembalikan `berhasil: false` tanpa lemparan; tidak ada penyimpanan. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT06 | `login(email, password)` | Normal | Login Warga, Teknisi, dan Pengurus `DISETUJUI` dengan kata sandi benar. | Tujuan `/dashboard/warga`, `/dashboard/teknisi`, `/dashboard/pengurus`; sesi warga memuat `idWarga` dan `idKomunitas`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT07 | `login(email, password)` | Normal | Login dengan email `'  W@B.ID '`. | Berhasil karena email dinormalisasi menjadi huruf kecil dan di-trim. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT08 | `login(email, password)` | Negatif | Kata sandi salah pada akun `DISETUJUI` dan `MENUNGGU`, lalu email tidak terdaftar. | Hasil identik: `kode: 'KREDENSIAL_SALAH'`, pesan `Email atau password salah`; status akun tidak bocor. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT09 | `login(email, password)` | Negatif | Akun `MENUNGGU` dengan kata sandi benar. | `kode: 'MENUNGGU_PERSETUJUAN'` dengan pesan status menunggu. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT10 | `login(email, password)` | Negatif | Akun `DITOLAK` dengan kata sandi benar. | `kode: 'DITOLAK'` dengan pesan tidak memperoleh persetujuan. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT11 | `login(email, password)` | Negatif | Akun `DISETUJUI` tanpa profil peran. | `kode: 'AKUN_TIDAK_LENGKAP'`; tidak ada sesi dibuat. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT12 | `login(email, password)` | Batas / Negatif | Email kosong, password bukan string, dan password sepanjang 500 karakter. | Semua `KREDENSIAL_SALAH`; `ambilAkun` pada boundary tidak dipanggil. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT13 | `login(email, password)` | Normal (keamanan) | Login Warga berhasil, lalu periksa seluruh isi `hasil.sesi`. | Sesi tidak memuat field `password` maupun string `scrypt`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT14 | `ambilAkunMenunggu(sesi)` | Normal / Batas | Sesi Pengurus; boundary berisi dua akun `MENUNGGU` dan dua status lain, lalu boundary tanpa akun `MENUNGGU`. | Hanya dua akun `MENUNGGU`; array kosong bila tidak ada pengajuan. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT15 | `ambilAkunMenunggu(sesi)` | Negatif | Sesi Warga, lalu sesi Teknisi. | Melempar `GalatAuth` status 403; boundary tidak dipanggil. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT16 | `ambilAkunMenunggu(sesi)` | Negatif | Sesi Pengurus, tetapi status akun di basis data sudah `DITOLAK`; lalu email Pengurus tidak ada lagi. | Melempar `GalatAuth` karena kewenangan diperiksa ulang dari data terkini. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT17 | `setujuiAkun(sesi, email)`, `tolakAkun(sesi, email)` | Normal | Pengurus menyetujui akun `MENUNGGU`, lalu menolak akun lain dengan email `'T@B.id '`. | `{ berhasil: true, status: 'DISETUJUI' }` lalu `{ berhasil: true, email: 't@b.id', status: 'DITOLAK' }`; akun lain tidak berubah. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT18 | `setujuiAkun`, `tolakAkun` | Batas / Negatif | Proses akun yang sama dua kali; coba ubah akun yang sudah `DISETUJUI` sejak awal. | `kode: 'SUDAH_DIPROSES'`; status tidak berubah. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT19 | `setujuiAkun(sesi, email)` | Negatif | Email tidak ada, email kosong, dan email bukan string (`42`). | Ketiganya `kode: 'TIDAK_DITEMUKAN'`. | *[Isi hasil aktual]* | *Pass/Fail* |
-| AKC-UT20 | `setujuiAkun`, `tolakAkun` | Negatif | Sesi Warga dan Teknisi; boundary melempar `Error('db mati')` saat memperbarui status. | Kewenangan ditolak dengan `GalatAuth` tanpa perubahan status; kegagalan simpan menolak promise dan status tetap `MENUNGGU`. | *[Isi hasil aktual]* | *Pass/Fail* |
+| AKC-UT01 | `daftarkan(nama, email, password, peran)` | Normal | Panggil dengan `('Nadia', 'nadia@example.test', 'rahasia123', 'WARGA')`, lalu dengan `'  Nadia Putri '`, `' Nadia@Example.TEST '`, peran `'Warga'`. | `{ berhasil: true, email: 'nadia@example.test' }`; nama ter-trim, email huruf kecil, peran `WARGA`, status `MENUNGGU`, hash `scrypt$`. | ✓ menyimpan akun MENUNGGU dengan kata sandi ter-hash dan email dinormalisasi | Pass |
+| AKC-UT02 | `daftarkan(nama, email, password, peran)` | Negatif | Gunakan email yang sudah ada pada boundary. | `kode: 'EMAIL_TERDAFTAR'` dengan `galat.email` terisi; tidak ada penyimpanan. | ✓ menolak email yang sudah terdaftar tanpa menyimpan akun baru | Pass |
+| AKC-UT03 | `daftarkan(nama, email, password, peran)` | Negatif | Boundary melempar `EmailSudahTerdaftar` saat menyimpan (kondisi balapan). | `kode: 'EMAIL_TERDAFTAR'`; tidak ada akun tersimpan. | ✓ menangani balapan: penyimpanan menolak email unik yang baru dipakai | Pass |
+| AKC-UT04 | `daftarkan(nama, email, password, peran)` | Negatif | Boundary melempar `Error('db mati')`. | Promise ditolak dengan pesan `db mati`; tidak dilaporkan berhasil. | ✓ tidak melaporkan berhasil bila penyimpanan gagal karena galat lain | Pass |
+| AKC-UT05 | `daftarkan(nama, email, password, peran)` | Negatif | Gunakan peran `'ADMIN'`; kosongkan nama, email, dan kata sandi; masukan bukan string (`undefined`, `123`, `null`, `{}`). | `DATA_TIDAK_VALID` dengan kolom galat terisi; masukan bukan string mengembalikan `berhasil: false` tanpa lemparan; tidak ada penyimpanan. | ✓ menolak peran yang tidak dikenal; ✓ menandai kolom wajib yang kosong dan tidak menyimpan; ✓ menolak body bertipe salah tanpa melempar galat | Pass |
+| AKC-UT06 | `login(email, password)` | Normal | Login Warga, Teknisi, dan Pengurus `DISETUJUI` dengan kata sandi benar. | Tujuan `/dashboard/warga`, `/dashboard/teknisi`, `/dashboard/pengurus`; sesi warga memuat `idWarga` dan `idKomunitas`. | ✓ warga DISETUJUI masuk ke dasbor warga dengan sesi yang benar; ✓ teknisi dan pengurus diarahkan ke dasbor masing-masing | Pass |
+| AKC-UT07 | `login(email, password)` | Normal | Login dengan email `'  W@B.ID '`. | Berhasil karena email dinormalisasi menjadi huruf kecil dan di-trim. | ✓ email dinormalisasi (spasi dan huruf besar) | Pass |
+| AKC-UT08 | `login(email, password)` | Negatif | Kata sandi salah pada akun `DISETUJUI` dan `MENUNGGU`, lalu email tidak terdaftar. | Hasil identik: `kode: 'KREDENSIAL_SALAH'`, pesan `Email atau password salah`; status akun tidak bocor. | ✓ kata sandi salah dan email tidak ada memberi hasil yang sama; ✓ status akun tidak bocor bila kata sandi salah | Pass |
+| AKC-UT09 | `login(email, password)` | Negatif | Akun `MENUNGGU` dengan kata sandi benar. | `kode: 'MENUNGGU_PERSETUJUAN'` dengan pesan status menunggu. | ✓ akun MENUNGGU dengan kata sandi benar diberi tahu masih menunggu | Pass |
+| AKC-UT10 | `login(email, password)` | Negatif | Akun `DITOLAK` dengan kata sandi benar. | `kode: 'DITOLAK'` dengan pesan tidak memperoleh persetujuan. | ✓ akun DITOLAK mendapat pesan tidak disetujui | Pass |
+| AKC-UT11 | `login(email, password)` | Negatif | Akun `DISETUJUI` tanpa profil peran. | `kode: 'AKUN_TIDAK_LENGKAP'`; tidak ada sesi dibuat. | ✓ akun DISETUJUI tanpa profil peran tidak membuat sesi | Pass |
+| AKC-UT12 | `login(email, password)` | Batas / Negatif | Email kosong, password bukan string, dan password sepanjang 500 karakter. | Semua `KREDENSIAL_SALAH`; `ambilAkun` pada boundary tidak dipanggil. | ✓ input kosong atau bukan string ditolak tanpa menyentuh boundary | Pass |
+| AKC-UT13 | `login(email, password)` | Normal (keamanan) | Login Warga berhasil, lalu periksa seluruh isi `hasil.sesi`. | Sesi tidak memuat field `password` maupun string `scrypt`. | ✓ sesi tidak memuat hash kata sandi | Pass |
+| AKC-UT14 | `ambilAkunMenunggu(sesi)` | Normal / Batas | Sesi Pengurus; boundary berisi dua akun `MENUNGGU` dan dua status lain, lalu boundary tanpa akun `MENUNGGU`. | Hanya dua akun `MENUNGGU`; array kosong bila tidak ada pengajuan. | ✓ Pengurus hanya melihat akun berstatus MENUNGGU; ✓ daftar kosong bila tidak ada pengajuan | Pass |
+| AKC-UT15 | `ambilAkunMenunggu(sesi)` | Negatif | Sesi Warga, lalu sesi Teknisi. | Melempar `GalatAuth` status 403; boundary tidak dipanggil. | ✓ warga dan teknisi ditolak sebelum data apa pun dibaca (A2) | Pass |
+| AKC-UT16 | `ambilAkunMenunggu(sesi)` | Negatif | Sesi Pengurus, tetapi status akun di basis data sudah `DITOLAK`; lalu email Pengurus tidak ada lagi. | Melempar `GalatAuth` karena kewenangan diperiksa ulang dari data terkini. | ✓ Pengurus yang statusnya sudah berubah di basis data tidak lagi berwenang; ✓ sesi Pengurus yang akunnya tidak ada lagi ditolak | Pass |
+| AKC-UT17 | `setujuiAkun(sesi, email)`, `tolakAkun(sesi, email)` | Normal | Pengurus menyetujui akun `MENUNGGU`, lalu menolak akun lain dengan email `'T@B.id '`. | `{ berhasil: true, status: 'DISETUJUI' }` lalu `{ berhasil: true, email: 't@b.id', status: 'DITOLAK' }`; akun lain tidak berubah. | ✓ menyetujui pengajuan: status menjadi DISETUJUI; ✓ menolak pengajuan: status menjadi DITOLAK (A1) | Pass |
+| AKC-UT18 | `setujuiAkun`, `tolakAkun` | Batas / Negatif | Proses akun yang sama dua kali; coba ubah akun yang sudah `DISETUJUI` sejak awal. | `kode: 'SUDAH_DIPROSES'`; status tidak berubah. | ✓ pengajuan yang sudah diproses tidak bisa diproses lagi dan statusnya tidak berubah; ✓ akun yang sudah DISETUJUI sejak awal tidak bisa diubah lewat persetujuan | Pass |
+| AKC-UT19 | `setujuiAkun(sesi, email)` | Negatif | Email tidak ada, email kosong, dan email bukan string (`42`). | Ketiganya `kode: 'TIDAK_DITEMUKAN'`. | ✓ email yang tidak ada atau kosong menghasilkan TIDAK_DITEMUKAN | Pass |
+| AKC-UT20 | `setujuiAkun`, `tolakAkun` | Negatif | Sesi Warga dan Teknisi; boundary melempar `Error('db mati')` saat memperbarui status. | Kewenangan ditolak dengan `GalatAuth` tanpa perubahan status; kegagalan simpan menolak promise dan status tetap `MENUNGGU`. | ✓ non-Pengurus ditolak dan tidak ada status yang berubah; ✓ kegagalan penyimpanan tidak dilaporkan berhasil | Pass |
+
+Tabel 4.2.42. Ringkasan Cakupan Kelas `AkunController`
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | Kelas controller di luar penomoran C; operasi mengikuti Algo-029, Algo-030, dan Algo-006: `daftarkan()`, `login()`, `ambilAkunMenunggu()`, `setujuiAkun()`, `tolakAkun()` |
+| Operasi yang diuji | Seluruh operasi public di atas |
+| ID Algoritma yang tercakup | Algo-006, Algo-029, Algo-030 |
+| Coverage (wajib ≥ 70%) | `98.48% Stmts / 97.43% Branch` pada `modules/akun/controller.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.23 Kelas ModulAkun
+
+**ID Kelas:** - *(kelas desain tambahan tanpa padanan Cxx)*  
+**Nama Kelas:** `ModulAkun`  
+**Tingkat:** Mendalam
+
+Tabel 4.2.43. Hasil Pengujian Unit Kelas `ModulAkun`
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| MA-UT01 | `ambilWarga(idWarga)` | Normal / Batas | Panggil dengan `idWarga = 3` yang terdaftar di `'K1'`, lalu dengan ID yang tidak ada. | Warga terkini lolos `validasiKeanggotaan('K1')` dan gagal untuk `'K2'`; `null` untuk ID yang tidak ada. | ✓ mengembalikan warga terkini beserta keanggotaannya; ✓ mengembalikan null bila warga tidak ada | Pass |
+| MA-UT02 | `cariEmail()`, `registrasiCalon()` | Normal / Negatif | Lewat `AkunController.daftarkan`: daftarkan email baru, lalu email yang sudah ada; lalu boundary melempar `EmailSudahTerdaftar`. | Email baru tersimpan `MENUNGGU` ber-hash `scrypt$`; email lama menghasilkan `EMAIL_TERDAFTAR`; galat balapan diteruskan. | ✓ menyimpan akun MENUNGGU dengan kata sandi ter-hash dan email dinormalisasi; ✓ menolak email yang sudah terdaftar tanpa menyimpan akun baru; ✓ menangani balapan: penyimpanan menolak email unik yang baru dipakai | Pass |
+| MA-UT03 | `autentikasi()` | Normal / Negatif | Lewat `AkunController.login`: kredensial benar, kata sandi salah, dan email tidak terdaftar. | Objek `Akun` pada kredensial benar; `null` tanpa lemparan pada dua kasus lain. | ✓ warga DISETUJUI masuk ke dasbor warga dengan sesi yang benar; ✓ kata sandi salah dan email tidak ada memberi hasil yang sama | Pass |
+| MA-UT04 | `daftarAkunMenunggu()` | Normal | Lewat `AkunController.ambilAkunMenunggu` dengan boundary berisi campuran status akun. | Hanya akun `MENUNGGU` yang dikembalikan. | ✓ Pengurus hanya melihat akun berstatus MENUNGGU | Pass |
+| MA-UT05 | `ubahStatusPersetujuan()` | Batas / Negatif | Lewat `setujuiAkun`/`tolakAkun`: ubah akun `MENUNGGU`, lalu akun yang sudah diproses dan email yang tidak ada. | `true` hanya untuk akun `MENUNGGU`; `false` untuk akun yang sudah diproses atau tidak ada. | ✓ menyetujui pengajuan: status menjadi DISETUJUI; ✓ pengajuan yang sudah diproses tidak bisa diproses lagi dan statusnya tidak berubah; ✓ email yang tidak ada atau kosong menghasilkan TIDAK_DITEMUKAN | Pass |
+
+Tabel 4.2.44. Ringkasan Cakupan Kelas `ModulAkun`
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `cariEmail()`, `registrasiCalon()`, `autentikasi()`, `ambilWarga()`, `daftarAkunMenunggu()`, `ubahStatusPersetujuan()` |
+| Operasi yang diuji | `ambilWarga()` diuji langsung; sisanya teruji tidak langsung lewat `AkunController` (AKC-UT01–AKC-UT20) |
+| ID Algoritma yang tercakup | Algo-001, Algo-008, Algo-032 |
+| Coverage (wajib ≥ 70%) | `100% Stmts / 83.33% Branch` pada `modules/akun/modul.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
+
+### 4.2.24 Kelas Validasi
+
+**ID Kelas:** - *(kelas desain tambahan tanpa padanan Cxx)*  
+**Nama Kelas:** `Validasi`  
+**Tingkat:** Mendalam
+
+Tabel 4.2.45. Hasil Pengujian Unit Kelas `Validasi`
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| VAL-UT01 | `validasiRegistrasi(nama, email, password, existing)` | Normal | Panggil dengan `('Nadia Putri', 'nadia@example.test', 'rahasia123', null)`. | Mengembalikan `true`. | ✓ menerima data lengkap dengan email baru | Pass |
+| VAL-UT02 | `validasiRegistrasi(...)` | Negatif | Nama kosong dan berisi spasi saja; email `'tanpa-at'`, `'a@b'`, dan string kosong. | Mengembalikan `false` pada seluruh kasus. | ✓ menolak nama kosong atau hanya spasi; ✓ menolak email tanpa format sah | Pass |
+| VAL-UT03 | `validasiRegistrasi(...)` | Batas | Kata sandi 7, 8, dan 129 karakter. | `false` untuk 7 karakter; `true` untuk 8 karakter; `false` untuk 129 karakter (melebihi batas hash). | ✓ menolak kata sandi di bawah 8 karakter, menerima tepat 8; ✓ menolak kata sandi lebih panjang dari batas hash | Pass |
+| VAL-UT04 | `validasiRegistrasi(...)` | Negatif | Email valid dengan `existing` berisi akun lain. | Mengembalikan `false`. | ✓ menolak email yang sudah terdaftar | Pass |
+
+Tabel 4.2.46. Ringkasan Cakupan Kelas `Validasi`
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | `validasiRegistrasi()`, ditambah `periksaRegistrasi()` yang memberi pesan per kolom serta memeriksa peran |
+| Operasi yang diuji | `validasiRegistrasi()` diuji langsung; `periksaRegistrasi()` teruji tidak langsung lewat `AkunController.daftarkan` (AKC-UT05) |
+| ID Algoritma yang tercakup | Algo-031 |
+| Coverage (wajib ≥ 70%) | `93.75% Stmts / 96.42% Branch` pada `modules/akun/validasi.ts` (Jest `--coverage`; bukti pada Subbab 4.6) |
 
 <br>
 
@@ -1140,8 +1200,6 @@ Tabel 4.5. Hasil Pengujian KNF
 | KNF11-TC01 | KNF11 | Response time | Pembaruan nilai input sensor pada dashboard warga (I-03) tampil dalam waktu $\le 2$ detik. | Chrome DevTools (tab Network), 5 kali pengukuran waktu respons API monitoring, ambil rata-rata dan maksimum. | *[Isi rata-rata ... ms, maks ... ms]* | *[Pass/Fail]* |
 | KNF12-TC01 | KNF12 | Response time | Kalkulasi otomatis seluruh iuran komunal selesai dalam waktu $\le 5$ detik. | Chrome DevTools (tab Network) pada proses hitung pratinjau iuran (I-14), 5 kali ukur, ambil rata-rata dan maksimum. | *[Koordinasi dengan Raffi / ukur di DevTools]* | *[Pass/Fail]* |
 | KNF13-TC01 | KNF13 | Memory | Penggunaan memori pembacaan sensor tidak melebihi batas kapasitas memori internal mikrokontroler. | Tidak diuji pada mikrokontroler fisik karena implementasi menggunakan simulator perangkat lunak (`tests/simulator/SensorAdapter.ts`); pemantauan alternatif dilakukan via `process.memoryUsage()` Node.js. | Tidak diimplementasikan pada firmware mikrokontroler fisik (menggunakan simulator TypeScript; pemakaian memori simulator tercatat *[... MB]*). Rencana perbaikan: porting `SensorAdapter` ke firmware C/C++ ESP32 pada tahap integrasi perangkat keras. | Fail *(atau catat sesuai kesepakatan asisten untuk KNF hardware)* |
-| KNF14-TC01 | KNF14 | Security | Password tersimpan sebagai hash (`scrypt`), bukan plain-text. | *[Tunggu setoran Faiz: inspeksi kolom password di tabel `akun` PostgreSQL]* | *[Tunggu hasil Faiz]* | *[Pass/Fail]* |
-| KNF15-TC01 | KNF15 | Security | Pesan galat login tidak membedakan antara email tidak terdaftar dan password salah. | *[Tunggu setoran Faiz: uji login email acak vs password salah pada I-01]* | *[Tunggu hasil Faiz]* | *[Pass/Fail]* |
 | KNF01-TC01 | KNF01 | Security | 100% akses fitur/rute tanpa kewenangan ditolak (HTTP 403 atau redirect). | Login bergantian sebagai Warga, Teknisi, dan Pengurus; akses URL dashboard peran lain serta `GET /api/akun/persetujuan` dan `GET /api/iuran/analitik`; catat status HTTP di Chrome DevTools (Network). Verifikasi juga lewat `AKC-UT15`, `AKC-UT16`, dan `AKC-UT20`. | *[Isi hasil aktual]* | *Pass/Fail* |
 | KNF02-TC01 | KNF02 | Security | Data hanya milik atau sesuai kewenangan akun sesi aktif; 0 kebocoran lintas akun. | Login sebagai `warga@fajar.test` dan `warga2@fajar.test`; bandingkan halaman tagihan dan laporan; pastikan respons API tidak memuat data akun lain dan kueri boundary memakai ID dari sesi. | *[Isi hasil aktual]* | *Pass/Fail* |
 | KNF14-TC01 | KNF14 | Security | 100% kata sandi tersimpan sebagai hash `scrypt`; 0 baris teks biasa. | `psql "$DATABASE_URL" -c "SELECT email, left(password, 7) FROM akun;"` atau Prisma Studio; pastikan setiap nilai berawalan `scrypt$` dan sesuai format `src/lib/auth/password.ts`. | *[Isi hasil aktual]* | *Pass/Fail* |
@@ -1157,8 +1215,9 @@ Tabel 4.6. Bukti Hasil Pengujian
 
 | ID Pengujian | Bukti Hasil Pengujian |
 | :--- | :--- |
-| C01–C05, `AkunController`, `ModulAkun`, `Validasi` | ![Output Jest Modul Akun](./assets/jest-akun.png) |
-| C01, C02, C04, `AkunController`, `ModulAkun`, `Validasi` (Coverage) | ![Laporan Coverage Modul Akun](./assets/coverage-akun.png) |
+| C01–C05 dan `AkunController` (login.test.ts) | ![Output Jest login.test.ts](./assets/jest-akun-login.png) |
+| `Validasi`, `ModulAkun.ambilWarga`, dan `AkunController` registrasi/persetujuan (registrasi.test.ts dan persetujuan.test.ts) | ![Output Jest registrasi.test.ts dan persetujuan.test.ts](./assets/jest-akun-registrasi-persetujuan.png) |
+| C01–C05 (`modules/akun/entity.ts`), `AkunController`, `ModulAkun`, `Validasi` (Coverage) | ![Laporan Coverage Modul Akun](./assets/coverage-akun.png) |
 | C19-UT01 – C19-UT08, C28-UT01 | ![Output Jest Modul Iuran](./assets/jest-iuran.png) |
 | C19 & C28 (coverage) | ![Laporan Coverage Modul Iuran](./assets/coverage-iuran.png) |
 | C20-UT01 – C20-UT07, C21-UT01 – C21-UT04, C22-UT01 – C22-UT03, C24-UT01 – C24-UT03, LC-UT01 – LC-UT12, ML-UT01 – ML-UT26 | ![Output Jest Modul Laporan](./assets/jest-laporan.png) |
