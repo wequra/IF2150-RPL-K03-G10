@@ -674,6 +674,8 @@ Tabel 4.6. Bukti Hasil Pengujian
 | :--- | :--- |
 | C19-UT01 – C19-UT08, C28-UT01 | ![Output Jest Modul Iuran](./assets/jest-iuran.png) |
 | C19 & C28 (coverage) | ![Laporan Coverage Modul Iuran](./assets/coverage-iuran.png) |
+| C20-UT01 – C20-UT07, C21-UT01 – C21-UT04, C22-UT01 – C22-UT03, C24-UT01 – C24-UT03, LC-UT01 – LC-UT12, ML-UT01 – ML-UT26 | ![Output Jest Modul Laporan](./assets/jest-laporan.png) |
+| C20, C21, C24, `ModulLaporan` (coverage) | ![Laporan Coverage Modul Laporan](./assets/coverage-laporan.png) |
 | UC02-TC01, UC02-TC02 | ![Screenshot Layar I-04 Tagihan Final & Belum Final](./assets/uc02-tagihan.png) |
 | UC09-TC01, UC09-TC02 | ![Screenshot Layar I-13 Analitik Pemakaian Komunal](./assets/uc09-analitik.png) |
 | UC10-TC01 – UC10-TC03 | ![Screenshot Layar I-14 Pratinjau & Finalisasi Iuran](./assets/uc10-iuran.png) |
