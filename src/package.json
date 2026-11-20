@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:integrasi": "tsx tests/integrasi/integrasi.db.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
