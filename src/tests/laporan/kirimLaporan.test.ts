@@ -18,7 +18,7 @@ describe("LaporanController.kirimLaporan (Algo-025, Algo-034)", () => {
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
 
-  it("menyimpan laporan berstatus MENUNGGU milik warga sesi", async () => {
+  it("ML-UT01 menyimpan laporan berstatus MENUNGGU milik warga sesi", async () => {
     const { repo, akun, controller } = buat(WARGA);
     const hasil = await controller.kirimLaporan({ ...FORM, deskripsi: "  Pipa bocor  " });
 
@@ -35,20 +35,20 @@ describe("LaporanController.kirimLaporan (Algo-025, Algo-034)", () => {
     });
   });
 
-  it("mengabaikan idWarga yang disusupkan di body", async () => {
+  it("LC-UT01 mengabaikan idWarga yang disusupkan di body", async () => {
     const { repo, controller } = buat(WARGA);
     await controller.kirimLaporan({ ...FORM, idWarga: 999, idKomunitas: "KOM-LAIN", status: "SELESAI" });
     expect(repo.simpanLaporan.mock.calls[0][0]).toMatchObject({ idWarga: 7, status: "MENUNGGU" });
   });
 
-  it("menerima formulir tanpa kolom fotoPendukung", async () => {
+  it("LC-UT02 menerima formulir tanpa kolom fotoPendukung", async () => {
     const { repo, controller } = buat(WARGA);
     const hasil = await controller.kirimLaporan({ jenisGangguan: "Kebocoran pipa", deskripsi: "Bocor" });
     expect(hasil.ok).toBe(true);
     expect(repo.simpanLaporan.mock.calls[0][0].fotoPendukung).toEqual([]);
   });
 
-  it("menolak formulir tidak valid tanpa memeriksa keanggotaan atau menyimpan", async () => {
+  it("LC-UT03 menolak formulir tidak valid tanpa memeriksa keanggotaan atau menyimpan", async () => {
     const { repo, akun, controller } = buat(WARGA);
     const hasil = await controller.kirimLaporan({ jenisGangguan: "", deskripsi: "", fotoPendukung: [] });
     expect(hasil).toMatchObject({ ok: false, kode: "VALIDASI_GAGAL" });
@@ -56,24 +56,24 @@ describe("LaporanController.kirimLaporan (Algo-025, Algo-034)", () => {
     expect(repo.simpanLaporan).not.toHaveBeenCalled();
   });
 
-  it("menolak non-anggota komunitas sebelum laporan dibuat (Algo-003)", async () => {
+  it("ML-UT02 menolak non-anggota komunitas sebelum laporan dibuat (Algo-003)", async () => {
     const { repo, controller } = buat(WARGA, false);
     expect(await controller.kirimLaporan(FORM)).toMatchObject({ ok: false, kode: "TIDAK_BERWENANG" });
     expect(repo.simpanLaporan).not.toHaveBeenCalled();
   });
 
-  it("menolak peran selain warga", async () => {
+  it("LC-UT04 menolak peran selain warga", async () => {
     const { repo, controller } = buat(TEKNISI);
     expect(await controller.kirimLaporan(FORM)).toMatchObject({ ok: false, kode: "TIDAK_BERWENANG" });
     expect(repo.simpanLaporan).not.toHaveBeenCalled();
   });
 
-  it("gagal simpan tidak pernah dilaporkan sebagai sukses", async () => {
+  it("ML-UT03 gagal simpan tidak pernah dilaporkan sebagai sukses", async () => {
     const { controller } = buat(WARGA, true, false);
     expect(await controller.kirimLaporan(FORM)).toMatchObject({ ok: false, kode: "GAGAL_SIMPAN" });
   });
 
-  it("galat tak terduga menjadi GAGAL_INTERNAL", async () => {
+  it("LC-UT05 galat tak terduga menjadi GAGAL_INTERNAL", async () => {
     const { akun, controller } = buat(WARGA);
     akun.validasiKeanggotaan.mockRejectedValueOnce(new Error("koneksi putus"));
     expect(await controller.kirimLaporan(FORM)).toMatchObject({ ok: false, kode: "GAGAL_INTERNAL" });
