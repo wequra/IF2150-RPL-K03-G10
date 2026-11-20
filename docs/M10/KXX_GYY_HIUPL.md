@@ -388,6 +388,30 @@ Tabel 4.4.2. Hasil Pengujian Use Case UC02
 | UC02-TC01 | KF05, KF06 | Normal | 1. Login sebagai akun Warga.<br>2. Buka menu Tagihan Iuran (Layar I-04).<br>3. Pilih periode tagihan yang telah berstatus `FINAL`. | Akun: Warga terdaftar<br>Periode: `2026-10` (status `FINAL`) | Sistem menampilkan rincian tagihan final milik warga tersebut yang mencakup periode tagihan, data pemakaian dasar (air m³ & energi kWh), serta total iuran. | Sistem menampilkan rincian tagihan final periode `2026-10` beserta pemakaian air, energi, dan total iuran sesuai harapan. | Pass |
 | UC02-TC02 | KF06 | Alternatif 1: Tagihan Belum Ditetapkan Final | 1. Login sebagai akun Warga.<br>2. Buka menu Tagihan Iuran (Layar I-04).<br>3. Pilih periode tagihan yang masih berstatus `DRAFT` / belum final. | Akun: Warga terdaftar<br>Periode: `2026-11` (status `DRAFT`) | Sistem mendeteksi tagihan belum berstatus final, tidak menampilkan nominal tagihan draft, dan menampilkan pesan bahwa tagihan final belum tersedia. | Sistem menolak menampilkan tagihan draft dan menampilkan pemberitahuan bahwa tagihan final belum tersedia. | Pass |
 
+### 4.4.3 Use Case Mengirim Laporan Gangguan
+
+**ID Use Case:** UC03  
+**Nama Use Case:** Mengirim Laporan Gangguan
+
+Tabel 4.4.3. Hasil Pengujian Use Case UC03
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| UC03-TC01 | KF07, KF08, KF09, KF10 | Normal | 1. Login sebagai akun Warga terdaftar.<br>2. Buka menu Lapor gangguan (Layar I-05).<br>3. Pilih jenis gangguan dan isi deskripsi.<br>4. Klik tombol Kirim laporan. | Akun: `warga@fajar.test` (warga terdaftar pada komunitas)<br>Jenis: `Kebocoran pipa`<br>Deskripsi: `Pipa air di dekat pos ronda bocor sejak pagi, genangan mulai meluas ke jalan.` | Sistem menampilkan formulir, memvalidasi keanggotaan pengirim, menetapkan status awal `MENUNGGU`, menyimpan laporan sebagai entri baru, dan menampilkan notifikasi bahwa laporan berhasil dikirim. | Formulir tampil dengan isian terisi. Setelah klik kirim, sistem menampilkan "Laporan berhasil dikirim" dengan nomor `LAP-702D3F0E`, jenis Kebocoran pipa, dan status awal MENUNGGU. Laporan muncul pada daftar Laporan saya (lihat UC04-TC01). | Pass |
+| UC03-TC02 | KF09 | Alternatif 1: Warga Tidak Terdaftar | 1. Login sebagai akun Warga.<br>2. Ubah keanggotaan akun itu menjadi tidak terdaftar pada basis data (`status_terdaftar = false`).<br>3. Buka Layar I-05, isi formulir, lalu klik Kirim laporan. | Akun: `warga@fajar.test` dengan keanggotaan tidak terdaftar<br>Jenis: `Kualitas air`<br>Deskripsi: `Lampu jalan di blok B mati total.` | Sistem mendeteksi pengirim bukan warga terdaftar, menolak pengiriman, dan menampilkan pesan bahwa pengguna tidak memiliki otorisasi. | Formulir menampilkan pesan "Tidak memiliki otorisasi" dan isian tetap di formulir. Tidak ada laporan baru di tabel `laporan_gangguan` (isinya tetap LAP-01, LAP-02, LAP-03, dan laporan dari UC03-TC01). Keanggotaan dikembalikan seperti semula setelah uji. | Pass |
+
+### 4.4.4 Use Case Menelusuri Status Laporan Gangguan
+
+**ID Use Case:** UC04  
+**Nama Use Case:** Menelusuri Status Laporan Gangguan
+
+Tabel 4.4.4. Hasil Pengujian Use Case UC04
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| UC04-TC01 | KF11, KF34 | Normal | 1. Login sebagai akun Warga.<br>2. Buka menu Laporan saya (Layar I-06).<br>3. Pilih laporan LAP-02 dengan tombol Lihat detail.<br>4. Amati status terkini dan riwayat perkembangan (Layar I-07). | Akun: `warga@fajar.test`<br>Laporan: `LAP-02` (status `SEDANG_DIPERBAIKI`) | Sistem menampilkan daftar laporan milik warga, status terkini laporan yang dipilih, dan riwayat perubahan status beserta waktunya. | Daftar memuat 3 laporan milik akun: LAP-702D3F0E (MENUNGGU), LAP-01 (MENUNGGU), dan LAP-02 (SEDANG_DIPERBAIKI). Detail LAP-02 menampilkan status SEDANG_DIPERBAIKI dan riwayat urut waktu naik: 27 Okt 2026 19.00 WIB Laporan diajukan (MENUNGGU), lalu 28 Okt 2026 07.00 WIB Perbaikan dimulai (SEDANG_DIPERBAIKI). | Pass |
+| UC04-TC02 | KF11, KF34 | Alternatif 1: Laporan Tidak Ditemukan | 1. Pastikan akun Warga belum memiliki laporan (pada uji ini LAP-03 dialihkan sementara ke warga lain, lalu dikembalikan).<br>2. Login sebagai akun tersebut.<br>3. Buka menu Laporan saya (Layar I-06). | Akun: `warga2@fajar.test` tanpa laporan | Sistem tidak menghasilkan galat dan menampilkan informasi bahwa belum ada laporan gangguan yang dapat ditampilkan. | Layar menampilkan "Laporan milik Anda · 0 laporan" dan pesan "Belum ada laporan. Laporan gangguan Anda akan muncul di sini setelah tersimpan." | Pass |
+
 ### 4.4.5 Use Case Menerima Peringatan Dini Daya Kritis
 
 **ID Use Case:** UC05  
@@ -411,6 +435,19 @@ Tabel 4.4.6. Hasil Pengujian Use Case UC06
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | UC06-TC01 | KF15, KF16 | Normal | 1. Login sebagai Teknisi.<br>2. Buka halaman Histori Panel Surya (I-09).<br>3. Pilih rentang waktu valid (`waktuMulai <= waktuSelesai`) yang memiliki data historis, lalu klik "Tampilkan". | Akun Teknisi; `idPanel: "PANEL-01"`, rentang waktu valid yang berisi data historis di basis data. | Sistem memvalidasi rentang waktu, mengambil data historis dari basis data, dan menampilkan grafik serta tren daya keluaran panel surya (W) sesuai rentang yang dipilih. | *[Isi hasil aktual tampilan grafik/tabel riwayat panel pada layar I-09.]* | Pass |
 | UC06-TC02 | KF15, KF16 | Alternatif 1: Data Historis Belum Tersedia | 1. Pada halaman Histori Panel Surya (I-09), pilih rentang waktu valid yang belum memiliki rekaman data historis (mis. tanggal jauh di masa lalu/depan).<br>2. Klik "Tampilkan". | Akun Teknisi; rentang waktu valid tanpa data pada tabel `DataHistorisKinerja`. | Sistem tidak menghasilkan galat; sistem menampilkan area grafik kosong disertai pesan informasi bahwa data historis belum tersedia pada rentang waktu tersebut. | *[Isi hasil aktual tampilan pesan data historis belum tersedia pada layar I-09.]* | Pass |
+
+### 4.4.7 Use Case Memperbarui Status Penanganan Gangguan
+
+**ID Use Case:** UC07  
+**Nama Use Case:** Memperbarui Status Penanganan Gangguan
+
+Tabel 4.4.7. Hasil Pengujian Use Case UC07
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| UC07-TC01 | KF12, KF17, KF18, KF19, KF35 | Normal | 1. Login sebagai Teknisi yang ditugaskan.<br>2. Buka menu Tugas saya (Layar I-10).<br>3. Buka tugas LAP-01 (Layar I-11).<br>4. Klik tombol Mulai perbaikan. | Akun: `teknisi@fajar.test` (TEK-01)<br>Laporan: `LAP-01` berstatus `MENUNGGU`, ditugaskan ke TEK-01 | Sistem menampilkan laporan yang ditugaskan, memverifikasi penugasan, memvalidasi tahapan status, lalu menyimpan status baru `SEDANG_DIPERBAIKI` beserta riwayat dan waktu perubahannya. | Daftar memuat 2 tugas (LAP-02 dan LAP-01). Detail LAP-01 awalnya MENUNGGU dengan satu tombol Mulai perbaikan. Setelah klik, status menjadi SEDANG_DIPERBAIKI, tombol berganti menjadi Selesaikan perbaikan, dan riwayat bertambah "Perbaikan dimulai" pada 20 Nov 2026 17.24 WIB. Tabel `riwayat_status_laporan` memuat satu baris baru untuk LAP-01. | Pass |
+| UC07-TC02 | KF18 | Alternatif 1: Teknisi Tidak Berwenang | 1. Login sebagai Teknisi.<br>2. Buka laporan yang tidak ditugaskan kepadanya, yaitu LAP-03 (Layar I-11).<br>3. Kirim permintaan ubah status ke `PATCH /api/laporan/tugas/LAP-03/status`. | Akun: `teknisi@fajar.test` (TEK-01)<br>Laporan: `LAP-03` (tidak ditugaskan)<br>Body: `{"status":"SEDANG_DIPERBAIKI"}` | Sistem memverifikasi penugasan, menolak perubahan, dan menampilkan pesan bahwa teknisi tidak berwenang atas laporan tersebut. | Halaman menampilkan "Teknisi tidak berwenang atas laporan ini" tanpa data laporan. Permintaan PATCH dijawab HTTP 403 dengan kode `TIDAK_BERWENANG` dan pesan "Teknisi tidak berwenang". Status LAP-03 tetap MENUNGGU. | Pass |
+| UC07-TC03 | KF12, KF19 | Alternatif 2: Perubahan Status Tidak Valid | 1. Login sebagai Teknisi yang ditugaskan.<br>2. Buka LAP-01 yang berstatus `MENUNGGU` (Layar I-11).<br>3. Kirim permintaan ubah status langsung ke `SELESAI` (melompat) lewat `PATCH /api/laporan/tugas/LAP-01/status`. | Akun: `teknisi@fajar.test` (TEK-01)<br>Laporan: `LAP-01` berstatus `MENUNGGU`<br>Body: `{"status":"SELESAI"}` | Sistem memeriksa urutan status, menolak perubahan, dan menampilkan status yang dapat dipilih sesuai kondisi laporan saat ini. | Permintaan dijawab HTTP 400 dengan kode `VALIDASI_GAGAL`, pesan "Transisi status tidak valid", dan `opsi.statusBerikutnya = ["SEDANG_DIPERBAIKI"]`. Status LAP-01 tetap MENUNGGU. Layar I-11 hanya menawarkan satu tombol sah, yaitu Mulai perbaikan, sehingga status yang melompat hanya dapat dikirim lewat permintaan langsung seperti pada uji ini. | Pass |
 
 ### 4.4.9 Use Case Menganalisis Pemakaian Komunal
 
