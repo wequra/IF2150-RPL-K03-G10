@@ -13,7 +13,7 @@ const DATA: DataLaporan = {
 };
 
 describe("transisi status (Algo-017)", () => {
-  it("hanya mengizinkan satu langkah maju", () => {
+  it("C21-UT01 hanya mengizinkan satu langkah maju", () => {
     expect(statusBerikutnya("MENUNGGU")).toEqual(["SEDANG_DIPERBAIKI"]);
     expect(statusBerikutnya("SEDANG_DIPERBAIKI")).toEqual(["SELESAI"]);
     expect(statusBerikutnya("SELESAI")).toEqual([]);
@@ -27,18 +27,18 @@ describe("transisi status (Algo-017)", () => {
     ["SELESAI", "SEDANG_DIPERBAIKI", false], // mundur dari status akhir
     ["MENUNGGU", "MENUNGGU", false], // sama
     ["SELESAI", "SELESAI", false],
-  ] as const)("%s ke %s: %s", (dari, ke, sah) => {
+  ] as const)("C20-UT03 %s ke %s: %s", (dari, ke, sah) => {
     expect(LaporanGangguan.dariData({ ...DATA, status: dari }).validasiTransisi(ke)).toBe(sah);
   });
 
-  it("menolak nilai di luar enumerasi", () => {
+  it("C21-UT02 menolak nilai di luar enumerasi", () => {
     const laporan = LaporanGangguan.dariData(DATA);
     for (const nilai of ["DITOLAK", "", null, undefined, 1]) expect(laporan.validasiTransisi(nilai)).toBe(false);
     expect(adalahStatus("SELESAI")).toBe(true);
     expect(adalahStatus("selesai")).toBe(false);
   });
 
-  it("ubahStatus yang tidak sah melempar galat dan tidak mengubah objek", () => {
+  it("C20-UT05 ubahStatus yang tidak sah melempar galat dan tidak mengubah objek", () => {
     const laporan = LaporanGangguan.dariData(DATA);
     expect(() => laporan.ubahStatus("SELESAI")).toThrow();
     expect(laporan.status).toBe("MENUNGGU");
@@ -46,7 +46,7 @@ describe("transisi status (Algo-017)", () => {
     expect(laporan.status).toBe("SEDANG_DIPERBAIKI");
   });
 
-  it("laporan baru berstatus MENUNGGU dan memangkas spasi", () => {
+  it("C20-UT01 laporan baru berstatus MENUNGGU dan memangkas spasi", () => {
     const laporan = LaporanGangguan.baru(
       { jenisGangguan: " Kebocoran pipa ", deskripsi: " Bocor ", fotoPendukung: [] },
       7,
@@ -57,7 +57,7 @@ describe("transisi status (Algo-017)", () => {
     expect(laporan.idLaporan).toMatch(/^LAP-[0-9A-F]{8}$/);
   });
 
-  it("urutan status sesuai DPPL", () => {
+  it("C21-UT03 urutan status sesuai DPPL", () => {
     expect([...URUTAN_STATUS]).toEqual(["MENUNGGU", "SEDANG_DIPERBAIKI", "SELESAI"]);
   });
 });

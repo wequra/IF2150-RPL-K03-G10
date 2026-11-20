@@ -26,26 +26,26 @@ describe("UC04: pembacaan laporan milik warga sesi", () => {
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
 
-  it("daftar hanya berisi laporan milik sesi, terbaru lebih dulu", async () => {
+  it("ML-UT04 daftar hanya berisi laporan milik sesi, terbaru lebih dulu", async () => {
     const { controller, repo } = buat(WARGA);
     const hasil = await controller.daftarMilikWarga();
     expect(hasil.ok && hasil.data.map((l) => l.idLaporan)).toEqual(["LAP-B", "LAP-A"]);
     expect(repo.cariMilikWarga).toHaveBeenCalledWith(7);
   });
 
-  it("warga lain melihat laporannya sendiri, bukan milik warga pertama", async () => {
+  it("ML-UT05 warga lain melihat laporannya sendiri, bukan milik warga pertama", async () => {
     const { controller } = buat(WARGA_LAIN);
     const hasil = await controller.daftarMilikWarga();
     expect(hasil.ok && hasil.data.map((l) => l.idLaporan)).toEqual(["LAP-X"]);
   });
 
-  it("daftar kosong adalah hasil sah, bukan galat", async () => {
+  it("ML-UT06 daftar kosong adalah hasil sah, bukan galat", async () => {
     const { controller, dataLaporan } = buat(WARGA);
     dataLaporan.length = 0;
     expect(await controller.daftarMilikWarga()).toEqual({ ok: true, data: [] });
   });
 
-  it("detail laporan sendiri memuat deskripsi dan nama pemilik", async () => {
+  it("ML-UT07 detail laporan sendiri memuat deskripsi dan nama pemilik", async () => {
     const { controller } = buat(WARGA);
     const hasil = await controller.detailMilikWarga("LAP-A");
     expect(hasil.ok && hasil.data).toMatchObject({
@@ -56,7 +56,7 @@ describe("UC04: pembacaan laporan milik warga sesi", () => {
     });
   });
 
-  it("laporan milik warga lain dan ID yang tidak ada menghasilkan pesan yang sama", async () => {
+  it("ML-UT08 laporan milik warga lain dan ID yang tidak ada menghasilkan pesan yang sama", async () => {
     const { controller } = buat(WARGA);
     const asing = await controller.detailMilikWarga("LAP-X");
     const kosong = await controller.detailMilikWarga("LAP-TIDAK-ADA");
@@ -64,32 +64,32 @@ describe("UC04: pembacaan laporan milik warga sesi", () => {
     expect(asing).toEqual(kosong);
   });
 
-  it("riwayat laporan sendiri urut waktu naik", async () => {
+  it("ML-UT09 riwayat laporan sendiri urut waktu naik", async () => {
     const { controller } = buat(WARGA);
     const hasil = await controller.riwayatMilikWarga("LAP-A");
     expect(hasil.ok && hasil.data.map((r) => r.status)).toEqual(["SEDANG_DIPERBAIKI", "SELESAI"]);
   });
 
-  it("laporan tanpa perubahan status memberi riwayat kosong yang sah", async () => {
+  it("ML-UT10 laporan tanpa perubahan status memberi riwayat kosong yang sah", async () => {
     const { controller } = buat(WARGA);
     expect(await controller.riwayatMilikWarga("LAP-B")).toEqual({ ok: true, data: [] });
   });
 
-  it("riwayat laporan milik warga lain ditolak sebelum riwayat dibaca", async () => {
+  it("ML-UT11 riwayat laporan milik warga lain ditolak sebelum riwayat dibaca", async () => {
     const { controller, repo } = buat(WARGA);
     const hasil = await controller.riwayatMilikWarga("LAP-X");
     expect(hasil).toMatchObject({ ok: false, kode: "TIDAK_DITEMUKAN" });
     expect(repo.cariRiwayatMilik).not.toHaveBeenCalled();
   });
 
-  it.each(["", "../etc/passwd", "LAP A", "a".repeat(65), 42, null])("ID tidak valid %j ditolak tanpa query", async (id) => {
+  it.each(["", "../etc/passwd", "LAP A", "a".repeat(65), 42, null])("LC-UT06 ID tidak valid %j ditolak tanpa query", async (id) => {
     const { controller, repo } = buat(WARGA);
     expect(await controller.detailMilikWarga(id)).toMatchObject({ ok: false, kode: "VALIDASI_GAGAL" });
     expect(await controller.riwayatMilikWarga(id)).toMatchObject({ ok: false, kode: "VALIDASI_GAGAL" });
     expect(repo.cariDetailMilik).not.toHaveBeenCalled();
   });
 
-  it("teknisi tidak boleh memakai operasi warga", async () => {
+  it("LC-UT07 teknisi tidak boleh memakai operasi warga", async () => {
     const { controller, repo } = buat(TEKNISI);
     for (const hasil of [
       await controller.daftarMilikWarga(),
@@ -101,7 +101,7 @@ describe("UC04: pembacaan laporan milik warga sesi", () => {
     expect(repo.cariMilikWarga).not.toHaveBeenCalled();
   });
 
-  it("galat basis data diteruskan sebagai galat, bukan daftar kosong", async () => {
+  it("LC-UT08 galat basis data diteruskan sebagai galat, bukan daftar kosong", async () => {
     const { controller, repo } = buat(WARGA);
     repo.cariMilikWarga.mockRejectedValueOnce(new Error("koneksi putus"));
     expect(await controller.daftarMilikWarga()).toMatchObject({ ok: false, kode: "GAGAL_INTERNAL" });
