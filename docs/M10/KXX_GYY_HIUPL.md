@@ -523,6 +523,13 @@ Tabel 4.6. Bukti Hasil Pengujian
 | C19-UT01 – C19-UT08, C28-UT01 | ![Output Jest Modul Iuran](./assets/jest-iuran.png) |
 | C19 & C28 (coverage) | ![Laporan Coverage Modul Iuran](./assets/coverage-iuran.png) |
 | UC02-TC01, UC02-TC02 | ![Screenshot Layar I-04 Tagihan Final & Belum Final](./assets/uc02-tagihan.png) |
+| UC03-TC01 | ![Screenshot Layar I-05 Kirim Laporan Berhasil](./assets/UC03-TC01.png) |
+| UC03-TC02 | ![Screenshot Layar I-05 Warga Tidak Terdaftar](./assets/UC03-TC02.png) |
+| UC04-TC01 | ![Screenshot Layar I-06 dan I-07 Daftar dan Riwayat Laporan](./assets/UC04-TC01.png) |
+| UC04-TC02 | ![Screenshot Layar I-06 Laporan Tidak Ditemukan](./assets/UC04-TC02.png) |
+| UC07-TC01 | ![Screenshot Layar I-10 dan I-11 Perbarui Status](./assets/UC07-TC01.png) |
+| UC07-TC02 | ![Screenshot Layar I-11 Teknisi Tidak Berwenang](./assets/UC07-TC02.png) |
+| UC07-TC03 | ![Screenshot Layar I-11 Perubahan Status Tidak Valid](./assets/UC07-TC03.png) |
 | UC09-TC01, UC09-TC02 | ![Screenshot Layar I-13 Analitik Pemakaian Komunal](./assets/uc09-analitik.png) |
 | UC10-TC01 – UC10-TC03 | ![Screenshot Layar I-14 Pratinjau & Finalisasi Iuran](./assets/uc10-iuran.png) |
 | UC11-TC01 – UC11-TC03 | ![Screenshot Layar I-15 Rekapitulasi & Hasil Ekspor CSV/PDF](./assets/uc11-rekapitulasi.png) |
